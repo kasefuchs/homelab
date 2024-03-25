@@ -1,0 +1,28 @@
+{% set acl | indent(2) %}
+acl {
+  allow net {{ coredns_acl_allow | join(" ") }}
+  block
+}
+{%- endset -%}
+
+. {
+  {{ acl }}
+  forward . tls://1.1.1.1 tls://1.0.0.1 {
+    tls_servername cloudflare-dns.com
+    health_check 60s
+  }
+  cache
+  errors
+}
+
+consul {
+  {{ acl }}
+  forward . 127.0.0.1:8600 
+  errors
+}
+
+ts.net {
+  {{ acl }}
+  forward . 100.100.100.100
+  errors
+}

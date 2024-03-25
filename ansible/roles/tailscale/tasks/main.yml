@@ -1,0 +1,22 @@
+---
+- name: Login Tailscale
+  ansible.builtin.command:
+    argv:
+      - tailscale
+      - up
+      - --accept-dns=false
+      - --advertise-exit-node={{ tailscale_exit_node }}
+      - --advertise-tags={{ tailscale_tags | map('replace', '', 'tag:', 1) | join(',') }}
+      - --auth-key={{ tailscale_auth_key }}
+      - --hostname={{ inventory_hostname }}
+      - --json
+      - --login-server={{ tailscale_login_server }}
+      - --reset
+  register: tailscale_start
+  changed_when: true
+  notify: Confirm Tailscale is Connected
+  poll: 5
+  async: 60
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

@@ -1,0 +1,44 @@
+---
+- name: Get another Consul server IP addresses
+  ansible.builtin.set_fact:
+    consul_server_ips: >
+      {{ tailscale_status.stdout | from_json |
+      community.general.json_query('Peer.*|[?Tags[?contains(@, `tag:consul-server`)]].TailscaleIPs[0]') }}
+
+- name: Copy Consul config files
+  notify: Reload Consul
+  block:
+    - name: Consul common config
+      ansible.builtin.template:
+        src: consul.hcl.j2
+        dest: /etc/consul.d/consul.hcl
+        mode: "0644"
+        owner: consul
+        group: consul
+
+    - name: Consul server-only config
+      ansible.builtin.template:
+        src: server.hcl.j2
+        dest: /etc/consul.d/server.hcl
+        mode: "0644"
+        owner: consul
+        group: consul
+      when: consul_server | bool
+
+    - name: Consul client-only config
+      ansible.builtin.template:
+        src: client.hcl.j2
+        dest: /etc/consul.d/client.hcl
+        mode: "0644"
+        owner: consul
+        group: consul
+      when: not consul_server
+
+- name: Start Consul
+  notify: Enable Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    state: started
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

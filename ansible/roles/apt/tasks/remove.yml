@@ -1,0 +1,8 @@
+---
+- name: Remove DNS resolvers
+  ansible.builtin.apt:
+    pkg:
+      - resolvconf
+      - openresolv
+      - systemd-resolved
+    state: absent
