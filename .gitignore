@@ -1,0 +1,10 @@
+# ---> Ansible
+*.retry
+inventories/
+
+# ---> Custom
+# Integrated development environment
+.idea/
+*.iml
+.vs/
+.vscode/
