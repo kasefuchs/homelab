@@ -1,0 +1,10 @@
+---
+- hosts: all
+  name: Bootstrap node
+  become: true
+  roles:
+    - role: node
+    - role: apt
+    - role: coredns
+    - role: tailscale
+    - role: consul

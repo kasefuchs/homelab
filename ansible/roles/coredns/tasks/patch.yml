@@ -1,0 +1,15 @@
+- name: Stop dhclient from updating resolv.conf
+  ansible.builtin.copy:
+    src: ignore_resolv_conf
+    dest: /etc/dhcp/dhclient-enter-hooks.d/ignore_resolv_conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Stop Proxmox from updating resolv.conf
+  ansible.builtin.file:
+    path: /etc/.pve-ignore.resolv.conf
+    state: touch
+    owner: root
+    group: root
+    mode: "0644"

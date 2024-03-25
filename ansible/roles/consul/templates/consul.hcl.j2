@@ -1,0 +1,28 @@
+datacenter = "{{ consul_datacenter }}"
+data_dir   = "/opt/consul"
+
+{% raw -%}
+client_addr = "{{ GetInterfaceIP \"tailscale0\" }}"
+bind_addr   = "{{ GetInterfaceIP \"tailscale0\" }}"
+{% endraw %}
+
+retry_join = [
+{%- raw %}
+  "{{ GetInterfaceIP \"tailscale0\" }}",
+{% endraw %}
+{%- for ip in consul_server_ips %}
+  "{{ ip }}",
+{% endfor %}
+]
+
+{% if consul_encrypt -%}
+encrypt = "{{ consul_encrypt }}"
+{% endif %}
+
+ui_config {
+  enabled = {{ consul_ui_enabled | lower }}
+}
+
+addresses {
+  dns = "127.0.0.1"
+}
