@@ -1,5 +1,5 @@
 server           = true
-bootstrap_expect = {{ groups['server'] | length }} 
+bootstrap_expect = {{ hostvars | community.general.json_query('*.consul_server') | select | length }}
 
 connect {
   enabled = true

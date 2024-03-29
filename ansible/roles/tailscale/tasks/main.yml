@@ -6,7 +6,7 @@
       - up
       - --accept-dns=false
       - --advertise-exit-node={{ tailscale_exit_node }}
-      - --advertise-tags={{ tailscale_tags | map('replace', '', 'tag:', 1) | join(',') }}
+      - --advertise-tags={{ tailscale_tags | map('replace', 'tag:', '', 1) | map('replace', '', 'tag:', 1) | join(',') }}
       - --auth-key={{ tailscale_auth_key }}
       - --hostname={{ inventory_hostname }}
       - --json
@@ -14,9 +14,11 @@
       - --reset
   register: tailscale_start
   changed_when: true
-  notify: Confirm Tailscale is Connected
+  notify:
+    - Confirm Tailscale is Connected
+    - Update Address Facts
   poll: 5
-  async: 60
+  async: 120
 
 - name: Ensure handlers to run
   ansible.builtin.meta: flush_handlers
