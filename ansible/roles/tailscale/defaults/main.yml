@@ -1,4 +1,5 @@
 ---
 tailscale_login_server: https://controlplane.tailscale.com/
-tailscale_tags: []
+tailscale_tags:
+  - server
 tailscale_exit_node: false

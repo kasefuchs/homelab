@@ -7,10 +7,7 @@ bind_addr   = "{{ GetInterfaceIP \"tailscale0\" }}"
 {% endraw %}
 
 retry_join = [
-{%- raw %}
-  "{{ GetInterfaceIP \"tailscale0\" }}",
-{% endraw %}
-{%- for ip in consul_server_ips %}
+{% for ip in hostvars | community.general.json_query('* | [?consul_server].ansible_all_ipv4_addresses[] | [?starts_with(@, `100.`)]') %}
   "{{ ip }}",
 {% endfor %}
 ]
