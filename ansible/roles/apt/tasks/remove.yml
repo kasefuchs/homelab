@@ -6,3 +6,7 @@
       - openresolv
       - systemd-resolved
     state: absent
+
+- name: Remove unused packages
+  ansible.builtin.apt:
+    autoremove: true
