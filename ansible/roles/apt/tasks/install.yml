@@ -11,6 +11,10 @@
   ansible.builtin.apt:
     name: coredns
 
+- name: Install Speedtest CLI
+  ansible.builtin.apt:
+    name: speedtest
+
 - name: Install Docker
   ansible.builtin.apt:
     pkg:
@@ -19,3 +23,7 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
+
+- name: Upgrade packages
+  ansible.builtin.apt:
+    upgrade: true

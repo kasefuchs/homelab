@@ -1,5 +1,4 @@
 ---
 consul_server: true
-consul_client: false
 consul_datacenter: muttias
 consul_ui_enabled: true

@@ -2,7 +2,7 @@ datacenter = "{{ consul_datacenter }}"
 data_dir   = "/opt/consul"
 
 {% raw -%}
-client_addr = "{{ GetInterfaceIP \"tailscale0\" }}"
+client_addr = "{{ GetAllInterfaces | exclude \"type\" \"IPv6\" | include \"flags\" \"loopback\" | attr \"address\" }}"
 bind_addr   = "{{ GetInterfaceIP \"tailscale0\" }}"
 {% endraw %}
 
@@ -18,8 +18,4 @@ encrypt = "{{ consul_encrypt }}"
 
 ui_config {
   enabled = {{ consul_ui_enabled | lower }}
-}
-
-addresses {
-  dns = "127.0.0.1"
 }
