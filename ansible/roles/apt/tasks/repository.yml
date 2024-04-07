@@ -13,6 +13,13 @@
     mode: "0644"
     force: true
 
+- name: Add Speedtest signing key
+  ansible.builtin.get_url:
+    url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+    dest: /etc/apt/keyrings/ookla-speedtest.asc
+    mode: "0644"
+    force: true
+
 - name: Add Kasefuchs APT repository
   ansible.builtin.apt_repository:
     repo: deb [signed-by=/etc/apt/keyrings/kasefuchs.asc] https://apt.kasefuchs.su bookworm main
@@ -23,6 +30,12 @@
   ansible.builtin.apt_repository:
     repo: deb [signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable
     filename: docker
+    update_cache: false
+
+- name: Add Speedtest APT repository
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/etc/apt/keyrings/ookla-speedtest.asc] https://packagecloud.io/ookla/speedtest-cli/debian/ bookworm main
+    filename: ookla-speedtest
     update_cache: false
 
 - name: Update APT cache
