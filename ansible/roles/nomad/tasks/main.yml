@@ -1,0 +1,66 @@
+---
+- name: Edit Nomad service
+  notify:
+    - Reload Daemon
+    - Enable Nomad
+    - Start Nomad
+  block:
+    - name: Create Nomad service directory
+      ansible.builtin.file:
+        path: /etc/systemd/system/nomad.service.d/
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Copy Nomad override service
+      ansible.builtin.copy:
+        src: override.conf
+        dest: /etc/systemd/system/nomad.service.d/override.conf
+        owner: root
+        group: root
+        mode: "0644"
+
+- name: Copy Nomad config files
+  notify: Restart Nomad
+  block:
+    - name: Nomad common config
+      ansible.builtin.template:
+        src: nomad.hcl.j2
+        dest: /etc/nomad.d/nomad.hcl
+        mode: "0644"
+        owner: nomad
+        group: nomad
+
+    - name: Add Nomad server-only config
+      when: nomad_server | bool
+      ansible.builtin.template:
+        src: server.hcl.j2
+        dest: /etc/nomad.d/server.hcl
+        mode: "0644"
+        owner: nomad
+        group: nomad
+
+    - name: Add Nomad client-only config
+      when: nomad_client | bool
+      ansible.builtin.template:
+        src: client.hcl.j2
+        dest: /etc/nomad.d/client.hcl
+        mode: "0644"
+        owner: nomad
+        group: nomad
+
+    - name: Remove Nomad client-only config
+      when: not nomad_client
+      ansible.builtin.file:
+        path: /etc/nomad.d/client.hcl
+        state: absent
+
+    - name: Remove Nomad server-only config
+      when: not nomad_server
+      ansible.builtin.file:
+        path: /etc/nomad.d/server.hcl
+        state: absent
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

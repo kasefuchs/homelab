@@ -1,0 +1,8 @@
+client {
+  enabled = true
+  servers = [
+{% for ip in hostvars | community.general.json_query('* | [?nomad_server].ansible_all_ipv4_addresses[] | [?starts_with(@, `100.`)]') %}
+    "{{ ip }}",
+{% endfor %}
+  ]
+}

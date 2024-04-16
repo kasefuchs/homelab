@@ -1,0 +1,22 @@
+datacenter = "{{ nomad_datacenter }}"
+data_dir   = "/opt/nomad/data"
+
+{% raw -%}
+bind_addr = "{{ GetInterfaceIP \"tailscale0\" }}"
+{% endraw %}
+
+advertise = {
+  http = "127.0.0.1"
+}
+
+addresses = {
+  http = "127.0.0.1"
+}
+
+consul {
+  address = "127.0.0.1:8500"
+}
+
+ui {
+  enabled = {{ nomad_ui_enabled | lower }}
+}
