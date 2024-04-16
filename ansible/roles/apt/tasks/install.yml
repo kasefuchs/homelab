@@ -3,9 +3,11 @@
   ansible.builtin.apt:
     name: tailscale
 
-- name: Install Consul
+- name: Install Hashicorp Tools
   ansible.builtin.apt:
-    name: consul
+    pkg:
+      - consul
+      - nomad
 
 - name: Install CoreDNS
   ansible.builtin.apt:

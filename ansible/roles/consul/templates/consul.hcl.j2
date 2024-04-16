@@ -2,8 +2,8 @@ datacenter = "{{ consul_datacenter }}"
 data_dir   = "/opt/consul"
 
 {% raw -%}
-client_addr = "{{ GetAllInterfaces | exclude \"type\" \"IPv6\" | include \"flags\" \"loopback\" | attr \"address\" }}"
 bind_addr   = "{{ GetInterfaceIP \"tailscale0\" }}"
+client_addr = "127.0.0.1"
 {% endraw %}
 
 retry_join = [

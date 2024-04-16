@@ -1,0 +1,5 @@
+---
+nomad_server: true
+nomad_client: true
+nomad_datacenter: muttias
+nomad_ui_enabled: true
