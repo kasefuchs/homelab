@@ -1,4 +1,6 @@
 ---
+nomad_data_dir: /opt/nomad/data
+nomad_region: global
 nomad_server: true
 nomad_client: true
 nomad_datacenter: muttias

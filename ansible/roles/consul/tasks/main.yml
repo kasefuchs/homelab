@@ -3,7 +3,7 @@
   notify:
     - Reload Daemon
     - Enable Consul
-    - Start Consul
+    - Restart Consul
   block:
     - name: Create Consul service directory
       ansible.builtin.file:
