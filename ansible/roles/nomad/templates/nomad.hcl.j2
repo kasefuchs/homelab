@@ -1,17 +1,18 @@
 datacenter = "{{ nomad_datacenter }}"
-data_dir   = "/opt/nomad/data"
+data_dir   = "{{ nomad_data_dir }}"
+region     = "{{ nomad_region }}"
 
 {% raw -%}
 bind_addr = "{{ GetInterfaceIP \"tailscale0\" }}"
+
+advertise {
+  http = "{{ GetInterfaceIP \"tailscale0\" }}"
+}
+
+addresses {
+  http = "127.0.0.1 {{ GetInterfaceIP \"tailscale0\" }}"
+}
 {% endraw %}
-
-advertise = {
-  http = "127.0.0.1"
-}
-
-addresses = {
-  http = "127.0.0.1"
-}
 
 consul {
   address = "127.0.0.1:8500"

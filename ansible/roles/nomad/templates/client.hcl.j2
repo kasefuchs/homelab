@@ -6,3 +6,9 @@ client {
 {% endfor %}
   ]
 }
+
+plugin "docker" {
+  config {
+    allow_privileged = true
+  }
+}

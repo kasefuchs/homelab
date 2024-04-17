@@ -1,4 +1,9 @@
 ---
+- name: Install Required
+  ansible.builtin.apt:
+    pkg:
+      - dmidecode
+
 - name: Install Tailscale
   ansible.builtin.apt:
     name: tailscale

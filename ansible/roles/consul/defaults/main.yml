@@ -1,4 +1,5 @@
 ---
+consul_data_dir: /opt/consul
 consul_server: true
 consul_datacenter: muttias
 consul_ui_enabled: true
