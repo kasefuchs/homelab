@@ -5,6 +5,9 @@ client {
     "{{ ip }}",
 {% endfor %}
   ]
+  host_network "tailscale" {
+    interface = "tailscale0"
+  }
 }
 
 plugin "docker" {
