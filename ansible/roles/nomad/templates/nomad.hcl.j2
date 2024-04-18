@@ -20,4 +20,9 @@ consul {
 
 ui {
   enabled = {{ nomad_ui_enabled | lower }}
+{% if nomad_consul_ui_url %}
+  consul {
+    ui_url = "{{ nomad_consul_ui_url }}"
+  }
+{% endif %}
 }
