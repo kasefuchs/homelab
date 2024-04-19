@@ -1,24 +1,24 @@
 ---
-- name: Restart Nomad
+- name: Reload Daemon
   ansible.builtin.systemd_service:
-    name: nomad
-    state: restarted
-
-- name: Reload Nomad
-  ansible.builtin.systemd_service:
-    name: nomad
-    state: reloaded
-
-- name: Start Nomad
-  ansible.builtin.systemd_service:
-    name: nomad
-    state: started
+    daemon_reload: true
 
 - name: Enable Nomad
   ansible.builtin.systemd_service:
     name: nomad
     enabled: true
 
-- name: Reload Daemon
+- name: Reload Nomad
   ansible.builtin.systemd_service:
-    daemon_reload: true
+    name: nomad
+    state: reloaded
+
+- name: Restart Nomad
+  ansible.builtin.systemd_service:
+    name: nomad
+    state: restarted
+
+- name: Start Nomad
+  ansible.builtin.systemd_service:
+    name: nomad
+    state: started
