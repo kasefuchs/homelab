@@ -1,13 +1,17 @@
 ---
-- name: Restart Consul
+- name: Reload Daemon
   ansible.builtin.systemd_service:
-    name: consul
-    state: restarted
+    daemon_reload: true
 
 - name: Reload Consul
   ansible.builtin.systemd_service:
     name: consul
     state: reloaded
+
+- name: Restart Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    state: restarted
 
 - name: Start Consul
   ansible.builtin.systemd_service:
@@ -18,7 +22,3 @@
   ansible.builtin.systemd_service:
     name: consul
     enabled: true
-
-- name: Reload Daemon
-  ansible.builtin.systemd_service:
-    daemon_reload: true
