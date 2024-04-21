@@ -3,6 +3,11 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
 
+- name: Enable Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    enabled: true
+
 - name: Reload Consul
   ansible.builtin.systemd_service:
     name: consul
@@ -17,8 +22,3 @@
   ansible.builtin.systemd_service:
     name: consul
     state: started
-
-- name: Enable Consul
-  ansible.builtin.systemd_service:
-    name: consul
-    enabled: true

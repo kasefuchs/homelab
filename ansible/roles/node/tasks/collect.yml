@@ -1,0 +1,9 @@
+---
+- name: Get node GeoIP information
+  ansible.builtin.uri:
+    url: https://ipinfo.io/json
+    headers:
+      Accept: application/json
+      Authorization: "Bearer {{ ipinfo_token | default('') }}"
+    return_content: true
+  register: ipinfo

@@ -1,5 +1,15 @@
 ---
+# Specifies a local directory used to store agent state.
 consul_data_dir: /opt/consul
+
+# Specifies if this agent should run in server mode.
 consul_server: true
+
+# Specifies the data center of the local agent.
 consul_datacenter: muttias
+
+# Specifies the secret key to use for encryption of Consul network traffic.
+consul_encrypt: null
+
+# Specifies whether the web UI is enabled.
 consul_ui_enabled: true

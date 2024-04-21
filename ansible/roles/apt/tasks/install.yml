@@ -1,14 +1,15 @@
 ---
-- name: Install Required
+- name: Install required
   ansible.builtin.apt:
     pkg:
       - dmidecode
+      - openjdk-17-jre-headless
 
 - name: Install Tailscale
   ansible.builtin.apt:
     name: tailscale
 
-- name: Install Hashicorp Tools
+- name: Install HashiCorp tools
   ansible.builtin.apt:
     pkg:
       - consul

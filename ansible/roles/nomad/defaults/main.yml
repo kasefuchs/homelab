@@ -1,7 +1,24 @@
 ---
+# Specifies a local directory used to store agent state.
 nomad_data_dir: /opt/nomad/data
+
+# Specifies the region the Nomad agent is a member of.
 nomad_region: global
+
+# Specifies if this agent should run in server mode.
 nomad_server: true
+
+# Specifies if client mode is enabled.
 nomad_client: true
+
+# Specifies the data center of the local agent.
 nomad_datacenter: muttias
+
+# Specifies the secret key to use for encryption of Nomad server's gossip network traffic.
+nomad_encrypt: null
+
+# Specifies whether the web UI is enabled.
 nomad_ui_enabled: true
+
+# Specifies whether the client metadata will include GeoIP data.
+nomad_meta_geoip: true
