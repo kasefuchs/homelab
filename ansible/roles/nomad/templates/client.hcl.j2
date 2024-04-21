@@ -8,6 +8,13 @@ client {
   host_network "tailscale" {
     interface = "tailscale0"
   }
+  meta {
+{% if nomad_meta_geoip %}
+{% for key, value in lookup('ansible.utils.to_paths', ipinfo.json, prepend='geoip').items() %}
+    "{{ key }}" = "{{ value | regex_replace('"', '\\"') }}"
+{% endfor %}
+{% endif %}
+  }
 }
 
 plugin "docker" {
