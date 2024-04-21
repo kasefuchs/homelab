@@ -21,4 +21,9 @@ nomad_encrypt: null
 nomad_ui_enabled: true
 
 # Specifies whether the client metadata will include GeoIP data.
-nomad_meta_geoip: true
+nomad_meta_geoip_enabled: true
+
+# Specifies which keys from GeoIP the client's metadata will include.
+nomad_meta_geoip_filter:
+  - country
+  - timezone

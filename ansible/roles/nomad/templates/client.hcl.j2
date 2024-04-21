@@ -9,9 +9,9 @@ client {
     interface = "tailscale0"
   }
   meta {
-{% if nomad_meta_geoip %}
-{% for key, value in lookup('ansible.utils.to_paths', ipinfo.json, prepend='geoip').items() %}
-    "{{ key }}" = "{{ value | regex_replace('"', '\\"') }}"
+{% if geoip_enabled and nomad_meta_geoip_enabled %}
+{% for key, value in lookup('ansible.utils.to_paths', geoip.json).items() if key in nomad_meta_geoip_filter %}
+    "geoip.{{ key }}" = "{{ value | regex_replace('"', '\\"') }}"
 {% endfor %}
 {% endif %}
   }
