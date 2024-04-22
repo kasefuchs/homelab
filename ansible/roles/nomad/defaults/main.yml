@@ -27,3 +27,6 @@ nomad_meta_geoip_enabled: true
 nomad_meta_geoip_filter:
   - country
   - timezone
+
+# Exposes paths from the host as volumes that can be mounted into jobs.
+nomad_host_volumes: {}

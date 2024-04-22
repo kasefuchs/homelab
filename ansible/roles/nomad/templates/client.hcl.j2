@@ -15,6 +15,12 @@ client {
 {% endfor %}
 {% endif %}
   }
+{% for name, config in nomad_host_volumes.items() %}
+  host_volume "{{ name }}" {
+    path      = "{{ config.path }}"
+    read_only = {{ config.read_only | default(False) | lower }}
+  }
+{% endfor %}
 }
 
 plugin "docker" {
