@@ -1,49 +1,42 @@
 job [[ template "job_name" . ]] {
-  datacenters = [[ var "datacenters" . | toStringList ]]
+  type = "service"
 
+  [[ template "datacenters" . ]]
+  [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
-
-  group "server" {
+  
+  group "application" {
+    [[- $service := var "service" . ]]
     network {
-      port "lavalink" {
-        host_network = "tailscale"
+      port "[[ $service.port ]]" {
+        [[ template "host_network" var "host_network" . ]]
       }
     }
 
-    service {
-      provider = "nomad"
-      port     = "lavalink"
-      name     = [[ var "service_name" . | quote ]]
-      tags     = [[ var "service_tags" . | toStringList ]]
-    }
+    [[ template "service" $service ]]
 
-    task "lavalink" {
+    task "application" {
       driver = "java"
 
       config {
-        jar_path = "local/Lavalink.jar"
+        jar_path = "local/application.jar"
       }
 
       artifact {
         source      = [[ var "artifact_source" . | quote ]]
-        destination = "local/Lavalink.jar"
+        destination = "local/application.jar"
         mode        = "file"
       }
 
       template {
         data = <<EOH
-[[ $config := var "lavalink_config_file" . ]][[ fileContents $config ]]
+[[ template "config" . ]]
         EOH
 
         destination = "application.yml"
       }
 
-      [[ template "env_vars" var "env" . ]]
-
-      resources {
-        cpu    = [[ var "resources.cpu" . ]]
-        memory = [[ var "resources.memory" . ]]
-      }
+      [[ template "resources" var "resources" . ]]
     }
   }
 }
