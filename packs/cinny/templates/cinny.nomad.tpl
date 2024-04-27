@@ -20,27 +20,35 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "busybox:1"
+        image   = "busybox:stable"
         command = "httpd"
         args    = [
           "-v", "-f", 
           "-p", "${NOMAD_PORT_[[ $service.port ]]}", 
-          "-h", [[ var "home_path" . | quote ]]
+          "-c", "local/httpd/httpd.conf"
         ]
-        ports   = [ [[ $service.port | quote]] ]
+        ports   = [ [[ $service.port | quote ]] ]
       }
 
       artifact {
         source = [[ var "artifact" . | quote ]]
-        destination = "local"
+        destination = "local/cinny"
       }
 
       template {
         data = <<EOH
-[[ template "config" var "config" . ]]
+[[ template "cinny_config" . ]]
         EOH
 
         destination = [[ var "config_path" . | quote ]]
+      }
+
+      template {
+        data = <<EOH
+[[ template "httpd_config" . ]]
+        EOH
+
+        destination = "local/httpd/httpd.conf"
       }
 
       [[ template "resources" var "resources" . ]]
