@@ -35,13 +35,13 @@ variable "constraints" {
 }
 
 variable "artifact" {
-  description = "Specifies url of compiled Cinny artifact."
+  description = "URL of compiled Cinny artifact."
   type        = string
   default     = "https://github.com/cinnyapp/cinny/releases/download/v3.2.0/cinny-v3.2.0.tar.gz"
 }
 
 variable "service" {
-  description = "Specifies integrations with Nomad or Consul for service discovery."
+  description = "Integrations with Nomad or Consul for service discovery."
   type = object({
     name     = string
     port     = string
@@ -57,19 +57,19 @@ variable "service" {
 }
 
 variable "home_path" {
-  description = "Specifies the home path where the extracted Cinny artifact will be served."
+  description = "Home path where the extracted Cinny artifact will be served."
   type        = string
-  default     = "local/dist"
+  default     = "local/cinny/dist"
 }
 
 variable "config_path" {
-  description = "Specifies the path where the Cinny configuration file will be stored."
+  description = "Path where the Cinny configuration file will be stored."
   type        = string
-  default     = "local/dist/config.json"
+  default     = "local/cinny/dist/config.json"
 }
 
 variable "resources" {
-  description = "The resource to assign to the task."
+  description = "Resources to assign to the task."
   type = object({
     cpu    = number
     memory = number
@@ -81,7 +81,7 @@ variable "resources" {
 }
 
 variable "config" {
-  description = "Specifies cinny configuration to use."
+  description = "Cinny configuration to use."
   type = object({
     homeservers              = list(string)
     default_homeserver_index = number
