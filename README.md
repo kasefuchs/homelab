@@ -9,7 +9,7 @@
 
 ---
 
-<p align="center"> Setup scripts for my homelab cluster named <a href="https://youtu.be/s1NddQPH1Wk">Muttias</a>
+<p align="center">Setup scripts for my homelab cluster named <a href="https://youtu.be/s1NddQPH1Wk">Muttias</a>
     <br> 
 </p>
 

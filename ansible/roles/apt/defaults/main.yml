@@ -1,0 +1,2 @@
+# Specifies to upgrade packages or no.
+apt_upgrade: true

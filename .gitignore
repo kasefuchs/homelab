@@ -2,6 +2,10 @@
 *.retry
 inventories/
 
+# ---> MkDocs
+.cache/
+build/**/
+
 # ---> Custom
 # Integrated development environment
 .idea/
