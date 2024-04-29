@@ -4,7 +4,7 @@ inventories/
 
 # ---> MkDocs
 .cache/
-build/**/
+docs/build/
 
 # ---> Custom
 # Integrated development environment
