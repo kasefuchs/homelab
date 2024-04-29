@@ -1,0 +1,99 @@
+site_name: Muttias Homelab
+site_author: kasefuchs
+
+copyright: Все права защищены &copy; Kasefuchs, 2024
+
+repo_url: https://git.kasefuchs.su/kasefuchs/homelab
+repo_name: kasefuchs/homelab
+
+docs_dir: ../../pages/ru
+site_dir: ../../build/ru
+
+theme:
+  name: material
+
+  language: ru
+
+  icon:
+    logo: material/server-network
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      toggle:
+        icon: material/brightness-7
+        name: Переключиться в тёмный режим
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Переключиться в светлый режим
+
+  features:
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.expand
+    - navigation.sections
+    - header.autohide
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.magiclink
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - def_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - social
+
+extra:
+  generator: false
+
+  alternate:                                       
+    - name: English
+      link: /en/
+      lang: en
+
+    - name: Русский
+      link: /ru/
+      lang: ru
+
+nav:
+  - Главная:
+    - index.md
+    - Необходимое: prerequisites.md
