@@ -80,16 +80,20 @@ variable "resources" {
   }
 }
 
-variable "config" {
-  description = "Cinny configuration to use."
-  type = object({
-    homeservers              = list(string)
-    default_homeserver_index = number
-    allow_custom_homeservers = bool
-  })
-  default = {
-    homeservers              = ["matrix.org"]
-    default_homeserver_index = 0
-    allow_custom_homeservers = true
-  }
+variable "homeserver_list" {
+  description = "List of homeservers."
+  type        = list(string)
+  default     = ["matrix.org"]
+}
+
+variable "default_homeserver_index" {
+  description = "Index of default homeserver."
+  type        = number
+  default     = 0
+}
+
+variable "allow_custom_homeservers" {
+  description = "Allow third party homeservers."
+  type        = bool
+  default     = true
 }
