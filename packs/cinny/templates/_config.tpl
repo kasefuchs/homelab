@@ -1,9 +1,9 @@
 [[ define "cinny_config" -]]
 [[- $config := var "config" . -]]
 {
-  "allowCustomHomeservers": [[ $config.allow_custom_homeservers ]],
-  "defaultHomeserver": [[ $config.default_homeserver_index ]],
-  "homeserverList": [[ $config.homeservers | toStringList ]]
+  "allowCustomHomeservers": [[ var "allow_custom_homeservers" . ]],
+  "defaultHomeserver": [[ var "default_homeserver_index" . ]],
+  "homeserverList": [[ var "homeserver_list" .  | toStringList ]]
 }
 [[- end ]]
 
