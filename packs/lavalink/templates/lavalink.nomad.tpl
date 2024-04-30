@@ -5,7 +5,7 @@ job [[ template "job_name" . ]] {
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
   
-  group "application" {
+  group "servers" {
     [[- $service := var "service" . ]]
     network {
       port "[[ $service.port ]]" {
@@ -15,7 +15,7 @@ job [[ template "job_name" . ]] {
 
     [[ template "service" $service ]]
 
-    task "application" {
+    task "lavalink" {
       driver = "java"
 
       config {

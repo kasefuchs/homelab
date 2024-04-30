@@ -1,6 +1,8 @@
 ---
-icon: material/home
 title: Главная
+hide:
+  - navigation
+  - toc
 ---
 
 # :material-home: Главная

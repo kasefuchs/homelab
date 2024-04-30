@@ -5,7 +5,7 @@ job [[ template "job_name" . ]] {
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
   
-  group "application" {
+  group "servers" {
     count = [[ var "count" . ]]
     [[ $service := var "service" . ]]
     network {
@@ -16,7 +16,7 @@ job [[ template "job_name" . ]] {
 
     [[ template "service" $service ]]
 
-    task "application" {
+    task "cinny" {
       driver = "docker"
 
       config {
