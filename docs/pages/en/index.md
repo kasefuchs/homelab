@@ -1,6 +1,8 @@
 ---
-icon: material/home
 title: Home
+hide:
+  - navigation
+  - toc
 ---
 
 # :material-home: Home

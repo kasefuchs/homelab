@@ -94,6 +94,6 @@ extra:
       lang: ru
 
 nav:
-  - Главная:
-    - index.md
-    - Необходимое: prerequisites.md
+  - Главная: index.md
+  - Развёртывание:
+    - Необходимое: deploy/prerequisites.md
