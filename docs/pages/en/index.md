@@ -16,6 +16,6 @@ I hope this project will help others to start building their own projects like t
 
 If you would like to contact me, you can do so via:
 
-* [:simple-discord: Discord](https://discord.com/users/507526681125322772)
-* [:simple-telegram: Telegram](https://t.me/kasefuchs)
-* [:simple-matrix: Matrix](https://matrix.to/#/@me:kasefuchs.su)
+- [:simple-discord: Discord](https://discord.com/users/507526681125322772)
+- [:simple-telegram: Telegram](https://t.me/kasefuchs)
+- [:simple-matrix: Matrix](https://matrix.to/#/@me:kasefuchs.su)

@@ -84,7 +84,7 @@ plugins:
 extra:
   generator: false
 
-  alternate:                                       
+  alternate:
     - name: English
       link: /en/
       lang: en
@@ -96,4 +96,4 @@ extra:
 nav:
   - Главная: index.md
   - Развёртывание:
-    - Необходимое: deploy/prerequisites.md
+      - Необходимое: deploy/prerequisites.md

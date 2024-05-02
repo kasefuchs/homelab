@@ -16,6 +16,6 @@ hide:
 
 Если вы хотите связаться со мной, вы можете сделать это через:
 
-* [:simple-discord: Discord](https://discord.com/users/507526681125322772)
-* [:simple-telegram: Telegram](https://t.me/kasefuchs)
-* [:simple-matrix: Matrix](https://matrix.to/#/@me:kasefuchs.su)
+- [:simple-discord: Discord](https://discord.com/users/507526681125322772)
+- [:simple-telegram: Telegram](https://t.me/kasefuchs)
+- [:simple-matrix: Matrix](https://matrix.to/#/@me:kasefuchs.su)
