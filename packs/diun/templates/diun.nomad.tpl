@@ -10,8 +10,9 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image = "crazymax/diun:latest"
-        args  = ["serve"] 
+        image    = "crazymax/diun:latest"
+        args     = ["serve"]
+        hostname = "${attr.unique.hostname}"
 
         mount {
           type = "bind"

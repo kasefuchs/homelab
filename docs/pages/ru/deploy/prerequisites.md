@@ -15,9 +15,9 @@ title: Необходимое
 
 В вашей системе должно быть установлено следующее программное обеспечение:
 
-* [:simple-ansible: Ansible](https://www.ansible.com/)
-* [:simple-nomad: Nomad Pack](https://github.com/hashicorp/nomad-pack)
-* [:material-alpha-t-box: Tailscale](https://tailscale.com)
+- [:simple-ansible: Ansible](https://www.ansible.com/)
+- [:simple-nomad: Nomad Pack](https://github.com/hashicorp/nomad-pack)
+- [:material-alpha-t-box: Tailscale](https://tailscale.com)
 
 ## :material-developer-board: Узлы кластера
 
@@ -33,4 +33,3 @@ title: Необходимое
 
 Для связи между узлами используется [Tailscale](https://tailscale.com), ибо все участники сети должны иметь возможность взаимодействовать друг с другом,
 поэтому узлы должны иметь доступ к TUN/TAP интерфейсу. Кроме того, узлы должны быть доступны узлу-контроллеру посредством SSH.
-

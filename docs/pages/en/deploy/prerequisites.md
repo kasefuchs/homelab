@@ -3,7 +3,7 @@ icon: material/map-check
 title: Prerequisites
 ---
 
-# :material-map-check:  Prerequisites
+# :material-map-check: Prerequisites
 
 This section describes everything you need to have in order to deploy your cluster.
 
@@ -15,9 +15,9 @@ You will need a separate workstation, such as your PC, to automatically deploy a
 
 You must have the following software installed on your system:
 
-* [:simple-ansible: Ansible](https://www.ansible.com/)
-* [:simple-nomad: Nomad Pack](https://github.com/hashicorp/nomad-pack)
-* [:material-alpha-t-box: Tailscale](https://tailscale.com)
+- [:simple-ansible: Ansible](https://www.ansible.com/)
+- [:simple-nomad: Nomad Pack](https://github.com/hashicorp/nomad-pack)
+- [:material-alpha-t-box: Tailscale](https://tailscale.com)
 
 ## :material-developer-board: Cluster Nodes
 
@@ -32,5 +32,5 @@ but it can also work with other distributions that use Debian as a base, such as
 ### :material-access-point-network: Network Requirements
 
 The [Tailscale](https://tailscale.com) is used for communication between nodes,
-since all members of the network must be able to communicate with each other, so nodes must have access to the TUN/TAP interface. 
+since all members of the network must be able to communicate with each other, so nodes must have access to the TUN/TAP interface.
 In addition, the nodes must have access to a TUN/TAP interface. In addition, nodes must be accessible to the controller node via SSH.
