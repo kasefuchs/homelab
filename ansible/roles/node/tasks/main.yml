@@ -1,7 +1,4 @@
 ---
-- name: Collect node information
-  ansible.builtin.import_tasks: collect.yml
-
 - name: Ensure locales exists
   ansible.builtin.import_tasks: locale.yml
 

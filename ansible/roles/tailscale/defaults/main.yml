@@ -4,7 +4,7 @@ tailscale_login_server: https://controlplane.tailscale.com/
 
 # Specifies the tags that will be used when registering a node with Tailscale.
 tailscale_tags:
-  - server
+  - tag:node
 
 # Specifies whether this node will be used as Tailscale an exit node.
 tailscale_exit_node: false

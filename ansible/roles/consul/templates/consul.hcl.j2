@@ -1,17 +1,15 @@
 datacenter = "{{ consul_datacenter }}"
 data_dir   = "{{ consul_data_dir }}"
 
-{% raw -%}
-bind_addr   = "{{ GetInterfaceIP \"tailscale0\" }}"
+bind_addr   = "{{ tailscale_ip.stdout }}"
 client_addr = "127.0.0.1"
 
 addresses {
-  http = "127.0.0.1 {{ GetInterfaceIP \"tailscale0\" }}"
+  http = "127.0.0.1 {{ tailscale_ip.stdout }}"
 }
-{% endraw %}
 
 retry_join = [
-{% for ip in hostvars | community.general.json_query('* | [?consul_server].ansible_all_ipv4_addresses[] | [?starts_with(@, `100.`)]') %}
+{% for ip in hostvars | community.general.json_query('* | [?consul_server].tailscale_ip.stdout') %}
   "{{ ip }}",
 {% endfor %}
 ]

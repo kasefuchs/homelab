@@ -1,0 +1,7 @@
+- name: Bootstrap cluster
+  hosts: all
+  become: true
+  roles:
+    - role: collect
+    - role: consul
+    - role: nomad

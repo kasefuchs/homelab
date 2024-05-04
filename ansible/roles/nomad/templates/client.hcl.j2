@@ -1,7 +1,7 @@
 client {
   enabled = true
   servers = [
-{% for ip in hostvars | community.general.json_query('* | [?nomad_server].ansible_all_ipv4_addresses[] | [?starts_with(@, `100.`)]') %}
+{% for ip in hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') %}
     "{{ ip }}",
 {% endfor %}
   ]
@@ -9,8 +9,8 @@ client {
     interface = "tailscale0"
   }
   meta {
-{% if geoip_enabled and nomad_meta_geoip_enabled %}
-{% for key, value in lookup('ansible.utils.to_paths', geoip.json).items() if key in nomad_meta_geoip_filter %}
+{% if collect_geoip_enabled and nomad_meta_geoip_enabled %}
+{% for key, value in lookup('ansible.utils.to_paths', geoip_data.json).items() if key in nomad_meta_geoip_filter %}
     "geoip.{{ key }}" = "{{ value | regex_replace('"', '\\"') }}"
 {% endfor %}
 {% endif %}
