@@ -1,9 +1,0 @@
----
-- name: Get node GeoIP information
-  ansible.builtin.uri:
-    url: "{{ geoip_endpoint }}"
-    headers:
-      Accept: application/json
-    return_content: true
-  when: geoip_enabled | bool
-  register: geoip

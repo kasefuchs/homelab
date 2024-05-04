@@ -1,11 +1,8 @@
----
-- hosts: all
-  name: Bootstrap node
+- name: Bootstrap node
+  hosts: all
   become: true
   roles:
     - role: node
     - role: apt
     - role: coredns
     - role: tailscale
-    - role: consul
-    - role: nomad

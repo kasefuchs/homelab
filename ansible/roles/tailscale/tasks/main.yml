@@ -14,9 +14,7 @@
       - --reset
   register: tailscale_start
   changed_when: true
-  notify:
-    - Confirm Tailscale is Connected
-    - Update Address Facts
+  notify: Confirm Tailscale is Connected
   poll: 5
   async: 120
 

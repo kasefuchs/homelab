@@ -1,5 +1,5 @@
 # Specifies whether GeoIP collection is enabled.
-geoip_enabled: true
+collect_geoip_enabled: true
 
 # Specifies the GeoIP endpoint.
-geoip_endpoint: https://ipinfo.io/json
+collect_geoip_endpoint: https://ipinfo.io/json
