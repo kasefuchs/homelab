@@ -1,6 +1,7 @@
 server {
   enabled          = true
   bootstrap_expect = {{ hostvars | community.general.json_query('*.nomad_server') | select | length }}
+
 {% if nomad_encrypt %}
   encrypt = "{{ nomad_encrypt }}"
 {% endif %}

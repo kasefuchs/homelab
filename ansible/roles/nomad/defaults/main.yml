@@ -33,3 +33,13 @@ nomad_meta_geoip_filter:
 
 # Exposes paths from the host as volumes that can be mounted into jobs.
 nomad_host_volumes: {}
+
+# Registers additional host networks with the node that can be selected when port mapping.
+nomad_host_networks:
+  # Tailscale network.
+  tailscale:
+    interface: tailscale0
+
+  # Local network.
+  localhost:
+    interface: lo
