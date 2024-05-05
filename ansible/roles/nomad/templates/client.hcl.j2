@@ -1,13 +1,26 @@
 client {
   enabled = true
+
   servers = [
 {% for ip in hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') %}
     "{{ ip }}",
 {% endfor %}
   ]
-  host_network "tailscale" {
-    interface = "tailscale0"
+
+{% for name, config in nomad_host_networks.items() %}
+  host_network "{{ name }}" {
+{% if config.interface is defined %}
+    interface = "{{ config.interface }}"
+{% endif %}
+{% if config.cidr is defined %}
+    cidr = "{{ config.cidr }}"
+{% endif %}
+{% if config.reserved_ports is defined %}
+    reserved_ports = "{{ config.reserved_ports | join(',') }}"
+{% endif %}
   }
+{% endfor %}
+
   meta {
 {% if collect_geoip_enabled and nomad_meta_geoip_enabled %}
 {% for key, value in lookup('ansible.utils.to_paths', geoip_data.json).items() if key in nomad_meta_geoip_filter %}
@@ -15,6 +28,7 @@ client {
 {% endfor %}
 {% endif %}
   }
+
 {% for name, config in nomad_host_volumes.items() %}
   host_volume "{{ name }}" {
     path      = "{{ config.path }}"

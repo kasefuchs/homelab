@@ -40,14 +40,15 @@
         path: /etc/nomad.d/server.hcl
         state: absent
 
-    - name: Create Nomad host volumes
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        owner: "{{ nomad_user }}"
-        group: "{{ nomad_group }}"
-        recurse: true
-      loop: "{{ nomad_host_volumes.values() | map(attribute='path') }}"
+- name: Create Nomad host volumes
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode | default('0777') }}"
+    state: directory
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    recurse: true
+  loop: "{{ nomad_host_volumes.values() }}"
 
 - name: Edit Nomad ownerships
   block:
