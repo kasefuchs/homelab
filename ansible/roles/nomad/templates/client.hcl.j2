@@ -22,6 +22,9 @@ client {
 {% endfor %}
 
   meta {
+{% for key, value in lookup('ansible.utils.to_paths', nomad_meta).items() %}
+    "{{ key }}" = "{{ value | regex_replace('"', '\\"') }}"
+{% endfor %}
 {% if collect_geoip_enabled and nomad_meta_geoip_enabled %}
 {% for key, value in lookup('ansible.utils.to_paths', geoip_data.json).items() if key in nomad_meta_geoip_filter %}
     "geoip.{{ key }}" = "{{ value | regex_replace('"', '\\"') }}"

@@ -31,6 +31,9 @@ nomad_meta_geoip_filter:
   - country
   - timezone
 
+# Specifies values the client's metadata will include.
+nomad_meta: {}
+
 # Exposes paths from the host as volumes that can be mounted into jobs.
 nomad_host_volumes: {}
 
