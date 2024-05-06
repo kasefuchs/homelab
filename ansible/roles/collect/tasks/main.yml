@@ -15,4 +15,4 @@
       - ip
       - --4
   register: tailscale_ip
-  changed_when: true
+  changed_when: false
