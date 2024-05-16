@@ -12,6 +12,7 @@
       - --json
       - --login-server={{ tailscale_login_server }}
       - --reset
+      - --force-reauth={{ tailscale_force_reauth }}
   register: tailscale_start
   changed_when: true
   notify: Confirm Tailscale is Connected
