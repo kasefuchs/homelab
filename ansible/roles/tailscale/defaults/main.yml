@@ -8,3 +8,6 @@ tailscale_tags:
 
 # Specifies whether this node will be used as Tailscale an exit node.
 tailscale_exit_node: false
+
+# Specifies whether the Tailscale node should be forced to re-authenticate.
+tailscale_force_reauth: false
