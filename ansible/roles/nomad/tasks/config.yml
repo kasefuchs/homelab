@@ -50,6 +50,15 @@
     recurse: true
   loop: "{{ nomad_host_volumes.values() }}"
 
+- name: Creates Nomad data directory
+  ansible.builtin.file:
+    path: "{{ nomad_data_dir }}"
+    state: directory
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    mode: "0775"
+    recurse: true
+
 - name: Edit Nomad ownerships
   block:
     - name: Edit ownerships of Nomad configs
