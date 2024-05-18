@@ -1,5 +1,4 @@
 ---
-
 - name: Copy Consul config files
   notify: Restart Consul
   block:
