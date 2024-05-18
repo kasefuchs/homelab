@@ -5,4 +5,5 @@
     - role: node
     - role: apt
     - role: coredns
+    - role: docker
     - role: tailscale
