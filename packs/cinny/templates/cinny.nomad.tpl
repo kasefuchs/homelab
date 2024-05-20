@@ -31,13 +31,13 @@ job [[ template "job_name" . ]] {
       }
 
       artifact {
-        source = [[ var "artifact" . | quote ]]
+        source      = [[ var "artifact_source" . | quote ]]
         destination = "local/cinny"
       }
 
       template {
         data = <<EOH
-[[ template "cinny_config" . ]]
+[[ var "config" . ]]
         EOH
 
         destination = [[ var "config_path" . | quote ]]
@@ -45,7 +45,9 @@ job [[ template "job_name" . ]] {
 
       template {
         data = <<EOH
-[[ template "httpd_config" . ]]
+H:[[ var "home_path" . ]]
+I:index.html
+E404:index.html
         EOH
 
         destination = "local/httpd/httpd.conf"
