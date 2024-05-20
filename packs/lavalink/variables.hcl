@@ -64,74 +64,17 @@ variable "service" {
 
 variable "config" {
   description = "Lavalink configuration."
-  type = object({
-    password = string
-    source = object({
-      youtube     = object({ enabled = bool })
-      bandcamp    = object({ enabled = bool })
-      soundcloud  = object({ enabled = bool })
-      twitch      = object({ enabled = bool })
-      vimeo       = object({ enabled = bool })
-      http        = object({ enabled = bool })
-      local       = object({ enabled = bool })
-      deezer      = object({ enabled = bool })
-      flowery_tts = object({ enabled = bool })
-
-      spotify = object({
-        enabled       = bool
-        country_code  = string
-        client_id     = string
-        client_secret = string
-      })
-
-      apple_music = object({
-        enabled         = bool
-        media_api_token = string
-        country_code    = string
-      })
-
-      yandex_music = object({
-        enabled      = bool,
-        access_token = string
-      })
-    })
-  })
-  default = {
-    password = ""
-    source = {
-      youtube     = { enabled = false }
-      bandcamp    = { enabled = false }
-      soundcloud  = { enabled = false }
-      twitch      = { enabled = false }
-      vimeo       = { enabled = false }
-      http        = { enabled = false }
-      local       = { enabled = false }
-      deezer      = { enabled = false }
-      flowery_tts = { enabled = false }
-
-      spotify = {
-        enabled       = false
-        country_code  = "US"
-        client_id     = ""
-        client_secret = ""
-      }
-
-      apple_music = {
-        enabled         = false
-        country_code    = "US"
-        media_api_token = ""
-      }
-
-      yandex_music = {
-        enabled      = false
-        access_token = ""
-      }
-    }
-  }
+  type        = string
+  default     = <<EOH
+---
+lavalink:
+  server:
+    password: "youshallnotpass"
+  EOH
 }
 
 variable "artifact_source" {
   description = "Lavalink artifact source."
   type        = string
-  default     = "https://github.com/lavalink-devs/Lavalink/releases/download/4.0.4/Lavalink.jar"
+  default     = "https://github.com/lavalink-devs/Lavalink/releases/download/4.0.5/Lavalink.jar"
 }
