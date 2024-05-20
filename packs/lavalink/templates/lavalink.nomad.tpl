@@ -30,10 +30,15 @@ job [[ template "job_name" . ]] {
 
       template {
         data = <<EOH
-[[ template "config" . ]]
+[[ var "config" . ]]
         EOH
 
         destination = "application.yml"
+      }
+
+      env {
+        SERVER_ADDRESS = "0.0.0.0"
+        SERVER_PORT    = "${NOMAD_HOST_PORT_[[ $service.port ]]}"
       }
 
       [[ template "resources" var "resources" . ]]
