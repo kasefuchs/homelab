@@ -34,12 +34,6 @@ variable "constraints" {
   default = []
 }
 
-variable "artifact" {
-  description = "URL of compiled Cinny artifact."
-  type        = string
-  default     = "https://github.com/cinnyapp/cinny/releases/download/v3.2.0/cinny-v3.2.0.tar.gz"
-}
-
 variable "service" {
   description = "Integrations with Nomad or Consul for service discovery."
   type = object({
@@ -56,18 +50,6 @@ variable "service" {
   }
 }
 
-variable "home_path" {
-  description = "Home path where the extracted Cinny artifact will be served."
-  type        = string
-  default     = "local/cinny/dist"
-}
-
-variable "config_path" {
-  description = "Path where the Cinny configuration file will be stored."
-  type        = string
-  default     = "local/cinny/dist/config.json"
-}
-
 variable "resources" {
   description = "Resources to assign to the task."
   type = object({
@@ -80,20 +62,32 @@ variable "resources" {
   }
 }
 
-variable "homeserver_list" {
-  description = "List of homeservers."
-  type        = list(string)
-  default     = ["matrix.org"]
+variable "artifact_source" {
+  description = "URL of compiled Cinny artifact."
+  type        = string
+  default     = "https://github.com/cinnyapp/cinny/releases/download/v3.2.0/cinny-v3.2.0.tar.gz"
 }
 
-variable "default_homeserver_index" {
-  description = "Index of default homeserver."
-  type        = number
-  default     = 0
+variable "config" {
+  description = "Cinny configuration JSON."
+  type        = string
+  default     = <<EOH
+{
+  "defaultHomeserver": 0,
+  "homeserverList": ["matrix.org"],
+  "allowCustomHomeservers": false
+}
+  EOH
 }
 
-variable "allow_custom_homeservers" {
-  description = "Allow third party homeservers."
-  type        = bool
-  default     = true
+variable "home_path" {
+  description = "Home path where the extracted Cinny artifact will be served."
+  type        = string
+  default     = "local/cinny/dist"
+}
+
+variable "config_path" {
+  description = "Path where the Cinny configuration file will be stored."
+  type        = string
+  default     = "local/cinny/dist/config.json"
 }
