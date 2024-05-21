@@ -40,11 +40,17 @@ variable "constraints" {
   default = []
 }
 
-variable "environment" {
-  description = "Environment variables to pass to task."
-  type        = map(string)
-  default = {
-    DIUN_WATCH_WORKERS  = 20
-    DIUN_WATCH_SCHEDULE = "0 */6 * * *"
-  }
+variable "config" {
+  description = "Diun config in YAML format."
+  type        = string
+  default = <<EOH
+---
+watch:
+  workers: 10
+  schedule: "0 */6 * * *"
+
+providers:
+  docker:
+    watchByDefault: true
+  EOH
 }

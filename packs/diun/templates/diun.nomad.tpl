@@ -11,7 +11,7 @@ job [[ template "job_name" . ]] {
 
       config {
         image    = "crazymax/diun:latest"
-        args     = ["serve"]
+        args     = ["serve", "--config", "${NOMAD_TASK_DIR}/config/diun.yml"]
         hostname = "${attr.unique.hostname}"
 
         mount {
@@ -21,7 +21,13 @@ job [[ template "job_name" . ]] {
         }
       }
 
-      [[ template "env" var "environment" . ]]
+      template {
+        data = <<EOH
+[[ var "config" . ]]
+        EOH
+
+        destination = "${NOMAD_TASK_DIR}/config/diun.yml"
+      }
 
       [[ template "resources" var "resources" . ]]
     }
