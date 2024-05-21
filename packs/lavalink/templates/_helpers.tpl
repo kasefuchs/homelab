@@ -8,12 +8,6 @@
 [[- end -]]
 [[- end -]]
 
-[[ define "host_network" -]]
-[[- if . -]]
-  host_network = "[[ . ]]"
-[[- end -]]
-[[- end -]]
-
 [[ define "datacenters" -]]
   datacenters =  [ [[ range $idx, $dc := (var "datacenters" .) ]][[if $idx]],[[end]][[ $dc | quote ]][[ end ]] ]
 [[- end -]]
@@ -28,11 +22,24 @@
 
 [[ define "service" -]]
 [[- $service := . -]]
-      service {
-        name     = [[ $service.name | quote ]]
-        port     = [[ $service.port | quote ]]
-        tags     = [[ $service.tags | toStringList ]]
-        provider = [[ coalesce $service.provider "nomad" | quote ]]
+    service {
+      name     = [[ $service.name | quote ]]
+      port     = [[ $service.port | quote ]]
+      tags     = [[ $service.tags | toStringList ]]
+      provider = [[ coalesce $service.provider "nomad" | quote ]]
+    }
+[[- end -]]
+
+[[ define "host_network" -]]
+[[- if . -]]
+  host_network = "[[ . ]]"
+[[- end -]]
+[[- end -]]
+
+[[ define "port" -]]
+[[- $service := . -]]
+      port "[[ $service.port ]]" {
+        [[ template "host_network" $service.host_network ]]
       }
 [[- end -]]
 

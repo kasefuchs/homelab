@@ -10,12 +10,6 @@ variable "job_name" {
   default     = ""
 }
 
-variable "host_network" {
-  description = "The host network to which bind services."
-  type        = string
-  default     = ""
-}
-
 variable "count" {
   description = "The number of application instances to deploy."
   type        = number
@@ -24,7 +18,7 @@ variable "count" {
 
 variable "constraints" {
   description = "Additional constraints to apply to the job."
-  type = list(
+  type        = list(
     object({
       attribute = string
       operator  = string
@@ -36,23 +30,25 @@ variable "constraints" {
 
 variable "service" {
   description = "Integrations with Nomad or Consul for service discovery."
-  type = object({
-    name     = string
-    port     = string
-    tags     = list(string)
-    provider = string
+  type        = object({
+    name         = string
+    port         = string
+    tags         = list(string)
+    provider     = string
+    host_network = string
   })
   default = {
-    name     = "cinny"
-    port     = "cinny"
-    tags     = []
-    provider = "nomad"
+    name         = "cinny"
+    port         = "cinny"
+    tags         = []
+    provider     = "nomad"
+    host_network = ""
   }
 }
 
 variable "resources" {
   description = "Resources to assign to the task."
-  type = object({
+  type        = object({
     cpu    = number
     memory = number
   })
@@ -83,11 +79,11 @@ variable "config" {
 variable "home_path" {
   description = "Home path where the extracted Cinny artifact will be served."
   type        = string
-  default     = "local/cinny/dist"
+  default     = "{{ env \"NOMAD_TASK_DIR\" }}/cinny/dist"
 }
 
 variable "config_path" {
   description = "Path where the Cinny configuration file will be stored."
   type        = string
-  default     = "local/cinny/dist/config.json"
+  default     = "$${NOMAD_TASK_DIR}/cinny/dist/config.json"
 }

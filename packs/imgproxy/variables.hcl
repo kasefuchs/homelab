@@ -10,12 +10,6 @@ variable "region" {
   default     = ""
 }
 
-variable "host_network" {
-  description = "Designates the host network name to use when allocating the port."
-  type        = string
-  default     = ""
-}
-
 variable "datacenters" {
   description = "A list of datacenters in the region which are eligible for task placement."
   type        = list(string)
@@ -61,19 +55,17 @@ variable "count" {
 variable "service" {
   description = "Integrations with Nomad or Consul for service discovery."
   type = object({
-    name           = string
-    port           = string
-    tags           = list(string)
-    provider       = string
-    check_interval = string
-    check_timeout  = string
+    name         = string
+    port         = string
+    tags         = list(string)
+    provider     = string
+    host_network = string
   })
   default = {
-    name           = "imgproxy"
-    port           = "imgproxy"
-    tags           = []
-    provider       = "nomad"
-    check_interval = "15s"
-    check_timeout  = "3s"
+    name         = "imgproxy"
+    port         = "imgproxy"
+    tags         = []
+    provider     = "nomad"
+    host_network = ""
   }
 }

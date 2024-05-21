@@ -1,20 +1,18 @@
 job [[ template "job_name" . ]] {
-  type = "service"
-
   [[ template "datacenters" . ]]
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
   
   group "servers" {
+    [[ $service := var "service" . -]]
+
     count = [[ var "count" . ]]
-    [[ $service := var "service" . ]]
-    network {
-      port "[[ $service.port ]]" {
-        [[ template "host_network" var "host_network" . ]]
-      }
-    }
 
     [[ template "service" $service ]]
+
+    network {
+      [[ template "port" $service ]]
+    }
 
     task "cinny" {
       driver = "docker"
@@ -25,14 +23,14 @@ job [[ template "job_name" . ]] {
         args    = [
           "-v", "-f", 
           "-p", "${NOMAD_PORT_[[ $service.port ]]}", 
-          "-c", "local/httpd/httpd.conf"
+          "-c", "${NOMAD_TASK_DIR}/httpd/httpd.conf"
         ]
-        ports   = [ [[ $service.port | quote ]] ]
+        ports   = [[ list $service.port | toStringList ]]
       }
 
       artifact {
         source      = [[ var "artifact_source" . | quote ]]
-        destination = "local/cinny"
+        destination = "${NOMAD_TASK_DIR}/cinny"
       }
 
       template {
@@ -50,7 +48,7 @@ I:index.html
 E404:index.html
         EOH
 
-        destination = "local/httpd/httpd.conf"
+        destination = "${NOMAD_TASK_DIR}/httpd/httpd.conf"
       }
 
       [[ template "resources" var "resources" . ]]
