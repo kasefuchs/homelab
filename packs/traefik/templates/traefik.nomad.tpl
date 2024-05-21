@@ -11,10 +11,17 @@ job [[ template "job_name" . ]] {
 
       config {
         image        = "traefik:v3.0.0"
+        args         = ["--configFile", "${NOMAD_TASK_DIR}/config/traefik.yml"]
         network_mode = "host"
       }
 
-      [[ template "env" var "environment" . ]]
+      template {
+        data = <<EOH
+[[ var "config" . ]]
+        EOH
+
+        destination = "${NOMAD_TASK_DIR}/config/traefik.yml"
+      }
 
       [[ template "resources" var "resources" . ]]
     }

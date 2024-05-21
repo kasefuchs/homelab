@@ -41,8 +41,14 @@ variable "resources" {
   }
 }
 
-variable "environment" {
-  description = "Environment variables to pass to task."
-  type        = map(string)
-  default     = {}
+variable "config" {
+  description = "Traefik configuration in YAML format."
+  type        = string
+  default     = <<EOH
+---
+entryPoints:
+  http:
+    address: ":80"
+    asDefault: true
+  EOH
 }
