@@ -8,12 +8,6 @@
 [[- end -]]
 [[- end -]]
 
-[[ define "host_network" -]]
-[[- if . -]]
-  host_network = "[[ . ]]"
-[[- end -]]
-[[- end -]]
-
 [[ define "datacenters" -]]
   datacenters =  [ [[ range $idx, $dc := (var "datacenters" .) ]][[if $idx]],[[end]][[ $dc | quote ]][[ end ]] ]
 [[- end -]]
@@ -33,14 +27,20 @@
       port     = [[ $service.port | quote ]]
       tags     = [[ $service.tags | toStringList ]]
       provider = [[ coalesce $service.provider "nomad" | quote ]]
-
-      check {
-        type     = "http"
-        path     = "/health"
-        interval = [[ $service.check_interval | quote ]]
-        timeout  = [[ $service.check_timeout | quote ]]
-      }
     }
+[[- end -]]
+
+[[ define "host_network" -]]
+[[- if . -]]
+  host_network = "[[ . ]]"
+[[- end -]]
+[[- end -]]
+
+[[ define "port" -]]
+[[- $service := . -]]
+      port "[[ $service.port ]]" {
+        [[ template "host_network" $service.host_network ]]
+      }
 [[- end -]]
 
 [[ define "constraints" -]]

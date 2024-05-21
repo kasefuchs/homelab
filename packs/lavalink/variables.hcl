@@ -10,12 +10,6 @@ variable "region" {
   default     = ""
 }
 
-variable "host_network" {
-  description = "Designates the host network name to use when allocating the port."
-  type        = string
-  default     = ""
-}
-
 variable "datacenters" {
   description = "A list of datacenters in the region which are eligible for task placement."
   type        = list(string)
@@ -49,16 +43,18 @@ variable "constraints" {
 variable "service" {
   description = "Specifies integrations with Nomad or Consul for service discovery."
   type = object({
-    name     = string
-    port     = string
-    tags     = list(string)
-    provider = string
+    name         = string
+    port         = string
+    tags         = list(string)
+    provider     = string
+    host_network = string
   })
   default = {
-    name     = "lavalink"
-    port     = "lavalink"
-    tags     = []
-    provider = "nomad"
+    name         = "lavalink"
+    port         = "lavalink"
+    tags         = []
+    provider     = "nomad"
+    host_network = ""
   }
 }
 

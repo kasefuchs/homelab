@@ -43,7 +43,7 @@ variable "constraints" {
 variable "config" {
   description = "Diun config in YAML format."
   type        = string
-  default = <<EOH
+  default     = <<EOH
 ---
 watch:
   workers: 10
