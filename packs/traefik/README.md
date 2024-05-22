@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://grafana.com/oss/traefik/" rel="noopener">
- <img width=200px height=200px src="/assets/logos/traefik.svg" alt="Project logo"></a>
+ <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/traefik.svg" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Traefik Nomad Pack</h3>

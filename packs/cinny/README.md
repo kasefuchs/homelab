@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://cinny.in/" rel="noopener">
- <img width=200px height=200px src="/assets/logos/cinny.svg" alt="Project logo"></a>
+ <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/cinny.svg" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Cinny Nomad Pack</h3>

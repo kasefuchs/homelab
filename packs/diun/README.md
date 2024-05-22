@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://crazymax.dev/diun/" rel="noopener">
- <img width=200px height=200px src="/assets/logos/diun.png" alt="Project logo"></a>
+ <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/diun.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Diun Nomad Pack</h3>
