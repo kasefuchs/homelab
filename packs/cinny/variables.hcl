@@ -65,7 +65,7 @@ variable "artifact_source" {
 }
 
 variable "config" {
-  description = "Cinny configuration JSON."
+  description = "Cinny configuration in JSON format."
   type        = string
   default     = <<EOH
 {

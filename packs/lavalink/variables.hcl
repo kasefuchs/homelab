@@ -59,7 +59,7 @@ variable "service" {
 }
 
 variable "config" {
-  description = "Lavalink configuration."
+  description = "Lavalink configuration in YAML format."
   type        = string
   default     = <<EOH
 ---
