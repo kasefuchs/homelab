@@ -4,3 +4,6 @@
 # Languages
 *.yml          linguist-detectable=true
 packs/**/*.tpl linguist-language=Terraform-Template
+
+# LFS
+*.png filter=lfs diff=lfs merge=lfs -text
