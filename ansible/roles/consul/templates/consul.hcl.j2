@@ -1,22 +1,17 @@
+data_dir = "{{ consul_data_dir }}"
+
 datacenter = "{{ consul_datacenter }}"
-data_dir   = "{{ consul_data_dir }}"
 
 bind_addr   = "{{ tailscale_ip.stdout }}"
-client_addr = "127.0.0.1"
+client_addr = "{{ tailscale_ip.stdout }}"
 
 addresses {
-  http = "127.0.0.1 {{ tailscale_ip.stdout }}"
+  dns = "127.0.0.1"
 }
 
-retry_join = [
-{% for ip in hostvars | community.general.json_query('* | [?consul_server].tailscale_ip.stdout') %}
-  "{{ ip }}",
-{% endfor %}
-]
+retry_join = {{ hostvars | community.general.json_query('* | [?consul_server].tailscale_ip.stdout') | ansible.builtin.to_json }}
 
-{% if consul_encrypt -%}
-encrypt = "{{ consul_encrypt }}"
-{% endif %}
+encrypt = "{{ consul_encrypt | default('') }}"
 
 ui_config {
   enabled = {{ consul_ui_enabled | lower }}

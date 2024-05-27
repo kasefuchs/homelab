@@ -3,7 +3,7 @@
   ansible.builtin.apt:
     pkg:
       - dmidecode
-      - openjdk-17-jre-headless
+      - default-jre-headless
 
 - name: Install Tailscale
   ansible.builtin.apt:

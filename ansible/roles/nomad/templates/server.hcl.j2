@@ -2,7 +2,9 @@ server {
   enabled          = true
   bootstrap_expect = {{ hostvars | community.general.json_query('*.nomad_server') | select | length }}
 
-{% if nomad_encrypt %}
-  encrypt = "{{ nomad_encrypt }}"
-{% endif %}
+  server_join {
+    retry_join = {{ hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') | ansible.builtin.to_json }}
+  }
+
+  encrypt = "{{ nomad_encrypt | default('') }}"
 }

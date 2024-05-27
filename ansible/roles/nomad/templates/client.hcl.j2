@@ -1,23 +1,22 @@
 client {
   enabled = true
 
-  servers = [
-{% for ip in hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') %}
-    "{{ ip }}",
-{% endfor %}
-  ]
+  server_join {
+    retry_join = {{ hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') | ansible.builtin.to_json }}
+  }
 
 {% for name, config in nomad_host_networks.items() %}
   host_network "{{ name }}" {
-{% if config.interface is defined %}
-    interface = "{{ config.interface }}"
-{% endif %}
-{% if config.cidr is defined %}
-    cidr = "{{ config.cidr }}"
-{% endif %}
-{% if config.reserved_ports is defined %}
-    reserved_ports = "{{ config.reserved_ports | join(',') }}"
-{% endif %}
+    cidr           = "{{ config.cidr | default('') }}"
+    interface      = "{{ config.interface | default('') }}"
+    reserved_ports = "{{ config.reserved_ports | default([]) | join(',') }}"
+  }
+{% endfor %}
+
+{% for name, config in nomad_host_volumes.items() %}
+  host_volume "{{ name }}" {
+    path      = "{{ config.path }}"
+    read_only = {{ config.read_only | default(False) | lower }}
   }
 {% endfor %}
 
@@ -31,13 +30,6 @@ client {
 {% endfor %}
 {% endif %}
   }
-
-{% for name, config in nomad_host_volumes.items() %}
-  host_volume "{{ name }}" {
-    path      = "{{ config.path }}"
-    read_only = {{ config.read_only | default(False) | lower }}
-  }
-{% endfor %}
 }
 
 plugin "docker" {
