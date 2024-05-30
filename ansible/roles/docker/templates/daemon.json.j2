@@ -5,5 +5,6 @@
   },
   "dns": [
     "{{ docker_bridge_gateway_ip }}"
-  ]
+  ],
+  "registry-mirrors": {{ docker_registry_mirrors | ansible.builtin.to_json }}
 }
