@@ -70,7 +70,7 @@ variable "config" {
   default     = <<EOH
 ---
 config:
-  bind: 0.0.0.0:{{ env "NOMAD_PORT_server" }}
+  bind: {{ env "GATE_CONFIG_BIND" }}
 EOH
 }
 

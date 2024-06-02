@@ -31,7 +31,8 @@ job [[ template "job_name" . ]] {
       }
 
       env {
-        GATE_CONFIG = "${NOMAD_SECRETS_DIR}/config/gate.yml"
+        GATE_CONFIG      = "${NOMAD_SECRETS_DIR}/config/gate.yml"
+        GATE_CONFIG_BIND = "0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
       }
 
       [[ template "resources" var "resources" . ]]
