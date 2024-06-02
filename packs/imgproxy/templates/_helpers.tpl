@@ -56,12 +56,7 @@
 [[- end -]]
 
 [[ define "env" -]]
-[[- $service := var "service" . -]]
-[[- $environment := var "environment" . -]]
-      env {
-        IMGPROXY_BIND = ":${NOMAD_PORT_[[ $service.port ]]}"
-        [[- range $key, $var := $environment ]]
+        [[- range $key, $var := .]]
         [[ $key ]] = "[[ $var ]]"
         [[- end ]]
-      }
 [[- end ]]

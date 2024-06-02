@@ -23,7 +23,10 @@ job [[ template "job_name" . ]] {
         ports   = [[ list $service.port | toStringList ]]
       }
 
-      [[ template "env" . ]]
+      env {
+        IMGPROXY_BIND = ":${NOMAD_PORT_[[ $service.port ]]}"
+        [[ template "env" var "environment" . ]]
+      }
 
       [[ template "resources" var "resources" . ]]
     }
