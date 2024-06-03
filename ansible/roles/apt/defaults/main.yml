@@ -1,2 +1,22 @@
 # Specifies to upgrade packages or no.
 apt_upgrade: true
+
+# Specifies the apt repository sources.
+apt_sources:
+  - name: kasefuchs
+    keyring: https://apt.kasefuchs.su/keyring.asc
+    repository: https://apt.kasefuchs.su
+    components:
+      - main
+
+  - name: docker
+    keyring: https://download.docker.com/linux/debian/gpg
+    repository: https://download.docker.com/linux/debian
+    components:
+      - stable
+
+  - name: ookla-speedtest
+    keyring: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+    repository: https://packagecloud.io/ookla/speedtest-cli/debian
+    components:
+      - main
