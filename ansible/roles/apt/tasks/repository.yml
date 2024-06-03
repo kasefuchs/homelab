@@ -1,52 +1,24 @@
 ---
+- name: Add keyring directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/
+    state: directory
+    mode: "0755"
+
 - name: Add APT signing keys
-  block:
-    - name: Add keyring directory
-      ansible.builtin.file:
-        path: /etc/apt/keyrings/
-        state: directory
-        mode: "0755"
-
-    - name: Add Kasefuchs APT signing key
-      ansible.builtin.get_url:
-        url: https://apt.kasefuchs.su/keyring.asc
-        dest: /etc/apt/keyrings/kasefuchs.asc
-        mode: "0644"
-        force: true
-
-    - name: Add Docker APT signing key
-      ansible.builtin.get_url:
-        url: https://download.docker.com/linux/debian/gpg
-        dest: /etc/apt/keyrings/docker.asc
-        mode: "0644"
-        force: true
-
-    - name: Add Speedtest APT signing key
-      ansible.builtin.get_url:
-        url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
-        dest: /etc/apt/keyrings/ookla-speedtest.asc
-        mode: "0644"
-        force: true
+  ansible.builtin.get_url:
+    url: "{{ item.keyring }}"
+    dest: "/etc/apt/keyrings/{{ item.name }}.asc"
+    mode: "0644"
+    force: true
+  loop: "{{ apt_sources }}"
 
 - name: Add APT repositories
-  block:
-    - name: Add Kasefuchs APT repository
-      ansible.builtin.apt_repository:
-        repo: deb [signed-by=/etc/apt/keyrings/kasefuchs.asc] https://apt.kasefuchs.su {{ ansible_distribution_release }} main
-        filename: kasefuchs
-        update_cache: false
-
-    - name: Add Docker APT repository
-      ansible.builtin.apt_repository:
-        repo: deb [signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
-        filename: docker
-        update_cache: false
-
-    - name: Add Speedtest APT repository
-      ansible.builtin.apt_repository:
-        repo: deb [signed-by=/etc/apt/keyrings/ookla-speedtest.asc] https://packagecloud.io/ookla/speedtest-cli/debian {{ ansible_distribution_release }} main
-        filename: ookla-speedtest
-        update_cache: false
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/{{ item.name }}.asc] {{ item.repository }} {{ ansible_distribution_release }} {{ item.components | join(' ') }}"
+    filename: "{{ item.name }}"
+    update_cache: false
+  loop: "{{ apt_sources }}"
 
 - name: Update APT cache
   ansible.builtin.apt:
