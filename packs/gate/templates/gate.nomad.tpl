@@ -18,7 +18,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "ghcr.io/minekube/gate:latest"
+        image   = "ghcr.io/kasefuchs/gate:latest"
         ports   = [[ list $service.port | toStringList ]]
       }
 
@@ -30,9 +30,20 @@ job [[ template "job_name" . ]] {
         destination = "${NOMAD_SECRETS_DIR}/config/gate.yml"
       }
 
+      template {
+        data = <<EOH
+{
+  "token": "[[ var "connect_token" . ]]"
+}
+        EOH
+
+        destination = "${NOMAD_SECRETS_DIR}/config/token.json"
+      }
+
       env {
-        GATE_CONFIG      = "${NOMAD_SECRETS_DIR}/config/gate.yml"
-        GATE_CONFIG_BIND = "0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
+        GATE_CONFIG             = "${NOMAD_SECRETS_DIR}/config/gate.yml"
+        GATE_CONFIG_BIND        = "0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
+        GATE_CONNECT_TOKEN_FILE = "${NOMAD_SECRETS_DIR}/config/token.json"
       }
 
       [[ template "resources" var "resources" . ]]

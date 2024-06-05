@@ -75,6 +75,8 @@ service = {
   ]
 }
 
+connect_token = "minekube_connect_token"
+
 config = <<EOH
 ---
 config:
@@ -85,6 +87,11 @@ config:
     routes:
       - host: hypixel.example.com
         backend: mc.hypixel.net:25565
+
+connect:
+  enabled: true
+  name: gate-nomad
+  tokenFilePath: {{ env "GATE_CONNECT_TOKEN_FILE" }}
 EOH
 
 ```
