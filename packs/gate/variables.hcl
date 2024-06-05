@@ -74,3 +74,9 @@ config:
 EOH
 }
 
+variable "connect_token" {
+  description = "Minekube Connect token to use."
+  type        = string
+  default     = ""
+}
+
