@@ -12,6 +12,8 @@
     mode: "0644"
     force: true
   loop: "{{ apt_sources }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: Add APT repositories
   ansible.builtin.apt_repository:
@@ -19,6 +21,8 @@
     filename: "{{ item.name }}"
     update_cache: false
   loop: "{{ apt_sources }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: Update APT cache
   ansible.builtin.apt:
