@@ -4,6 +4,7 @@
     pkg:
       - dmidecode
       - default-jre-headless
+      - python3-requests
 
 - name: Install Tailscale
   ansible.builtin.apt:
