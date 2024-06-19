@@ -11,10 +11,10 @@
 - name: Ensure handlers to run
   ansible.builtin.meta: flush_handlers
 
-- name: Update resolv.conf
+- name: Update resolv.conf.head
   ansible.builtin.copy:
-    src: resolv.conf
-    dest: /etc/resolv.conf
+    src: resolv.conf.head
+    dest: /etc/resolv.conf.head
     owner: root
     group: root
     mode: "0644"
