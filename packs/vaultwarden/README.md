@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/dani-garcia/vaultwarden" rel="noopener">
- <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/vaultwarden.svg" alt="Project logo"></a>
+ <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/vaultwarden.svg" alt="Vaultwarden logo"></a>
 </p>
 
 <h3 align="center">Vaultwarden Nomad Pack</h3>

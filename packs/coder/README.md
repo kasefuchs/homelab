@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://coder.com/" rel="noopener">
- <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/coder.svg" alt="Project logo"></a>
+ <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/coder.svg" alt="Coder logo"></a>
 </p>
 
 <h3 align="center">Coder Nomad Pack</h3>

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/jgkawell/yarr" rel="noopener">
- <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/yarr.svg" alt="Project logo"></a>
+ <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/yarr.svg" alt="Yarr logo"></a>
 </p>
 
 <h3 align="center">Yarr Nomad Pack</h3>

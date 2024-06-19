@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://grafana.com/oss/nats/" rel="noopener">
- <img width=200px height=200px src="https://git.kasefuchs.su/kasefuchs/homelab/media/branch/main/assets/logos/nats.svg" alt="Project logo"></a>
+  <a href="https://nats.io/" rel="noopener">
+ <img width=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/nats.png" alt="NATS logo"></a>
 </p>
 
 <h3 align="center">NATS Nomad Pack</h3>
