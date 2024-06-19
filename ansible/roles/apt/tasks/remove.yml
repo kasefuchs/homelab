@@ -5,6 +5,8 @@
       - resolvconf
       - openresolv
       - systemd-resolved
+      - network-manager
+      - isc-dhcp-client
     state: absent
 
 - name: Remove unused packages
