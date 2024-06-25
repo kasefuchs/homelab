@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.navidrome.org" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/navidrome.png" alt="Navidrome logo"></a>
+  <img width=192px src="https://raw.githubusercontent.com/navidrome/navidrome/master/resources/logo-192x192.png" alt="Navidrome logo"></a>
 </p>
 
 <h3 align="center">Navidrome Nomad Pack</h3>

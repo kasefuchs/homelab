@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://imgproxy.net/" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/imgproxy.svg" alt="Imgproxy logo"></a>
+  <img width=192px src="https://raw.githubusercontent.com/imgproxy/imgproxy/master/assets/logo-dark.svg" alt="Imgproxy logo"></a>
 </p>
 
 <h3 align="center">Imgproxy Nomad Pack</h3>

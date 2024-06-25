@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.usememos.com/" rel="noopener">
- <img width=200px src="https://www.usememos.com/full-logo-landscape.png" alt="Memos logo"></a>
+  <img width=192px src="https://www.usememos.com/full-logo-landscape.png" alt="Memos logo"></a>
 </p>
 
 <h3 align="center">Memos Nomad Pack</h3>

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://prometheus.io" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/prometheus.svg" alt="Prometheus logo"></a>
+  <img width=192px src="https://raw.githubusercontent.com/prometheus/prometheus/main/documentation/images/prometheus-logo.svg" alt="Prometheus logo"></a>
 </p>
 
 <h3 align="center">Prometheus Nomad Pack</h3>

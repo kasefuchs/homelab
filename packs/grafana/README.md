@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://grafana.com" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/grafana.svg" alt="Project logo"></a>
+  <img width=192px src="https://github.com/grafana/grafana/raw/main/docs/logo-horizontal-dark.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Grafana Nomad Pack</h3>
