@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://lavalink.dev" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/lavalink.svg" alt="Lavalink logo"></a>
+  <img width=192px src="https://github.com/lavalink-devs/Lavalink/raw/master/branding/lavalink.svg" alt="Lavalink logo"></a>
 </p>
 
 <h3 align="center">LavaLink Nomad Pack</h3>

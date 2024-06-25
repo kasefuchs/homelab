@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://nats.io/" rel="noopener">
- <img width=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/nats.png" alt="NATS logo"></a>
+  <img width=192px src="https://nats.io/img/logos/nats-horizontal-color.png" alt="NATS logo"></a>
 </p>
 
 <h3 align="center">NATS Nomad Pack</h3>

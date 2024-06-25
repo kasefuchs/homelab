@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://traefik.io/" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/traefik.svg" alt="Traefik logo"></a>
+  <img width=192px src="https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png" alt="Traefik logo"></a>
 </p>
 
 <h3 align="center">Traefik Nomad Pack</h3>

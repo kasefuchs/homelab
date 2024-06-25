@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://crazymax.dev/diun/" rel="noopener">
- <img width=200px height=200px src="https://codeberg.org/kasefuchs/homelab/media/branch/main/assets/logos/diun.png" alt="Diun logo"></a>
+  <img width=192px src="https://crazymax.dev/diun/assets/logo.png" alt="Diun logo"></a>
 </p>
 
 <h3 align="center">Diun Nomad Pack</h3>
