@@ -1,0 +1,73 @@
+---
+- name: Create Garage system profile
+  block:
+    - name: Create Garage group
+      ansible.builtin.group:
+        name: garage
+        state: present
+
+    - name: Create Garage user
+      ansible.builtin.user:
+        name: garage
+        group: garage
+        system: true
+
+- name: Install Garage binary
+  block:
+    - name: Detect Garage architecture
+      ansible.builtin.set_fact:
+        garage_architecture: "{{ garage_architectures[ansible_architecture] }}"
+
+    - name: Create Garage package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/garage/{{ garage_version }}
+        state: directory
+
+    - name: Download Garage binary
+      ansible.builtin.get_url:
+        url: "{{ garage_source }}"
+        dest: /usr/local/src/garage/{{ garage_version }}/garage
+        mode: "0755"
+
+    - name: Link Garage binary
+      ansible.builtin.file:
+        src: /usr/local/src/garage/{{ garage_version }}/garage
+        dest: /usr/local/bin/garage
+        state: link
+        force: true
+
+- name: Create Garage directories
+  ansible.builtin.file:
+    mode: "{{ item.mode }}"
+    path: "{{ item.path }}"
+    owner: garage
+    group: garage
+    state: directory
+  loop:
+    - name: Garage config
+      path: /etc/garage.d
+      mode: "0755"
+    - name: Garage data
+      path: "{{ garage_data_dir }}"
+      mode: "0755"
+    - name: Garage metadata
+      path: "{{ garage_metadata_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Install Garage service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: garage.service.j2
+    dest: /etc/systemd/system/garage.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable Garage
+  ansible.builtin.systemd_service:
+    name: garage
+    enabled: true

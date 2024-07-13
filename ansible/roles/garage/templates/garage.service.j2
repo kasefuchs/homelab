@@ -1,0 +1,13 @@
+[Unit]
+Description="Garage - A Data Store"
+Documentation="https://garagehq.deuxfleurs.fr/"
+BindsTo=tailscaled.service
+
+[Service]
+User=garage
+Group=garage
+ExecStart=/usr/local/bin/garage -c /etc/garage.d/garage.toml server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

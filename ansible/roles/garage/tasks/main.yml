@@ -1,0 +1,9 @@
+---
+- name: Install Garage
+  ansible.builtin.import_tasks: install.yml
+
+- name: Copy Garage config files
+  ansible.builtin.import_tasks: config.yml
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
