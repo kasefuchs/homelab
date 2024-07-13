@@ -1,0 +1,71 @@
+---
+- name: Create Consul system profile
+  block:
+    - name: Create Consul group
+      ansible.builtin.group:
+        name: consul
+        state: present
+
+    - name: Create Consul user
+      ansible.builtin.user:
+        name: consul
+        group: consul
+        system: true
+
+- name: Install Consul binary
+  block:
+    - name: Detect Consul architecture
+      ansible.builtin.set_fact:
+        consul_architecture: "{{ consul_architectures[ansible_architecture] }}"
+
+    - name: Create Consul package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/consul/{{ consul_version }}
+        state: directory
+
+    - name: Download & extract Consul package
+      ansible.builtin.unarchive:
+        src: "{{ consul_source }}"
+        dest: /usr/local/src/consul/{{ consul_version }}
+        creates: /usr/local/src/consul/{{ consul_version }}/consul
+        remote_src: true
+
+    - name: Link Consul binary
+      ansible.builtin.file:
+        src: /usr/local/src/consul/{{ consul_version }}/consul
+        dest: /usr/local/bin/consul
+        state: link
+        force: true
+
+- name: Create Consul directories
+  ansible.builtin.file:
+    mode: "{{ item.mode }}"
+    path: "{{ item.path }}"
+    owner: consul
+    group: consul
+    state: directory
+  loop:
+    - name: Consul config
+      path: /etc/consul.d
+      mode: "0755"
+    - name: Consul data
+      path: "{{ consul_data_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Install Consul service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    enabled: true

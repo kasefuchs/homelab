@@ -2,24 +2,11 @@
 - name: Install required
   ansible.builtin.apt:
     pkg:
-      - dhcpcd
+      - network-manager
+      - unzip
       - dmidecode
       - default-jre-headless
       - python3-requests
-
-- name: Install Tailscale
-  ansible.builtin.apt:
-    name: tailscale
-
-- name: Install HashiCorp tools
-  ansible.builtin.apt:
-    pkg:
-      - consul
-      - nomad
-
-- name: Install CoreDNS
-  ansible.builtin.apt:
-    name: coredns
 
 - name: Install Speedtest CLI
   ansible.builtin.apt:

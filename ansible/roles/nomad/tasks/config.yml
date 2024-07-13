@@ -50,31 +50,5 @@
     recurse: true
   loop: "{{ nomad_host_volumes.values() }}"
 
-- name: Creates Nomad data directory
-  ansible.builtin.file:
-    path: "{{ nomad_data_dir }}"
-    state: directory
-    owner: "{{ nomad_user }}"
-    group: "{{ nomad_group }}"
-    mode: "0775"
-    recurse: true
-
-- name: Edit Nomad ownerships
-  block:
-    - name: Edit ownerships of Nomad configs
-      ansible.builtin.file:
-        dest: /etc/nomad.d
-        state: directory
-        owner: "{{ nomad_user }}"
-        group: "{{ nomad_group }}"
-        recurse: true
-      failed_when: false
-
-    - name: Edit ownerships of Nomad data
-      ansible.builtin.file:
-        dest: "{{ nomad_data_dir }}"
-        state: directory
-        owner: "{{ nomad_user }}"
-        group: "{{ nomad_group }}"
-        recurse: true
-      failed_when: false
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

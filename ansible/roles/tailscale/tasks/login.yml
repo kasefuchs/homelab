@@ -1,0 +1,28 @@
+---
+- name: Ensure Tailscale Daemon started
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    state: started
+
+- name: Login Tailscale
+  ansible.builtin.command:
+    argv:
+      - tailscale
+      - up
+      - --accept-dns=false
+      - --advertise-exit-node={{ tailscale_exit_node }}
+      - --advertise-tags={{ tailscale_tags | map('replace', 'tag:', '', 1) | map('replace', '', 'tag:', 1) | join(',') }}
+      - --auth-key={{ tailscale_auth_key }}
+      - --hostname={{ inventory_hostname }}
+      - --json
+      - --login-server={{ tailscale_login_server }}
+      - --reset
+      - --force-reauth={{ tailscale_force_reauth }}
+  register: tailscale_start
+  changed_when: true
+  notify: Confirm Tailscale is Connected
+  poll: 5
+  async: 120
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

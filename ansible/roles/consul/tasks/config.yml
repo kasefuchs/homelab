@@ -42,11 +42,5 @@
             path: /etc/consul.d/server.hcl
             state: absent
 
-- name: Creates Consul data directory
-  ansible.builtin.file:
-    path: "{{ consul_data_dir }}"
-    state: directory
-    owner: consul
-    group: consul
-    mode: "0775"
-    recurse: true
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

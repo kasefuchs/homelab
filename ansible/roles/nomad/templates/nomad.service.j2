@@ -1,0 +1,17 @@
+[Unit]
+Description="HashiCorp Nomad - A simple and flexible scheduler and orchestrator"
+Documentation="https://nomadproject.io/"
+BindsTo=consul.service
+
+[Service]
+Type=notify
+User={{ nomad_user }}
+Group={{ nomad_group }}
+ExecStart=/usr/local/bin/nomad agent -config=/etc/nomad.d/
+ExecReload=/bin/kill --signal HUP $MAINPID
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

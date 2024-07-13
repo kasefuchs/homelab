@@ -1,0 +1,80 @@
+---
+- name: Create Nomad system profile
+  when: not nomad_client
+  block:
+    - name: Create Nomad group
+      ansible.builtin.group:
+        name: nomad
+        state: present
+
+    - name: Create Nomad user
+      ansible.builtin.user:
+        name: nomad
+        group: nomad
+        system: true
+
+- name: Get Nomad account
+  ansible.builtin.set_fact:
+    nomad_user: "{{ 'root' if nomad_client else 'nomad' }}"
+    nomad_group: "{{ 'root' if nomad_client else 'nomad' }}"
+
+- name: Install Nomad binary
+  block:
+    - name: Detect Nomad architecture
+      ansible.builtin.set_fact:
+        nomad_architecture: "{{ nomad_architectures[ansible_architecture] }}"
+
+    - name: Create Nomad package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/nomad/{{ nomad_version }}
+        state: directory
+
+    - name: Download & extract Nomad package
+      ansible.builtin.unarchive:
+        src: "{{ nomad_source }}"
+        dest: /usr/local/src/nomad/{{ nomad_version }}
+        creates: /usr/local/src/nomad/{{ nomad_version }}/nomad
+        remote_src: true
+
+    - name: Link Nomad binary
+      ansible.builtin.file:
+        src: /usr/local/src/nomad/{{ nomad_version }}/nomad
+        dest: /usr/local/bin/nomad
+        state: link
+        force: true
+
+- name: Create Nomad directories
+  ansible.builtin.file:
+    mode: "{{ item.mode }}"
+    path: "{{ item.path }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    state: directory
+  loop:
+    - name: Nomad config
+      path: /etc/nomad.d
+      mode: "0755"
+    - name: Nomad mounts
+      path: "{{ nomad_mounts_dir }}"
+      mode: "0711"
+    - name: Nomad data
+      path: "{{ nomad_data_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Install Nomad service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: nomad.service.j2
+    dest: /etc/systemd/system/nomad.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable Nomad
+  ansible.builtin.systemd_service:
+    name: nomad
+    enabled: true

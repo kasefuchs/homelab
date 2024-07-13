@@ -1,12 +1,6 @@
 ---
-- name: Collect Nomad variables
-  ansible.builtin.import_tasks: collect.yml
-
-- name: Edit Nomad service
-  ansible.builtin.import_tasks: service.yml
+- name: Install Nomad
+  ansible.builtin.import_tasks: install.yml
 
 - name: Copy Nomad config files
   ansible.builtin.import_tasks: config.yml
-
-- name: Ensure handlers to run
-  ansible.builtin.meta: flush_handlers

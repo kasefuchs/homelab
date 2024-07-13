@@ -16,3 +16,27 @@
     that:
       - tailscale_is_online
     quiet: true
+
+- name: Reload Systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Enable Tailscale Daemon
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    enabled: true
+
+- name: Reload Tailscale Daemon
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    state: reloaded
+
+- name: Restart Tailscale Daemon
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    state: restarted
+
+- name: Start Tailscale Daemon
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    state: started

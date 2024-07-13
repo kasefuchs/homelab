@@ -1,6 +1,15 @@
 ---
+# Nomad version to download.
+nomad_version: 1.8.1
+
+# URL to download Nomad archive from.
+nomad_source: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ consul_architecture }}.zip
+
 # Specifies a local directory used to store agent state.
 nomad_data_dir: /opt/nomad/data
+
+# Specifies directory for storing mounts into allocation data.
+nomad_mounts_dir: /opt/nomad/mounts
 
 # Specifies the region the Nomad agent is a member of.
 nomad_region: global
