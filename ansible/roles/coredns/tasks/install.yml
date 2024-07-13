@@ -1,0 +1,62 @@
+---
+- name: Create CoreDNS account
+  block:
+    - name: Create CoreDNS group
+      ansible.builtin.group:
+        name: coredns
+        state: present
+
+    - name: Create CoreDNS user
+      ansible.builtin.user:
+        name: coredns
+        group: coredns
+        system: true
+
+- name: Install CoreDNS binary
+  block:
+    - name: Detect CoreDNS architecture
+      ansible.builtin.set_fact:
+        coredns_architecture: "{{ coredns_architectures[ansible_architecture] }}"
+
+    - name: Create CoreDNS package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/coredns/{{ coredns_version }}
+        state: directory
+
+    - name: Download & extract CoreDNS package
+      ansible.builtin.unarchive:
+        src: "{{ coredns_source }}"
+        dest: /usr/local/src/coredns/{{ coredns_version }}
+        creates: /usr/local/src/coredns/{{ coredns_version }}/coredns
+        remote_src: true
+
+    - name: Link CoreDNS binary
+      ansible.builtin.file:
+        src: /usr/local/src/coredns/{{ coredns_version }}/coredns
+        dest: /usr/local/bin/coredns
+        state: link
+        force: true
+
+- name: Create CoreDNS config directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: /etc/coredns.d
+    state: directory
+    owner: coredns
+    group: coredns
+
+- name: Install CoreDNS service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: coredns.service.j2
+    dest: /etc/systemd/system/coredns.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable CoreDNS
+  ansible.builtin.systemd_service:
+    name: coredns
+    enabled: true

@@ -3,12 +3,6 @@ apt_upgrade: true
 
 # Specifies the apt repository sources.
 apt_sources:
-  - name: kasefuchs
-    keyring: https://apt.kasefuchs.su/keyring.asc
-    repository: https://apt.kasefuchs.su
-    components:
-      - main
-
   - name: docker
     keyring: https://download.docker.com/linux/debian/gpg
     repository: https://download.docker.com/linux/debian

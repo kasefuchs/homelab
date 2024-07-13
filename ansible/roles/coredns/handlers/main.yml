@@ -1,5 +1,24 @@
 ---
+- name: Reload Systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Enable CoreDNS
+  ansible.builtin.systemd_service:
+    name: coredns
+    enabled: true
+
+- name: Reload CoreDNS
+  ansible.builtin.systemd_service:
+    name: coredns
+    state: reloaded
+
 - name: Restart CoreDNS
   ansible.builtin.systemd_service:
     name: coredns
     state: restarted
+
+- name: Start CoreDNS
+  ansible.builtin.systemd_service:
+    name: coredns
+    state: started

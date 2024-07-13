@@ -2,19 +2,11 @@
 - name: Copy CoreDNS configuration
   ansible.builtin.template:
     src: Corefile.j2
-    dest: /etc/coredns/Corefile
-    owner: root
-    group: root
+    dest: /etc/coredns.d/Corefile
+    owner: coredns
+    group: coredns
     mode: "0644"
   notify: Restart CoreDNS
 
 - name: Ensure handlers to run
   ansible.builtin.meta: flush_handlers
-
-- name: Update resolv.conf.head
-  ansible.builtin.copy:
-    src: resolv.conf.head
-    dest: /etc/resolv.conf.head
-    owner: root
-    group: root
-    mode: "0644"

@@ -2,11 +2,11 @@
 - name: Remove DNS resolvers
   ansible.builtin.apt:
     pkg:
+      - dhcpcd
       - resolvconf
       - openresolv
-      - systemd-resolved
-      - network-manager
       - isc-dhcp-client
+      - systemd-resolved
     state: absent
 
 - name: Remove unused packages

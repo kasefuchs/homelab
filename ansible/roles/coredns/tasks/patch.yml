@@ -1,7 +1,0 @@
-- name: Stop Proxmox from updating resolv.conf
-  ansible.builtin.file:
-    path: /etc/.pve-ignore.resolv.conf
-    state: touch
-    owner: root
-    group: root
-    mode: "0644"

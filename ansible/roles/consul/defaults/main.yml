@@ -1,4 +1,10 @@
 ---
+# Consul version to download.
+consul_version: 1.19.0
+
+# URL to download Consul archive from.
+consul_source: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip
+
 # Specifies a local directory used to store agent state.
 consul_data_dir: /opt/consul
 

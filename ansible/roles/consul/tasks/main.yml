@@ -1,9 +1,6 @@
 ---
-- name: Edit Consul service
-  ansible.builtin.import_tasks: service.yml
+- name: Install Consul
+  ansible.builtin.import_tasks: install.yml
 
 - name: Copy Consul config files
   ansible.builtin.import_tasks: config.yml
-
-- name: Ensure handlers to run
-  ansible.builtin.meta: flush_handlers

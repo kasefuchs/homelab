@@ -1,6 +1,8 @@
 client {
   enabled = true
 
+  alloc_mounts_dir = "{{ nomad_mounts_dir }}"
+
   server_join {
     retry_join = {{ hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') | ansible.builtin.to_json }}
   }

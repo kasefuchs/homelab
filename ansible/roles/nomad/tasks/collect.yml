@@ -1,5 +1,0 @@
----
-- name: Get Nomad user and group
-  ansible.builtin.set_fact:
-    nomad_user: "{{ 'root' if nomad_client else 'nomad' }}"
-    nomad_group: "{{ 'root' if nomad_client else 'nomad' }}"

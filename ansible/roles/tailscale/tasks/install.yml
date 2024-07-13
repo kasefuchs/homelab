@@ -1,0 +1,63 @@
+---
+- name: Create Tailscale system profile
+  block:
+    - name: Create Tailscale group
+      ansible.builtin.group:
+        name: tailscale
+        state: present
+
+    - name: Create Tailscale user
+      ansible.builtin.user:
+        name: tailscale
+        group: tailscale
+        system: true
+
+- name: Install Tailscale binaries
+  block:
+    - name: Detect Tailscale architecture
+      ansible.builtin.set_fact:
+        tailscale_architecture: "{{ tailscale_architectures[ansible_architecture] }}"
+
+    - name: Create Tailscale package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/tailscale/{{ tailscale_version }}
+        state: directory
+
+    - name: Download & extract Tailscale package
+      ansible.builtin.unarchive:
+        src: "{{ tailscale_source }}"
+        dest: /usr/local/src/tailscale/{{ tailscale_version }}
+        creates: /usr/local/src/tailscale/{{ tailscale_version }}/tailscale
+        remote_src: true
+        extra_opts:
+          - --strip-components=1
+
+    - name: Link Tailscale binaries
+      ansible.builtin.file:
+        src: /usr/local/src/tailscale/{{ tailscale_version }}/{{ item.file }}
+        dest: /usr/local/bin/{{ item.file }}
+        state: link
+        force: true
+      loop:
+        - name: Tailscale CLI
+          file: tailscale
+        - name: Tailscale Daemon
+          file: tailscaled
+      loop_control:
+        label: "{{ item.name }}"
+
+- name: Install Tailscale Daemon service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: tailscaled.service.j2
+    dest: /etc/systemd/system/tailscaled.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable Tailscale Daemon
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    enabled: true
