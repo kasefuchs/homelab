@@ -1,0 +1,27 @@
+---
+# Garage version to download.
+garage_version: 1.0.0
+
+# URL to download Garage binary from.
+garage_source: https://garagehq.deuxfleurs.fr/_releases/v{{ garage_version }}/{{ garage_architecture }}-unknown-linux-musl/garage
+
+# Specifies the directory in which Garage will store the data blocks of objects.
+garage_data_dir: /opt/garage/data
+
+# Specifies the directory in which Garage will store its metadata.
+garage_metadata_dir: /opt/garage/metadata
+
+# Specifies the replication factor.
+garage_replication_factor: 1
+
+# Specifies the zstd compression level to use for storing blocks.
+garage_compression_level: 1
+
+# Specifies the S3 region to use.
+garage_api_s3_region: us-east-1
+
+# Specifies the optional suffix to access bucket using vhost-style in addition to path-style request.
+garage_api_root_domain: .s3.garage
+
+# Specifies the optional suffix appended to bucket names for the corresponding HTTP Host.
+garage_web_root_domain: .web.garage

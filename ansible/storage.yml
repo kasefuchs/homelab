@@ -1,0 +1,6 @@
+- name: Bootstrap storage
+  hosts: all
+  become: true
+  roles:
+    - role: collect
+    - role: garage

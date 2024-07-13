@@ -1,0 +1,7 @@
+---
+# Map of Ansible architectures to correspondent Garage architectures.
+garage_architectures:
+  aarch64: aarch64
+  x86_64: x86_64
+  i386: i686
+  armv71: armv6l
