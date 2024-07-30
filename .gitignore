@@ -12,3 +12,7 @@ docs/build/
 *.iml
 .vs/
 .vscode/
+
+# Certificates
+*.pem
+*.p12
