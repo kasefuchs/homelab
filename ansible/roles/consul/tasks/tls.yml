@@ -1,0 +1,120 @@
+---
+- name: Generate Consul certificates
+  block:
+  - name: Generate Consul CA
+    vars:
+      ansible_become: false
+    run_once: true
+    delegate_to: localhost
+    ansible.builtin.command:
+      argv:
+        - consul
+        - tls
+        - ca
+        - create
+      chdir: "{{ role_path }}/files"
+      creates: "{{ role_path }}/files/consul-agent-ca.pem"
+
+  - name: Generate Consul server certificates
+    vars:
+      ansible_become: false
+    run_once: true
+    delegate_to: localhost
+    ansible.builtin.command:
+      argv:
+        - consul
+        - tls
+        - cert
+        - create
+        - --server
+        - --dc={{ consul_datacenter }}
+      chdir: "{{ role_path }}/files"
+      creates: "{{ role_path }}/files/{{ consul_datacenter }}-server-consul-0.pem"
+
+  - name: Generate Consul client certificates
+    vars:
+      ansible_become: false
+    run_once: true
+    delegate_to: localhost
+    ansible.builtin.command:
+      argv:
+        - consul
+        - tls
+        - cert
+        - create
+        - --client
+        - --dc={{ consul_datacenter }}
+      chdir: "{{ role_path }}/files"
+      creates: "{{ role_path }}/files/{{ consul_datacenter }}-client-consul-0.pem"
+
+  - name: Generate Consul CLI certificates
+    vars:
+      ansible_become: false
+    run_once: true
+    delegate_to: localhost
+    ansible.builtin.command:
+      argv:
+        - consul
+        - tls
+        - cert
+        - create
+        - --cli
+        - --dc={{ consul_datacenter }}
+      chdir: "{{ role_path }}/files"
+      creates: "{{ role_path }}/files/{{ consul_datacenter }}-cli-consul-0.pem"
+
+- name: Copy Consul certificates
+  block:
+    - name: Create Consul certificates directory
+      ansible.builtin.file:
+        path: /etc/consul.d/certificates
+        state: directory
+        mode: "0755"
+        owner: consul
+        group: consul
+
+    - name: Copy Consul public Certification Authority
+      ansible.builtin.copy:
+        src: "{{ role_path }}/files/consul-agent-ca.pem"
+        dest: /etc/consul.d/certificates/ca.pem
+        mode: "0644"
+        owner: consul
+        group: consul
+
+    - name: Copy Consul Agent certificates
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        mode: "{{ item.mode }}"
+        dest: "{{ item.dest }}"
+        owner: consul
+        group: consul
+      loop:
+        - src: "{{ role_path }}/files/{{ consul_datacenter }}-{{ 'server' if consul_server else 'client' }}-consul-0.pem"
+          dest: /etc/consul.d/certificates/agent.pem
+          mode: "0644"
+          name: Public Key
+        - src: "{{ role_path }}/files/{{ consul_datacenter }}-{{ 'server' if consul_server else 'client' }}-consul-0-key.pem"
+          dest: /etc/consul.d/certificates/agent.key
+          mode: "0600"
+          name: Private Key
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Copy Consul CLI certificates
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        mode: "{{ item.mode }}"
+        dest: "{{ item.dest }}"
+        owner: consul
+        group: consul
+      loop:
+        - src: "{{ role_path }}/files/{{ consul_datacenter }}-cli-consul-0.pem"
+          dest: /etc/consul.d/certificates/cli.pem
+          mode: "0644"
+          name: Public Key
+        - src: "{{ role_path }}/files/{{ consul_datacenter }}-cli-consul-0-key.pem"
+          dest: /etc/consul.d/certificates/cli.key
+          mode: "0600"
+          name: Private Key
+      loop_control:
+        label: "{{ item.name }}"

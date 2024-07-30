@@ -19,3 +19,6 @@ consul_encrypt: null
 
 # Specifies whether the web UI is enabled.
 consul_ui_enabled: true
+
+# Specifies whether the TLS encryption feature is enabled.
+consul_tls_enabled: true

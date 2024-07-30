@@ -16,3 +16,22 @@ encrypt = "{{ consul_encrypt | default('') }}"
 ui_config {
   enabled = {{ consul_ui_enabled | lower }}
 }
+
+ports {
+  dns   = 8600
+  http  = 8500
+  https = {{ 8501 if consul_tls_enabled else -1 }}
+}
+
+{% if consul_tls_enabled %}
+tls {
+  defaults {
+    ca_file   = "/etc/consul.d/certificates/ca.pem"
+    key_file  = "/etc/consul.d/certificates/agent.key"
+    cert_file = "/etc/consul.d/certificates/agent.pem"
+
+    verify_incoming = true
+    verify_outgoing = true
+  }
+}
+{% endif %}
