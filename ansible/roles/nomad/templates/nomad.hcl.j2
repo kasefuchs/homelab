@@ -6,7 +6,15 @@ region     = "{{ nomad_region }}"
 bind_addr = "{{ tailscale_ip.stdout }}"
 
 consul {
-  address = "{{ tailscale_ip.stdout }}:8500"
+  address = "{{ tailscale_ip.stdout }}:{{ 8501 if consul_tls_enabled else 8500 }}"
+
+{% if consul_tls_enabled %}
+  ssl       = true
+  ca_file   = "/etc/nomad.d/certificates/consul/ca.pem"
+  key_file  = "/etc/nomad.d/certificates/consul/cli.key"
+  cert_file = "/etc/nomad.d/certificates/consul/cli.pem"
+  share_ssl = true
+{% endif %}
 }
 
 ui {
@@ -16,3 +24,17 @@ ui {
     ui_url = "{{ nomad_consul_ui_url | default('') }}"
   }
 }
+
+{% if nomad_tls_enabled %}
+tls {
+  rpc  = true
+  http = true
+
+  ca_file   = "/etc/nomad.d/certificates/ca.pem"
+  key_file  = "/etc/nomad.d/certificates/agent.key"
+  cert_file = "/etc/nomad.d/certificates/agent.pem"
+
+  verify_https_client    = true
+  verify_server_hostname = true
+}
+{% endif %}
