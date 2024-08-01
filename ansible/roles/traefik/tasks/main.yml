@@ -1,0 +1,12 @@
+---
+- name: Install Traefik
+  ansible.builtin.import_tasks: install.yml
+
+- name: Bootstrap Traefik TLS certificates
+  ansible.builtin.import_tasks: tls.yml
+
+- name: Configure Traefik
+  ansible.builtin.import_tasks: config.yml
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers

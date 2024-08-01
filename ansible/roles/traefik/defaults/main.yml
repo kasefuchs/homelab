@@ -1,0 +1,21 @@
+---
+# Traefik version to download.
+traefik_version: 3.1.1
+
+# URL to download Traefik archive from.
+traefik_source: https://github.com/traefik/traefik/releases/download/v{{ traefik_version }}/traefik_v{{ traefik_version }}_linux_{{ traefik_architecture }}.tar.gz
+
+# Specifies whether the dashboard will be enabled.
+traefik_dashboard: true
+
+# Specifies the network entry points into Traefik.
+traefik_entrypoints:
+  http:
+    address: :80
+    asDefault: true
+
+# Specifies whether the Consul TLS encryption feature is enabled.
+consul_tls_enabled: true
+
+# Specifies whether the Nomad TLS encryption feature is enabled.
+nomad_tls_enabled: true
