@@ -60,7 +60,7 @@
 - name: Install Garage service
   notify: Reload Systemd
   ansible.builtin.template:
-    src: garage.service.j2
+    src: traefik.service.j2
     dest: /etc/systemd/system/garage.service
     mode: "0644"
 

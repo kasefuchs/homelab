@@ -1,0 +1,6 @@
+- name: Bootstrap networking
+  hosts: all
+  become: true
+  roles:
+    - role: collect
+    - role: traefik
