@@ -16,7 +16,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "grafana/grafana-oss:10.1.10"
+        image   = "grafana/grafana-oss:11.1.3"
         ports   = [[ list $service.port | toStringList ]]
       }
 
@@ -28,13 +28,13 @@ job [[ template "job_name" . ]] {
         destination = "${NOMAD_SECRETS_DIR}/config/grafana.ini"
       }
 
-[[- range $idx, $content := var "provisioning" . ]]
+[[- range $idx, $entry := var "provisioning" . ]]
       template {
         data = <<EOH
-[[ $content ]]
+[[ $entry.config ]]
         EOH
 
-        destination = "${NOMAD_SECRETS_DIR}/config/provisioning/[[ $idx ]].yaml"
+        destination = "${NOMAD_SECRETS_DIR}/config/provisioning/[[ $entry.type ]]/[[ $idx ]].yaml"
       }
 [[- end ]]
 

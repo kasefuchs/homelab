@@ -66,6 +66,9 @@ variable "config" {
 
 variable "provisioning" {
   description = "Grafana provisioning config list in YAML format."
-  type        = list(string)
-  default     = []
+  type = list(object({
+    type   = string
+    config = string
+  }))
+  default = []
 }
