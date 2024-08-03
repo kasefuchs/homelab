@@ -25,12 +25,24 @@ job [[ template "job_name" . ]] {
 [[ var "config" . ]]
         EOH
 
-        destination = "${NOMAD_TASK_DIR}/config/grafana.ini"
+        destination = "${NOMAD_SECRETS_DIR}/config/grafana.ini"
       }
+
+[[- range $idx, $content := var "provisioning" . ]]
+      template {
+        data = <<EOH
+[[ $content ]]
+        EOH
+
+        destination = "${NOMAD_SECRETS_DIR}/config/provisioning/[[ $idx ]].yaml"
+      }
+[[- end ]]
 
       env {
         GF_SERVER_HTTP_PORT = "${NOMAD_PORT_[[ $service.port ]]}"
-        GF_PATHS_CONFIG     = "${NOMAD_TASK_DIR}/config/grafana.ini"
+
+        GF_PATHS_CONFIG       = "${NOMAD_SECRETS_DIR}/config/grafana.ini"
+        GF_PATHS_PROVISIONING = "${NOMAD_SECRETS_DIR}/config/provisioning"
       }
 
       [[ template "resources" var "resources" . ]]

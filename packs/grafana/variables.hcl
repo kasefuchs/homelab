@@ -64,3 +64,8 @@ variable "config" {
   default     = ""
 }
 
+variable "provisioning" {
+  description = "Grafana provisioning config list in YAML format."
+  type        = list(string)
+  default     = []
+}
