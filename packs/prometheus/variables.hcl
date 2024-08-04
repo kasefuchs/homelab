@@ -46,6 +46,7 @@ variable "service" {
     name         = string
     port         = string
     tags         = list(string)
+    connect      = bool
     provider     = string
     host_network = string
   })
@@ -53,7 +54,8 @@ variable "service" {
     name         = "prometheus"
     port         = "prometheus"
     tags         = []
-    provider     = "nomad"
+    connect      = true
+    provider     = "consul"
     host_network = ""
   }
 }

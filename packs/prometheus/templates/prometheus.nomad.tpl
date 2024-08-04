@@ -18,7 +18,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "prom/prometheus:v2.52.0"
+        image   = "prom/prometheus:v2.53.1"
         args    = [
           "--config.file=${NOMAD_SECRETS_DIR}/config/prometheus.yml",
           "--web.listen-address=0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
