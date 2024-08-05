@@ -1,6 +1,6 @@
 ---
 # Tailscale version to download.
-tailscale_version: 1.68.2
+tailscale_version: 1.70.0
 
 # URL to download Tailscale archive from.
 tailscale_source: https://pkgs.tailscale.com/stable/tailscale_{{ tailscale_version }}_{{ tailscale_architecture }}.tgz

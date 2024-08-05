@@ -1,5 +1,5 @@
 # CoreDNS version to download.
-coredns_version: 1.11.1
+coredns_version: 1.11.3
 
 # URL to download CoreDNS archive from.
 coredns_source: https://github.com/coredns/coredns/releases/download/v{{ coredns_version }}/coredns_{{ coredns_version }}_linux_{{ coredns_architecture }}.tgz

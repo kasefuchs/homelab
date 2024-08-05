@@ -34,6 +34,14 @@ client {
   }
 }
 
+consul {
+  grpc_address = "{{ tailscale_ip.stdout }}:{{ 8503 if consul_tls_enabled else 8502 }}"
+
+{% if consul_tls_enabled %}
+  grpc_ca_file = "/etc/nomad.d/certificates/consul/ca.pem"
+{% endif %}
+}
+
 plugin "docker" {
   config {
     allow_privileged = true
