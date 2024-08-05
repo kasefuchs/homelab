@@ -1,0 +1,73 @@
+---
+- name: Create CNI directories
+  ansible.builtin.file:
+    mode: "{{ item.mode }}"
+    path: "{{ item.path }}"
+    state: directory
+  loop:
+    - name: CNI binaries
+      path: /opt/cni/bin
+      mode: "0755"
+    - name: CNI configuration
+      path: /opt/cni/config
+      mode: "0755"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Install CNI plugins binaries
+  block:
+    - name: Detect CNI plugins architecture
+      ansible.builtin.set_fact:
+        cni_plugins_architecture: "{{ cni_plugins_architectures[ansible_architecture] }}"
+
+    - name: Create CNI plugins package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/cni-plugins/{{ cni_plugins_version }}
+        state: directory
+
+    - name: Download & extract CNI plugins package
+      ansible.builtin.unarchive:
+        src: "{{ cni_plugins_source }}"
+        dest: /usr/local/src/cni-plugins/{{ cni_plugins_version }}
+        creates: /usr/local/src/cni-plugins/{{ cni_plugins_version }}/LICENSE
+        remote_src: true
+
+    - name: Link CNI plugins binaries
+      ansible.builtin.file:
+        src: /usr/local/src/cni-plugins/{{ cni_plugins_version }}/{{ item }}
+        dest: /opt/cni/bin/{{ item }}
+        state: link
+        force: true
+      loop:
+        - bridge
+        - portmap
+        - loopback
+        - firewall
+        - host-local
+
+- name: Install Consul CNI plugin binary
+  block:
+    - name: Detect Consul CNI plugin architecture
+      ansible.builtin.set_fact:
+        consul_cni_architecture: "{{ consul_cni_architectures[ansible_architecture] }}"
+
+    - name: Create Consul CNI plugin package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/consul-cni/{{ consul_cni_version }}
+        state: directory
+
+    - name: Download & extract Consul CNI plugin package
+      ansible.builtin.unarchive:
+        src: "{{ consul_cni_source }}"
+        dest: /usr/local/src/consul-cni/{{ consul_cni_version }}
+        creates: /usr/local/src/consul-cni/{{ consul_cni_version }}/LICENSE
+        remote_src: true
+
+    - name: Link Consul CNI binary
+      ansible.builtin.file:
+        src: /usr/local/src/consul-cni/{{ consul_cni_version }}/consul-cni
+        dest: /opt/cni/bin/consul-cni
+        state: link
+        force: true

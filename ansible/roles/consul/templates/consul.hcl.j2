@@ -19,9 +19,11 @@ ui_config {
 }
 
 ports {
-  dns   = 8600
-  http  = 8500
-  https = {{ 8501 if consul_tls_enabled else -1 }}
+  dns      = 8600
+  http     = {{ -1 if consul_tls_enabled else 8500 }}
+  https    = {{ 8501 if consul_tls_enabled else -1 }}
+  grpc     = {{ -1 if consul_tls_enabled else 8502 }}
+  grpc_tls = {{ 8503 if consul_tls_enabled else -1 }}
 }
 
 {% if consul_tls_enabled %}
@@ -34,6 +36,10 @@ tls {
     verify_incoming        = true
     verify_outgoing        = true
     verify_server_hostname = true
+  }
+
+  grpc {
+    verify_incoming = false
   }
 }
 {% endif %}
