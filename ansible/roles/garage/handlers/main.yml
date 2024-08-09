@@ -22,3 +22,8 @@
   ansible.builtin.systemd_service:
     name: garage
     state: started
+
+- name: Reload Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    state: reloaded

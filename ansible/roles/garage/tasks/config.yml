@@ -8,5 +8,14 @@
     mode: "0644"
   notify: Restart Garage
 
+- name: Copy Consul service
+  ansible.builtin.template:
+    src: garage.hcl.j2
+    dest: /etc/consul.d/garage.hcl
+    owner: consul
+    group: consul
+    mode: "0644"
+  notify: Reload Consul
+
 - name: Ensure handlers to run
   ansible.builtin.meta: flush_handlers
