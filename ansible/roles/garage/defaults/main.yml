@@ -25,3 +25,15 @@ garage_api_root_domain: .s3.garage
 
 # Specifies the optional suffix appended to bucket names for the corresponding HTTP Host.
 garage_web_root_domain: .web.garage
+
+# Consul tags to set on API service.
+garage_consul_api_tags: []
+
+# Consul tags to set on RPC service.
+garage_consul_rpc_tags: []
+
+# Consul tags to set on Web service.
+garage_consul_web_tags: []
+
+# Consul tags to set on Admin service.
+garage_consul_admin_tags: []

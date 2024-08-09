@@ -1,0 +1,53 @@
+{% macro check(service) -%}
+check = {
+  id = "garage-{{ service }}-check"
+  name = "Health endpoint"
+  http = "http://{{ tailscale_ip.stdout }}:3903/health"
+  interval = "30s"
+  timeout = "5s"
+}
+{%- endmacro -%}
+
+services {
+  id   = "garage-api"
+  name = "garage"
+  tags = {{ garage_consul_api_tags | to_json }}
+
+  address = "{{ tailscale_ip.stdout }}"
+  port    = 3900
+
+  {{ check('api') }}
+}
+
+services {
+  id   = "garage-rpc"
+  name = "garage"
+  tags = {{ garage_consul_rpc_tags | to_json }}
+
+  address = "{{ tailscale_ip.stdout }}"
+  port    = 3901
+
+  {{ check('rpc') }}
+}
+
+services {
+  id   = "garage-web"
+  name = "garage"
+  tags = {{ garage_consul_web_tags | to_json }}
+
+  address = "{{ tailscale_ip.stdout }}"
+  port    = 3902
+
+  {{ check('web') }}
+}
+
+services {
+  id   = "garage-admin"
+  name = "garage"
+  tags = {{ garage_consul_admin_tags | to_json }}
+
+  address = "{{ tailscale_ip.stdout }}"
+  port    = 3903
+
+  {{ check('admin') }}
+}
