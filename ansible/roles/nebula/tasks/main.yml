@@ -1,0 +1,9 @@
+---
+- name: Install Nebula
+  ansible.builtin.import_tasks: install.yml
+
+- name: Configure Nebula certificates
+  ansible.builtin.import_tasks: cert.yml
+
+- name: Configure Nebula
+  ansible.builtin.import_tasks: config.yml

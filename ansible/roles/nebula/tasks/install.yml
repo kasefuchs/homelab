@@ -1,0 +1,62 @@
+---
+- name: Create Nebula system profile
+  block:
+    - name: Create Nebula group
+      ansible.builtin.group:
+        name: nebula
+        state: present
+
+    - name: Create Nebula user
+      ansible.builtin.user:
+        name: nebula
+        group: nebula
+        system: true
+
+- name: Install Nebula binary
+  block:
+    - name: Detect Nebula architecture
+      ansible.builtin.set_fact:
+        nebula_architecture: "{{ nebula_architectures[ansible_architecture] }}"
+
+    - name: Create Nebula package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/nebula/{{ nebula_version }}
+        state: directory
+
+    - name: Download & extract Nebula package
+      ansible.builtin.unarchive:
+        src: "{{ nebula_source }}"
+        dest: /usr/local/src/nebula/{{ nebula_version }}
+        creates: /usr/local/src/nebula/{{ nebula_version }}/nebula
+        remote_src: true
+
+    - name: Link Nebula binary
+      ansible.builtin.file:
+        src: /usr/local/src/nebula/{{ nebula_version }}/nebula
+        dest: /usr/local/bin/nebula
+        state: link
+        force: true
+
+- name: Create Nebula config directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: /etc/nebula.d
+    state: directory
+    owner: nebula
+    group: nebula
+
+- name: Install Nebula service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: nebula.service.j2
+    dest: /etc/systemd/system/nebula.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable Nebula
+  ansible.builtin.systemd_service:
+    name: nebula
+    enabled: true
