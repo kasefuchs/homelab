@@ -1,10 +1,6 @@
 ---
-- name: Ensure US locale exists
+- name: Ensure locale exists
   community.general.locale_gen:
-    name: en_US.UTF-8
+    name: "{{ item }}"
     state: present
-
-- name: Ensure RU locale exists
-  community.general.locale_gen:
-    name: ru_RU.UTF-8
-    state: present
+  loop: "{{ node_locales }}"

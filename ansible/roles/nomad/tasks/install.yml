@@ -18,6 +18,11 @@
     nomad_user: "{{ 'root' if nomad_client else 'nomad' }}"
     nomad_group: "{{ 'root' if nomad_client else 'nomad' }}"
 
+- name: Install DMIDecode
+  ansible.builtin.package:
+    name: dmidecode
+    state: present
+
 - name: Install Nomad binary
   block:
     - name: Detect Nomad architecture

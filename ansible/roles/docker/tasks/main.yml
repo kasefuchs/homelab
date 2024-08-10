@@ -1,6 +1,6 @@
 ---
-- name: Collect Docker variables
-  ansible.builtin.import_tasks: collect.yml
+- name: Install Docker
+  ansible.builtin.import_tasks: install.yml
 
 - name: Configure Docker daemon
   ansible.builtin.import_tasks: config.yml
