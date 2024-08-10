@@ -1,6 +1,0 @@
----
-- name: Install Tailscale
-  ansible.builtin.import_tasks: install.yml
-
-- name: Login Tailscale
-  ansible.builtin.import_tasks: login.yml

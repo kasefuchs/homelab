@@ -17,7 +17,6 @@ You must have the following software installed on your system:
 
 - [:simple-ansible: Ansible](https://www.ansible.com/)
 - [:simple-nomad: Nomad Pack](https://github.com/hashicorp/nomad-pack)
-- [:material-alpha-t-box: Tailscale](https://tailscale.com)
 
 ## :material-developer-board: Cluster Nodes
 
@@ -28,9 +27,3 @@ Also no one forbids to use VPS as nodes, for example to provide access from exte
 
 This project is only intended to work with [Debian 12](https://www.debian.org/releases/stable/releasenotes.ru.html),
 but it can also work with other distributions that use Debian as a base, such as [Ubuntu Server](https://ubuntu.com/download/server).
-
-### :material-access-point-network: Network Requirements
-
-The [Tailscale](https://tailscale.com) is used for communication between nodes,
-since all members of the network must be able to communicate with each other, so nodes must have access to the TUN/TAP interface.
-In addition, the nodes must have access to a TUN/TAP interface. In addition, nodes must be accessible to the controller node via SSH.

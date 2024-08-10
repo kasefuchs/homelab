@@ -6,4 +6,3 @@
     - role: nebula
     - role: coredns
     - role: docker
-    - role: tailscale

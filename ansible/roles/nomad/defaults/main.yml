@@ -35,6 +35,9 @@ nomad_consul_ui_url: null
 # Specifies whether the client metadata will include GeoIP data.
 nomad_meta_geoip_enabled: true
 
+# Endpoint from which to parse GeoIP data.
+nomad_meta_geoip_endpoint: https://ipinfo.io/json
+
 # Specifies which keys from GeoIP the client's metadata will include.
 nomad_meta_geoip_filter:
   - country
@@ -48,10 +51,6 @@ nomad_host_volumes: {}
 
 # Registers additional host networks with the node that can be selected when port mapping.
 nomad_host_networks:
-  # Tailscale network.
-  tailscale:
-    interface: tailscale0
-
   # Nebula network.
   nebula:
     interface: nebula0

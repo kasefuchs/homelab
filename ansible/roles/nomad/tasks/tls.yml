@@ -40,7 +40,7 @@
           - --ca={{ role_path }}/files/nomad-agent-ca.pem
           - --key={{ role_path }}/files/nomad-agent-ca-key.pem
           - --region={{ nomad_region }}
-          - --additional-ipaddress={{ tailscale_ip.stdout }}
+          - --additional-ipaddress={{ nebula_ip | ansible.utils.ipaddr('address') }}
         chdir: "{{ role_path }}/files/{{ ansible_hostname }}"
         creates: "{{ role_path }}/files/{{ ansible_hostname }}/{{ nomad_region }}-server-nomad-key.pem"
 
@@ -59,7 +59,7 @@
           - --ca={{ role_path }}/files/nomad-agent-ca.pem
           - --key={{ role_path }}/files/nomad-agent-ca-key.pem
           - --region={{ nomad_region }}
-          - --additional-ipaddress={{ tailscale_ip.stdout }}
+          - --additional-ipaddress={{ nebula_ip | ansible.utils.ipaddr('address') }}
         chdir: "{{ role_path }}/files/{{ ansible_hostname }}"
         creates: "{{ role_path }}/files/{{ ansible_hostname }}/{{ nomad_region }}-client-nomad-key.pem"
 

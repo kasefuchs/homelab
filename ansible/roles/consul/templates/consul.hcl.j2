@@ -3,14 +3,14 @@ data_dir = "{{ consul_data_dir }}"
 node_name  = "{{ ansible_hostname }}"
 datacenter = "{{ consul_datacenter }}"
 
-bind_addr   = "{{ tailscale_ip.stdout }}"
-client_addr = "{{ tailscale_ip.stdout }}"
+bind_addr   = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
+client_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
 
 addresses {
   dns = "127.0.0.1"
 }
 
-retry_join = {{ hostvars | community.general.json_query('* | [?consul_server].tailscale_ip.stdout') | ansible.builtin.to_json }}
+retry_join = {{ hostvars | community.general.json_query('* | [?consul_server].nebula_ip') | ansible.utils.ipaddr('address') | ansible.builtin.to_json }}
 
 encrypt = "{{ consul_encrypt | default('') }}"
 

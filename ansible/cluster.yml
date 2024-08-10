@@ -2,6 +2,5 @@
   hosts: all
   become: true
   roles:
-    - role: collect
     - role: consul
     - role: nomad

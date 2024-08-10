@@ -3,7 +3,7 @@ server {
   bootstrap_expect = {{ hostvars | community.general.json_query('*.nomad_server') | select | length }}
 
   server_join {
-    retry_join = {{ hostvars | community.general.json_query('* | [?nomad_server].tailscale_ip.stdout') | ansible.builtin.to_json }}
+    retry_join = {{ hostvars | community.general.json_query('* | [?nomad_server].nebula_ip') | ansible.utils.ipaddr('address') | ansible.builtin.to_json }}
   }
 
   encrypt = "{{ nomad_encrypt | default('') }}"

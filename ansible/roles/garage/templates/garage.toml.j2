@@ -6,19 +6,19 @@ data_dir = "{{ garage_data_dir }}"
 metadata_auto_snapshot_interval = "6h"
 
 rpc_secret = "{{ garage_rpc_secret }}"
-rpc_bind_addr = "{{ tailscale_ip.stdout }}:3901"
-rpc_public_addr = "{{ tailscale_ip.stdout }}:3901"
+rpc_bind_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:3901"
+rpc_public_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:3901"
 
 [s3_api]
-api_bind_addr = "{{ tailscale_ip.stdout }}:3900"
+api_bind_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:3900"
 root_domain = "{{ garage_api_root_domain }}"
 s3_region = "{{ garage_api_s3_region }}"
 
 [s3_web]
-bind_addr = "{{ tailscale_ip.stdout }}:3902"
+bind_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:3902"
 root_domain = "{{ garage_web_root_domain }}"
 
 [admin]
-api_bind_addr = "{{ tailscale_ip.stdout }}:3903"
+api_bind_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:3903"
 metrics_token = "{{ garage_metrics_token }}"
 admin_token = "{{ garage_admin_token }}"
