@@ -1,0 +1,66 @@
+---
+- name: Generate Nebula certificates
+  block:
+  - name: Generate Nebula CA
+    vars:
+      ansible_become: false
+    run_once: true
+    delegate_to: localhost
+    ansible.builtin.command:
+      argv:
+        - nebula-cert
+        - ca
+        - -ips={{ nebula_ca_ips | join(',') }}
+        - -name={{ nebula_ca_name }}
+      chdir: "{{ role_path }}/files"
+      creates: "{{ role_path }}/files/ca.crt"
+
+  - name: Generate Nebula node certificates
+    vars:
+      ansible_become: false
+    delegate_to: localhost
+    ansible.builtin.command:
+      argv:
+        - nebula-cert
+        - sign
+        - -ip={{ nebula_ip }}
+        - -name={{ ansible_hostname }}
+      chdir: "{{ role_path }}/files"
+      creates: "{{ role_path }}/files/{{ ansible_hostname }}.crt"
+
+- name: Copy Nebula certificates
+  block:
+    - name: Create Nebula certificates directory
+      ansible.builtin.file:
+        path: /etc/nebula.d/certificates
+        state: directory
+        mode: "0755"
+        owner: nebula
+        group: nebula
+
+    - name: Copy Nebula public Certification Authority
+      ansible.builtin.copy:
+        src: "{{ role_path }}/files/ca.crt"
+        dest: /etc/nebula.d/certificates/ca.crt
+        mode: "0644"
+        owner: nebula
+        group: nebula
+
+    - name: Copy Nebula node certificates
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        mode: "{{ item.mode }}"
+        dest: "{{ item.dest }}"
+        owner: nebula
+        group: nebula
+      loop:
+        - src: "{{ role_path }}/files/{{ ansible_hostname }}.crt"
+          dest: /etc/nebula.d/certificates/node.crt
+          mode: "0644"
+          name: Public Key
+        - src: "{{ role_path }}/files/{{ ansible_hostname }}.key"
+          dest: /etc/nebula.d/certificates/node.key
+          mode: "0600"
+          name: Private Key
+      loop_control:
+        label: "{{ item.name }}"

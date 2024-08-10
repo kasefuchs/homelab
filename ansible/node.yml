@@ -6,4 +6,5 @@
     - role: apt
     - role: coredns
     - role: docker
+    - role: nebula
     - role: tailscale

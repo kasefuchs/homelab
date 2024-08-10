@@ -1,0 +1,24 @@
+---
+pki:
+  ca: /etc/nebula.d/certificates/ca.crt
+  cert: /etc/nebula.d/certificates/node.crt
+  key: /etc/nebula.d/certificates/node.key
+  disconnect_invalid: true
+
+static_host_map:
+{% for host in hostvars.values() if host.nebula_lighthouse | default(False) %}
+  "{{ host.nebula_ip | ansible.utils.ipaddr('address') }}": ["{{ host.ansible_host }}:4242"]
+{% endfor %}
+
+lighthouse:
+  am_lighthouse: {{ nebula_lighthouse | lower }}
+  hosts: {{( [] if nebula_lighthouse else hostvars | community.general.json_query('* | [?nebula_lighthouse].nebula_ip') ) | ansible.utils.ipaddr('address') | ansible.builtin.to_json }}
+
+listen:
+  host: 0.0.0.0
+  port: 4242
+
+{{ { "sshd": nebula_sshd } | ansible.builtin.to_yaml }}
+{{ { "tun": nebula_tun } | ansible.builtin.to_yaml }}
+{{ { "logging": nebula_logging } | ansible.builtin.to_yaml }}
+{{ { "firewall": nebula_firewall } | ansible.builtin.to_yaml }}
