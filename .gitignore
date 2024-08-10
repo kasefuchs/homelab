@@ -18,3 +18,4 @@ docs/build/
 *.p12
 *.crt
 *.key
+*.pub

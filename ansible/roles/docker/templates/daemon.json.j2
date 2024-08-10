@@ -3,8 +3,6 @@
     "max-size": "10m",
     "max-file": "3"
   },
-  "dns": [
-    "{{ docker_bridge_gateway_ip }}"
-  ],
+  "dns": ["172.17.0.1"],
   "registry-mirrors": {{ docker_registry_mirrors | ansible.builtin.to_json }}
 }

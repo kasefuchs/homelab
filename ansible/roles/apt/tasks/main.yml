@@ -1,9 +1,0 @@
----
-- name: Import repositories
-  ansible.builtin.import_tasks: repository.yml
-
-- name: Install packages
-  ansible.builtin.import_tasks: install.yml
-
-- name: Remove packages
-  ansible.builtin.import_tasks: remove.yml

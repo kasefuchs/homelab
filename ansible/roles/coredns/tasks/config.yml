@@ -1,4 +1,14 @@
 ---
+- name: Copy CoreDNS zone files
+  ansible.builtin.template:
+    src: "{{ item }}.zone.j2"
+    dest: /etc/coredns.d/{{ item }}.zone
+    owner: coredns
+    group: coredns
+    mode: "0644"
+  loop:
+    - internal
+
 - name: Copy CoreDNS configuration
   ansible.builtin.template:
     src: Corefile.j2

@@ -52,6 +52,10 @@ nomad_host_networks:
   tailscale:
     interface: tailscale0
 
+  # Nebula network.
+  nebula:
+    interface: nebula0
+
   # Local network.
   localhost:
     interface: lo

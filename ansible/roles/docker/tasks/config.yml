@@ -8,11 +8,5 @@
     owner: root
     group: root
 
-- name: Log into Docker registries
-  community.docker.docker_login:
-    registry: "{{ item.registry }}"
-    username: "{{ item.username }}"
-    password: "{{ item.password }}"
-  loop: "{{ docker_registry_credentials }}"
-  loop_control:
-    label: "{{ item.registry }}"
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
