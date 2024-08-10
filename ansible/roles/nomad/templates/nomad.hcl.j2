@@ -3,10 +3,10 @@ data_dir = "{{ nomad_data_dir }}"
 datacenter = "{{ nomad_datacenter }}"
 region     = "{{ nomad_region }}"
 
-bind_addr = "{{ tailscale_ip.stdout }}"
+bind_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
 
 consul {
-  address = "{{ tailscale_ip.stdout }}:{{ 8501 if consul_tls_enabled else 8500 }}"
+  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ 8501 if consul_tls_enabled else 8500 }}"
 
 {% if consul_tls_enabled %}
   ssl       = true

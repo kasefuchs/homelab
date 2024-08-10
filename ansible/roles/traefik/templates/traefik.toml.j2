@@ -9,17 +9,17 @@ asDefault = {{ config.asDefault | default(False) | lower }}
 {% endfor %}
 
 [providers.consul]
-endpoints = ["{{ tailscale_ip.stdout }}:{{ 8501 if consul_tls_enabled else 8500 }}"]
+endpoints = ["{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ 8501 if consul_tls_enabled else 8500 }}"]
 
 [providers.consulCatalog]
 exposedByDefault = false
 
 [providers.nomad.endpoint]
-address = "{{ "https" if nomad_tls_enabled else "http" }}://{{ tailscale_ip.stdout }}:4646"
+address = "{{ "https" if nomad_tls_enabled else "http" }}://{{ nebula_ip | ansible.utils.ipaddr('address') }}:4646"
 
 [providers.consulCatalog.endpoint]
 scheme = "{{ "https" if consul_tls_enabled else "http" }}"
-address = "{{ tailscale_ip.stdout }}:{{ 8501 if consul_tls_enabled else 8500 }}"
+address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ 8501 if consul_tls_enabled else 8500 }}"
 
 {% if consul_tls_enabled %}
 [providers.consul.tls]

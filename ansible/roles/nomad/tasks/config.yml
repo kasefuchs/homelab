@@ -1,4 +1,13 @@
 ---
+- name: Get Nomad node GeoIP information
+  ansible.builtin.uri:
+    url: "{{ nomad_meta_geoip_endpoint }}"
+    headers:
+      Accept: application/json
+    return_content: true
+  when: nomad_meta_geoip_enabled | bool
+  register: nomad_geoip_data
+
 - name: Copy Nomad config files
   notify: Restart Nomad
   block:

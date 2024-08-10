@@ -2,7 +2,7 @@
 check = {
   id = "garage-{{ service }}-check"
   name = "Health endpoint"
-  http = "http://{{ tailscale_ip.stdout }}:3903/health"
+  http = "http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:3903/health"
   interval = "30s"
   timeout = "5s"
 }
@@ -13,7 +13,7 @@ services {
   name = "garage"
   tags = {{ garage_consul_api_tags | to_json }}
 
-  address = "{{ tailscale_ip.stdout }}"
+  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
   port    = 3900
 
   {{ check('api') }}
@@ -24,7 +24,7 @@ services {
   name = "garage"
   tags = {{ garage_consul_rpc_tags | to_json }}
 
-  address = "{{ tailscale_ip.stdout }}"
+  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
   port    = 3901
 
   {{ check('rpc') }}
@@ -35,7 +35,7 @@ services {
   name = "garage"
   tags = {{ garage_consul_web_tags | to_json }}
 
-  address = "{{ tailscale_ip.stdout }}"
+  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
   port    = 3902
 
   {{ check('web') }}
@@ -46,7 +46,7 @@ services {
   name = "garage"
   tags = {{ garage_consul_admin_tags | to_json }}
 
-  address = "{{ tailscale_ip.stdout }}"
+  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
   port    = 3903
 
   {{ check('admin') }}

@@ -17,7 +17,6 @@ title: Необходимое
 
 - [:simple-ansible: Ansible](https://www.ansible.com/)
 - [:simple-nomad: Nomad Pack](https://github.com/hashicorp/nomad-pack)
-- [:material-alpha-t-box: Tailscale](https://tailscale.com)
 
 ## :material-developer-board: Узлы кластера
 
@@ -28,8 +27,3 @@ title: Необходимое
 
 Данный проект предназначен только для работы с [Debian 12](https://www.debian.org/releases/stable/releasenotes.ru.html),
 но он также может работать с другими дистрибутивами, использующими Debian в качестве основы, например [Ubuntu Server](https://ubuntu.com/download/server).
-
-### :material-access-point-network: Требования к сети
-
-Для связи между узлами используется [Tailscale](https://tailscale.com), ибо все участники сети должны иметь возможность взаимодействовать друг с другом,
-поэтому узлы должны иметь доступ к TUN/TAP интерфейсу. Кроме того, узлы должны быть доступны узлу-контроллеру посредством SSH.
