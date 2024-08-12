@@ -1,0 +1,29 @@
+---
+- name: Reload Systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Enable NATS server
+  ansible.builtin.systemd_service:
+    name: nats-server
+    enabled: true
+
+- name: Reload NATS server
+  ansible.builtin.systemd_service:
+    name: nats-server
+    state: reloaded
+
+- name: Restart NATS server
+  ansible.builtin.systemd_service:
+    name: nats-server
+    state: restarted
+
+- name: Start NATS server
+  ansible.builtin.systemd_service:
+    name: nats-server
+    state: started
+
+- name: Reload Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    state: reloaded

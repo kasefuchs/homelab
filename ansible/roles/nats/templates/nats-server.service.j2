@@ -1,0 +1,18 @@
+[Unit]
+Description="NATS - A data layer for cloud native applications."
+Documentation="https://docs.nats.io/"
+BindsTo=nebula.service
+
+[Service]
+Type=simple
+User=nats
+Group=nats
+ExecStart=/usr/local/bin/nats-server -c /etc/nats.d/server.conf
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s SIGINT $MAINPID
+KillMode=process
+KillSignal=SIGUSR2
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

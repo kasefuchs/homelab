@@ -1,0 +1,27 @@
+---
+# NATS version to download.
+nats_version: 2.10.18
+
+# URL to download NATS archive from.
+nats_source: https://github.com/nats-io/nats-server/releases/download/v{{ nats_version }}/nats-server-v{{ nats_version }}-linux-{{ nats_architecture }}.tar.gz
+
+# Nats server cluster name.
+nats_cluster_name: muttias
+
+# User that used for authorization within cluster.
+nats_cluster_authorization_user: cluster
+
+# Password that used for authorization within cluster.
+nats_cluster_authorization_password: muttias
+
+# Directory in which store jetstream data.
+nats_jetstream_store_dir: /opt/nats/jetstream
+
+# Consul http service tags.
+nats_consul_http_tags: []
+
+# Consul cluster service tags.
+nats_consul_cluster_tags: []
+
+# Consul client service tags.
+nats_consul_client_tags: []
