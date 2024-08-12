@@ -3,7 +3,7 @@
 nomad_version: 1.8.2
 
 # URL to download Nomad archive from.
-nomad_source: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ consul_architecture }}.zip
+nomad_source: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ nomad_architecture }}.zip
 
 # Specifies a local directory used to store agent state.
 nomad_data_dir: /opt/nomad/data

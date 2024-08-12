@@ -1,0 +1,72 @@
+---
+- name: Create NATS system profile
+  block:
+    - name: Create NATS group
+      ansible.builtin.group:
+        name: nats
+        state: present
+
+    - name: Create NATS user
+      ansible.builtin.user:
+        name: nats
+        group: nats
+        system: true
+
+- name: Install NATS server binary
+  block:
+    - name: Detect NATS server architecture
+      ansible.builtin.set_fact:
+        nats_architecture: "{{ nats_architectures[ansible_architecture] }}"
+
+    - name: Create NATS server package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/nats/{{ nats_version }}
+        state: directory
+
+    - name: Download & extract NATS server package
+      ansible.builtin.unarchive:
+        src: "{{ nats_source }}"
+        dest: /usr/local/src/nats/{{ nats_version }}
+        creates: /usr/local/src/nats/{{ nats_version }}/nats
+        remote_src: true
+        extra_opts: ['--strip-components=1', '--show-stored-names']
+
+    - name: Link NATS server binary
+      ansible.builtin.file:
+        src: /usr/local/src/nats/{{ nats_version }}/nats-server
+        dest: /usr/local/bin/nats-server
+        state: link
+        force: true
+
+- name: Create NATS directories
+  ansible.builtin.file:
+    mode: "{{ item.mode }}"
+    path: "{{ item.path }}"
+    owner: nats
+    group: nats
+    state: directory
+  loop:
+    - name: NATS config
+      path: /etc/nats.d
+      mode: "0755"
+    - name: NATS JetStream data
+      path: "{{ nats_jetstream_store_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Install NATS server service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: nats-server.service.j2
+    dest: /etc/systemd/system/nats-server.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable NATS server
+  ansible.builtin.systemd_service:
+    name: nats-server
+    enabled: true
