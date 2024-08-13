@@ -1,10 +1,8 @@
 job [[ template "job_name" . ]] {
-  type = "service"
-
   [[ template "datacenters" . ]]
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
-
+  
   group "servers" {
     [[ $service := var "service" . -]]
 
@@ -14,16 +12,15 @@ job [[ template "job_name" . ]] {
       [[ template "port" $service ]]
     }
 
-    task "prometheus" {
+    task "miniflux" {
       driver = "docker"
 
       config {
-        image   = "prom/prometheus:v2.53.1"
-        args    = [
-          "--config.file=${NOMAD_SECRETS_DIR}/config/prometheus.yml",
-          "--web.listen-address=0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
-        ]
-        ports   = [[ list $service.port | toStringList ]]
+        image = [[ var "docker_image" . | quote ]]
+        ports = [[ list $service.port | toStringList ]]
+
+        entrypoint = ["/usr/bin/miniflux"]
+        args       = ["-config-file=${NOMAD_SECRETS_DIR}/config/miniflux.ini"]
       }
 
       template {
@@ -31,10 +28,12 @@ job [[ template "job_name" . ]] {
 [[ var "config" . ]]
         EOH
 
-        change_mode   = "signal"
-        change_signal = "SIGHUP"
+        destination = "${NOMAD_SECRETS_DIR}/config/miniflux.ini"
+      }
 
-        destination = "${NOMAD_SECRETS_DIR}/config/prometheus.yml"
+      env {
+        PORT           = "${NOMAD_PORT_[[ $service.port ]]}"
+        RUN_MIGRATIONS = "1"
       }
 
       [[ template "resources" var "resources" . ]]
