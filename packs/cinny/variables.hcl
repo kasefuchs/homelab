@@ -61,7 +61,7 @@ variable "resources" {
 variable "artifact_source" {
   description = "URL of compiled Cinny artifact."
   type        = string
-  default     = "https://github.com/cinnyapp/cinny/releases/download/v3.2.0/cinny-v3.2.0.tar.gz"
+  default     = "https://github.com/cinnyapp/cinny/releases/download/v4.1.0/cinny-v4.1.0.tar.gz"
 }
 
 variable "config" {
