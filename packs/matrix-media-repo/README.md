@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://matrix-org.github.io/dendrite/" rel="noopener">
-  <img width=192px src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Matrix_icon_%28white%29.svg" alt="Dendrite logo"></a>
+  <a href="https://github.com/t2bot/matrix-media-repo/" rel="noopener">
+  <img width=192px src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Matrix_icon_%28white%29.svg" alt="Matrix Media Repo logo"></a>
 </p>
 
-<h3 align="center">Dendrite Nomad Pack</h3>
+<h3 align="center">Matrix Media Repo Nomad Pack</h3>
 
 <div align="center">
 
@@ -14,7 +14,7 @@
 
 ---
 
-<p align="center"> Nomad Pack used to automatically deploy Dendrite within a Nomad cluster.
+<p align="center"> Nomad Pack used to automatically deploy Matrix Media Repo within a Nomad cluster.
     <br> 
 </p>
 
@@ -27,7 +27,7 @@
 
 ## 🧐 About <a name = "about"></a>
 
-This Pack contains everything needed to deploy Dendrite on a Nomad cluster. It uses the Docker driver.
+This Pack contains everything needed to deploy Matrix Media Repo on a Nomad cluster. It uses the Docker driver.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
@@ -48,16 +48,15 @@ How to deploy this Nomad Pack? Pretty simple!
 
 All variables that you can override in this Nomad Pack.
 
-- "region" (string) - The region where jobs will be deployed.
+- "count" (number) - The number of application instances to deploy.
+- "config" (string) - Matrix media repo configuration in YAML format.
+- "job_name" (string) - The name to use as the job name which overrides using the pack name.
 - "datacenters" (list of string) - A list of datacenters in the region which are eligible for task placement.
 - "resources" (object) - The resource to assign to the application.
+- "docker_image" (string) - Docker image of application to deploy.
+- "region" (string) - The region where jobs will be deployed.
 - "constraints" (list of object) - Additional constraints to apply to the job.
 - "service" (object) - Specifies integrations with Nomad or Consul for service discovery.
-- "matrix_key" (string) - Matrix private key in PEM format.
-- "job_name" (string) - The name to use as the job name which overrides using the pack name.
-- "docker_image" (string) - Docker image of application to deploy.
-- "count" (number) - The number of application instances to deploy.
-- "config" (string) - Dendrite configuration in YAML format.
 
 ### Install
 
@@ -67,49 +66,47 @@ To install this Nomad Pack to a configured Nomad Cluster:
 
 ```hcl
 service = {
-  name         = "dendrite"
+  name         = "matrix-media-repo"
   port         = "server"
   provider     = "consul"
   host_network = "localhost"
   tags         = [
     "traefik.enable=true",
-    "traefik.http.routers.dendrite.priority=10",
-    "traefik.http.routers.dendrite.rule=Host(`dendrite.example.com`)"
+    "traefik.http.routers.matrix-media-repo.priority=20",
+    "traefik.http.routers.matrix-media-repo.rule=Host(`dendrite.example.com`) && PathPrefix(`/_matrix/media`)"
   ]
 }
 
-matrix_key = <<EOH
------BEGIN MATRIX PRIVATE KEY-----
-Key-ID: ed25519:9843799b
-
-5dce4c1b3e79cf6efc5cfc9e09679bf7
------END MATRIX PRIVATE KEY-----
-EOH
-
 config = <<EOH
 ---
-version: 2
+repo:
+  bindAddress: '0.0.0.0'
+  port: {{ env "REPO_BIND_PORT" }}
 
-global:
-  server_name: dendrite.example.com
+database:
+  postgres: "postgres://matrix-media-repo:matrix-media-repo@postgres.service.consul:5432/matrix-media-repo?sslmode=disable"
 
-  private_key: {{ env "MATRIX_PRIVATE_KEY" }}
+homeservers:
+  - name: dendrite.example.com
+    csApi: "https://dendrite.example.com/"
+    adminApiKind: "dendrite"
 
-  database:
-    connection_string: postgresql://dendrite:dendrite@postgres.service.consul/dendrite?sslmode=disable
-
-  well_known_server_name: "dendrite.example.com:443"
-  well_known_client_name: "https://dendrite.example.com"
-
-  jetstream:
-    topic_prefix: Dendrite
-    addresses:
-{{ range service "client.nats" }}
-      - {{ .Address }}:{{ .Port }}
-{{ end }}
-
-media_api:
-  base_path: {{ env "NOMAD_ALLOC_DIR" }}/tmp
+datastores:
+  - type: s3
+    id: garage
+    forKinds:
+      - thumbnails
+      - remote_media
+      - local_media
+      - archives
+    opts:
+      tempPath: {{ env "NOMAD_ALLOC_DIR" }}/tmp
+      endpoint: api.garage.service.consul:3900
+      accessKeyId: GKd4ffb7839e02a94b
+      accessSecret: d7c56c6a7c153e44ba236d577f61a8c547fdd70a7b3dfd4f737fad9811e8d690
+      ssl: false
+      bucketName: matrix-media-repo
+      region: us-east-1
 EOH
 ```
 
