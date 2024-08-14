@@ -5,5 +5,5 @@ app {
 pack {
   name        = "grafana"
   description = "Grafana is the open source analytics & monitoring solution for every database."
-  version     = "11.1.3"
+  version     = "1.0.0"
 }

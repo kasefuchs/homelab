@@ -16,7 +16,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "grafana/grafana-oss:11.1.3"
+        image   = [[ var "docker_image" . | quote ]]
         ports   = [[ list $service.port | toStringList ]]
       }
 

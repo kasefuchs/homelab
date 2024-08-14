@@ -64,3 +64,8 @@ variable "environment" {
   default     = {}
 }
 
+variable "docker_image" {
+  description = "Docker image of application to deploy."
+  type        = string
+  default     = "ghcr.io/usememos/memos:latest"
+}

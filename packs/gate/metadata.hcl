@@ -5,5 +5,5 @@ app {
 pack {
   name        = "gate"
   description = "The Lightweight Minecraft Proxy."
-  version     = "latest"
+  version     = "1.0.0"
 }

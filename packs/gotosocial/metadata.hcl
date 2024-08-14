@@ -5,5 +5,5 @@ app {
 pack {
   name        = "gotosocial"
   description = "ActivityPub social network server, written in Golang."
-  version     = "0.16.0"
+  version     = "1.0.0"
 }
