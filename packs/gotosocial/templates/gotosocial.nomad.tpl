@@ -18,7 +18,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "superseriousbusiness/gotosocial:0.16.0"
+        image   = [[ var "docker_image" . | quote ]]
         args    = [
           "--config-path", "${NOMAD_SECRETS_DIR}/config.yaml",
           "--port", "${NOMAD_PORT_[[ $service.port ]]}",

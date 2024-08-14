@@ -5,5 +5,5 @@ app {
 pack {
   name        = "memos"
   description = "A privacy-first, lightweight note-taking service."
-  version     = "0.22.3"
+  version     = "1.0.0"
 }

@@ -64,6 +64,12 @@ variable "config" {
   default     = ""
 }
 
+variable "docker_image" {
+  description = "Docker image of application to deploy."
+  type        = string
+  default     = "grafana/grafana-oss:latest"
+}
+
 variable "provisioning" {
   description = "Grafana provisioning config list in YAML format."
   type = list(object({

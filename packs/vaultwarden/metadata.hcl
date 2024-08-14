@@ -5,5 +5,5 @@ app {
 pack {
   name        = "vaultwarden"
   description = "Unofficial Bitwarden compatible server written in Rust."
-  version     = "1.30.5"
+  version     = "1.0.0"
 }

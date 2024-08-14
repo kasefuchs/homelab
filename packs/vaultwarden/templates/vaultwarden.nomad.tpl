@@ -18,7 +18,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "vaultwarden/server:1.30.5-alpine"
+        image   = [[ var "docker_image" . | quote ]]
         ports   = [[ list $service.port | toStringList ]]
       }
 

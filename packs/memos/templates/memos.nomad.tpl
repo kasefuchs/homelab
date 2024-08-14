@@ -16,7 +16,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "ghcr.io/usememos/memos:0.22.3"
+        image   = [[ var "docker_image" . | quote ]]
         ports   = [[ list $service.port | toStringList ]]
       }
 

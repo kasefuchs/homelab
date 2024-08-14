@@ -80,3 +80,8 @@ variable "connect_token" {
   default     = ""
 }
 
+variable "docker_image" {
+  description = "Docker image of application to deploy."
+  type        = string
+  default     = "ghcr.io/minekube/gate:latest"
+}

@@ -18,7 +18,7 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image   = "ghcr.io/kasefuchs/gate:latest"
+        image   = [[ var "docker_image" . | quote ]]
         ports   = [[ list $service.port | toStringList ]]
       }
 
