@@ -8,6 +8,7 @@
     mode: "0644"
   loop:
     - internal
+  notify: Restart CoreDNS
 
 - name: Copy CoreDNS configuration
   ansible.builtin.template:
