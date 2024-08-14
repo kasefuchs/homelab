@@ -46,7 +46,6 @@ variable "service" {
     name         = string
     port         = string
     tags         = list(string)
-    connect      = bool
     provider     = string
     host_network = string
   })
@@ -54,10 +53,15 @@ variable "service" {
     name         = "prometheus"
     port         = "prometheus"
     tags         = []
-    connect      = true
     provider     = "consul"
     host_network = ""
   }
+}
+
+variable "docker_image" {
+  description = "Docker image of application to deploy."
+  type        = string
+  default     = "prom/prometheus:latest"
 }
 
 variable "config" {

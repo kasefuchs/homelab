@@ -27,11 +27,6 @@
       port     = [[ $service.port | quote ]]
       tags     = [[ $service.tags | toStringList ]]
       provider = [[ coalesce $service.provider "consul" | quote ]]
-[[- if $service.connect ]]
-      connect {
-        native = true
-      }
-[[- end ]]
     }
 [[- end -]]
 
