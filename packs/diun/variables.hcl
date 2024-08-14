@@ -40,6 +40,12 @@ variable "constraints" {
   default = []
 }
 
+variable "docker_image" {
+  description = "Docker image of application to deploy."
+  type        = string
+  default     = "crazymax/diun:latest"
+}
+
 variable "config" {
   description = "Diun config in YAML format."
   type        = string

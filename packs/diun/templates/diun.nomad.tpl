@@ -10,9 +10,12 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image    = "crazymax/diun:latest"
-        args     = ["serve", "--config", "${NOMAD_TASK_DIR}/config/diun.yml"]
+        image = "crazymax/diun:latest"
+
         hostname = "${attr.unique.hostname}"
+
+        entrypoint = ["/usr/local/bin/diun", "serve"]
+        args       = ["--config", "${NOMAD_TASK_DIR}/config/diun.yml"]
 
         mount {
           type = "bind"
