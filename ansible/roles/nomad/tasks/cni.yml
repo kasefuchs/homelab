@@ -62,7 +62,7 @@
       ansible.builtin.unarchive:
         src: "{{ consul_cni_source }}"
         dest: /usr/local/src/consul-cni/{{ consul_cni_version }}
-        creates: /usr/local/src/consul-cni/{{ consul_cni_version }}/LICENSE
+        creates: /usr/local/src/consul-cni/{{ consul_cni_version }}/LICENSE.txt
         remote_src: true
 
     - name: Link Consul CNI binary
