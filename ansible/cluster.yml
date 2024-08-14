@@ -1,3 +1,4 @@
+---
 - name: Bootstrap cluster
   hosts: all
   become: true

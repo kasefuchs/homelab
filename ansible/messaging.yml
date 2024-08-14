@@ -1,0 +1,6 @@
+---
+- name: Bootstrap messaging
+  hosts: all
+  become: true
+  roles:
+    - role: nats

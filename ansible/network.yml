@@ -1,6 +1,6 @@
+---
 - name: Bootstrap networking
   hosts: all
   become: true
   roles:
-    - role: nats
     - role: traefik
