@@ -25,6 +25,13 @@
           - docker-ce
           - containerd.io
 
+- name: Install Docker Engine (Arch-like)
+  when: ansible_os_family == "Archlinux"
+  block:
+    - name: Install Docker Engine
+      community.general.pacman:
+        name: docker
+
 - name: Enable Docker
   ansible.builtin.systemd_service:
     name: docker

@@ -1,4 +1,10 @@
 ---
+- name: Ensure docker config directory exists
+  ansible.builtin.file:
+    path: /etc/docker/
+    state: directory
+    mode: "0755"
+
 - name: Add Docker daemon config
   notify: Restart Docker
   ansible.builtin.template:
