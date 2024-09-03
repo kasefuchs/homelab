@@ -1,0 +1,3 @@
+[submodule "docker/wakapi/source"]
+	path = docker/wakapi/source
+	url = https://github.com/muety/wakapi
