@@ -58,14 +58,26 @@ variable "service" {
   }
 }
 
+variable "docker_image" {
+  description = "Docker image of application to deploy."
+  type        = string
+  default     = "ghcr.io/coder/coder:latest"
+}
+
+variable "terraformrc" {
+  description = "Terraform configuration in HCL format."
+  type        = string
+  default     = ""
+}
+
 variable "environment" {
   description = "Environment variables to pass to task."
   type        = map(string)
-  default = {}
+  default     = {}
 }
 
-variable "terraform_config" {
-  description = "Terraform configuration in HCL format."
+variable "dotenv" {
+  description = "Environment variables in dotenv format."
   type        = string
   default     = ""
 }
