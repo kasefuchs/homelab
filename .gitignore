@@ -6,6 +6,18 @@ inventories/
 .cache/
 docs/build/
 
+# ---> Terraform
+# Local .terraform directories
+.terraform/
+
+# .tfstate files
+.tfstate
+.tfstate.*
+
+# .tfvars files
+*.tfvars
+*.tfvars.json
+
 # ---> Custom
 # Integrated development environment
 .idea/
