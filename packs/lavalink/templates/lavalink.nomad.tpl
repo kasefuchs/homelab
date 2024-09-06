@@ -2,7 +2,7 @@ job [[ template "job_name" . ]] {
   [[ template "datacenters" . ]]
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
-  
+
   group "servers" {
     [[ $service := var "service" . -]]
 
@@ -13,16 +13,14 @@ job [[ template "job_name" . ]] {
     }
 
     task "lavalink" {
-      driver = "java"
+      driver = "docker"
 
       config {
-        jar_path = "${NOMAD_TASK_DIR}/application.jar"
-      }
+        image   = [[ var "docker_image" . | quote ]]
+        ports   = [[ list $service.port | toStringList ]]
 
-      artifact {
-        source      = [[ var "artifact_source" . | quote ]]
-        destination = "${NOMAD_TASK_DIR}/application.jar"
-        mode        = "file"
+        entrypoint = ["java", "-jar", "/opt/Lavalink/Lavalink.jar"]
+        args       = ["--spring.config.location=${NOMAD_SECRETS_DIR}/config/lavalink.yaml"]
       }
 
       template {
@@ -30,12 +28,12 @@ job [[ template "job_name" . ]] {
 [[ var "config" . ]]
         EOH
 
-        destination = "application.yml"
+        destination = "${NOMAD_SECRETS_DIR}/config/lavalink.yaml"
       }
 
       env {
+        SERVER_PORT    = "${NOMAD_PORT_[[ $service.port ]]}"
         SERVER_ADDRESS = "0.0.0.0"
-        SERVER_PORT    = "${NOMAD_HOST_PORT_[[ $service.port ]]}"
       }
 
       [[ template "resources" var "resources" . ]]

@@ -51,7 +51,7 @@ variable "service" {
   })
   default = {
     name         = "lavalink"
-    port         = "lavalink"
+    port         = "server"
     tags         = []
     provider     = "nomad"
     host_network = ""
@@ -61,16 +61,11 @@ variable "service" {
 variable "config" {
   description = "Lavalink configuration in YAML format."
   type        = string
-  default     = <<EOH
----
-lavalink:
-  server:
-    password: "youshallnotpass"
-  EOH
+  default     = ""
 }
 
-variable "artifact_source" {
-  description = "Lavalink artifact source."
+variable "docker_image" {
+  description = "Docker image of application to deploy."
   type        = string
-  default     = "https://github.com/lavalink-devs/Lavalink/releases/download/4.0.5/Lavalink.jar"
+  default     = "ghcr.io/lavalink-devs/lavalink:latest"
 }
