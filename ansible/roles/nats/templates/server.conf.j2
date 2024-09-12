@@ -2,6 +2,7 @@ host: "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
 port: 4222
 http: 8222
 
+max_payload: {{ nats_max_payload }}
 server_name: "{{ ansible_hostname }}"
 
 cluster {
