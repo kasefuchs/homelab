@@ -14,6 +14,9 @@ nats_cluster_authorization_user: cluster
 # Password that used for authorization within cluster.
 nats_cluster_authorization_password: muttias
 
+# Maximum number of bytes in a message payload.
+nats_max_payload: 8MB
+
 # Directory in which store jetstream data.
 nats_jetstream_store_dir: /opt/nats/jetstream
 
