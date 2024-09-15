@@ -35,6 +35,18 @@ variable "yandex_subnet_id" {
   description = "ID of the subnet to attach vm instances to."
 }
 
+variable "yandex_disk_image_id" {
+  type        = string
+  default     = "fd87h6ku2vhc7tmlekq4"
+  description = "Source image ID to use when creating the disk."
+}
+
+variable "vscode_web_extensions" {
+  type        = list(string)
+  default     = ["Dart-Code.dart-code", "HashiCorp.HCL", "HashiCorp.terraform", "WakaTime.vscode-wakatime", "antfu.browse-lite", "golang.Go", "ms-python.python", "redhat.vscode-yaml", "wholroyd.jinja"]
+  description = "A list of VS Code Web extensions to install."
+}
+
 provider "coder" {}
 
 provider "yandex" {
@@ -158,17 +170,6 @@ data "coder_parameter" "disk_size" {
   mutable = true
 }
 
-data "coder_parameter" "disk_image" {
-  icon         = "/emojis/1f4f8.png"
-  name         = "disk_image"
-  display_name = "Disk image"
-  description  = "Specifies the source image to use when creating the disk."
-
-  type    = "string"
-  default = "fd87h6ku2vhc7tmlekq4"
-  mutable = false
-}
-
 data "coder_workspace" "me" {}
 data "coder_workspace_owner" "me" {}
 
@@ -209,14 +210,42 @@ module "personalize" {
   source   = "registry.coder.com/modules/personalize/coder"
   version  = "1.0.2"
   agent_id = coder_agent.agent.id
+
   log_path = "/tmp/personalize.log"
 }
 
-module "code-server" {
-  source       = "registry.coder.com/modules/code-server/coder"
-  version      = "1.0.17"
-  agent_id     = coder_agent.agent.id
-  display_name = "VSCode Web"
+module "vscode-web" {
+  source   = "registry.coder.com/modules/vscode-web/coder"
+  version  = "1.0.14"
+  agent_id = coder_agent.agent.id
+
+  settings = {
+    "browse-lite.chromeExecutable" : "/usr/bin/chromium"
+  }
+
+  extensions     = var.vscode_web_extensions
+  accept_license = true
+}
+
+module "coder-login" {
+  source   = "registry.coder.com/modules/coder-login/coder"
+  version  = "1.0.15"
+  agent_id = coder_agent.agent.id
+}
+
+module "git-config" {
+  source   = "registry.coder.com/modules/git-config/coder"
+  version  = "1.0.15"
+  agent_id = coder_agent.agent.id
+
+  allow_email_change    = false
+  allow_username_change = false
+}
+
+module "git-commit-signing" {
+  source   = "registry.coder.com/modules/git-commit-signing/coder"
+  version  = "1.0.11"
+  agent_id = coder_agent.agent.id
 }
 
 resource "yandex_compute_disk" "disk" {
@@ -225,7 +254,7 @@ resource "yandex_compute_disk" "disk" {
 
   type     = data.coder_parameter.disk_type.value
   size     = data.coder_parameter.disk_size.value
-  image_id = data.coder_parameter.disk_image.value
+  image_id = var.yandex_disk_image_id
 }
 
 resource "yandex_compute_instance" "instance" {
