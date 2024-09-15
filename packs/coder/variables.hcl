@@ -23,7 +23,7 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 768,
+    cpu    = 384,
     memory = 768
   }
 }
