@@ -19,7 +19,7 @@ job [[ template "job_name" . ]] {
         image = [[ var "docker_image" . | quote ]]
         ports = [[ list $service.port | toStringList ]]
 
-        entrypoint = ["/wakapi"]
+        entrypoint = ["/app/wakapi"]
         args       = ["-config=${NOMAD_SECRETS_DIR}/config/wakapi.yaml"]
       }
 
