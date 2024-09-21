@@ -1,12 +1,13 @@
 {% macro check(service) -%}
-check = {
-  id = "garage-{{ service }}-check"
-  name = "Health endpoint"
-  http = "http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:3903/health"
-  interval = "30s"
-  timeout = "5s"
-}
-{%- endmacro -%}
+  check = {
+    id   = "garage-{{ service }}-check"
+    name = "Garage {{ service }} check script"
+    args = ["/bin/sh", "/etc/garage.d/check.sh"]
+
+    interval = "30s"
+    timeout  = "5s"
+  }
+{%- endmacro %}
 
 services {
   id   = "garage-api"

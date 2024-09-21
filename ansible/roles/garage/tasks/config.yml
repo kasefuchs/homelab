@@ -8,6 +8,14 @@
     mode: "0644"
   notify: Restart Garage
 
+- name: Copy Consul check script
+  ansible.builtin.template:
+    src: check.sh.j2
+    dest: /etc/garage.d/check.sh
+    owner: garage
+    group: garage
+    mode: "0755"
+
 - name: Copy Consul service
   ansible.builtin.template:
     src: garage.hcl.j2
