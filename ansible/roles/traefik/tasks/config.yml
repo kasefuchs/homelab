@@ -1,8 +1,8 @@
 ---
 - name: Copy Traefik configuration
   ansible.builtin.template:
-    src: traefik.toml.j2
-    dest: /etc/traefik.d/traefik.toml
+    src: traefik.yaml.j2
+    dest: /etc/traefik.d/traefik.yaml
     owner: traefik
     group: traefik
     mode: "0644"
