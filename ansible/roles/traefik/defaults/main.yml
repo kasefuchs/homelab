@@ -13,6 +13,12 @@ traefik_entrypoints:
   http:
     address: :80
     asDefault: true
+  https:
+    address: :443
+    asDefault: true
+
+# Specifies whether to expose containers by default through Traefik.
+traefik_expose_by_default: false
 
 # Specifies whether the Consul TLS encryption feature is enabled.
 consul_tls_enabled: true
