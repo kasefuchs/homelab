@@ -1,6 +1,6 @@
 ---
 # Traefik version to download.
-traefik_version: 3.1.1
+traefik_version: 3.1.4
 
 # URL to download Traefik archive from.
 traefik_source: https://github.com/traefik/traefik/releases/download/v{{ traefik_version }}/traefik_v{{ traefik_version }}_linux_{{ traefik_architecture }}.tar.gz
@@ -15,10 +15,15 @@ traefik_entrypoints:
     asDefault: true
   https:
     address: :443
-    asDefault: true
 
 # Specifies whether to expose containers by default through Traefik.
 traefik_expose_by_default: false
+
+# Specifies Traefik dynamic configuration.
+traefik_dynamic_configuration: {}
+
+# Specifies extra Traefik static configuration.
+traefik_static_configuration: {}
 
 # Specifies whether the Consul TLS encryption feature is enabled.
 consul_tls_enabled: true
