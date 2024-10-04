@@ -1,8 +1,16 @@
 ---
-- name: Copy Traefik configuration
+- name: Copy Traefik dynamic configuration
   ansible.builtin.template:
-    src: traefik.yaml.j2
-    dest: /etc/traefik.d/traefik.yaml
+    src: dynamic.yml.j2
+    dest: /etc/traefik.d/dynamic.yml
+    owner: traefik
+    group: traefik
+    mode: "0644"
+
+- name: Copy Traefik static configuration
+  ansible.builtin.template:
+    src: static.yml.j2
+    dest: /etc/traefik.d/static.yml
     owner: traefik
     group: traefik
     mode: "0644"

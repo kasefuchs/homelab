@@ -3,16 +3,14 @@ api:
   dashboard: {{ traefik_dashboard | lower }}
   disableDashboardAd: true
 
-entryPoints:
-{% for name, config in traefik_entrypoints.items() %}
-  {{ {name: config} | ansible.builtin.to_yaml }}
-{%- endfor %}
-
 providers:
+  file:
+    filename: '/etc/traefik.d/dynamic.yml'
+
   nomad:
     exposedByDefault: {{ traefik_expose_by_default | lower }}
     endpoint:
-      address: '{{ "https" if nomad_tls_enabled else "http" }}://{{ nebula_ip | ansible.utils.ipaddr("address") }}'
+      address: '{{ "https" if nomad_tls_enabled else "http" }}://{{ nebula_ip | ansible.utils.ipaddr("address") }}:4646'
       {% if nomad_tls_enabled -%}
       tls:
         ca: '/etc/traefik.d/certificates/nomad/ca.pem'
@@ -41,3 +39,12 @@ providers:
         key: '/etc/traefik.d/certificates/consul/cli.key'
         cert: '/etc/traefik.d/certificates/consul/cli.pem'
       {% endif %}
+
+entryPoints:
+{% for name, config in traefik_entrypoints.items() %}
+{{ {name: config} | ansible.builtin.to_nice_yaml(indent=2) | indent(width=2, first=True) }}
+{%- endfor %}
+
+{% if traefik_static_configuration not in ({}, None) %}
+{{ traefik_static_configuration | ansible.builtin.to_nice_yaml(indent=2) -}}
+{% endif %}

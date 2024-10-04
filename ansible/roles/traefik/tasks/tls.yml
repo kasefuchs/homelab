@@ -1,4 +1,22 @@
 ---
+- name: Copy custom certificates
+  block:
+    - name: Create custom certificates directory
+      ansible.builtin.file:
+        path: /etc/traefik.d/certificates/custom
+        state: directory
+        mode: "0755"
+        owner: traefik
+        group: traefik
+
+    - name: Copy custom certificates
+      ansible.builtin.copy:
+        src: "{{ role_path }}/files/certificates/"
+        dest: /etc/traefik.d/certificates/custom/
+        mode: "0644"
+        owner: traefik
+        group: traefik
+
 - name: Copy Consul certificates
   when: consul_tls_enabled | bool
   block:
