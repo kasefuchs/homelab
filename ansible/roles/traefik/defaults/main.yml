@@ -1,6 +1,6 @@
 ---
 # Traefik version to download.
-traefik_version: 3.1.4
+traefik_version: latest
 
 # URL to download Traefik archive from.
 traefik_source: https://github.com/traefik/traefik/releases/download/v{{ traefik_version }}/traefik_v{{ traefik_version }}_linux_{{ traefik_architecture }}.tar.gz

@@ -1,6 +1,6 @@
 ---
 # Nomad version to download.
-nomad_version: 1.8.2
+nomad_version: latest
 
 # URL to download Nomad archive from.
 nomad_source: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ nomad_architecture }}.zip

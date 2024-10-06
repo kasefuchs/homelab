@@ -1,6 +1,6 @@
 ---
 # Nebula version to download.
-nebula_version: 1.9.3
+nebula_version: latest
 
 # URL to download Nebula archive from.
 nebula_source: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-linux-{{ nebula_architecture }}.tar.gz

@@ -1,6 +1,6 @@
 ---
 # Garage version to download.
-garage_version: 1.0.0
+garage_version: latest
 
 # URL to download Garage binary from.
 garage_source: https://garagehq.deuxfleurs.fr/_releases/v{{ garage_version }}/{{ garage_architecture }}-unknown-linux-musl/garage

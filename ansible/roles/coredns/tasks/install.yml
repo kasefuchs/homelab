@@ -14,6 +14,20 @@
 
 - name: Install CoreDNS binary
   block:
+    - name: Receive CoreDNS latest version
+      when: coredns_version is undefined or coredns_version == "latest"
+      block:
+        - name: Fetch latest CoreDNS GitHub release
+          register: coredns_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/coredns/coredns/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest CoreDNS version
+          ansible.builtin.set_fact:
+            coredns_version: "{{ coredns_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+            
     - name: Detect CoreDNS architecture
       ansible.builtin.set_fact:
         coredns_architecture: "{{ coredns_architectures[ansible_architecture] }}"

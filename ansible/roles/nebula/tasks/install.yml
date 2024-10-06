@@ -14,6 +14,20 @@
 
 - name: Install Nebula binary
   block:
+    - name: Receive Nebula latest version
+      when: nebula_version is undefined or nebula_version == "latest"
+      block:
+        - name: Fetch latest Nebula GitHub release
+          register: nebula_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/slackhq/nebula/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest Nebula version
+          ansible.builtin.set_fact:
+            nebula_version: "{{ nebula_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+            
     - name: Detect Nebula architecture
       ansible.builtin.set_fact:
         nebula_architecture: "{{ nebula_architectures[ansible_architecture] }}"
