@@ -25,6 +25,20 @@
 
 - name: Install Nomad binary
   block:
+    - name: Receive Nomad latest version
+      when: nomad_version is undefined or nomad_version == "latest"
+      block:
+        - name: Fetch latest Nomad GitHub release
+          register: nomad_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/hashicorp/nomad/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest Nomad version
+          ansible.builtin.set_fact:
+            nomad_version: "{{ nomad_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+
     - name: Detect Nomad architecture
       ansible.builtin.set_fact:
         nomad_architecture: "{{ nomad_architectures[ansible_architecture] }}"

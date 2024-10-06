@@ -1,6 +1,6 @@
 ---
 # NATS version to download.
-nats_version: 2.10.18
+nats_version: latest
 
 # URL to download NATS archive from.
 nats_source: https://github.com/nats-io/nats-server/releases/download/v{{ nats_version }}/nats-server-v{{ nats_version }}-linux-{{ nats_architecture }}.tar.gz

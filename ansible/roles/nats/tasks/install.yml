@@ -14,6 +14,20 @@
 
 - name: Install NATS server binary
   block:
+    - name: Receive NATS server latest version
+      when: nats_version is undefined or nats_version == "latest"
+      block:
+        - name: Fetch latest NATS server GitHub release
+          register: nats_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/nats-io/nats-server/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest NATS server version
+          ansible.builtin.set_fact:
+            nats_version: "{{ nats_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+
     - name: Detect NATS server architecture
       ansible.builtin.set_fact:
         nats_architecture: "{{ nats_architectures[ansible_architecture] }}"

@@ -14,6 +14,20 @@
 
 - name: Install Garage binary
   block:
+    - name: Receive Garage latest version
+      when: garage_version is undefined or garage_version == "latest"
+      block:
+        - name: Fetch latest Garage GitHub release
+          register: garage_github_release_response
+          ansible.builtin.uri:
+            url: https://garagehq.deuxfleurs.fr/_releases.json
+            status_code: 200
+            return_content: true
+
+        - name: Set latest Garage version
+          ansible.builtin.set_fact:
+            garage_version: "{{ garage_github_release_response.json[0].builds[0].version | regex_replace('^v', '') }}"
+
     - name: Detect Garage architecture
       ansible.builtin.set_fact:
         garage_architecture: "{{ garage_architectures[ansible_architecture] }}"

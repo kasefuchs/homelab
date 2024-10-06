@@ -1,6 +1,6 @@
 ---
 # Consul version to download.
-consul_version: 1.19.1
+consul_version: latest
 
 # URL to download Consul archive from.
 consul_source: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip
