@@ -1,0 +1,16 @@
+---
+- name: Install QEMU (Debian-like)
+  when: ansible_os_family == "Debian"
+  block:
+    - name: Install QEMU systems
+      loop: "{{ nomad_driver_qemu_systems }}"
+      ansible.builtin.apt:
+        name: "qemu-system-{{ item }}"
+
+- name: Install QEMU (Arch-like)
+  when: ansible_os_family == "Archlinux"
+  block:
+    - name: Install QEMU systems
+      loop: "{{ nomad_driver_qemu_systems }}"
+      community.general.pacman:
+        name: "qemu-system-{{ item }}"

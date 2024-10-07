@@ -1,3 +1,0 @@
----
-# Mirrors to use when pulling images.
-docker_registry_mirrors: []

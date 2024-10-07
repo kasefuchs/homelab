@@ -1,0 +1,9 @@
+---
+- name: Install Docker
+  ansible.builtin.import_tasks: docker/main.yml
+
+- name: Install Java
+  ansible.builtin.import_tasks: java/main.yml
+
+- name: Install QEMU
+  ansible.builtin.import_tasks: qemu/main.yml
