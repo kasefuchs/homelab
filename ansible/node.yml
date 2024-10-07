@@ -6,4 +6,3 @@
     - role: node
     - role: nebula
     - role: coredns
-    - role: docker

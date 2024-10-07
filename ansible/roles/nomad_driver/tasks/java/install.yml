@@ -1,0 +1,14 @@
+---
+- name: Install Java (Debian-like)
+  when: ansible_os_family == "Debian"
+  block:
+    - name: Install Java
+      ansible.builtin.apt:
+        name: default-jre-headless
+
+- name: Install Java (Arch-like)
+  when: ansible_os_family == "Archlinux"
+  block:
+    - name: Install Java
+      community.general.pacman:
+        name: jre-openjdk-headless

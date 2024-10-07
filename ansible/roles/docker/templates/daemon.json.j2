@@ -1,8 +1,0 @@
-{
-  "log-opts": {
-    "max-size": "10m",
-    "max-file": "3"
-  },
-  "dns": ["{{ nebula_ip | ansible.utils.ipaddr('address') }}"],
-  "registry-mirrors": {{ docker_registry_mirrors | ansible.builtin.to_json }}
-}

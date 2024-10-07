@@ -1,0 +1,3 @@
+---
+- name: Install Java
+  ansible.builtin.import_tasks: install.yml
