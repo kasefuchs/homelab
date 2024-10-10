@@ -16,8 +16,9 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image = [[ var "docker_image" . | quote ]]
-        ports = [[ list $service.port | toStringList ]]
+        image   = [[ var "docker_image" . | quote ]]
+        ports   = [[ list $service.port | toStringList ]]
+        volumes = [[ var "volumes" . | toStringList ]]
 
         entrypoint = ["/bin/sh", "-c"]
         args       = ["set -a && source ${NOMAD_SECRETS_DIR}/config/coder.env && set +a && /opt/coder server"]
