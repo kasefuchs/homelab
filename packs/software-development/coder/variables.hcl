@@ -81,3 +81,9 @@ variable "dotenv" {
   type        = string
   default     = ""
 }
+
+variable "volumes" {
+  description = ""
+  type        = list(string)
+  default     = []
+}
