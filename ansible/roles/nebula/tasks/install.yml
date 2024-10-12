@@ -52,6 +52,12 @@
         state: link
         force: true
 
+    - name: Create Nebula version lockfile
+      notify: Update Nebula
+      ansible.builtin.copy:
+        content: "{{ nebula_version }}"
+        dest: /usr/local/src/nebula/.version-lock
+
 - name: Create Nebula config directory
   ansible.builtin.file:
     mode: "0755"

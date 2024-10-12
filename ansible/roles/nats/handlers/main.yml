@@ -27,3 +27,14 @@
   ansible.builtin.systemd_service:
     name: consul
     state: reloaded
+
+- name: Update service facts
+  listen: Update NATS server
+  ansible.builtin.service_facts:
+
+- name: Restart updated NATS server
+  listen: Update NATS server
+  ansible.builtin.systemd_service:
+    name: nats-server
+    state: restarted
+  when: "'nats-server.service' in ansible_facts.services.keys()"

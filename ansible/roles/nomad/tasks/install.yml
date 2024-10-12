@@ -63,6 +63,12 @@
         state: link
         force: true
 
+    - name: Create Nomad version lockfile
+      notify: Update Nomad
+      ansible.builtin.copy:
+        content: "{{ nomad_version }}"
+        dest: /usr/local/src/nomad/.version-lock
+
 - name: Create Nomad directories
   ansible.builtin.file:
     mode: "{{ item.mode }}"

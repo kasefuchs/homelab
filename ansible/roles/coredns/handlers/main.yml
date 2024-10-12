@@ -22,3 +22,14 @@
   ansible.builtin.systemd_service:
     name: coredns
     state: started
+
+- name: Update service facts
+  listen: Update CoreDNS
+  ansible.builtin.service_facts:
+
+- name: Restart updated CoreDNS
+  listen: Update CoreDNS
+  ansible.builtin.systemd_service:
+    name: coredns
+    state: restarted
+  when: "'coredns.service' in ansible_facts.services.keys()"

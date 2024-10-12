@@ -22,3 +22,14 @@
   ansible.builtin.systemd_service:
     name: nebula
     state: started
+
+- name: Update service facts
+  listen: Update Nebula
+  ansible.builtin.service_facts:
+
+- name: Restart updated Nebula
+  listen: Update Nebula
+  ansible.builtin.systemd_service:
+    name: nebula
+    state: restarted
+  when: "'nebula.service' in ansible_facts.services.keys()"

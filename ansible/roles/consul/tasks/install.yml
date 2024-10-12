@@ -52,6 +52,12 @@
         state: link
         force: true
 
+    - name: Create Consul version lockfile
+      notify: Update Consul
+      ansible.builtin.copy:
+        content: "{{ consul_version }}"
+        dest: /usr/local/src/consul/.version-lock
+
 - name: Create Consul directories
   ansible.builtin.file:
     mode: "{{ item.mode }}"
