@@ -21,8 +21,11 @@ consul {
   import acl
 }
 
-internal {
-	file /etc/coredns.d/internal.zone
-	errors
-	import acl
+{{ coredns_zones | join(' ') }} {
+  auto {
+    directory /etc/coredns.d/zones/
+    reload 30s
+  }
+  errors
+  import acl
 }
