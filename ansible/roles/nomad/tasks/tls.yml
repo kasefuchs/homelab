@@ -13,8 +13,8 @@
           - tls
           - ca
           - create
-        chdir: "{{ role_path }}/files"
-        creates: "{{ role_path }}/files/nomad-agent-ca.pem"
+        chdir: "{{ role_path }}/files/certificates"
+        creates: "{{ role_path }}/files/certificates/nomad-agent-ca.pem"
 
     - name: Create Nomad node certificate store
       vars:
@@ -22,7 +22,7 @@
       delegate_to: localhost
       ansible.builtin.file:
         mode: "0755"
-        path: "{{ role_path }}/files/{{ ansible_hostname }}"
+        path: "{{ role_path }}/files/certificates/{{ ansible_hostname }}"
         state: directory
 
     - name: Generate Nomad server certificates
@@ -37,12 +37,12 @@
           - cert
           - create
           - --server
-          - --ca={{ role_path }}/files/nomad-agent-ca.pem
-          - --key={{ role_path }}/files/nomad-agent-ca-key.pem
+          - --ca={{ role_path }}/files/certificates/nomad-agent-ca.pem
+          - --key={{ role_path }}/files/certificates/nomad-agent-ca-key.pem
           - --region={{ nomad_region }}
           - --additional-ipaddress={{ nebula_ip | ansible.utils.ipaddr('address') }}
-        chdir: "{{ role_path }}/files/{{ ansible_hostname }}"
-        creates: "{{ role_path }}/files/{{ ansible_hostname }}/{{ nomad_region }}-server-nomad-key.pem"
+        chdir: "{{ role_path }}/files/certificates/{{ ansible_hostname }}"
+        creates: "{{ role_path }}/files/certificates/{{ ansible_hostname }}/{{ nomad_region }}-server-nomad-key.pem"
 
     - name: Generate Nomad client certificates
       vars:
@@ -56,12 +56,12 @@
           - cert
           - create
           - --client
-          - --ca={{ role_path }}/files/nomad-agent-ca.pem
-          - --key={{ role_path }}/files/nomad-agent-ca-key.pem
+          - --ca={{ role_path }}/files/certificates/nomad-agent-ca.pem
+          - --key={{ role_path }}/files/certificates/nomad-agent-ca-key.pem
           - --region={{ nomad_region }}
           - --additional-ipaddress={{ nebula_ip | ansible.utils.ipaddr('address') }}
-        chdir: "{{ role_path }}/files/{{ ansible_hostname }}"
-        creates: "{{ role_path }}/files/{{ ansible_hostname }}/{{ nomad_region }}-client-nomad-key.pem"
+        chdir: "{{ role_path }}/files/certificates/{{ ansible_hostname }}"
+        creates: "{{ role_path }}/files/certificates/{{ ansible_hostname }}/{{ nomad_region }}-client-nomad-key.pem"
 
     - name: Generate Nomad CLI certificates
       vars:
@@ -76,8 +76,8 @@
           - create
           - --cli
           - --region={{ nomad_region }}
-        chdir: "{{ role_path }}/files"
-        creates: "{{ role_path }}/files/{{ nomad_region }}-cli-nomad-key.pem"
+        chdir: "{{ role_path }}/files/certificates"
+        creates: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad-key.pem"
 
 - name: Copy Consul certificates
   when: consul_tls_enabled | bool
@@ -132,7 +132,7 @@
 
     - name: Copy Nomad public Certification Authority
       ansible.builtin.copy:
-        src: "{{ role_path }}/files/nomad-agent-ca.pem"
+        src: "{{ role_path }}/files/certificates/nomad-agent-ca.pem"
         dest: /etc/nomad.d/certificates/ca.pem
         mode: "0644"
         owner: "{{ nomad_user }}"
@@ -146,11 +146,11 @@
         owner: "{{ nomad_user }}"
         group: "{{ nomad_group }}"
       loop:
-        - src: "{{ role_path }}/files/{{ ansible_hostname }}/{{ nomad_region }}-{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}-nomad.pem"
+        - src: "{{ role_path }}/files/certificates/{{ ansible_hostname }}/{{ nomad_region }}-{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}-nomad.pem"
           dest: /etc/nomad.d/certificates/agent.pem
           mode: "0644"
           name: Public Key
-        - src: "{{ role_path }}/files/{{ ansible_hostname }}/{{ nomad_region }}-{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}-nomad-key.pem"
+        - src: "{{ role_path }}/files/certificates/{{ ansible_hostname }}/{{ nomad_region }}-{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}-nomad-key.pem"
           dest: /etc/nomad.d/certificates/agent.key
           mode: "0600"
           name: Private Key
@@ -165,11 +165,11 @@
         owner: "{{ nomad_user }}"
         group: "{{ nomad_group }}"
       loop:
-        - src: "{{ role_path }}/files/{{ nomad_region }}-cli-nomad.pem"
+        - src: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad.pem"
           dest: /etc/nomad.d/certificates/cli.pem
           mode: "0644"
           name: Public Key
-        - src: "{{ role_path }}/files/{{ nomad_region }}-cli-nomad-key.pem"
+        - src: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad-key.pem"
           dest: /etc/nomad.d/certificates/cli.key
           mode: "0600"
           name: Private Key

@@ -6,3 +6,4 @@
     - role: consul
     - role: nomad
     - role: nomad_driver
+    - role: cni
