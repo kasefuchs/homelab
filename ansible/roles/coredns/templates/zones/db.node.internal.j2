@@ -1,7 +1,7 @@
 @ IN SOA ns.internal. hostmaster.internal. {{ '%Y%m%d01' | strftime }} 3600 600 86400 0
      NS  ns.internal.
 
-$ORIGIN internal.
+$ORIGIN node.internal.
 
 {% set max_hostname_length = hostvars | map('length') | max %}
 {% for host, vars in hostvars.items() %}
