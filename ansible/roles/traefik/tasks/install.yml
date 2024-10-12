@@ -52,6 +52,12 @@
         state: link
         force: true
 
+    - name: Create Traefik version lockfile
+      notify: Update Traefik
+      ansible.builtin.copy:
+        content: "{{ traefik_version }}"
+        dest: /usr/local/src/traefik/.version-lock
+
 - name: Create Traefik config directory
   ansible.builtin.file:
     mode: "0755"

@@ -22,3 +22,14 @@
   ansible.builtin.systemd_service:
     name: traefik
     state: started
+
+- name: Update service facts
+  listen: Update Traefik
+  ansible.builtin.service_facts:
+
+- name: Restart updated Traefik
+  listen: Update Traefik
+  ansible.builtin.systemd_service:
+    name: traefik
+    state: restarted
+  when: "'traefik.service' in ansible_facts.services.keys()"

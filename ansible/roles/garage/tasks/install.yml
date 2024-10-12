@@ -51,6 +51,12 @@
         state: link
         force: true
 
+    - name: Create Garage version lockfile
+      notify: Update Garage
+      ansible.builtin.copy:
+        content: "{{ garage_version }}"
+        dest: /usr/local/src/garage/.version-lock
+
 - name: Create Garage directories
   ansible.builtin.file:
     mode: "{{ item.mode }}"

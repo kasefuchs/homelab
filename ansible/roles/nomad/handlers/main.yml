@@ -22,3 +22,14 @@
   ansible.builtin.systemd_service:
     name: nomad
     state: started
+
+- name: Update service facts
+  listen: Update Nomad
+  ansible.builtin.service_facts:
+
+- name: Restart updated Nomad
+  listen: Update Nomad
+  ansible.builtin.systemd_service:
+    name: nomad
+    state: restarted
+  when: "'nomad.service' in ansible_facts.services.keys()"

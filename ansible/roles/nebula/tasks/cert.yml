@@ -12,8 +12,8 @@
         - ca
         - -ips={{ nebula_ca_ips | join(',') }}
         - -name={{ nebula_ca_name }}
-      chdir: "{{ role_path }}/files"
-      creates: "{{ role_path }}/files/ca.crt"
+      chdir: "{{ role_path }}/files/certificates"
+      creates: "{{ role_path }}/files/certificates/ca.crt"
 
   - name: Generate Nebula node certificates
     vars:
@@ -25,8 +25,8 @@
         - sign
         - -ip={{ nebula_ip }}
         - -name={{ ansible_hostname }}
-      chdir: "{{ role_path }}/files"
-      creates: "{{ role_path }}/files/{{ ansible_hostname }}.crt"
+      chdir: "{{ role_path }}/files/certificates"
+      creates: "{{ role_path }}/files/certificates/{{ ansible_hostname }}.crt"
 
 - name: Copy Nebula certificates
   block:
@@ -40,7 +40,7 @@
 
     - name: Copy Nebula public Certification Authority
       ansible.builtin.copy:
-        src: "{{ role_path }}/files/ca.crt"
+        src: "{{ role_path }}/files/certificates/ca.crt"
         dest: /etc/nebula.d/certificates/ca.crt
         mode: "0644"
         owner: nebula
@@ -54,11 +54,11 @@
         owner: nebula
         group: nebula
       loop:
-        - src: "{{ role_path }}/files/{{ ansible_hostname }}.crt"
+        - src: "{{ role_path }}/files/certificates/{{ ansible_hostname }}.crt"
           dest: /etc/nebula.d/certificates/node.crt
           mode: "0644"
           name: Public Key
-        - src: "{{ role_path }}/files/{{ ansible_hostname }}.key"
+        - src: "{{ role_path }}/files/certificates/{{ ansible_hostname }}.key"
           dest: /etc/nebula.d/certificates/node.key
           mode: "0600"
           name: Private Key
