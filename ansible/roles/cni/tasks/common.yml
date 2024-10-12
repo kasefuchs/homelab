@@ -1,0 +1,44 @@
+---
+- name: Receive common CNI plugins latest version
+  when: cni_common_version is undefined or cni_common_version == "latest"
+  block:
+    - name: Fetch latest common CNI plugins GitHub release
+      register: cni_common_github_release_response
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/containernetworking/plugins/releases/latest
+        status_code: 200
+        return_content: true
+
+    - name: Set latest common CNI plugins version
+      ansible.builtin.set_fact:
+        cni_common_version: "{{ cni_common_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+
+- name: Detect common CNI plugins architecture
+  ansible.builtin.set_fact:
+    cni_common_architecture: "{{ cni_common_architectures[ansible_architecture] }}"
+
+- name: Create common CNI plugins package directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: /usr/local/src/cni/common/{{ cni_common_version }}
+    state: directory
+
+- name: Download & extract common CNI plugins package
+  ansible.builtin.unarchive:
+    src: "{{ cni_common_source }}"
+    dest: /usr/local/src/cni/common/{{ cni_common_version }}
+    creates: /usr/local/src/cni/common/{{ cni_common_version }}/cni/common
+    remote_src: true
+
+- name: Link common CNI plugins binaries
+  ansible.builtin.file:
+    src: /usr/local/src/cni/common/{{ cni_common_version }}/{{ item }}
+    dest: /opt/cni/bin/{{ item }}
+    state: link
+    force: true
+  loop:
+    - bridge
+    - portmap
+    - loopback
+    - firewall
+    - host-local

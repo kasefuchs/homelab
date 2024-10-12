@@ -64,16 +64,3 @@ nomad_tls_enabled: true
 
 # Specifies whether the TLS encryption feature is enabled.
 consul_tls_enabled: true
-
-# Consul CNI plugin version to download.
-consul_cni_version: 1.5.1
-
-# URL to download Consul CNI plugin archive from.
-consul_cni_source: https://releases.hashicorp.com/consul-cni/{{ consul_cni_version }}/consul-cni_{{ consul_cni_version }}_linux_{{ consul_cni_architecture }}.zip
-
-# CNI plugins version to download.
-cni_plugins_version: 1.5.1
-
-# URL to download CNI plugins archive from.
-cni_plugins_source: https://github.com/containernetworking/plugins/releases/download/v{{ cni_plugins_version }}/cni-plugins-linux-{{ cni_plugins_architecture }}-v{{ cni_plugins_version }}.tgz
-
