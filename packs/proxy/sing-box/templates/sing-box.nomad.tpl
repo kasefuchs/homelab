@@ -16,15 +16,15 @@ job [[ template "job_name" . ]] {
       [[ end ]]
     }
 
-    task "xray" {
+    task "sing-box" {
       driver = "docker"
 
       config {
         image = [[ var "docker_image" . | quote ]]
         ports = [ [[ range $idx, $service := $services ]][[if $idx]],[[end]][[ $service.port | quote ]][[ end ]] ]
 
-        entrypoint = ["/usr/bin/xray"]
-        args       = ["-config=${NOMAD_SECRETS_DIR}/config/xray.json"]
+        entrypoint = ["/usr/local/bin/sing-box", "run"]
+        args       = ["--config=${NOMAD_SECRETS_DIR}/config.json"]
       }
 
       template {
@@ -32,7 +32,7 @@ job [[ template "job_name" . ]] {
 [[ var "config" . -]]
         EOH
 
-        destination = "${NOMAD_SECRETS_DIR}/config/xray.json"
+        destination = "${NOMAD_SECRETS_DIR}/config.json"
       }
 
       [[ template "resources" var "resources" . ]]
