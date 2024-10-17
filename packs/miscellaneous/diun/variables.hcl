@@ -7,7 +7,7 @@ variable "job_name" {
 variable "region" {
   description = "The region where jobs will be deployed."
   type        = string
-  default     = ""
+  default     = "global"
 }
 
 variable "datacenters" {
@@ -23,8 +23,8 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 32,
-    memory = 32
+    cpu    = 16,
+    memory = 64
   }
 }
 
@@ -38,6 +38,12 @@ variable "constraints" {
     })
   )
   default = []
+}
+
+variable "type" {
+  description = "Specifies the Nomad scheduler to use."
+  type        = string
+  default     = "system"
 }
 
 variable "docker_image" {
@@ -56,7 +62,27 @@ watch:
   schedule: "0 */6 * * *"
 
 providers:
-  docker:
+  nomad:
+    address: "unix://{{ env "NOMAD_SECRETS_DIR" }}/api.sock"
+    secretID: "{{ env "NOMAD_TOKEN" }}"
     watchByDefault: true
   EOH
+}
+
+variable "volumes" {
+  description = "A list of host_path:container_path strings to bind host paths to container paths."
+  type        = list(string)
+  default     = []
+}
+
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {}
+}
+
+variable "dotenv" {
+  description = "Environment variables in dotenv format."
+  type        = string
+  default     = ""
 }

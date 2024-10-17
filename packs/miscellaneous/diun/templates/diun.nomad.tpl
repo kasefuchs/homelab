@@ -1,5 +1,5 @@
 job [[ template "job_name" . ]] {
-  type = "system"
+  type = [[ var "type" . | quote ]]
 
   [[ template "datacenters" . ]]
   [[ template "region" . ]]
@@ -10,18 +10,16 @@ job [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
-        image = "crazymax/diun:latest"
-
-        hostname = "${attr.unique.hostname}"
-
-        entrypoint = ["/usr/local/bin/diun", "serve"]
-        args       = ["--config", "${NOMAD_TASK_DIR}/config/diun.yml"]
-
-        mount {
-          type = "bind"
-          target = "/var/run/docker.sock"
-          source = "/var/run/docker.sock"
-        }
+        image   = [[ var "docker_image" . | quote ]]
+  
+        entrypoint = ["/bin/sh", "-c"]
+        args       = ["set -a && source ${NOMAD_SECRETS_DIR}/.env && set +a && /usr/local/bin/diun serve"]
+  
+        volumes = [[ var "volumes" . | toStringList ]]
+      }
+  
+      identity {
+        env = true
       }
 
       template {
@@ -29,7 +27,20 @@ job [[ template "job_name" . ]] {
 [[ var "config" . ]]
         EOH
 
-        destination = "${NOMAD_TASK_DIR}/config/diun.yml"
+        destination = "${NOMAD_SECRETS_DIR}/diun.yml"
+      }
+  
+      template {
+        data = <<EOH
+[[ var "dotenv" . ]]
+        EOH
+        
+        destination = "${NOMAD_SECRETS_DIR}/.env"
+      }
+  
+      env {
+        CONFIG = "${NOMAD_SECRETS_DIR}/diun.yml"
+        [[ template "env" var "environment" . ]]
       }
 
       [[ template "resources" var "resources" . ]]
