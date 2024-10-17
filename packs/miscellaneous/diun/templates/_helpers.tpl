@@ -8,12 +8,6 @@
 [[- end -]]
 [[- end -]]
 
-[[ define "host_network" -]]
-[[- if . -]]
-  host_network = "[[ . ]]"
-[[- end -]]
-[[- end -]]
-
 [[ define "datacenters" -]]
   datacenters =  [ [[ range $idx, $dc := (var "datacenters" .) ]][[if $idx]],[[end]][[ $dc | quote ]][[ end ]] ]
 [[- end -]]
@@ -36,6 +30,19 @@
     }
 [[- end -]]
 
+[[ define "host_network" -]]
+[[- if . -]]
+  host_network = "[[ . ]]"
+[[- end -]]
+[[- end -]]
+
+[[ define "port" -]]
+[[- $service := . -]]
+      port "[[ $service.port ]]" {
+        [[ template "host_network" $service.host_network ]]
+      }
+[[- end -]]
+
 [[ define "constraints" -]]
 [[- range $idx, $constraint := . -]]
   constraint {
@@ -49,9 +56,7 @@
 [[- end -]]
 
 [[ define "env" -]]
-      env {
         [[- range $key, $var := . ]]
         [[ $key ]] = "[[ $var ]]"
         [[- end ]]
-      }
 [[- end ]]
