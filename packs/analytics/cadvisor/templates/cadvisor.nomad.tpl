@@ -14,24 +14,40 @@ job [[ template "job_name" . ]] {
       [[ template "port" $service ]]
     }
 
-    task "node-exporter" {
+    task "cadvisor" {
       driver = "docker"
 
       config {
         image = [[ var "docker_image" . | quote ]]
         ports = [[ list $service.port | toStringList ]]
-        args  = ["--path.rootfs=/host",  "--web.listen-address=0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"]
+        args  = ["--port=${NOMAD_PORT_[[ $service.port ]]}"]
 
         mount {
           type = "bind"
-
           source = "/"
-          target = "/host"
-
+          target = "/rootfs"
           readonly = true
-          bind_options {
-            propagation = "rslave"
-          }
+        }
+
+        mount {
+          type = "bind"
+          source = "/var/run"
+          target = "/var/run"
+          readonly = false
+        }
+
+        mount {
+          type = "bind"
+          source = "/sys"
+          target = "/sys"
+          readonly = true
+        }
+
+        mount {
+          type = "bind"
+          source = "/var/lib/docker"
+          target = "/var/lib/docker"
+          readonly = true
         }
       }
 

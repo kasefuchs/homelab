@@ -7,7 +7,7 @@ variable "job_name" {
 variable "region" {
   description = "The region where jobs will be deployed."
   type        = string
-  default     = ""
+  default     = "global"
 }
 
 variable "datacenters" {
@@ -23,7 +23,7 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 256,
+    cpu    = 128,
     memory = 256
   }
 }
@@ -50,43 +50,16 @@ variable "service" {
     host_network = string
   })
   default = {
-    name         = "grafana"
-    port         = "grafana"
+    name         = "cadvisor"
+    port         = "server"
     tags         = []
-    provider     = "nomad"
+    provider     = "consul"
     host_network = ""
   }
-}
-
-variable "config" {
-  description = "Grafana configuration in INI format."
-  type        = string
-  default     = ""
 }
 
 variable "docker_image" {
   description = "Docker image of application to deploy."
   type        = string
-  default     = "grafana/grafana-oss:latest"
-}
-
-variable "provisioning" {
-  description = "Grafana provisioning config list in YAML format."
-  type = list(object({
-    type   = string
-    config = string
-  }))
-  default = []
-}
-
-variable "environment" {
-  description = "Environment variables to pass to task."
-  type        = map(string)
-  default     = {}
-}
-
-variable "dotenv" {
-  description = "Environment variables in dotenv format."
-  type        = string
-  default     = ""
+  default     = "gcr.io/cadvisor/cadvisor:latest"
 }

@@ -1,6 +1,4 @@
 job [[ template "job_name" . ]] {
-  type = "system"
-
   [[ template "datacenters" . ]]
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
@@ -14,25 +12,27 @@ job [[ template "job_name" . ]] {
       [[ template "port" $service ]]
     }
 
-    task "node-exporter" {
+    task "clash-exporter" {
       driver = "docker"
-
+  
       config {
         image = [[ var "docker_image" . | quote ]]
         ports = [[ list $service.port | toStringList ]]
-        args  = ["--path.rootfs=/host",  "--web.listen-address=0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"]
-
-        mount {
-          type = "bind"
-
-          source = "/"
-          target = "/host"
-
-          readonly = true
-          bind_options {
-            propagation = "rslave"
-          }
-        }
+        
+        entrypoint = ["/bin/sh", "-c"]
+        args       = ["set -a && source ${NOMAD_SECRETS_DIR}/.env && set +a && /usr/bin/clash-exporter --port ${NOMAD_PORT_[[ $service.port ]]}[[ var "arguments" . | join " " | indent 1 | trimSuffix " " ]]"]
+      }
+  
+      env {
+        [[ template "env" var "environment" . ]]
+      }
+      
+      template {
+        data = <<EOH
+[[ var "dotenv" . ]]
+        EOH
+      
+        destination = "${NOMAD_SECRETS_DIR}/.env"
       }
 
       [[ template "resources" var "resources" . ]]
