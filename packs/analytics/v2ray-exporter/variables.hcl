@@ -23,8 +23,8 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 256,
-    memory = 256
+    cpu    = 32,
+    memory = 32
   }
 }
 
@@ -50,43 +50,22 @@ variable "service" {
     host_network = string
   })
   default = {
-    name         = "grafana"
-    port         = "grafana"
+    name         = "v2ray-exporter"
+    port         = "server"
     tags         = []
     provider     = "nomad"
     host_network = ""
   }
 }
 
-variable "config" {
-  description = "Grafana configuration in INI format."
-  type        = string
-  default     = ""
-}
-
 variable "docker_image" {
   description = "Docker image of application to deploy."
   type        = string
-  default     = "grafana/grafana-oss:latest"
+  default     = "ghcr.io/kasefuchs/v2ray-exporter:latest"
 }
 
-variable "provisioning" {
-  description = "Grafana provisioning config list in YAML format."
-  type = list(object({
-    type   = string
-    config = string
-  }))
-  default = []
-}
-
-variable "environment" {
-  description = "Environment variables to pass to task."
-  type        = map(string)
-  default     = {}
-}
-
-variable "dotenv" {
-  description = "Environment variables in dotenv format."
+variable "arguments" {
+  description = "The region where jobs will be deployed."
   type        = string
   default     = ""
 }

@@ -19,10 +19,7 @@ job [[ template "job_name" . ]] {
 
       config {
         image   = [[ var "docker_image" . | quote ]]
-        args    = [
-          "--config.file=${NOMAD_SECRETS_DIR}/config/prometheus.yml",
-          "--web.listen-address=0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
-        ]
+        args    = ["--config.file=${NOMAD_SECRETS_DIR}/prometheus.yml", "--web.listen-address=0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"]
         ports   = [[ list $service.port | toStringList ]]
       }
 
@@ -34,7 +31,7 @@ job [[ template "job_name" . ]] {
         change_mode   = "signal"
         change_signal = "SIGHUP"
 
-        destination = "${NOMAD_SECRETS_DIR}/config/prometheus.yml"
+        destination = "${NOMAD_SECRETS_DIR}/prometheus.yml"
       }
 
       [[ template "resources" var "resources" . ]]
