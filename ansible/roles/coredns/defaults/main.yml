@@ -5,6 +5,9 @@ coredns_version: latest
 # URL to download CoreDNS archive from.
 coredns_source: https://github.com/coredns/coredns/releases/download/v{{ coredns_version }}/coredns_{{ coredns_version }}_linux_{{ coredns_architecture }}.tgz
 
+# Port to listen CoreDNS on.
+coredns_port: 1053
+
 # Specifies the sources that can access DNS.
 coredns_acl_allow:
   - 10.0.0.0/8

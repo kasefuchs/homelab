@@ -4,3 +4,6 @@
 
 - name: Configure CoreDNS
   ansible.builtin.import_tasks: config.yml
+
+- name: Configure systemd-resolved
+  ansible.builtin.import_tasks: resolved.yml

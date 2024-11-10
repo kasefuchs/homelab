@@ -33,3 +33,8 @@
     name: coredns
     state: restarted
   when: "'coredns.service' in ansible_facts.services.keys()"
+
+- name: Restart systemd-resolved
+  ansible.builtin.systemd_service:
+    name: systemd-resolved
+    state: restarted
