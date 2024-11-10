@@ -27,7 +27,7 @@
         - name: Set latest Nebula version
           ansible.builtin.set_fact:
             nebula_version: "{{ nebula_github_release_response.json.tag_name | regex_replace('^v', '') }}"
-            
+
     - name: Detect Nebula architecture
       ansible.builtin.set_fact:
         nebula_architecture: "{{ nebula_architectures[ansible_architecture] }}"
@@ -57,6 +57,7 @@
       ansible.builtin.copy:
         content: "{{ nebula_version }}"
         dest: /usr/local/src/nebula/.version-lock
+        mode: "0644"
 
 - name: Create Nebula config directory
   ansible.builtin.file:

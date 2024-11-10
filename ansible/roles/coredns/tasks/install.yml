@@ -27,7 +27,7 @@
         - name: Set latest CoreDNS version
           ansible.builtin.set_fact:
             coredns_version: "{{ coredns_github_release_response.json.tag_name | regex_replace('^v', '') }}"
-            
+
     - name: Detect CoreDNS architecture
       ansible.builtin.set_fact:
         coredns_architecture: "{{ coredns_architectures[ansible_architecture] }}"
@@ -57,6 +57,7 @@
       ansible.builtin.copy:
         content: "{{ coredns_version }}"
         dest: /usr/local/src/coredns/.version-lock
+        mode: "0644"
 
 - name: Create CoreDNS config directory
   ansible.builtin.file:

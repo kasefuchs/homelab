@@ -79,46 +79,6 @@
         chdir: "{{ role_path }}/files/certificates"
         creates: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad-key.pem"
 
-- name: Copy Consul certificates
-  when: consul_tls_enabled | bool
-  block:
-    - name: Create Consul certificates directory
-      ansible.builtin.file:
-        path: /etc/nomad.d/certificates/consul
-        state: directory
-        mode: "0755"
-        owner: "{{ nomad_user }}"
-        group: "{{ nomad_group }}"
-
-    - name: Copy Consul public Certification Authority
-      ansible.builtin.copy:
-        src: /etc/consul.d/certificates/ca.pem
-        dest: /etc/nomad.d/certificates/consul/ca.pem
-        mode: "0644"
-        owner: "{{ nomad_user }}"
-        group: "{{ nomad_group }}"
-        remote_src: true
-
-    - name: Copy Consul CLI certificates
-      ansible.builtin.copy:
-        src: "{{ item.src }}"
-        mode: "{{ item.mode }}"
-        dest: "{{ item.dest }}"
-        owner: "{{ nomad_user }}"
-        group: "{{ nomad_group }}"
-        remote_src: true
-      loop:
-        - src: /etc/consul.d/certificates/cli.pem
-          dest: /etc/nomad.d/certificates/consul/cli.pem
-          mode: "0644"
-          name: Public Key
-        - src: /etc/consul.d/certificates/cli.key
-          dest: /etc/nomad.d/certificates/consul/cli.key
-          mode: "0600"
-          name: Private Key
-      loop_control:
-        label: "{{ item.name }}"
-
 - name: Copy Nomad certificates
   when: nomad_tls_enabled | bool
   block:
@@ -160,18 +120,16 @@
     - name: Copy Nomad CLI certificates
       ansible.builtin.copy:
         src: "{{ item.src }}"
-        mode: "{{ item.mode }}"
         dest: "{{ item.dest }}"
+        mode: "0644"
         owner: "{{ nomad_user }}"
         group: "{{ nomad_group }}"
       loop:
         - src: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad.pem"
           dest: /etc/nomad.d/certificates/cli.pem
-          mode: "0644"
           name: Public Key
         - src: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad-key.pem"
           dest: /etc/nomad.d/certificates/cli.key
-          mode: "0600"
           name: Private Key
       loop_control:
         label: "{{ item.name }}"

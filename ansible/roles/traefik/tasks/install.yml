@@ -57,6 +57,7 @@
       ansible.builtin.copy:
         content: "{{ traefik_version }}"
         dest: /usr/local/src/traefik/.version-lock
+        mode: "0644"
 
 - name: Create Traefik config directory
   ansible.builtin.file:

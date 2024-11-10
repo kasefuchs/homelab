@@ -59,6 +59,12 @@ nomad_host_networks:
   localhost:
     interface: lo
 
+# Specifies an arbitrary string used to logically group client nodes by user-defined class.
+nomad_node_class: ""
+
+# Specifies the node pool in which the client is registered.
+nomad_node_pool: default
+
 # Specifies whether the TLS encryption feature is enabled.
 nomad_tls_enabled: true
 

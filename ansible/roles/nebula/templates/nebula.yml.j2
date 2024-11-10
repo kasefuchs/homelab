@@ -18,7 +18,7 @@ listen:
   host: 0.0.0.0
   port: 4242
 
-{{ { "sshd": nebula_sshd } | ansible.builtin.to_yaml }}
-{{ { "tun": nebula_tun } | ansible.builtin.to_yaml }}
-{{ { "logging": nebula_logging } | ansible.builtin.to_yaml }}
-{{ { "firewall": nebula_firewall } | ansible.builtin.to_yaml }}
+{{ { "sshd": nebula_sshd } | ansible.builtin.to_nice_yaml(indent=2) }}
+{{ { "tun": nebula_tun } | ansible.builtin.to_nice_yaml(indent=2) }}
+{{ { "logging": nebula_logging } | ansible.builtin.to_nice_yaml(indent=2) }}
+{{ { "firewall": nebula_firewall } | ansible.builtin.to_nice_yaml(indent=2) }}

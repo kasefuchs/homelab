@@ -7,7 +7,7 @@ BindsTo=consul.service
 Type=notify
 User={{ nomad_user }}
 Group={{ nomad_group }}
-ExecStart=/usr/local/bin/nomad agent -config=/etc/nomad.d/
+ExecStart=/usr/local/bin/nomad agent -data-dir="{{ nomad_data_dir }}" -config="/etc/nomad.d"
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGTERM
