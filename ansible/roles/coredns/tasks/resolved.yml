@@ -1,0 +1,30 @@
+---
+- name: Install systemd-resolved (Debian-like)
+  when: ansible_os_family == "Debian"
+  ansible.builtin.apt:
+    name: systemd-resolved
+
+- name: Enable systemd-resolved
+  ansible.builtin.systemd_service:
+    name: systemd-resolved
+    enabled: true
+
+- name: Copy systemd-resolved configuration
+  notify: Restart systemd-resolved
+  ansible.builtin.template:
+    src: resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Create a symbolic link to resolv.conf stub
+  ansible.builtin.file:
+    src: /run/systemd/resolve/stub-resolv.conf
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    state: link
