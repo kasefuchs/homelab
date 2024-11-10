@@ -21,12 +21,16 @@ job [[ template "job_name" . ]] {
         volumes = [[ var "volumes" . | toStringList ]]
 
         entrypoint = ["/bin/sh", "-c"]
-        args       = ["set -a && source ${NOMAD_SECRETS_DIR}/config/coder.env && set +a && /opt/coder server"]
+        args       = ["set -a && source ${NOMAD_SECRETS_DIR}/.env && set +a && /opt/coder server"]
+      }
+
+      identity {
+        env = true
       }
 
       env {
         CODER_HTTP_ADDRESS = "0.0.0.0:${NOMAD_PORT_[[ $service.port ]]}"
-        TF_CLI_CONFIG_FILE = "${NOMAD_SECRETS_DIR}/config/terraform.rc"
+        TF_CLI_CONFIG_FILE = "${NOMAD_SECRETS_DIR}/terraform.rc"
         [[ template "env" var "environment" . ]]
       }
 
@@ -35,7 +39,7 @@ job [[ template "job_name" . ]] {
 [[ var "dotenv" . ]]
         EOH
 
-        destination = "${NOMAD_SECRETS_DIR}/config/coder.env"
+        destination = "${NOMAD_SECRETS_DIR}/.env"
       }
 
       template {
@@ -43,7 +47,7 @@ job [[ template "job_name" . ]] {
 [[ var "terraformrc" . ]]
         EOH
 
-        destination = "${NOMAD_SECRETS_DIR}/config/terraform.rc"
+        destination = "${NOMAD_SECRETS_DIR}/terraform.rc"
       }
 
       [[ template "resources" var "resources" . ]]

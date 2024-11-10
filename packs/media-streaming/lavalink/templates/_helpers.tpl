@@ -54,3 +54,18 @@
   }
 [[- end -]]
 [[- end -]]
+
+[[ define "env" -]]
+        [[- range $key, $var := . ]]
+        [[ $key ]] = "[[ $var ]]"
+        [[- end ]]
+[[- end ]]
+
+[[ define "volume" -]]
+[[- $volume := . -]]
+    volume [[ $volume.name | quote ]] {
+      type      = [[ $volume.type | quote ]]
+      source    = [[ $volume.source | quote ]]
+      read_only = [[ $volume.read_only ]]
+    }
+[[- end -]]

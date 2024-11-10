@@ -76,9 +76,25 @@ variable "dotenv" {
   default     = ""
 }
 
+variable "data_volume" {
+  description = "Volume containing minecraft server data."
+  type = object({
+    name      = string
+    type      = string
+    source    = string
+    read_only = bool
+  })
+  default = {
+    type      = "host"
+    name      = "data"
+    source    = "minecraft-server-data"
+    read_only = false
+  }
+}
+
 variable "level_volume" {
   description = "Volume containing minecraft world data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

@@ -68,3 +68,15 @@ variable "config" {
   description = "Miniflux configuration in INI? format."
   type        = string
 }
+
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {}
+}
+
+variable "dotenv" {
+  description = "Environment variables in dotenv format."
+  type        = string
+  default     = ""
+}

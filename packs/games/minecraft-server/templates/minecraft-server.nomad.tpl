@@ -5,9 +5,11 @@ job [[ template "job_name" . ]] {
 
   group "servers" {
     [[ $service := var "service" . -]]
+    [[ $data_volume := var "data_volume" . -]]  
     [[ $level_volume := var "level_volume" . -]]
 
     [[ template "service" $service ]]
+    [[ template "volume" $data_volume ]]
     [[ template "volume" $level_volume ]]
 
     network {
@@ -24,6 +26,11 @@ job [[ template "job_name" . ]] {
         entrypoint = ["/bin/bash", "-c"]
         args       = ["set -a && source ${NOMAD_SECRETS_DIR}/.env && set +a && /start"]
       }
+  
+      volume_mount {
+        volume      = [[ $data_volume.name | quote ]]
+        destination = "/data"
+      }
 
       volume_mount {
         volume      = [[ $level_volume.name | quote ]]
@@ -31,7 +38,7 @@ job [[ template "job_name" . ]] {
       }
 
       env {
-        LEVEL       = "${NOMAD_TASK_DIR}/level"
+        LEVEL       = "${NOMAD_TASK_DIR}/level/world"
         SERVER_PORT = "${NOMAD_PORT_[[ $service.port ]]}"
         [[ template "env" var "environment" . ]]
       }

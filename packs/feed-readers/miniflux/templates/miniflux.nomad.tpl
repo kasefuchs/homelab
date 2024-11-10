@@ -18,9 +18,9 @@ job [[ template "job_name" . ]] {
       config {
         image = [[ var "docker_image" . | quote ]]
         ports = [[ list $service.port | toStringList ]]
-
-        entrypoint = ["/usr/bin/miniflux"]
-        args       = ["-config-file=${NOMAD_SECRETS_DIR}/config/miniflux.ini"]
+  
+        entrypoint = ["/bin/sh", "-c"]
+        args       = ["set -a && source ${NOMAD_SECRETS_DIR}/.env && set +a && /usr/bin/miniflux -config-file=${NOMAD_SECRETS_DIR}/miniflux.ini"]
       }
 
       template {
@@ -28,12 +28,21 @@ job [[ template "job_name" . ]] {
 [[ var "config" . ]]
         EOH
 
-        destination = "${NOMAD_SECRETS_DIR}/config/miniflux.ini"
+        destination = "${NOMAD_SECRETS_DIR}/miniflux.ini"
+      }
+  
+      template {
+        data = <<EOH
+[[ var "dotenv" . ]]
+        EOH
+        
+        destination = "${NOMAD_SECRETS_DIR}/.env"
       }
 
       env {
         PORT           = "${NOMAD_PORT_[[ $service.port ]]}"
         RUN_MIGRATIONS = "1"
+        [[ template "env" var "environment" . ]]
       }
 
       [[ template "resources" var "resources" . ]]
