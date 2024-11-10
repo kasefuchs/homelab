@@ -3,7 +3,6 @@
   ansible.builtin.import_tasks: install.yml
 
 - name: Bootstrap Consul TLS certificates
-  when: consul_tls_enabled | bool
   ansible.builtin.include_tasks: tls.yml
 
 - name: Copy Consul config files

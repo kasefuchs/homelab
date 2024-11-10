@@ -24,9 +24,3 @@ traefik_dynamic_configuration: {}
 
 # Specifies extra Traefik static configuration.
 traefik_static_configuration: {}
-
-# Specifies whether the Consul TLS encryption feature is enabled.
-consul_tls_enabled: true
-
-# Specifies whether the Nomad TLS encryption feature is enabled.
-nomad_tls_enabled: true

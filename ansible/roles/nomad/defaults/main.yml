@@ -30,7 +30,7 @@ nomad_encrypt: null
 nomad_ui_enabled: true
 
 # Specifies URL pointing to Consul UI.
-nomad_consul_ui_url: "{{ 'https' if consul_tls_enabled else 'http' }}://{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ 8501 if consul_tls_enabled else 8500 }}"
+nomad_consul_ui_url: "https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8501"
 
 # Specifies whether the client metadata will include GeoIP data.
 nomad_meta_geoip_enabled: true
@@ -64,9 +64,3 @@ nomad_node_class: ""
 
 # Specifies the node pool in which the client is registered.
 nomad_node_pool: default
-
-# Specifies whether the TLS encryption feature is enabled.
-nomad_tls_enabled: true
-
-# Specifies whether the TLS encryption feature is enabled.
-consul_tls_enabled: true

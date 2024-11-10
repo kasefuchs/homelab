@@ -230,16 +230,16 @@ module "git-commit-signing" {
   agent_id = coder_agent.agent.id
 }
 
-resource "random_password" "user_password" {
+resource "random_password" "access_password" {
   length  = 12
   special = false
 }
 
-resource "coder_metadata" "user_password" {
-  resource_id = random_password.user_password.id
+resource "coder_metadata" "access_password" {
+  resource_id = random_password.access_password.id
   item {
     key       = "Password"
-    value     = random_password.user_password.result
+    value     = random_password.access_password.result
     sensitive = true
   }
 }
@@ -269,7 +269,7 @@ resource "yandex_compute_instance" "instance" {
 
   metadata = {
     user-data = templatefile("cloud-init/user-data.tpl", {
-      user_password              = random_password.user_password.result
+      access_password            = random_password.access_password.result
       coder_agent_token          = coder_agent.agent.token
       coder_agent_init_script    = base64encode(coder_agent.agent.init_script)
       coder_workspace_owner_name = lower(data.coder_workspace_owner.me.name)
