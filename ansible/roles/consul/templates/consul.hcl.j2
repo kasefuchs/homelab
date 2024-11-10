@@ -19,14 +19,14 @@ ui_config {
 }
 
 ports {
+  http = -1
+  grpc = -1
+
   dns      = 8600
-  http     = {{ -1 if consul_tls_enabled else 8500 }}
-  https    = {{ 8501 if consul_tls_enabled else -1 }}
-  grpc     = {{ -1 if consul_tls_enabled else 8502 }}
-  grpc_tls = {{ 8503 if consul_tls_enabled else -1 }}
+  https    = 8501
+  grpc_tls = 8503
 }
 
-{% if consul_tls_enabled %}
 tls {
   defaults {
     ca_file   = "/etc/consul.d/certificates/ca.pem"
@@ -42,4 +42,3 @@ tls {
     verify_incoming = false
   }
 }
-{% endif %}

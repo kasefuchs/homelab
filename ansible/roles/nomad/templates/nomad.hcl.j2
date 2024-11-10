@@ -4,14 +4,12 @@ region     = "{{ nomad_region }}"
 bind_addr = "{{ nebula_ip | ansible.utils.ipaddr('address') }}"
 
 consul {
-  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ 8501 if consul_tls_enabled else 8500 }}"
+  address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:8501"
 
-{% if consul_tls_enabled %}
   ssl       = true
   ca_file   = "/etc/consul.d/certificates/ca.pem"
   key_file  = "/etc/consul.d/certificates/cli.key"
   cert_file = "/etc/consul.d/certificates/cli.pem"
-{% endif %}
 }
 
 ui {
@@ -22,7 +20,6 @@ ui {
   }
 }
 
-{% if nomad_tls_enabled %}
 tls {
   rpc  = true
   http = true
@@ -34,4 +31,3 @@ tls {
   verify_https_client    = true
   verify_server_hostname = true
 }
-{% endif %}

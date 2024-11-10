@@ -1,6 +1,5 @@
 ---
 - name: Generate Nomad certificates
-  when: nomad_tls_enabled | bool
   block:
     - name: Generate Nomad CA
       vars:
@@ -80,7 +79,6 @@
         creates: "{{ role_path }}/files/certificates/{{ nomad_region }}-cli-nomad-key.pem"
 
 - name: Copy Nomad certificates
-  when: nomad_tls_enabled | bool
   block:
     - name: Create Nomad certificates directory
       ansible.builtin.file:
