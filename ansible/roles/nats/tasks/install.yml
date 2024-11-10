@@ -44,7 +44,9 @@
         dest: /usr/local/src/nats/{{ nats_version }}
         creates: /usr/local/src/nats/{{ nats_version }}/nats
         remote_src: true
-        extra_opts: ['--strip-components=1', '--show-stored-names']
+        extra_opts:
+          - --show-stored-names
+          - --strip-components=1
 
     - name: Link NATS server binary
       ansible.builtin.file:
@@ -58,6 +60,7 @@
       ansible.builtin.copy:
         content: "{{ nats_version }}"
         dest: /usr/local/src/nats/.version-lock
+        mode: "0644"
 
 - name: Create NATS directories
   ansible.builtin.file:

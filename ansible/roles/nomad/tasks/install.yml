@@ -68,6 +68,7 @@
       ansible.builtin.copy:
         content: "{{ nomad_version }}"
         dest: /usr/local/src/nomad/.version-lock
+        mode: "0644"
 
 - name: Create Nomad directories
   ansible.builtin.file:

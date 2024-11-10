@@ -1,6 +1,9 @@
 client {
   enabled = true
 
+  node_pool  = "{{ nomad_node_pool }}"
+  node_class = "{{ nomad_node_class }}"
+
   alloc_mounts_dir = "{{ nomad_mounts_dir }}"
 
   server_join {
@@ -37,7 +40,8 @@ client {
 consul {
   grpc_address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ 8503 if consul_tls_enabled else 8502 }}"
 {% if consul_tls_enabled %}
-  grpc_ca_file = "/etc/nomad.d/certificates/consul/ca.pem"
+  grpc_ca_file = "/etc/consul.d/certificates/ca.pem"
+  share_ssl    = true
 {% endif %}
 }
 

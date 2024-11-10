@@ -1,32 +1,32 @@
 ---
 - name: Generate Nebula certificates
   block:
-  - name: Generate Nebula CA
-    vars:
-      ansible_become: false
-    run_once: true
-    delegate_to: localhost
-    ansible.builtin.command:
-      argv:
-        - nebula-cert
-        - ca
-        - -ips={{ nebula_ca_ips | join(',') }}
-        - -name={{ nebula_ca_name }}
-      chdir: "{{ role_path }}/files/certificates"
-      creates: "{{ role_path }}/files/certificates/ca.crt"
+    - name: Generate Nebula CA
+      vars:
+        ansible_become: false
+      run_once: true
+      delegate_to: localhost
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - ca
+          - -ips={{ nebula_ca_ips | join(',') }}
+          - -name={{ nebula_ca_name }}
+        chdir: "{{ role_path }}/files/certificates"
+        creates: "{{ role_path }}/files/certificates/ca.crt"
 
-  - name: Generate Nebula node certificates
-    vars:
-      ansible_become: false
-    delegate_to: localhost
-    ansible.builtin.command:
-      argv:
-        - nebula-cert
-        - sign
-        - -ip={{ nebula_ip }}
-        - -name={{ ansible_hostname }}
-      chdir: "{{ role_path }}/files/certificates"
-      creates: "{{ role_path }}/files/certificates/{{ ansible_hostname }}.crt"
+    - name: Generate Nebula node certificates
+      vars:
+        ansible_become: false
+      delegate_to: localhost
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - sign
+          - -ip={{ nebula_ip }}
+          - -name={{ ansible_hostname }}
+        chdir: "{{ role_path }}/files/certificates"
+        creates: "{{ role_path }}/files/certificates/{{ ansible_hostname }}.crt"
 
 - name: Copy Nebula certificates
   block:

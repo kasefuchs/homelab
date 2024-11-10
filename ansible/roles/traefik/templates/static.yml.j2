@@ -5,39 +5,39 @@ api:
 
 providers:
   file:
-    filename: '/etc/traefik.d/dynamic.yml'
+    filename: /etc/traefik.d/dynamic.yml
 
   nomad:
     exposedByDefault: {{ traefik_expose_by_default | lower }}
     endpoint:
-      address: '{{ "https" if nomad_tls_enabled else "http" }}://{{ nebula_ip | ansible.utils.ipaddr("address") }}:4646'
+      address: {{ "https" if nomad_tls_enabled else "http" }}://{{ nebula_ip | ansible.utils.ipaddr("address") }}:4646
       {% if nomad_tls_enabled -%}
       tls:
-        ca: '/etc/traefik.d/certificates/nomad/ca.pem'
-        key: '/etc/traefik.d/certificates/nomad/cli.key'
-        cert: '/etc/traefik.d/certificates/nomad/cli.pem'
+        ca: /etc/nomad.d/certificates/ca.pem
+        key: /etc/nomad.d/certificates/cli.key
+        cert: /etc/nomad.d/certificates/cli.pem
       {% endif %}
 
   consul:
     endpoints:
-      - '{{ nebula_ip | ansible.utils.ipaddr("address") }}:{{ 8501 if consul_tls_enabled else 8500 }}'
+      - {{ nebula_ip | ansible.utils.ipaddr("address") }}:{{ 8501 if consul_tls_enabled else 8500 }}
     {% if consul_tls_enabled -%}
     tls:
-      ca: '/etc/traefik.d/certificates/consul/ca.pem'
-      key: '/etc/traefik.d/certificates/consul/cli.key'
-      cert: '/etc/traefik.d/certificates/consul/cli.pem'
+      ca: /etc/consul.d/certificates/ca.pem
+      key: /etc/consul.d/certificates/cli.key
+      cert: /etc/consul.d/certificates/cli.pem
     {% endif %}
 
   consulCatalog:
     exposedByDefault: {{ traefik_expose_by_default | lower }}
     endpoint:
-      scheme: '{{ "https" if consul_tls_enabled else "http" }}'
-      address: '{{ nebula_ip | ansible.utils.ipaddr("address") }}:{{ 8501 if consul_tls_enabled else 8500 }}'
+      scheme: {{ "https" if consul_tls_enabled else "http" }}
+      address: {{ nebula_ip | ansible.utils.ipaddr("address") }}:{{ 8501 if consul_tls_enabled else 8500 }}
       {% if consul_tls_enabled -%}
       tls:
-        ca: '/etc/traefik.d/certificates/consul/ca.pem'
-        key: '/etc/traefik.d/certificates/consul/cli.key'
-        cert: '/etc/traefik.d/certificates/consul/cli.pem'
+        ca: /etc/consul.d/certificates/ca.pem
+        key: /etc/consul.d/certificates/cli.key
+        cert: /etc/consul.d/certificates/cli.pem
       {% endif %}
 
 entryPoints:

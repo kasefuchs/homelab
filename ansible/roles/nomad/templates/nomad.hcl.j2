@@ -1,5 +1,3 @@
-data_dir = "{{ nomad_data_dir }}"
-
 datacenter = "{{ nomad_datacenter }}"
 region     = "{{ nomad_region }}"
 
@@ -10,10 +8,9 @@ consul {
 
 {% if consul_tls_enabled %}
   ssl       = true
-  ca_file   = "/etc/nomad.d/certificates/consul/ca.pem"
-  key_file  = "/etc/nomad.d/certificates/consul/cli.key"
-  cert_file = "/etc/nomad.d/certificates/consul/cli.pem"
-  share_ssl = true
+  ca_file   = "/etc/consul.d/certificates/ca.pem"
+  key_file  = "/etc/consul.d/certificates/cli.key"
+  cert_file = "/etc/consul.d/certificates/cli.pem"
 {% endif %}
 }
 
