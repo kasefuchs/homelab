@@ -37,14 +37,8 @@ variable "yandex_subnet_id" {
 
 variable "yandex_disk_image_id" {
   type        = string
-  default     = "fd87h6ku2vhc7tmlekq4"
+  default     = "fd8bcj8seh7cac9qsk8e"
   description = "Source image ID to use when creating the disk."
-}
-
-variable "vscode_web_extensions" {
-  type        = list(string)
-  default     = ["Dart-Code.dart-code", "HashiCorp.HCL", "HashiCorp.terraform", "WakaTime.vscode-wakatime", "antfu.browse-lite", "golang.Go", "ms-python.python", "redhat.vscode-yaml", "wholroyd.jinja"]
-  description = "A list of VS Code Web extensions to install."
 }
 
 provider "coder" {}
@@ -171,6 +165,7 @@ data "coder_parameter" "disk_size" {
 }
 
 data "coder_workspace" "me" {}
+
 data "coder_workspace_owner" "me" {}
 
 resource "coder_agent" "agent" {
@@ -214,19 +209,6 @@ module "personalize" {
   log_path = "/tmp/personalize.log"
 }
 
-module "vscode-web" {
-  source   = "registry.coder.com/modules/vscode-web/coder"
-  version  = "1.0.14"
-  agent_id = coder_agent.agent.id
-
-  settings = {
-    "browse-lite.chromeExecutable" : "/usr/bin/chromium"
-  }
-
-  extensions     = var.vscode_web_extensions
-  accept_license = true
-}
-
 module "coder-login" {
   source   = "registry.coder.com/modules/coder-login/coder"
   version  = "1.0.15"
@@ -248,17 +230,37 @@ module "git-commit-signing" {
   agent_id = coder_agent.agent.id
 }
 
+resource "random_password" "user_password" {
+  length  = 12
+  special = false
+}
+
+resource "coder_metadata" "user_password" {
+  resource_id = random_password.user_password.id
+  item {
+    key       = "Password"
+    value     = random_password.user_password.result
+    sensitive = true
+  }
+}
+
 resource "yandex_compute_disk" "disk" {
-  name        = "coder-disk-${data.coder_workspace.me.id}"
+  name        = "coder-${data.coder_workspace.me.id}"
   description = "Disk provisioned for ${data.coder_workspace_owner.me.name}/${data.coder_workspace.me.name} Coder workspace."
 
   type     = data.coder_parameter.disk_type.value
   size     = data.coder_parameter.disk_size.value
   image_id = var.yandex_disk_image_id
+
+  lifecycle {
+    ignore_changes = [
+      image_id
+    ]
+  }
 }
 
 resource "yandex_compute_instance" "instance" {
-  name        = "coder-instance-${data.coder_workspace.me.id}"
+  name        = "coder-${data.coder_workspace.me.id}"
   description = "Instance provisioned for ${data.coder_workspace_owner.me.name}/${data.coder_workspace.me.name} Coder workspace."
 
   count       = data.coder_workspace.me.start_count
@@ -266,7 +268,8 @@ resource "yandex_compute_instance" "instance" {
   platform_id = data.coder_parameter.platform_id.value
 
   metadata = {
-    user-data = templatefile("${path.module}/cloud.cfg.tpl", {
+    user-data = templatefile("cloud-init/user-data.tpl", {
+      user_password              = random_password.user_password.result
       coder_agent_token          = coder_agent.agent.token
       coder_agent_init_script    = base64encode(coder_agent.agent.init_script)
       coder_workspace_owner_name = lower(data.coder_workspace_owner.me.name)

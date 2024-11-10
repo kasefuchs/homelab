@@ -1,6 +1,10 @@
 #cloud-config
+ssh_pwauth: false
+
 users:
   - name: ${coder_workspace_owner_name}
+    lock_passwd: false
+    plain_text_passwd: ${access_password}
     sudo:
       - ALL=(ALL) NOPASSWD:ALL
     groups:
@@ -38,5 +42,4 @@ write_files:
 
 runcmd:
   - systemctl daemon-reload
-  - systemctl enable coder-agent
-  - systemctl restart coder-agent
+  - systemctl start coder-agent
