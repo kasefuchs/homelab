@@ -18,6 +18,11 @@ job [[ template "job_name" . ]] {
         volumes = [[ var "volumes" . | toStringList ]]
       }
   
+      action "notification-test" {
+        command = "/usr/local/bin/diun"
+        args    = ["notif", "test"]
+      }
+  
       identity {
         env = true
       }
@@ -37,7 +42,7 @@ job [[ template "job_name" . ]] {
         
         destination = "${NOMAD_SECRETS_DIR}/.env"
       }
-  
+
       env {
         CONFIG = "${NOMAD_SECRETS_DIR}/diun.yml"
         [[ template "env" var "environment" . ]]

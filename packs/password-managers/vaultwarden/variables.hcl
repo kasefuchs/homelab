@@ -64,6 +64,12 @@ variable "environment" {
   default = {}
 }
 
+variable "dotenv" {
+  description = "Environment variables in dotenv format."
+  type        = string
+  default     = ""
+}
+
 variable "docker_image" {
   description = "Docker image of application to deploy."
   type        = string
