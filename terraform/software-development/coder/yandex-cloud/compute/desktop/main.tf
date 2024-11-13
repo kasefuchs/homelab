@@ -231,7 +231,7 @@ module "git-commit-signing" {
 }
 
 resource "random_password" "access_password" {
-  length  = 12
+  length  = 16
   special = false
 }
 
@@ -242,6 +242,15 @@ resource "coder_metadata" "access_password" {
     value     = random_password.access_password.result
     sensitive = true
   }
+}
+
+resource "coder_app" "novnc" {
+  agent_id = coder_agent.agent.id
+
+  url          = "http://localhost:6080?autoconnect=1&resize=scale&path=@${data.coder_workspace_owner.me.name}/${data.coder_workspace.me.name}.${coder_agent.agent.id}/apps/novnc/websockify&password=${random_password.access_password.result}"
+  slug         = "novnc"
+  icon         = "${data.coder_workspace.me.access_url}/icon/novnc.svg"
+  display_name = "noVNC"
 }
 
 resource "yandex_compute_disk" "disk" {
@@ -266,6 +275,8 @@ resource "yandex_compute_instance" "instance" {
   count       = data.coder_workspace.me.start_count
   hostname    = lower(data.coder_workspace.me.name)
   platform_id = data.coder_parameter.platform_id.value
+
+  allow_stopping_for_update = true
 
   metadata = {
     user-data = templatefile("cloud-init/user-data.tpl", {
