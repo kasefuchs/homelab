@@ -1,5 +1,5 @@
 ---
-- name: Bootstrap networking
+- name: Provision Traefik
   hosts: all
   become: true
   roles:

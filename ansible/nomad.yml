@@ -1,9 +1,8 @@
 ---
-- name: Bootstrap cluster
+- name: Provision Nomad
   hosts: all
   become: true
   roles:
-    - role: consul
     - role: nomad
     - role: nomad_driver
     - role: cni

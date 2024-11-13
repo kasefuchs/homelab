@@ -67,6 +67,9 @@
     owner: nebula
     group: nebula
 
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
 - name: Install Nebula service
   notify: Reload Systemd
   ansible.builtin.template:
