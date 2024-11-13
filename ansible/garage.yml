@@ -1,5 +1,5 @@
 ---
-- name: Bootstrap storage
+- name: Provision Garage
   hosts: all
   become: true
   roles:

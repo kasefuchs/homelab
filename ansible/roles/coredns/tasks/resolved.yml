@@ -1,6 +1,6 @@
 ---
-- name: Install systemd-resolved (Debian-like)
-  when: ansible_os_family == "Debian"
+- name: Install systemd-resolved (Debian)
+  when: ansible_distribution == "Debian"
   ansible.builtin.apt:
     name: systemd-resolved
 

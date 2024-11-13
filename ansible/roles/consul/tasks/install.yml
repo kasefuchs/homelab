@@ -76,6 +76,9 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
 - name: Install Consul service
   notify: Reload Systemd
   ansible.builtin.template:
