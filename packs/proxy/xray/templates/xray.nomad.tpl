@@ -2,7 +2,7 @@ job [[ template "job_name" . ]] {
   [[ template "datacenters" . ]]
   [[ template "region" . ]]
   [[ template "constraints" var "constraints" . ]]
-  
+
   group "servers" {
     [[ $services := var "services" . -]]
 
@@ -34,6 +34,14 @@ job [[ template "job_name" . ]] {
 
         destination = "${NOMAD_SECRETS_DIR}/config/xray.json"
       }
+
+      env {
+        [[- template "env" var "environment" . ]]
+      }
+
+      [[ range $idx, $artifact := var "artifacts" . ]]
+      [[ template "artifact" $artifact -]]
+      [[ end ]]
 
       [[ template "resources" var "resources" . ]]
     }

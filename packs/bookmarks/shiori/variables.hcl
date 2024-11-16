@@ -78,7 +78,7 @@ variable "dotenv" {
 
 variable "volume" {
   description = "Volume containing shiori data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

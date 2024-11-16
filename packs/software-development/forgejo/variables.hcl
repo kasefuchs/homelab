@@ -18,7 +18,7 @@ variable "datacenters" {
 
 variable "resources" {
   description = "The resource to assign to the application."
-  type        = object({
+  type = object({
     cpu    = number
     memory = number
   })
@@ -30,7 +30,7 @@ variable "resources" {
 
 variable "constraints" {
   description = "Additional constraints to apply to the job."
-  type        = list(
+  type = list(
     object({
       attribute = string
       operator  = string
@@ -42,7 +42,7 @@ variable "constraints" {
 
 variable "service" {
   description = "Specifies integrations with Nomad or Consul for service discovery."
-  type        = object({
+  type = object({
     name         = string
     port         = string
     tags         = list(string)
@@ -78,7 +78,7 @@ variable "dotenv" {
 
 variable "data_volume" {
   description = "Volume containing data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string
@@ -94,7 +94,7 @@ variable "data_volume" {
 
 variable "custom_volume" {
   description = "Volume containing custom templates and other options."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string
@@ -110,7 +110,7 @@ variable "custom_volume" {
 
 variable "repository_volume" {
   description = "Volume containing repositories."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string
