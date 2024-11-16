@@ -51,16 +51,26 @@ nomad_host_volumes: {}
 
 # Registers additional host networks with the node that can be selected when port mapping.
 nomad_host_networks:
-  # Nebula network.
-  nebula:
+  # Public network.
+  public:
+    interface: "{{ ansible_default_ipv4.interface }}"
+
+  # Private network.
+  private:
     interface: nebula0
 
-  # Local network.
-  localhost:
-    interface: lo
+# Specifies the node pool in which the client is registered.
+nomad_node_pool: default
 
 # Specifies an arbitrary string used to logically group client nodes by user-defined class.
 nomad_node_class: ""
 
-# Specifies the node pool in which the client is registered.
-nomad_node_pool: default
+# Specifies default network interface to bind allocation ports.
+nomad_network_interface: nebula0
+
+# Specifies that Nomad should reserve a portion of the node's resources from receiving tasks.
+nomad_reserved:
+  # Specifies the amount of CPU to reserve, in MHz.
+  cpu: 0
+  # Specifies the amount of memory to reserve, in MB.
+  memory: 0

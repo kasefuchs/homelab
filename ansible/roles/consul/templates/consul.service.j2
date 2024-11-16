@@ -4,9 +4,10 @@ Documentation="https://www.consul.io/"
 BindsTo=nebula.service
 
 [Service]
-Type=notify
 User=consul
 Group=consul
+
+Type=notify
 ExecStart=/usr/local/bin/consul agent -data-dir="{{ consul_data_dir }}" -config-dir="/etc/consul.d"
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process

@@ -1,0 +1,15 @@
+---
+- name: Install Vault
+  ansible.builtin.import_tasks: install.yml
+
+- name: Bootstrap Vault TLS certificates
+  ansible.builtin.import_tasks: tls.yml
+
+- name: Copy Vault config files
+  ansible.builtin.import_tasks: config.yml
+
+- name: Initialize Vault server
+  ansible.builtin.import_tasks: initialize.yml
+
+- name: Unseal Vault server
+  ansible.builtin.import_tasks: unseal.yml

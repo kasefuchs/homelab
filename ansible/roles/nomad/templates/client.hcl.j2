@@ -6,22 +6,29 @@ client {
 
   alloc_mounts_dir = "{{ nomad_mounts_dir }}"
 
+  network_interface = "{{ nomad_network_interface }}"
+
+  reserved {
+    cpu    = {{ nomad_reserved.cpu | default(0) }}
+    memory = {{ nomad_reserved.memory | default(0) }}
+  }
+
   server_join {
     retry_join = {{ hostvars | community.general.json_query('* | [?nomad_server].nebula_ip') | ansible.utils.ipaddr('address') | ansible.builtin.to_json }}
   }
+
+{% for name, config in nomad_host_volumes.items() %}
+  host_volume "{{ name }}" {
+    path      = "{{ config.path }}"
+    read_only = {{ config.read_only | default(False) | lower }}
+  }
+{% endfor %}
 
 {% for name, config in nomad_host_networks.items() %}
   host_network "{{ name }}" {
     cidr           = "{{ config.cidr | default('') }}"
     interface      = "{{ config.interface | default('') }}"
     reserved_ports = "{{ config.reserved_ports | default([]) | join(',') }}"
-  }
-{% endfor %}
-
-{% for name, config in nomad_host_volumes.items() %}
-  host_volume "{{ name }}" {
-    path      = "{{ config.path }}"
-    read_only = {{ config.read_only | default(False) | lower }}
   }
 {% endfor %}
 

@@ -6,6 +6,10 @@ inventories/
 .cache/
 docs/build/
 
+# ---> Vagrant
+# State
+.vagrant/
+
 # ---> Terraform
 # Local .terraform directories
 .terraform/
@@ -28,9 +32,13 @@ docs/build/
 .vs/
 .vscode/
 
+# Secrets
+*.secret.*
+
 # Certificates
 *.pem
 *.p12
 *.crt
 *.key
 *.pub
+*.csr
