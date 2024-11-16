@@ -61,12 +61,12 @@ variable "service" {
 variable "environment" {
   description = "Environment variables to pass to task."
   type        = map(string)
-  default = {}
+  default     = {}
 }
 
 variable "volume" {
   description = "Volume containing navidrome data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

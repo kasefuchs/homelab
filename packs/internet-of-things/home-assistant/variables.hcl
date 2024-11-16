@@ -78,7 +78,7 @@ variable "dotenv" {
 
 variable "volume" {
   description = "Volume containing home assistant config."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

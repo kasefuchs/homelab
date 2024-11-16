@@ -18,7 +18,7 @@ variable "count" {
 
 variable "constraints" {
   description = "Additional constraints to apply to the job."
-  type        = list(
+  type = list(
     object({
       attribute = string
       operator  = string
@@ -30,7 +30,7 @@ variable "constraints" {
 
 variable "service" {
   description = "Integrations with Nomad or Consul for service discovery."
-  type        = object({
+  type = object({
     name         = string
     port         = string
     tags         = list(string)
@@ -48,7 +48,7 @@ variable "service" {
 
 variable "resources" {
   description = "Resources to assign to the task."
-  type        = object({
+  type = object({
     cpu    = number
     memory = number
   })

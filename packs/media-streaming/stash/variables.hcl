@@ -78,7 +78,7 @@ variable "dotenv" {
 
 variable "blobs_volume" {
   description = "Volume containing stash blobs."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string
@@ -94,7 +94,7 @@ variable "blobs_volume" {
 
 variable "media_volume" {
   description = "Volume containing stash media."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string
@@ -110,7 +110,7 @@ variable "media_volume" {
 
 variable "database_volume" {
   description = "Volume containing stash database data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string
@@ -126,7 +126,7 @@ variable "database_volume" {
 
 variable "generated_volume" {
   description = "Volume containing stash generated data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

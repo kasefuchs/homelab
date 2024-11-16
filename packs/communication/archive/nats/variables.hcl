@@ -60,7 +60,7 @@ variable "service" {
 
 variable "volume" {
   description = "Volume containing navidrome data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

@@ -18,7 +18,7 @@ variable "datacenters" {
 
 variable "resources" {
   description = "The resource to assign to the application."
-  type        = object({
+  type = object({
     cpu    = number
     memory = number
   })
@@ -30,7 +30,7 @@ variable "resources" {
 
 variable "constraints" {
   description = "Additional constraints to apply to the job."
-  type        = list(
+  type = list(
     object({
       attribute = string
       operator  = string
@@ -42,7 +42,7 @@ variable "constraints" {
 
 variable "service" {
   description = "Specifies integrations with Nomad or Consul for service discovery."
-  type        = object({
+  type = object({
     name         = string
     port         = string
     tags         = list(string)
@@ -61,7 +61,7 @@ variable "service" {
 variable "environment" {
   description = "Environment variables to pass to task."
   type        = map(string)
-  default = {}
+  default     = {}
 }
 
 variable "dotenv" {
@@ -78,7 +78,7 @@ variable "docker_image" {
 
 variable "volume" {
   description = "Volume containing vaultwarden data."
-  type        = object({
+  type = object({
     name      = string
     type      = string
     source    = string

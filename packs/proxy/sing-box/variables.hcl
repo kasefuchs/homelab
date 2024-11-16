@@ -18,7 +18,7 @@ variable "datacenters" {
 
 variable "resources" {
   description = "The resource to assign to the application."
-  type        = object({
+  type = object({
     cpu    = number
     memory = number
   })
@@ -30,7 +30,7 @@ variable "resources" {
 
 variable "constraints" {
   description = "Additional constraints to apply to the job."
-  type        = list(
+  type = list(
     object({
       attribute = string
       operator  = string

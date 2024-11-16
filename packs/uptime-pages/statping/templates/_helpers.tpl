@@ -69,3 +69,11 @@
       read_only = [[ $volume.read_only ]]
     }
 [[- end -]]
+
+[[ define "artifact" -]]
+[[- $artifact := . -]]
+      artifact {
+        source      = [[ $artifact.source | quote ]]
+        destination = [[ coalesce $artifact.destination "${NOMAD_TASK_DIR}/artifacts" | quote ]]
+      }
+[[- end -]]
