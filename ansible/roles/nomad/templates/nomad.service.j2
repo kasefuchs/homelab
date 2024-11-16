@@ -4,9 +4,10 @@ Documentation="https://nomadproject.io/"
 BindsTo=consul.service
 
 [Service]
-Type=notify
 User={{ nomad_user }}
 Group={{ nomad_group }}
+
+Type=notify
 ExecStart=/usr/local/bin/nomad agent -data-dir="{{ nomad_data_dir }}" -config="/etc/nomad.d"
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process

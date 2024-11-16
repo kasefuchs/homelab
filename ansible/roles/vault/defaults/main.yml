@@ -1,0 +1,21 @@
+---
+# Vault version to download.
+vault_version: latest
+
+# URL to download Vault archive from.
+vault_source: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_{{ vault_architecture }}.zip
+
+# Specifies a local directory used to store server data.
+vault_data_dir: /opt/vault
+
+# Specifies if this node should run Vault server.
+vault_server: true
+
+# Specifies Vault cluster name.
+vault_cluster_name: "muttias"
+
+# Number of key shares to split the generated root key into.
+vault_key_shares: 5
+
+# Number of key shares required to reconstruct the root key.
+vault_key_threshold: 3

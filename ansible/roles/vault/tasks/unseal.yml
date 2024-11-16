@@ -1,0 +1,66 @@
+---
+- name: Check if keys file exists
+  when: vault_server | bool
+  register: vault_unseal_keys_stat
+  delegate_to: localhost
+  ansible.builtin.stat:
+    path: "{{ role_path }}/files/secrets/keys.secret.json"
+
+- name: Read unseal keys
+  when:
+    - vault_unseal_keys_stat.stat is defined
+    - vault_unseal_keys_stat.stat.exists
+  ansible.builtin.set_fact:
+    vault_keys: "{{ lookup('ansible.builtin.file', '{{ role_path }}/files/secrets/keys.secret.json') | from_json }}"
+
+- name: Check Vault server status
+  when: vault_keys is defined
+  delegate_to: localhost
+  block:
+    - name: Get Vault server address
+      ansible.builtin.set_fact:
+        vault_unseal_server_address: "https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8200"
+
+    - name: Get Vault server status
+      register: vault_unseal_status_raw
+      failed_when: vault_unseal_status_raw.rc == 1
+      changed_when: false
+      ansible.builtin.command:
+        argv:
+          - vault
+          - status
+          - --format=json
+          - --address={{ vault_unseal_server_address }}
+          - --ca-cert={{ role_path }}/files/certificates/vault-ca.pem
+          - --client-key={{ role_path }}/files/certificates/vault-client.key
+          - --client-cert={{ role_path }}/files/certificates/vault-client.pem
+
+    - name: Parse Vault server status
+      when: vault_unseal_status_raw.stdout is defined
+      ansible.builtin.set_fact:
+        vault_unseal_status_json: "{{ vault_unseal_status_raw.stdout | from_json }}"
+
+- name: Unseal Vault
+  when:
+    - vault_unseal_status_json is defined
+    - vault_unseal_status_json.sealed
+  delegate_to: localhost
+  block:
+    - name: Unseal Vault server
+      loop: "{{ vault_keys.unseal_keys_hex }}"
+      loop_control:
+        label: REDACTED
+      register: vault_unseal_raw
+      failed_when: vault_unseal_raw.rc == 1
+      changed_when: false
+      ansible.builtin.command:
+        argv:
+          - vault
+          - operator
+          - unseal
+          - --format=json
+          - --address=https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8200
+          - --ca-cert={{ role_path }}/files/certificates/vault-ca.pem
+          - --client-key={{ role_path }}/files/certificates/vault-client.key
+          - --client-cert={{ role_path }}/files/certificates/vault-client.pem
+          - "{{ item }}"

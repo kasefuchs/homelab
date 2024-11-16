@@ -1,0 +1,22 @@
+[Unit]
+Description="HashiCorp Vault - A tool for secrets management, encryption as a service, and privileged access management"
+Documentation="https://vaultproject.io/"
+BindsTo=consul.service
+
+[Service]
+User=vault
+Group=vault
+
+Type=notify
+ExecStart=/usr/local/bin/vault server -config /etc/vault.d/server.hcl
+ExecReload=/bin/kill --signal HUP $MAINPID
+KillMode=process
+KillSignal=SIGINT
+Restart=on-failure
+
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+AmbientCapabilities=CAP_IPC_LOCK
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

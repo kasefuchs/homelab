@@ -5,22 +5,22 @@
 
 - name: Enable NATS server
   ansible.builtin.systemd_service:
-    name: nats-server
+    name: nats
     enabled: true
 
 - name: Reload NATS server
   ansible.builtin.systemd_service:
-    name: nats-server
+    name: nats
     state: reloaded
 
 - name: Restart NATS server
   ansible.builtin.systemd_service:
-    name: nats-server
+    name: nats
     state: restarted
 
 - name: Start NATS server
   ansible.builtin.systemd_service:
-    name: nats-server
+    name: nats
     state: started
 
 - name: Reload Consul
@@ -35,6 +35,6 @@
 - name: Restart updated NATS server
   listen: Update NATS server
   ansible.builtin.systemd_service:
-    name: nats-server
+    name: nats
     state: restarted
-  when: "'nats-server.service' in ansible_facts.services.keys()"
+  when: "'nats.service' in ansible_facts.services.keys()"

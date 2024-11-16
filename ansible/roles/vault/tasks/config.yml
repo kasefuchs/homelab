@@ -1,0 +1,22 @@
+---
+- name: Copy Vault server config
+  when: vault_server | bool
+  notify: Restart Vault server
+  ansible.builtin.template:
+    src: server.hcl.j2
+    dest: /etc/vault.d/server.hcl
+    mode: "0644"
+    owner: vault
+    group: vault
+
+- name: Copy Vault proxy config
+  notify: Restart Vault proxy
+  ansible.builtin.template:
+    src: proxy.hcl.j2
+    dest: /etc/vault.d/proxy.hcl
+    mode: "0644"
+    owner: vault
+    group: vault
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
