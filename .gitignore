@@ -15,8 +15,8 @@ docs/build/
 .terraform/
 
 # .tfstate files
-.tfstate
-.tfstate.*
+*.tfstate
+*.tfstate.*
 
 # .tfvars files
 *.tfvars
@@ -28,9 +28,9 @@ docs/build/
 # ---> Custom
 # Integrated development environment
 .idea/
-*.iml
 .vs/
 .vscode/
+*.iml
 
 # Secrets
 *.secret.*
