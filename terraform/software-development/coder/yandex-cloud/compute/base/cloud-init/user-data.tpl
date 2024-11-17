@@ -12,11 +12,13 @@ users:
     shell: /bin/bash
 
 write_files:
+  # Coder initialization script.
   - path: /opt/coder/init
     permissions: "0755"
     encoding: b64
     content: ${coder_agent_init_script}
 
+  # Coder service.
   - path: /etc/systemd/system/coder-agent.service
     permissions: "0644"
     content: |
@@ -41,5 +43,6 @@ write_files:
       WantedBy=multi-user.target
 
 runcmd:
+  # Start services.
   - systemctl daemon-reload
   - systemctl start coder-agent

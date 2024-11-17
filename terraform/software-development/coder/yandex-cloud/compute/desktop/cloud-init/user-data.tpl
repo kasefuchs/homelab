@@ -12,23 +12,13 @@ users:
     shell: /bin/bash
 
 write_files:
+  # Coder initialization script.
   - path: /opt/coder/init
     permissions: "0755"
     encoding: b64
     content: ${coder_agent_init_script}
 
-  - path: /etc/lightdm/lightdm.conf
-    permissions: "0644"
-    content: |
-      [VNCServer]
-      enabled=true
-      command=/usr/bin/Xvnc -rfbauth /etc/vncpasswd
-      port=5900
-      listen-address=127.0.0.1
-      depth=16
-      width=1280
-      height=720
-
+  # Coder service.
   - path: /etc/systemd/system/coder-agent.service
     permissions: "0644"
     content: |
@@ -52,6 +42,20 @@ write_files:
       [Install]
       WantedBy=multi-user.target
 
+  # LightDM configuration.
+  - path: /etc/lightdm/lightdm.conf
+    permissions: "0644"
+    content: |
+      [VNCServer]
+      enabled=true
+      command=/usr/bin/Xvnc -rfbauth /etc/vncpasswd
+      port=5900
+      listen-address=127.0.0.1
+      depth=16
+      width=1280
+      height=720
+
+  # NoVNC service.
   - path: /etc/systemd/system/novnc.service
     permissions: "0644"
     content: |
