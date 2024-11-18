@@ -1,0 +1,16 @@
+[Unit]
+Description="Envoy proxy to detect active HashiCorp Vault server"
+Wants=network-online.target
+
+[Service]
+User=vault
+Group=vault
+
+Type=simple
+ExecStart=/usr/local/bin/envoy --config-path /etc/vault.d/envoy.yml
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

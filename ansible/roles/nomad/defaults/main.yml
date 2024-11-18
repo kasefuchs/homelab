@@ -29,6 +29,9 @@ nomad_encrypt: null
 # Specifies whether the web UI is enabled.
 nomad_ui_enabled: true
 
+# Specifies URL pointing to Vault UI.
+nomad_vault_ui_url: "https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8100"
+
 # Specifies URL pointing to Consul UI.
 nomad_consul_ui_url: "https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8501"
 

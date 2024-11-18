@@ -89,6 +89,12 @@
         dest: /etc/systemd/system/vault.service
         mode: "0644"
 
+    - name: Install Envoy proxy service
+      ansible.builtin.template:
+        src: vault-envoy.service.j2
+        dest: /etc/systemd/system/vault-envoy.service
+        mode: "0644"
+
     - name: Install Vault proxy service
       ansible.builtin.template:
         src: vault-proxy.service.j2
@@ -102,6 +108,11 @@
   when: vault_server | bool
   ansible.builtin.systemd_service:
     name: vault
+    enabled: true
+
+- name: Enable Envoy proxy
+  ansible.builtin.systemd_service:
+    name: vault-envoy
     enabled: true
 
 - name: Enable Vault proxy

@@ -1,0 +1,5 @@
+---
+# Map of Ansible architectures to correspondent Envoy architectures.
+envoy_architectures:
+  aarch64: aarch_64
+  x86_64: x86_64

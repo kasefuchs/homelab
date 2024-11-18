@@ -9,6 +9,15 @@
     owner: vault
     group: vault
 
+- name: Copy Envoy proxy config
+  notify: Restart Envoy proxy
+  ansible.builtin.template:
+    src: envoy.yml.j2
+    dest: /etc/vault.d/envoy.yml
+    mode: "0644"
+    owner: vault
+    group: vault
+
 - name: Copy Vault proxy config
   notify: Restart Vault proxy
   ansible.builtin.template:
