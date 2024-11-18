@@ -33,11 +33,3 @@ storage "raft" {
   }
 {% endfor %}
 }
-
-service_registration "consul" {
-  address = "https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8501"
-
-  tls_ca_file   = "/etc/consul.d/certificates/ca.pem"
-  tls_key_file  = "/etc/consul.d/certificates/cli.key"
-  tls_cert_file = "/etc/consul.d/certificates/cli.pem"
-}

@@ -43,6 +43,26 @@
     name: vault-proxy
     state: started
 
+- name: Enable Envoy proxy
+  ansible.builtin.systemd_service:
+    name: vault-envoy
+    enabled: true
+
+- name: Reload Envoy proxy
+  ansible.builtin.systemd_service:
+    name: vault-envoy
+    state: reloaded
+
+- name: Restart Envoy proxy
+  ansible.builtin.systemd_service:
+    name: vault-envoy
+    state: restarted
+
+- name: Start Envoy proxy
+  ansible.builtin.systemd_service:
+    name: vault-envoy
+    state: started
+
 - name: Update service facts
   listen: Update Vault
   ansible.builtin.service_facts:

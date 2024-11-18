@@ -1,0 +1,45 @@
+---
+- name: Install Envoy binary
+  block:
+    - name: Receive Envoy latest version
+      when: envoy_version is undefined or envoy_version == "latest"
+      block:
+        - name: Fetch latest Envoy GitHub release
+          register: envoy_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/envoyproxy/envoy/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest Envoy version
+          ansible.builtin.set_fact:
+            envoy_version: "{{ envoy_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+
+    - name: Detect Envoy architecture
+      ansible.builtin.set_fact:
+        envoy_architecture: "{{ envoy_architectures[ansible_architecture] }}"
+
+    - name: Create Envoy package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/envoy/{{ envoy_version }}
+        state: directory
+
+    - name: Download Envoy proxy binary
+      ansible.builtin.get_url:
+        url: "{{ envoy_source }}"
+        dest: /usr/local/src/envoy/{{ envoy_version }}/envoy
+        mode: "0775"
+
+    - name: Link Envoy proxy binary
+      ansible.builtin.file:
+        src: /usr/local/src/envoy/{{ envoy_version }}/envoy
+        dest: /usr/local/bin/envoy
+        state: link
+        force: true
+
+    - name: Create Envoy version lockfile
+      ansible.builtin.copy:
+        content: "{{ envoy_version }}"
+        dest: /usr/local/src/envoy/.version-lock
+        mode: "0644"

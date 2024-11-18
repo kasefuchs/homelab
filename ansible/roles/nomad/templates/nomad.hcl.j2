@@ -15,6 +15,10 @@ consul {
 ui {
   enabled = {{ nomad_ui_enabled | lower }}
 
+  vault {
+    ui_url = "{{ nomad_vault_ui_url | default('') }}"
+  }
+
   consul {
     ui_url = "{{ nomad_consul_ui_url | default('') }}"
   }
