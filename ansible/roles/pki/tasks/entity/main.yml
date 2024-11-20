@@ -1,0 +1,18 @@
+---
+- name: Create entity certificate store
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ playbook_dir }}/secrets/pki/entity"
+    state: directory
+
+- name: Create Nebula entity certificates
+  ansible.builtin.import_tasks: nebula.yml
+
+- name: Create Vault entity certificates
+  ansible.builtin.import_tasks: vault.yml
+
+- name: Create Consul entity certificates
+  ansible.builtin.import_tasks: consul.yml
+
+- name: Create Nomad entity certificates
+  ansible.builtin.import_tasks: nomad.yml

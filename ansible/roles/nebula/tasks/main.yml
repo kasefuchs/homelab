@@ -3,7 +3,7 @@
   ansible.builtin.import_tasks: install.yml
 
 - name: Configure Nebula certificates
-  ansible.builtin.import_tasks: cert.yml
+  ansible.builtin.import_tasks: certificate.yml
 
 - name: Configure Nebula
   ansible.builtin.import_tasks: config.yml

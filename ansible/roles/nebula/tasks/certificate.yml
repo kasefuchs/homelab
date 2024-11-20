@@ -1,0 +1,35 @@
+---
+- name: Create Nebula certificates directory
+  ansible.builtin.file:
+    path: /etc/nebula.d/certificates
+    state: directory
+    mode: "0755"
+    owner: nebula
+    group: nebula
+
+- name: Copy Nebula CA
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/secrets/pki/ca/nebula.pem"
+    dest: /etc/nebula.d/certificates/ca.pem
+    mode: "0644"
+    owner: nebula
+    group: nebula
+
+- name: Copy Nebula Client certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: nebula
+    group: nebula
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/nebula/{{ ansible_hostname }}/client.pem"
+      dest: /etc/nebula.d/certificates/client.pem
+      mode: "0644"
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/nebula/{{ ansible_hostname }}/client.key"
+      dest: /etc/nebula.d/certificates/client.key
+      mode: "0600"
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"

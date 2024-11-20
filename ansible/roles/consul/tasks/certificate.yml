@@ -1,0 +1,52 @@
+---
+- name: Create Consul certificates directory
+  ansible.builtin.file:
+    path: /etc/consul.d/certificates
+    state: directory
+    mode: "0755"
+    owner: consul
+    group: consul
+
+- name: Copy Consul public Certification Authority
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/secrets/pki/ca/consul.pem"
+    dest: /etc/consul.d/certificates/ca.pem
+    mode: "0644"
+    owner: consul
+    group: consul
+
+- name: Copy Consul Agent certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: consul
+    group: consul
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ consul_datacenter }}/{{ ansible_hostname }}/{{ 'server' if consul_server else 'client' }}.pem"
+      dest: /etc/consul.d/certificates/agent.pem
+      mode: "0644"
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ consul_datacenter }}/{{ ansible_hostname }}/{{ 'server' if consul_server else 'client' }}.key"
+      dest: /etc/consul.d/certificates/agent.key
+      mode: "0600"
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Copy Consul CLI certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+    owner: consul
+    group: consul
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ consul_datacenter }}/cli.pem"
+      dest: /etc/consul.d/certificates/cli.pem
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ consul_datacenter }}/cli.key"
+      dest: /etc/consul.d/certificates/cli.key
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"

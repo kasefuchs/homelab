@@ -4,14 +4,14 @@
   register: vault_unseal_keys_stat
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{ role_path }}/files/secrets/keys.secret.json"
+    path: "{{ playbook_dir }}/secrets/vault/keys.json"
 
 - name: Read unseal keys
   when:
     - vault_unseal_keys_stat.stat is defined
     - vault_unseal_keys_stat.stat.exists
   ansible.builtin.set_fact:
-    vault_keys: "{{ lookup('ansible.builtin.file', '{{ role_path }}/files/secrets/keys.secret.json') | from_json }}"
+    vault_keys: "{{ lookup('ansible.builtin.file', '{{ playbook_dir }}/secrets/vault/keys.json') | from_json }}"
 
 - name: Check Vault server status
   when: vault_keys is defined
@@ -31,9 +31,9 @@
           - status
           - --format=json
           - --address={{ vault_unseal_server_address }}
-          - --ca-cert={{ role_path }}/files/certificates/vault-ca.pem
-          - --client-key={{ role_path }}/files/certificates/vault-client.key
-          - --client-cert={{ role_path }}/files/certificates/vault-client.pem
+          - --ca-cert={{ playbook_dir }}/secrets/pki/ca/vault.pem
+          - --client-key={{ playbook_dir }}/secrets/pki/entity/vault/cli.key
+          - --client-cert={{ playbook_dir }}/secrets/pki/entity/vault/cli.pem
 
     - name: Parse Vault server status
       when: vault_unseal_status_raw.stdout is defined
@@ -60,7 +60,7 @@
           - unseal
           - --format=json
           - --address=https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:8200
-          - --ca-cert={{ role_path }}/files/certificates/vault-ca.pem
-          - --client-key={{ role_path }}/files/certificates/vault-client.key
-          - --client-cert={{ role_path }}/files/certificates/vault-client.pem
+          - --ca-cert={{ playbook_dir }}/secrets/pki/ca/vault.pem
+          - --client-key={{ playbook_dir }}/secrets/pki/entity/vault/cli.key
+          - --client-cert={{ playbook_dir }}/secrets/pki/entity/vault/cli.pem
           - "{{ item }}"

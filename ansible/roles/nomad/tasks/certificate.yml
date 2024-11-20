@@ -1,0 +1,52 @@
+---
+- name: Create Nomad certificates directory
+  ansible.builtin.file:
+    path: /etc/nomad.d/certificates
+    state: directory
+    mode: "0755"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+
+- name: Copy Nomad public Certification Authority
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/secrets/pki/ca/nomad.pem"
+    dest: /etc/nomad.d/certificates/ca.pem
+    mode: "0644"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+
+- name: Copy Nomad Agent certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/{{ ansible_hostname }}/{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}.pem"
+      dest: /etc/nomad.d/certificates/agent.pem
+      mode: "0644"
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/{{ ansible_hostname }}/{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}.key"
+      dest: /etc/nomad.d/certificates/agent.key
+      mode: "0600"
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Copy Nomad CLI certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/cli.pem"
+      dest: /etc/nomad.d/certificates/cli.pem
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/cli.key"
+      dest: /etc/nomad.d/certificates/cli.key
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"

@@ -1,0 +1,10 @@
+---
+#
+pki_entity_consul_datacenter: muttias
+
+#
+pki_entity_nomad_region: global
+
+#
+pki_ca_nebula_ips:
+  - 172.16.0.0/12

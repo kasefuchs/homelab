@@ -45,9 +45,10 @@ client {
 }
 
 consul {
+  share_ssl = true
+
   grpc_address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:8503"
   grpc_ca_file = "/etc/consul.d/certificates/ca.pem"
-  share_ssl    = true
 }
 
 plugin "docker" {

@@ -19,9 +19,9 @@
           - status
           - --format=json
           - --address={{ vault_init_server_address }}
-          - --ca-cert={{ role_path }}/files/certificates/vault-ca.pem
-          - --client-key={{ role_path }}/files/certificates/vault-client.key
-          - --client-cert={{ role_path }}/files/certificates/vault-client.pem
+          - --ca-cert={{ playbook_dir }}/secrets/pki/ca/vault.pem
+          - --client-key={{ playbook_dir }}/secrets/pki/entity/vault/cli.key
+          - --client-cert={{ playbook_dir }}/secrets/pki/entity/vault/cli.pem
 
     - name: Parse Vault server status
       when: vault_init_status_raw.stdout is defined
@@ -46,9 +46,9 @@
           - init
           - --format=json
           - --address={{ vault_init_server_address }}
-          - --ca-cert={{ role_path }}/files/certificates/vault-ca.pem
-          - --client-key={{ role_path }}/files/certificates/vault-client.key
-          - --client-cert={{ role_path }}/files/certificates/vault-client.pem
+          - --ca-cert={{ playbook_dir }}/secrets/pki/ca/vault.pem
+          - --client-key={{ playbook_dir }}/secrets/pki/entity/vault/cli.key
+          - --client-cert={{ playbook_dir }}/secrets/pki/entity/vault/cli.pem
           - --key-shares={{ vault_key_shares }}
           - --key-threshold={{ vault_key_threshold }}
 
@@ -61,4 +61,4 @@
       when: vault_init_json is defined
       ansible.builtin.copy:
         content: "{{ vault_init_json | to_json(indent=2, sort_keys=True) }}"
-        dest: "{{ role_path }}/files/secrets/keys.secret.json"
+        dest: "{{ playbook_dir }}/secrets/vault/keys.json"
