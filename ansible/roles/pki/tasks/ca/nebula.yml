@@ -1,0 +1,12 @@
+---
+- name: Create Nebula CA certificate
+  ansible.builtin.command:
+    argv:
+      - nebula-cert
+      - ca
+      - -ips={{ pki_ca_nebula_ips | join(',') }}
+      - -name=Muttias Nebula CA
+      - -out-crt={{ playbook_dir }}/secrets/pki/ca/nebula.pem
+      - -out-key={{ playbook_dir }}/secrets/pki/ca/nebula.key
+      - -duration=87600h0m0s
+    creates: "{{ playbook_dir }}/secrets/pki/ca/nebula.pem"
