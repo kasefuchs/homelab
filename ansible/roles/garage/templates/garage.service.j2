@@ -6,7 +6,7 @@ BindsTo=nebula.service
 [Service]
 User=garage
 Group=garage
-ExecStart=/usr/local/bin/garage -c /etc/garage.d/garage.toml server
+ExecStart=/usr/local/bin/garage -c /etc/garage/garage.toml server
 Restart=on-failure
 
 [Install]

@@ -8,7 +8,7 @@ User={{ nomad_user }}
 Group={{ nomad_group }}
 
 Type=notify
-ExecStart=/usr/local/bin/nomad agent -data-dir="{{ nomad_data_dir }}" -config="/etc/nomad.d"
+ExecStart=/usr/local/bin/nomad agent -data-dir="{{ nomad_data_dir }}" -config="/etc/nomad"
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGTERM

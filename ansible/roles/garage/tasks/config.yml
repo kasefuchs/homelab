@@ -2,7 +2,7 @@
 - name: Copy Garage configuration
   ansible.builtin.template:
     src: garage.toml.j2
-    dest: /etc/garage.d/garage.toml
+    dest: /etc/garage/garage.toml
     owner: garage
     group: garage
     mode: "0644"
@@ -11,7 +11,7 @@
 - name: Copy Consul check script
   ansible.builtin.template:
     src: check.sh.j2
-    dest: /etc/garage.d/check.sh
+    dest: /etc/garage/check.sh
     owner: garage
     group: garage
     mode: "0755"
@@ -19,7 +19,7 @@
 - name: Copy Consul service
   ansible.builtin.template:
     src: garage.hcl.j2
-    dest: /etc/consul.d/garage.hcl
+    dest: /etc/consul/garage.hcl
     owner: consul
     group: consul
     mode: "0644"

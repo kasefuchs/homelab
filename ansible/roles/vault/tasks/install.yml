@@ -68,7 +68,7 @@
     state: directory
   loop:
     - name: Vault config
-      path: /etc/vault.d
+      path: /etc/vault
       mode: "0755"
     - name: Vault data
       path: "{{ vault_data_dir }}"

@@ -67,7 +67,7 @@
     state: directory
   loop:
     - name: Garage config
-      path: /etc/garage.d
+      path: /etc/garage
       mode: "0755"
     - name: Garage data
       path: "{{ garage_data_dir }}"

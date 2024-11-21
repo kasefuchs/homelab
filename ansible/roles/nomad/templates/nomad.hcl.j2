@@ -7,9 +7,9 @@ consul {
   address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:8501"
 
   ssl       = true
-  ca_file   = "/etc/consul.d/certificates/ca.pem"
-  key_file  = "/etc/consul.d/certificates/cli.key"
-  cert_file = "/etc/consul.d/certificates/cli.pem"
+  ca_file   = "/etc/consul/certificates/ca.pem"
+  key_file  = "/etc/consul/certificates/cli.key"
+  cert_file = "/etc/consul/certificates/cli.pem"
 }
 
 ui {
@@ -28,9 +28,9 @@ tls {
   rpc  = true
   http = true
 
-  ca_file   = "/etc/nomad.d/certificates/ca.pem"
-  key_file  = "/etc/nomad.d/certificates/agent.key"
-  cert_file = "/etc/nomad.d/certificates/agent.pem"
+  ca_file   = "/etc/nomad/certificates/ca.pem"
+  key_file  = "/etc/nomad/certificates/agent.key"
+  cert_file = "/etc/nomad/certificates/agent.pem"
 
   verify_https_client    = false
   verify_server_hostname = true

@@ -79,7 +79,7 @@
     state: directory
   loop:
     - name: Nomad config
-      path: /etc/nomad.d
+      path: /etc/nomad
       mode: "0755"
     - name: Nomad mounts
       path: "{{ nomad_mounts_dir }}"

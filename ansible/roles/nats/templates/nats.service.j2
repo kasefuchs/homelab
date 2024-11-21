@@ -8,7 +8,7 @@ User=nats
 Group=nats
 
 Type=simple
-ExecStart=/usr/local/bin/nats-server -c /etc/nats.d/server.conf
+ExecStart=/usr/local/bin/nats-server -c /etc/nats/server.conf
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s SIGINT $MAINPID
 KillMode=process

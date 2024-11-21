@@ -8,7 +8,7 @@ User=consul
 Group=consul
 
 Type=notify
-ExecStart=/usr/local/bin/consul agent -data-dir="{{ consul_data_dir }}" -config-dir="/etc/consul.d"
+ExecStart=/usr/local/bin/consul agent -data-dir="{{ consul_data_dir }}" -config-dir="/etc/consul"
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGTERM

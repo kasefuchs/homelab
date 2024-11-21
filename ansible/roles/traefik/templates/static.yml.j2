@@ -5,24 +5,24 @@ api:
 
 providers:
   file:
-    filename: /etc/traefik.d/dynamic.yml
+    filename: /etc/traefik/dynamic.yml
 
   nomad:
     exposedByDefault: {{ traefik_expose_by_default | lower }}
     endpoint:
       address: https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:4646
       tls:
-        ca: /etc/nomad.d/certificates/ca.pem
-        key: /etc/nomad.d/certificates/cli.key
-        cert: /etc/nomad.d/certificates/cli.pem
+        ca: /etc/nomad/certificates/ca.pem
+        key: /etc/nomad/certificates/cli.key
+        cert: /etc/nomad/certificates/cli.pem
 
   consul:
     endpoints:
       - {{ nebula_ip | ansible.utils.ipaddr('address') }}:8501
     tls:
-      ca: /etc/consul.d/certificates/ca.pem
-      key: /etc/consul.d/certificates/cli.key
-      cert: /etc/consul.d/certificates/cli.pem
+      ca: /etc/consul/certificates/ca.pem
+      key: /etc/consul/certificates/cli.key
+      cert: /etc/consul/certificates/cli.pem
 
   consulCatalog:
     exposedByDefault: {{ traefik_expose_by_default | lower }}
@@ -30,9 +30,9 @@ providers:
       scheme: "https"
       address: {{ nebula_ip | ansible.utils.ipaddr('address') }}:8501
       tls:
-        ca: /etc/consul.d/certificates/ca.pem
-        key: /etc/consul.d/certificates/cli.key
-        cert: /etc/consul.d/certificates/cli.pem
+        ca: /etc/consul/certificates/ca.pem
+        key: /etc/consul/certificates/cli.key
+        cert: /etc/consul/certificates/cli.pem
 
 entryPoints:
 {% for name, config in traefik_entrypoints.items() %}

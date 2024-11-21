@@ -1,7 +1,7 @@
 ---
 - name: Create Vault certificates directory
   ansible.builtin.file:
-    path: /etc/vault.d/certificates
+    path: /etc/vault/certificates
     state: directory
     mode: "0755"
     owner: vault
@@ -10,7 +10,7 @@
 - name: Copy Vault public Certification Authority
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/secrets/pki/ca/vault.pem"
-    dest: /etc/vault.d/certificates/ca.pem
+    dest: /etc/vault/certificates/ca.pem
     mode: "0644"
     owner: vault
     group: vault
@@ -24,11 +24,11 @@
     group: vault
   loop:
     - src: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/proxy.pem"
-      dest: /etc/vault.d/certificates/proxy.pem
+      dest: /etc/vault/certificates/proxy.pem
       mode: "0644"
       name: Public Key
     - src: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/proxy.key"
-      dest: /etc/vault.d/certificates/proxy.key
+      dest: /etc/vault/certificates/proxy.key
       mode: "0600"
       name: Private Key
   loop_control:
@@ -44,11 +44,11 @@
     group: vault
   loop:
     - src: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/server.pem"
-      dest: /etc/vault.d/certificates/server.pem
+      dest: /etc/vault/certificates/server.pem
       mode: "0644"
       name: Public Key
     - src: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/server.key"
-      dest: /etc/vault.d/certificates/server.key
+      dest: /etc/vault/certificates/server.key
       mode: "0600"
       name: Private Key
   loop_control:
@@ -63,10 +63,10 @@
     group: vault
   loop:
     - src: "{{ playbook_dir }}/secrets/pki/entity/vault/cli.pem"
-      dest: /etc/vault.d/certificates/cli.pem
+      dest: /etc/vault/certificates/cli.pem
       name: Public Key
     - src: "{{ playbook_dir }}/secrets/pki/entity/vault/cli.key"
-      dest: /etc/vault.d/certificates/cli.key
+      dest: /etc/vault/certificates/cli.key
       name: Private Key
   loop_control:
     label: "{{ item.name }}"

@@ -1,7 +1,7 @@
 ---
 - name: Create Nomad certificates directory
   ansible.builtin.file:
-    path: /etc/nomad.d/certificates
+    path: /etc/nomad/certificates
     state: directory
     mode: "0755"
     owner: "{{ nomad_user }}"
@@ -10,7 +10,7 @@
 - name: Copy Nomad public Certification Authority
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/secrets/pki/ca/nomad.pem"
-    dest: /etc/nomad.d/certificates/ca.pem
+    dest: /etc/nomad/certificates/ca.pem
     mode: "0644"
     owner: "{{ nomad_user }}"
     group: "{{ nomad_group }}"
@@ -24,11 +24,11 @@
     group: "{{ nomad_group }}"
   loop:
     - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/{{ ansible_hostname }}/{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}.pem"
-      dest: /etc/nomad.d/certificates/agent.pem
+      dest: /etc/nomad/certificates/agent.pem
       mode: "0644"
       name: Public Key
     - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/{{ ansible_hostname }}/{{ 'client' if (nomad_client | bool) and not (nomad_server | bool) else 'server' }}.key"
-      dest: /etc/nomad.d/certificates/agent.key
+      dest: /etc/nomad/certificates/agent.key
       mode: "0600"
       name: Private Key
   loop_control:
@@ -43,10 +43,10 @@
     group: "{{ nomad_group }}"
   loop:
     - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/cli.pem"
-      dest: /etc/nomad.d/certificates/cli.pem
+      dest: /etc/nomad/certificates/cli.pem
       name: Public Key
     - src: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ nomad_region }}/cli.key"
-      dest: /etc/nomad.d/certificates/cli.key
+      dest: /etc/nomad/certificates/cli.key
       name: Private Key
   loop_control:
     label: "{{ item.name }}"

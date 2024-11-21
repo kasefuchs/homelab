@@ -2,7 +2,7 @@
   check = {
     id   = "garage-{{ service }}-check"
     name = "Garage {{ service }} check script"
-    args = ["/bin/sh", "/etc/garage.d/check.sh"]
+    args = ["/bin/sh", "/etc/garage/check.sh"]
 
     interval = "30s"
     timeout  = "5s"

@@ -4,7 +4,7 @@
     - name: Create CoreDNS zones directory
       ansible.builtin.file:
         mode: "0755"
-        path: /etc/coredns.d/zones
+        path: /etc/coredns/zones
         state: directory
         owner: coredns
         group: coredns
@@ -12,7 +12,7 @@
     - name: Copy CoreDNS zone databases
       ansible.builtin.template:
         src: "zones/db.{{ item }}.j2"
-        dest: "/etc/coredns.d/zones/db.{{ item }}"
+        dest: "/etc/coredns/zones/db.{{ item }}"
         owner: coredns
         group: coredns
         mode: "0644"
@@ -21,7 +21,7 @@
 - name: Copy CoreDNS configuration
   ansible.builtin.template:
     src: Corefile.j2
-    dest: /etc/coredns.d/Corefile
+    dest: /etc/coredns/Corefile
     owner: coredns
     group: coredns
     mode: "0644"

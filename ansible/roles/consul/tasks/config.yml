@@ -5,7 +5,7 @@
     - name: Consul common config
       ansible.builtin.template:
         src: consul.hcl.j2
-        dest: /etc/consul.d/consul.hcl
+        dest: /etc/consul/consul.hcl
         mode: "0644"
         owner: consul
         group: consul
@@ -16,14 +16,14 @@
         - name: Add Consul server-only config
           ansible.builtin.template:
             src: server.hcl.j2
-            dest: /etc/consul.d/server.hcl
+            dest: /etc/consul/server.hcl
             mode: "0644"
             owner: consul
             group: consul
 
         - name: Remove Consul client-only config
           ansible.builtin.file:
-            path: /etc/consul.d/client.hcl
+            path: /etc/consul/client.hcl
             state: absent
 
     - name: Consul client-only config
@@ -32,14 +32,14 @@
         - name: Add Consul client-only config
           ansible.builtin.template:
             src: client.hcl.j2
-            dest: /etc/consul.d/client.hcl
+            dest: /etc/consul/client.hcl
             mode: "0644"
             owner: consul
             group: consul
 
         - name: Remove Consul server-only config
           ansible.builtin.file:
-            path: /etc/consul.d/server.hcl
+            path: /etc/consul/server.hcl
             state: absent
 
 - name: Ensure handlers to run
