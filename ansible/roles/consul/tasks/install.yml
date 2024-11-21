@@ -68,7 +68,7 @@
     state: directory
   loop:
     - name: Consul config
-      path: /etc/consul.d
+      path: /etc/consul
       mode: "0755"
     - name: Consul data
       path: "{{ consul_data_dir }}"

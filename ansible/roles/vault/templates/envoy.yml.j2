@@ -33,12 +33,12 @@ static_resources:
               common_tls_context:
                 tls_certificates:
                   - private_key:
-                      filename: "/etc/vault.d/certificates/cli.key"
+                      filename: "/etc/vault/certificates/cli.key"
                     certificate_chain:
-                      filename: "/etc/vault.d/certificates/cli.pem"
+                      filename: "/etc/vault/certificates/cli.pem"
                 validation_context:
                   trusted_ca:
-                    filename: "/etc/vault.d/certificates/ca.pem"
+                    filename: "/etc/vault/certificates/ca.pem"
   listeners:
     - name: listener
       address:

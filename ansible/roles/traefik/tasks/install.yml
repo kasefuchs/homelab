@@ -62,7 +62,7 @@
 - name: Create Traefik config directory
   ansible.builtin.file:
     mode: "0755"
-    path: /etc/traefik.d
+    path: /etc/traefik
     state: directory
     owner: traefik
     group: traefik

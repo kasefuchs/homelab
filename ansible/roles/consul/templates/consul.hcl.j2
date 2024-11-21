@@ -29,9 +29,9 @@ ports {
 
 tls {
   defaults {
-    ca_file   = "/etc/consul.d/certificates/ca.pem"
-    key_file  = "/etc/consul.d/certificates/agent.key"
-    cert_file = "/etc/consul.d/certificates/agent.pem"
+    ca_file   = "/etc/consul/certificates/ca.pem"
+    key_file  = "/etc/consul/certificates/agent.key"
+    cert_file = "/etc/consul/certificates/agent.pem"
 
     verify_incoming        = true
     verify_outgoing        = true

@@ -7,7 +7,7 @@ After=network.target
 User=coredns
 Group=coredns
 AmbientCapabilities=CAP_NET_BIND_SERVICE
-ExecStart=/usr/local/bin/coredns -dns.port={{ coredns_port }} -conf=/etc/coredns.d/Corefile
+ExecStart=/usr/local/bin/coredns -dns.port={{ coredns_port }} -conf=/etc/coredns/Corefile
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 KillMode=process
 KillSignal=SIGTERM

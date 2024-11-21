@@ -14,7 +14,7 @@
     - name: Nomad common config
       ansible.builtin.template:
         src: nomad.hcl.j2
-        dest: /etc/nomad.d/nomad.hcl
+        dest: /etc/nomad/nomad.hcl
         mode: "0644"
         owner: "{{ nomad_user }}"
         group: "{{ nomad_group }}"
@@ -23,7 +23,7 @@
       when: nomad_server | bool
       ansible.builtin.template:
         src: server.hcl.j2
-        dest: /etc/nomad.d/server.hcl
+        dest: /etc/nomad/server.hcl
         mode: "0644"
         owner: "{{ nomad_user }}"
         group: "{{ nomad_group }}"
@@ -32,7 +32,7 @@
       when: nomad_client | bool
       ansible.builtin.template:
         src: client.hcl.j2
-        dest: /etc/nomad.d/client.hcl
+        dest: /etc/nomad/client.hcl
         mode: "0644"
         owner: "{{ nomad_user }}"
         group: "{{ nomad_group }}"
@@ -40,13 +40,13 @@
     - name: Remove Nomad client-only config
       when: not nomad_client
       ansible.builtin.file:
-        path: /etc/nomad.d/client.hcl
+        path: /etc/nomad/client.hcl
         state: absent
 
     - name: Remove Nomad server-only config
       when: not nomad_server
       ansible.builtin.file:
-        path: /etc/nomad.d/server.hcl
+        path: /etc/nomad/server.hcl
         state: absent
 
 - name: Create Nomad host volumes

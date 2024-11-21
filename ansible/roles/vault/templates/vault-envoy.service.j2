@@ -7,7 +7,7 @@ User=vault
 Group=vault
 
 Type=simple
-ExecStart=/usr/local/bin/envoy --config-path /etc/vault.d/envoy.yml
+ExecStart=/usr/local/bin/envoy --config-path /etc/vault/envoy.yml
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStop=/bin/kill -TERM $MAINPID
 Restart=on-failure

@@ -23,7 +23,7 @@ consul {
 
 {{ coredns_zones | join(' ') }} {
   auto {
-    directory /etc/coredns.d/zones/
+    directory /etc/coredns/zones/
     reload 30s
   }
   errors

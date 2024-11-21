@@ -62,7 +62,7 @@
 - name: Create Nebula config directory
   ansible.builtin.file:
     mode: "0755"
-    path: /etc/nebula.d
+    path: /etc/nebula
     state: directory
     owner: nebula
     group: nebula

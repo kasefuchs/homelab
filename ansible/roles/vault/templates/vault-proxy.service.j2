@@ -8,7 +8,7 @@ User=vault
 Group=vault
 
 Type=notify
-ExecStart=/usr/local/bin/vault proxy -config /etc/vault.d/proxy.hcl
+ExecStart=/usr/local/bin/vault proxy -config /etc/vault/proxy.hcl
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGINT

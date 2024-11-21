@@ -62,7 +62,7 @@
 - name: Create CoreDNS config directory
   ansible.builtin.file:
     mode: "0755"
-    path: /etc/coredns.d
+    path: /etc/coredns
     state: directory
     owner: coredns
     group: coredns

@@ -71,7 +71,7 @@
     state: directory
   loop:
     - name: NATS config
-      path: /etc/nats.d
+      path: /etc/nats
       mode: "0755"
     - name: NATS JetStream data
       path: "{{ nats_jetstream_store_dir }}"

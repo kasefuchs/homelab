@@ -8,7 +8,7 @@ User=vault
 Group=vault
 
 Type=notify
-ExecStart=/usr/local/bin/vault server -config /etc/vault.d/server.hcl
+ExecStart=/usr/local/bin/vault server -config /etc/vault/server.hcl
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGINT

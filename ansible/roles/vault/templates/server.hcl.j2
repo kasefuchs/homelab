@@ -9,8 +9,8 @@ listener "tcp" {
   address         = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:8200"
   cluster_address = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:8201"
 
-  tls_key_file  = "/etc/vault.d/certificates/server.key"
-  tls_cert_file = "/etc/vault.d/certificates/server.pem"
+  tls_key_file  = "/etc/vault/certificates/server.key"
+  tls_cert_file = "/etc/vault/certificates/server.pem"
 }
 
 disable_mlock = true
@@ -24,9 +24,9 @@ storage "raft" {
     leader_api_addr       = "https://{{ vars.nebula_ip | ansible.utils.ipaddr('address') }}:8200"
     leader_tls_servername = "{{ host }}.server.vault"
 
-    leader_ca_cert_file     = "/etc/vault.d/certificates/ca.pem"
-    leader_client_key_file  = "/etc/vault.d/certificates/cli.key"
-    leader_client_cert_file = "/etc/vault.d/certificates/cli.pem"
+    leader_ca_cert_file     = "/etc/vault/certificates/ca.pem"
+    leader_client_key_file  = "/etc/vault/certificates/cli.key"
+    leader_client_cert_file = "/etc/vault/certificates/cli.pem"
   }
 {% endfor %}
 }
