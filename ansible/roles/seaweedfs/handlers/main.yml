@@ -1,0 +1,24 @@
+---
+- name: Reload Systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Reload Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    state: reloaded
+
+- name: Restart SeaweedFS master
+  ansible.builtin.systemd_service:
+    name: seaweedfs@master
+    state: restarted
+
+- name: Restart SeaweedFS volume
+  ansible.builtin.systemd_service:
+    name: seaweedfs@volume
+    state: restarted
+
+- name: Restart SeaweedFS filer
+  ansible.builtin.systemd_service:
+    name: seaweedfs@filer
+    state: restarted

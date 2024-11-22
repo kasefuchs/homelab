@@ -1,0 +1,6 @@
+# Address
+ip={{ nebula_ip | ansible.utils.ipaddr('address') }}
+port=8888
+
+# Cluster
+master={{ hostvars | community.general.json_query('* | [?seaweedfs_master].nebula_ip') | ansible.utils.ipaddr('address') | product(['9333']) | map('join', ':') | join(',') }}

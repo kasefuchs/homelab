@@ -1,0 +1,12 @@
+# Address
+ip={{ nebula_ip | ansible.utils.ipaddr('address') }}
+port=9333
+
+# Cluster
+peers={{ hostvars | community.general.json_query('* | [?seaweedfs_master].nebula_ip') | ansible.utils.ipaddr('address') | product(['9333']) | map('join', ':') | join(',') }}
+
+# Storage
+mdir={{ seaweedfs_master_dir }}
+
+# Replication
+defaultReplication={{ '%03d' | format(seaweedfs_master_default_replication_type | int) }}
