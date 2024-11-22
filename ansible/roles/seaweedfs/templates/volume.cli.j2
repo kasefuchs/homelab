@@ -1,0 +1,14 @@
+# Address
+ip={{ nebula_ip | ansible.utils.ipaddr('address') }}
+port=8080
+
+# Cluster
+mserver={{ hostvars | community.general.json_query('* | [?seaweedfs_master].nebula_ip') | ansible.utils.ipaddr('address') | product(['9333']) | map('join', ':') | join(',') }}
+
+# Storage
+dir={{ seaweedfs_volume_data_dirs | join(',') }}
+dir.idx={{ seaweedfs_volume_index_dir }}
+
+# Information
+rack={{ seaweedfs_volume_rack }}
+dataCenter={{ seaweedfs_volume_datacenter }}

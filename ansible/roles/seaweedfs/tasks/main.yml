@@ -1,0 +1,9 @@
+---
+- name: Install SeaweedFS
+  ansible.builtin.import_tasks: install.yml
+
+- name: Configure SeaweedFS
+  ansible.builtin.import_tasks: config.yml
+
+- name: Manage SeaweedFS services
+  ansible.builtin.import_tasks: service.yml

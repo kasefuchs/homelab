@@ -1,0 +1,73 @@
+---
+- name: Create SeaweedFS system profile
+  block:
+    - name: Create SeaweedFS group
+      ansible.builtin.group:
+        name: seaweedfs
+        state: present
+
+    - name: Create SeaweedFS user
+      ansible.builtin.user:
+        name: seaweedfs
+        group: seaweedfs
+        system: true
+
+- name: Install SeaweedFS binary
+  block:
+    - name: Receive SeaweedFS latest version
+      when: seaweedfs_version is undefined or seaweedfs_version == "latest"
+      block:
+        - name: Fetch latest SeaweedFS GitHub release
+          register: seaweedfs_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/seaweedfs/seaweedfs/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest SeaweedFS version
+          ansible.builtin.set_fact:
+            seaweedfs_version: "{{ seaweedfs_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+
+    - name: Detect SeaweedFS architecture
+      ansible.builtin.set_fact:
+        seaweedfs_architecture: "{{ seaweedfs_architectures[ansible_architecture] }}"
+
+    - name: Create SeaweedFS package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/seaweedfs/{{ seaweedfs_version }}
+        state: directory
+
+    - name: Download & extract SeaweedFS package
+      ansible.builtin.unarchive:
+        src: "{{ seaweedfs_source }}"
+        dest: /usr/local/src/seaweedfs/{{ seaweedfs_version }}
+        creates: /usr/local/src/seaweedfs/{{ seaweedfs_version }}/weed
+        remote_src: true
+
+    - name: Link SeaweedFS binary
+      ansible.builtin.file:
+        src: /usr/local/src/seaweedfs/{{ seaweedfs_version }}/weed
+        dest: /usr/local/bin/weed
+        state: link
+        force: true
+
+    - name: Create SeaweedFS version lockfile
+      #notify: Update SeaweedFS
+      ansible.builtin.copy:
+        content: "{{ seaweedfs_version }}"
+        dest: /usr/local/src/seaweedfs/.version-lock
+        mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Install SeaweedFS service
+  notify: Reload Systemd
+  ansible.builtin.template:
+    src: seaweedfs@.service.j2
+    dest: /etc/systemd/system/seaweedfs@.service
+    mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
