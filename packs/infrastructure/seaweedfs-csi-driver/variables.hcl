@@ -7,7 +7,7 @@ variable "job_name" {
 variable "region" {
   description = "The region where jobs will be deployed."
   type        = string
-  default     = ""
+  default     = "global"
 }
 
 variable "datacenters" {
@@ -23,8 +23,8 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 256,
-    memory = 256
+    cpu    = 32,
+    memory = 128
   }
 }
 
@@ -40,28 +40,16 @@ variable "constraints" {
   default = []
 }
 
-variable "service" {
-  description = "Specifies integrations with Nomad or Consul for service discovery."
-  type = object({
-    name         = string
-    port         = string
-    tags         = list(string)
-    provider     = string
-    host_network = string
-  })
-  default = {
-    name         = "shiori"
-    port         = "server"
-    tags         = []
-    provider     = "nomad"
-    host_network = ""
-  }
+variable "type" {
+  description = "Specifies the Nomad scheduler to use."
+  type        = string
+  default     = "system"
 }
 
 variable "docker_image" {
   description = "Docker image of application to deploy."
   type        = string
-  default     = "ghcr.io/kasefuchs/shiori:latest"
+  default     = "chrislusf/seaweedfs-csi-driver:latest"
 }
 
 variable "environment" {
@@ -70,28 +58,20 @@ variable "environment" {
   default     = {}
 }
 
-variable "dotenv" {
-  description = "Environment variables in dotenv format."
+variable "options" {
+  description = "Command line options, each line in optionName=optionValue format."
   type        = string
   default     = ""
 }
 
-variable "volume" {
-  description = "Volume containing shiori data."
+variable "csi_plugin" {
+  description = ""
   type = object({
-    name            = string
-    type            = string
-    source          = string
-    read_only       = bool
-    access_mode     = string
-    attachment_mode = string
+    id   = string
+    type = string
   })
   default = {
-    type            = "host"
-    name            = "shiori"
-    source          = "shiori"
-    read_only       = false
-    access_mode     = "single-node-writer"
-    attachment_mode = "file-system"
+    id   = "seaweedfs"
+    type = "monolith"
   }
 }

@@ -69,7 +69,7 @@ variable "artifacts" {
   description = ""
   type = list(
     object({
-      source = string
+      source      = string
       destination = string
     })
   )

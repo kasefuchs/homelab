@@ -79,31 +79,39 @@ variable "dotenv" {
 variable "data_volume" {
   description = "Volume containing minecraft server data."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "data"
-    source    = "minecraft-server-data"
-    read_only = false
+    type            = "host"
+    name            = "data"
+    source          = "minecraft-server-data"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
 variable "level_volume" {
   description = "Volume containing minecraft world data."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "level"
-    source    = "minecraft-server-level"
-    read_only = false
+    type            = "host"
+    name            = "level"
+    source          = "minecraft-server-level"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }

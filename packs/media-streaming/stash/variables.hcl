@@ -79,58 +79,72 @@ variable "dotenv" {
 variable "blobs_volume" {
   description = "Volume containing stash blobs."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "blobs"
-    source    = "stash-blobs"
-    read_only = false
+    type            = "host"
+    name            = "blobs"
+    source          = "stash-blobs"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
 variable "media_volume" {
   description = "Volume containing stash media."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "media"
-    source    = "stash-media"
-    read_only = false
+    type            = "host"
+    name            = "media"
+    source          = "stash-media"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
 variable "database_volume" {
   description = "Volume containing stash database data."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "database"
-    source    = "stash-database"
-    read_only = false
+    type            = "host"
+    name            = "database"
+    source          = "stash-database"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
 variable "generated_volume" {
   description = "Volume containing stash generated data."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
     type      = "host"

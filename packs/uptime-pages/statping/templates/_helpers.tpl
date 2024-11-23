@@ -67,6 +67,10 @@
       type      = [[ $volume.type | quote ]]
       source    = [[ $volume.source | quote ]]
       read_only = [[ $volume.read_only ]]
+      [[ if eq $volume.type "csi" -]]
+      access_mode     = [[ $volume.access_mode | quote ]]
+      attachment_mode = [[ $volume.attachment_mode | quote ]]
+      [[ end -]]
     }
 [[- end -]]
 
@@ -75,5 +79,14 @@
       artifact {
         source      = [[ $artifact.source | quote ]]
         destination = [[ coalesce $artifact.destination "${NOMAD_TASK_DIR}/artifacts" | quote ]]
+      }
+[[- end -]]
+
+[[ define "csi_plugin" -]]
+[[- $csi_plugin := . -]]
+      csi_plugin {
+        id        = [[ $csi_plugin.id | quote ]]
+        type      = [[ $csi_plugin.type | quote ]]
+        mount_dir = "/csi"
       }
 [[- end -]]
