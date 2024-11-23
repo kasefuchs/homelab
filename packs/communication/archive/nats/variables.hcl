@@ -61,15 +61,19 @@ variable "service" {
 variable "volume" {
   description = "Volume containing navidrome data."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "data"
-    source    = "nats"
-    read_only = false
+    type            = "host"
+    name            = "data"
+    source          = "nats"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }

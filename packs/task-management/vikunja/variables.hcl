@@ -79,15 +79,19 @@ variable "dotenv" {
 variable "files_volume" {
   description = "Volume containing files."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "files"
-    source    = "vikunja-files"
-    read_only = false
+    type            = "host"
+    name            = "files"
+    source          = "vikunja-files"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }

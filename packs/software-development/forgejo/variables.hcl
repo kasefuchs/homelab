@@ -79,47 +79,59 @@ variable "dotenv" {
 variable "data_volume" {
   description = "Volume containing data."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "data"
-    source    = "forgejo-data"
-    read_only = false
+    type            = "host"
+    name            = "data"
+    source          = "forgejo-data"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
 variable "custom_volume" {
   description = "Volume containing custom templates and other options."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "custom"
-    source    = "forgejo-custom"
-    read_only = false
+    type            = "host"
+    name            = "custom"
+    source          = "forgejo-custom"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
 variable "repository_volume" {
   description = "Volume containing repositories."
   type = object({
-    name      = string
-    type      = string
-    source    = string
-    read_only = bool
+    name            = string
+    type            = string
+    source          = string
+    read_only       = bool
+    access_mode     = string
+    attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "repository"
-    source    = "forgejo-repository"
-    read_only = false
+    type            = "host"
+    name            = "repository"
+    source          = "forgejo-repository"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
