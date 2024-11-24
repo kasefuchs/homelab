@@ -1,0 +1,6 @@
+---
+- name: Provision etcd
+  hosts: all
+  become: true
+  roles:
+    - role: etcd

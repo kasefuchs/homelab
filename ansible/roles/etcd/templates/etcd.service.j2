@@ -1,0 +1,16 @@
+[Unit]
+Description="etcd server"
+Documentation="https://etcd.io/"
+BindsTo=nebula.service
+
+[Service]
+User=etcd
+Group=etcd
+
+Type=simple
+ExecStart=/usr/local/bin/etcd --config-file /etc/etcd/server.yml
+ExecStop=/bin/kill -s SIGINT $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

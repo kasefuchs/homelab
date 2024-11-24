@@ -1,0 +1,112 @@
+---
+- name: Create etcd system profile
+  block:
+    - name: Create etcd group
+      ansible.builtin.group:
+        name: etcd
+        state: present
+
+    - name: Create etcd user
+      ansible.builtin.user:
+        name: etcd
+        group: etcd
+        system: true
+
+- name: Install etcd binary
+  block:
+    - name: Receive etcd latest version
+      when: etcd_version is undefined or etcd_version == "latest"
+      block:
+        - name: Fetch latest etcd GitHub release
+          register: etcd_github_release_response
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/etcd-io/etcd/releases/latest
+            status_code: 200
+            return_content: true
+
+        - name: Set latest etcd version
+          ansible.builtin.set_fact:
+            etcd_version: "{{ etcd_github_release_response.json.tag_name | regex_replace('^v', '') }}"
+
+    - name: Detect etcd architecture
+      ansible.builtin.set_fact:
+        etcd_architecture: "{{ etcd_architectures[ansible_architecture] }}"
+
+    - name: Create etcd package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: /usr/local/src/etcd/{{ etcd_version }}
+        state: directory
+
+    - name: Download & extract etcd package
+      ansible.builtin.unarchive:
+        src: "{{ etcd_source }}"
+        dest: /usr/local/src/etcd/{{ etcd_version }}
+        creates: /usr/local/src/etcd/{{ etcd_version }}/etcd
+        remote_src: true
+        extra_opts:
+          - --show-stored-names
+          - --strip-components=1
+
+    - name: Link etcd binary
+      ansible.builtin.file:
+        src: /usr/local/src/etcd/{{ etcd_version }}/etcd
+        dest: /usr/local/bin/etcd
+        state: link
+        force: true
+
+    - name: Create etcd version lockfile
+      #notify: Update etcd
+      ansible.builtin.copy:
+        content: "{{ etcd_version }}"
+        dest: /usr/local/src/etcd/.version-lock
+        mode: "0644"
+
+- name: Create etcd directories
+  ansible.builtin.file:
+    mode: "{{ item.mode }}"
+    path: "{{ item.path }}"
+    owner: etcd
+    group: etcd
+    state: directory
+  loop:
+    - name: etcd config
+      path: /etc/etcd
+      mode: "0755"
+    - name: etcd data
+      path: "{{ etcd_data_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Install etcd service
+  notify: Reload Systemd
+  block:
+    - name: Install etcd service
+      ansible.builtin.template:
+        src: etcd.service.j2
+        dest: /etc/systemd/system/etcd.service
+        mode: "0644"
+
+    - name: Install etcd gateway service
+      ansible.builtin.template:
+        src: etcd-gateway.service.j2
+        dest: /etc/systemd/system/etcd-gateway.service
+        mode: "0644"
+
+- name: Ensure handlers to run
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable etcd
+  when: etcd_server
+  ansible.builtin.systemd_service:
+    name: etcd
+    enabled: true
+
+- name: Enable etcd gateway
+  ansible.builtin.systemd_service:
+    name: etcd-gateway
+    enabled: true

@@ -60,14 +60,6 @@
 - name: Filer configuration
   when: seaweedfs_filer | bool
   block:
-    - name: Create filer directory
-      ansible.builtin.file:
-        path: "{{ seaweedfs_filer_dir }}"
-        mode: "0755"
-        state: directory
-        owner: seaweedfs
-        group: seaweedfs
-
     - name: Render filer configuration
       notify: Restart SeaweedFS filer
       block:
