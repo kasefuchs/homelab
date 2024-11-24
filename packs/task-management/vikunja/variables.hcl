@@ -76,6 +76,12 @@ variable "dotenv" {
   default     = ""
 }
 
+variable "config" {
+  description = ""
+  type        = string
+  default     = ""
+}
+
 variable "files_volume" {
   description = "Volume containing files."
   type = object({

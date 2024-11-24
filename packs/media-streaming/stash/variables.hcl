@@ -147,10 +147,12 @@ variable "generated_volume" {
     attachment_mode = string
   })
   default = {
-    type      = "host"
-    name      = "generated"
-    source    = "stash-generated"
-    read_only = false
+    type            = "host"
+    name            = "generated"
+    source          = "stash-generated"
+    read_only       = false
+    access_mode     = "single-node-writer"
+    attachment_mode = "file-system"
   }
 }
 
