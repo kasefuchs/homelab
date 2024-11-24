@@ -2,6 +2,9 @@
 - name: Install SeaweedFS
   ansible.builtin.import_tasks: install.yml
 
+- name: Copy SeaweedFS TLS certificates
+  ansible.builtin.import_tasks: certificate.yml
+
 - name: Configure SeaweedFS
   ansible.builtin.import_tasks: config.yml
 

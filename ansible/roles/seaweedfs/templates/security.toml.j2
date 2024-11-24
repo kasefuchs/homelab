@@ -1,0 +1,22 @@
+[grpc]
+ca = "/etc/seaweedfs/certificates/ca.pem"
+allowed_wildcard_domain = ".seaweedfs"
+
+[grpc.master]
+key = "/etc/seaweedfs/certificates/master.key"
+cert = "/etc/seaweedfs/certificates/master.pem"
+allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+
+[grpc.volume]
+key = "/etc/seaweedfs/certificates/volume.key"
+cert = "/etc/seaweedfs/certificates/volume.pem"
+allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+
+[grpc.filer]
+key = "/etc/seaweedfs/certificates/filer.key"
+cert = "/etc/seaweedfs/certificates/filer.pem"
+allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+
+[grpc.client]
+key = "/etc/seaweedfs/certificates/client.key"
+cert = "/etc/seaweedfs/certificates/client.pem"
