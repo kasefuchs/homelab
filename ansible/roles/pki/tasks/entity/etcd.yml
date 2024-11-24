@@ -1,0 +1,110 @@
+---
+- name: Create etcd certificate store
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}"
+    state: directory
+
+- name: Create etcd peer certificate
+  block:
+    - name: Create etcd peer private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/peer.key"
+      register: entity_etcd_peer_private_key
+
+    - name: Create etcd peer certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/peer.csr"
+        privatekey_path: "{{ entity_etcd_peer_private_key.filename }}"
+        common_name: "peer.etcd"
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
+          - "DNS:peer.etcd"
+          - "DNS:{{ ansible_hostname }}.peer.etcd"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: entity_etcd_peer_csr
+
+    - name: Sign etcd peer certificate
+      community.crypto.x509_certificate:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/peer.pem"
+        provider: ownca
+        csr_path: "{{ entity_etcd_peer_csr.filename }}"
+        ownca_path: "{{ ca_etcd_certificate.filename }}"
+        ownca_privatekey_path: "{{ ca_etcd_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create etcd server certificate
+  block:
+    - name: Create etcd server private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/server.key"
+      register: entity_etcd_server_private_key
+
+    - name: Create etcd server certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/server.csr"
+        privatekey_path: "{{ entity_etcd_server_private_key.filename }}"
+        common_name: "server.etcd"
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
+          - "DNS:server.etcd"
+          - "DNS:{{ ansible_hostname }}.server.etcd"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: entity_etcd_server_csr
+
+    - name: Sign etcd server certificate
+      community.crypto.x509_certificate:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/server.pem"
+        provider: ownca
+        csr_path: "{{ entity_etcd_server_csr.filename }}"
+        ownca_path: "{{ ca_etcd_certificate.filename }}"
+        ownca_privatekey_path: "{{ ca_etcd_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create etcd CLI certificate
+  run_once: true
+  block:
+    - name: Create etcd CLI private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/cli.key"
+      register: entity_etcd_cli_private_key
+
+    - name: Create etcd CLI certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/cli.csr"
+        privatekey_path: "{{ entity_etcd_cli_private_key.filename }}"
+        common_name: "cli.etcd"
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "DNS:cli.etcd"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: entity_etcd_cli_csr
+
+    - name: Sign etcd CLI certificate
+      community.crypto.x509_certificate:
+        path: "{{ playbook_dir }}/secrets/pki/entity/etcd/cli.pem"
+        provider: ownca
+        csr_path: "{{ entity_etcd_cli_csr.filename }}"
+        ownca_path: "{{ ca_etcd_certificate.filename }}"
+        ownca_privatekey_path: "{{ ca_etcd_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"

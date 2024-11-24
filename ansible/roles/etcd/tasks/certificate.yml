@@ -1,0 +1,63 @@
+---
+- name: Create etcd certificates directory
+  ansible.builtin.file:
+    path: /etc/etcd/certificates
+    state: directory
+    mode: "0755"
+    owner: etcd
+    group: etcd
+
+- name: Copy etcd public Certification Authority
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/secrets/pki/ca/etcd.pem"
+    dest: /etc/etcd/certificates/ca.pem
+    mode: "0644"
+    owner: etcd
+    group: etcd
+
+- name: Copy etcd server certificates
+  when: etcd_server | bool
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: etcd
+    group: etcd
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/server.pem"
+      dest: /etc/etcd/certificates/server.pem
+      mode: "0644"
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/server.key"
+      dest: /etc/etcd/certificates/server.key
+      mode: "0600"
+      name: Private Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/peer.pem"
+      dest: /etc/etcd/certificates/peer.pem
+      mode: "0644"
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/etcd/{{ ansible_hostname }}/peer.key"
+      dest: /etc/etcd/certificates/peer.key
+      mode: "0600"
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Copy etcd CLI certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: etcd
+    group: etcd
+  loop:
+    - src: "{{ playbook_dir }}/secrets/pki/entity/etcd/cli.pem"
+      dest: /etc/etcd/certificates/cli.pem
+      mode: "0644"
+      name: Public Key
+    - src: "{{ playbook_dir }}/secrets/pki/entity/etcd/cli.key"
+      dest: /etc/etcd/certificates/cli.key
+      mode: "0644"
+      name: Private Key
+  loop_control:
+    label: "{{ item.name }}"

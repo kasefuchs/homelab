@@ -3,12 +3,24 @@ name: "{{ ansible_hostname }}"
 
 data-dir: "{{ etcd_data_dir }}"
 
-advertise-client-urls: http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2379
-listen-client-urls: http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2379
+advertise-client-urls: https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2379
+listen-client-urls: https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2379
 
-initial-advertise-peer-urls: http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2380
-listen-peer-urls: http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2380
+initial-advertise-peer-urls: https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2380
+listen-peer-urls: https://{{ nebula_ip | ansible.utils.ipaddr('address') }}:2380
 
-initial-cluster: "{% for vars in hostvars.values() if vars.etcd_server %}{{ vars.ansible_hostname }}=http://{{ vars.nebula_ip | ansible.utils.ipaddr('address') }}:2380{% if not loop.last %},{% endif %}{% endfor %}"
+initial-cluster: "{% for vars in hostvars.values() if vars.etcd_server %}{{ vars.ansible_hostname }}=https://{{ vars.nebula_ip | ansible.utils.ipaddr('address') }}:2380{% if not loop.last %},{% endif %}{% endfor %}"
 initial-cluster-state: "{{ etcd_cluster_state }}"
 initial-cluster-token: "{{ etcd_cluster_token }}"
+
+peer-transport-security:
+  key-file: /etc/etcd/certificates/peer.key
+  cert-file: /etc/etcd/certificates/peer.pem
+  trusted-ca-file: /etc/etcd/certificates/ca.pem
+  client-cert-auth: false
+
+client-transport-security:
+  key-file: /etc/etcd/certificates/server.key
+  cert-file: /etc/etcd/certificates/server.pem
+  trusted-ca-file: /etc/etcd/certificates/ca.pem
+  client-cert-auth: false
