@@ -1,6 +1,9 @@
 ---
-- name: Install etcd
-  ansible.builtin.import_tasks: install.yml
+#- name: Install etcd
+#  ansible.builtin.import_tasks: install.yml
+
+- name: Copy etcd TLS certificates
+  ansible.builtin.import_tasks: certificate.yml
 
 - name: Configure etcd
   ansible.builtin.import_tasks: config.yml
