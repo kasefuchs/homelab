@@ -15,6 +15,7 @@ job [[ template "job_name" . ]] {
         entrypoint = ["/seaweedfs-csi-driver"]
         args       = ["-options=${NOMAD_SECRETS_DIR}/.cli"]
 
+        volumes    = ["/etc/seaweedfs:/etc/seaweedfs:ro"]
         privileged = true
       }
 
