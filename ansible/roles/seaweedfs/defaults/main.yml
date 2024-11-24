@@ -17,9 +17,6 @@ seaweedfs_master_default_replication_type: "010"
 # Specifies if the filer service should be runned.
 seaweedfs_filer: true
 
-# Specifies directory  to place filer store.
-seaweedfs_filer_dir: /opt/seaweedfs/filer
-
 # Specifies if the volume service should be runned.
 seaweedfs_volume: false
 

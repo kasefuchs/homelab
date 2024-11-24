@@ -1,0 +1,45 @@
+---
+- name: Reload Systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Enable etcd
+  ansible.builtin.systemd_service:
+    name: etcd
+    enabled: true
+
+- name: Reload etcd
+  ansible.builtin.systemd_service:
+    name: etcd
+    state: reloaded
+
+- name: Restart etcd
+  ansible.builtin.systemd_service:
+    name: etcd
+    state: restarted
+
+- name: Reload etcd gateway
+  ansible.builtin.systemd_service:
+    name: etcd-gateway
+    state: reloaded
+
+- name: Restart etcd gateway
+  ansible.builtin.systemd_service:
+    name: etcd-gateway
+    state: restarted
+
+- name: Start etcd
+  ansible.builtin.systemd_service:
+    name: etcd
+    state: started
+
+- name: Update service facts
+  listen: Update etcd
+  ansible.builtin.service_facts:
+
+- name: Restart updated etcd
+  listen: Update etcd
+  ansible.builtin.systemd_service:
+    name: etcd
+    state: restarted
+  when: "'etcd.service' in ansible_facts.services.keys()"

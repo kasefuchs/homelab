@@ -1,0 +1,14 @@
+---
+# etcd version to download.
+etcd_version: latest
+
+# URL to download etcd archive from.
+etcd_source: https://github.com/etcd-io/etcd/releases/download/v{{ etcd_version }}/etcd-v{{ etcd_version }}-linux-{{ etcd_architecture }}.tar.gz
+
+etcd_data_dir: /opt/etcd
+
+etcd_server: true
+
+etcd_cluster_state: new
+
+etcd_cluster_token: muttias

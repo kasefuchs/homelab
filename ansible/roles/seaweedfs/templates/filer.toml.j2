@@ -1,4 +1,6 @@
 # Store options
-[leveldb2]
-dir = "{{ seaweedfs_filer_dir }}"
+[etcd]
 enabled = true
+timeout = "3s"
+servers = "127.0.0.1:2378"
+key_prefix = "seaweedfs."
