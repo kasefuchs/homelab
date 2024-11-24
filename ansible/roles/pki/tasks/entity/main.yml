@@ -8,6 +8,9 @@
 - name: Create Nebula entity certificates
   ansible.builtin.import_tasks: nebula.yml
 
+- name: Create SeaweedFS entity certificates
+  ansible.builtin.import_tasks: seaweedfs.yml
+
 - name: Create Vault entity certificates
   ansible.builtin.import_tasks: vault.yml
 

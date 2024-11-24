@@ -11,6 +11,9 @@
 - name: Create Nebula certification authority
   ansible.builtin.import_tasks: nebula.yml
 
+- name: Create SeaweedFS certification authority
+  ansible.builtin.import_tasks: seaweedfs.yml
+
 - name: Create Vault certification authority
   ansible.builtin.import_tasks: vault.yml
 

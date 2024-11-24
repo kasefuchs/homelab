@@ -9,16 +9,19 @@
     state: reloaded
 
 - name: Restart SeaweedFS master
+  listen: Restart SeaweedFS
   ansible.builtin.systemd_service:
     name: seaweedfs@master
     state: restarted
 
 - name: Restart SeaweedFS volume
+  listen: Restart SeaweedFS
   ansible.builtin.systemd_service:
     name: seaweedfs@volume
     state: restarted
 
 - name: Restart SeaweedFS filer
+  listen: Restart SeaweedFS
   ansible.builtin.systemd_service:
     name: seaweedfs@filer
     state: restarted

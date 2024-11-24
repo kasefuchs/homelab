@@ -7,6 +7,15 @@
     owner: seaweedfs
     group: seaweedfs
 
+- name: Render security config
+  notify: Restart SeaweedFS
+  ansible.builtin.template:
+    src: security.toml.j2
+    dest: /etc/seaweedfs/security.toml
+    mode: "0644"
+    owner: seaweedfs
+    group: seaweedfs
+
 - name: Master configuration
   when: seaweedfs_master | bool
   block:
