@@ -32,6 +32,7 @@ job [[ template "job_name" . ]] {
 [[ var "options" . ]]
         EOH
 
+        change_mode = "noop"
         destination = "${NOMAD_SECRETS_DIR}/.cli"
       }
 
