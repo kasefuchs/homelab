@@ -9,20 +9,10 @@
   port    = {{ port }}
 {%- endmacro -%}
 
-{%- macro service_http_check(name, port, path) -%}
+{%- macro service_tcp_check(name, type, port) -%}
   check = {
-    id       = "seaweedfs-{{ name }}-http-check"
-    name     = "{{ name }} http check"
-    http     = "http://{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ port }}/{{ path }}"
-    timeout  = "1s"
-    interval = "10s"
-  }
-{%- endmacro -%}
-
-{%- macro service_tcp_check(name, port) -%}
-  check = {
-    id       = "seaweedfs-{{ name }}-tcp-check"
-    name     = "{{ name }} tcp check"
+    id       = "seaweedfs-{{ name }}-{{ type }}-check"
+    name     = "{{ name }} {{ type }} tcp check"
     tcp      = "{{ nebula_ip | ansible.utils.ipaddr('address') }}:{{ port }}"
     timeout  = "1s"
     interval = "10s"
@@ -33,12 +23,12 @@
 services {
   {{ service_basic("master", "http") }}
   {{ service_address(9333) }}
-  {{ service_http_check("master", 9333, "cluster/healthz") }}
+  {{ service_tcp_check("master", "http", 9333) }}
 }
 services {
   {{ service_basic("master", "grpc") }}
   {{ service_address(19333) }}
-  {{ service_tcp_check("master", 19333) }}
+  {{ service_tcp_check("master", "grpc", 19333) }}
 }
 {% endif %}
 
@@ -46,12 +36,12 @@ services {
 services {
   {{ service_basic("volume", "http") }}
   {{ service_address(8080) }}
-  {{ service_http_check("volume", 8080, "healthz") }}
+  {{ service_tcp_check("volume", "http", 8080) }}
 }
 services {
   {{ service_basic("volume", "grpc") }}
   {{ service_address(18080) }}
-  {{ service_tcp_check("volume", 18080) }}
+  {{ service_tcp_check("volume", "grpc", 18080) }}
 }
 {% endif %}
 
@@ -59,11 +49,11 @@ services {
 services {
   {{ service_basic("filer", "http") }}
   {{ service_address(8888) }}
-  {{ service_http_check("filer", 8888, "healthz") }}
+  {{ service_tcp_check("filer", "http", 8888) }}
 }
 services {
   {{ service_basic("filer", "grpc") }}
   {{ service_address(18888) }}
-  {{ service_tcp_check("filer", 18888) }}
+  {{ service_tcp_check("volume", "grpc", 18888) }}
 }
 {% endif %}

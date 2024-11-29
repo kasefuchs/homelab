@@ -1,10 +1,111 @@
 ---
 - name: Create SeaweedFS certificate store
-  run_once: true
   ansible.builtin.file:
     mode: "0755"
-    path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs"
+    path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}"
     state: directory
+
+- name: Create SeaweedFS master certificate
+  block:
+    - name: Create SeaweedFS master private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/master.key"
+      register: entity_seaweedfs_master_private_key
+
+    - name: Create SeaweedFS master certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/master.csr"
+        privatekey_path: "{{ entity_seaweedfs_master_private_key.filename }}"
+        common_name: "master.seaweedfs"
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
+          - "DNS:{{ ansible_hostname }}.master.seaweedfs"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: entity_seaweedfs_master_csr
+
+    - name: Sign SeaweedFS master certificate
+      community.crypto.x509_certificate:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/master.pem"
+        provider: ownca
+        csr_path: "{{ entity_seaweedfs_master_csr.filename }}"
+        ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
+        ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create SeaweedFS volume certificate
+  block:
+    - name: Create SeaweedFS volume private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/volume.key"
+      register: entity_seaweedfs_volume_private_key
+
+    - name: Create SeaweedFS volume certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/volume.csr"
+        privatekey_path: "{{ entity_seaweedfs_volume_private_key.filename }}"
+        common_name: "volume.seaweedfs"
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
+          - "DNS:{{ ansible_hostname }}.volume.seaweedfs"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: entity_seaweedfs_volume_csr
+
+    - name: Sign SeaweedFS volume certificate
+      community.crypto.x509_certificate:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/volume.pem"
+        provider: ownca
+        csr_path: "{{ entity_seaweedfs_volume_csr.filename }}"
+        ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
+        ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create SeaweedFS filer certificate
+  block:
+    - name: Create SeaweedFS filer private key
+      community.crypto.openssl_privatekey:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/filer.key"
+      register: entity_seaweedfs_filer_private_key
+
+    - name: Create SeaweedFS filer certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/filer.csr"
+        privatekey_path: "{{ entity_seaweedfs_filer_private_key.filename }}"
+        common_name: "filer.seaweedfs"
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
+          - "DNS:{{ ansible_hostname }}.filer.seaweedfs"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: entity_seaweedfs_filer_csr
+
+    - name: Sign SeaweedFS filer certificate
+      community.crypto.x509_certificate:
+        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/{{ ansible_hostname }}/filer.pem"
+        provider: ownca
+        csr_path: "{{ entity_seaweedfs_filer_csr.filename }}"
+        ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
+        ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
 
 - name: Create SeaweedFS client certificate
   run_once: true
@@ -35,108 +136,6 @@
         path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/client.pem"
         provider: ownca
         csr_path: "{{ entity_seaweedfs_client_csr.filename }}"
-        ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
-
-- name: Create SeaweedFS master certificate
-  run_once: true
-  block:
-    - name: Create SeaweedFS master private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/master.key"
-      register: entity_seaweedfs_master_private_key
-
-    - name: Create SeaweedFS master certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/master.csr"
-        privatekey_path: "{{ entity_seaweedfs_master_private_key.filename }}"
-        common_name: "master.seaweedfs"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "DNS:master.seaweedfs"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_seaweedfs_master_csr
-
-    - name: Sign SeaweedFS master certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/master.pem"
-        provider: ownca
-        csr_path: "{{ entity_seaweedfs_master_csr.filename }}"
-        ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
-
-- name: Create SeaweedFS volume certificate
-  run_once: true
-  block:
-    - name: Create SeaweedFS volume private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/volume.key"
-      register: entity_seaweedfs_volume_private_key
-
-    - name: Create SeaweedFS volume certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/volume.csr"
-        privatekey_path: "{{ entity_seaweedfs_volume_private_key.filename }}"
-        common_name: "volume.seaweedfs"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "DNS:volume.seaweedfs"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_seaweedfs_volume_csr
-
-    - name: Sign SeaweedFS volume certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/volume.pem"
-        provider: ownca
-        csr_path: "{{ entity_seaweedfs_volume_csr.filename }}"
-        ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
-
-- name: Create SeaweedFS filer certificate
-  run_once: true
-  block:
-    - name: Create SeaweedFS filer private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/filer.key"
-      register: entity_seaweedfs_filer_private_key
-
-    - name: Create SeaweedFS filer certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/filer.csr"
-        privatekey_path: "{{ entity_seaweedfs_filer_private_key.filename }}"
-        common_name: "filer.seaweedfs"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "DNS:filer.seaweedfs"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_seaweedfs_filer_csr
-
-    - name: Sign SeaweedFS filer certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/seaweedfs/filer.pem"
-        provider: ownca
-        csr_path: "{{ entity_seaweedfs_filer_csr.filename }}"
         ownca_path: "{{ ca_seaweedfs_certificate.filename }}"
         ownca_privatekey_path: "{{ ca_seaweedfs_private_key.filename }}"
         ownca_not_after: "+1825d"

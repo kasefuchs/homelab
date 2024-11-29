@@ -1,22 +1,44 @@
 [grpc]
-ca = "/etc/seaweedfs/certificates/ca.pem"
 allowed_wildcard_domain = ".seaweedfs"
-
-[grpc.master]
-key = "/etc/seaweedfs/certificates/master.key"
-cert = "/etc/seaweedfs/certificates/master.pem"
-allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
-
-[grpc.volume]
-key = "/etc/seaweedfs/certificates/volume.key"
-cert = "/etc/seaweedfs/certificates/volume.pem"
-allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
-
-[grpc.filer]
-key = "/etc/seaweedfs/certificates/filer.key"
-cert = "/etc/seaweedfs/certificates/filer.pem"
-allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+ca = "/etc/seaweedfs/certificates/ca.pem"
 
 [grpc.client]
-key = "/etc/seaweedfs/certificates/client.key"
 cert = "/etc/seaweedfs/certificates/client.pem"
+key = "/etc/seaweedfs/certificates/client.key"
+
+[grpc.volume]
+allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+cert = "/etc/seaweedfs/certificates/volume.pem"
+key = "/etc/seaweedfs/certificates/volume.key"
+
+[grpc.master]
+allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+cert = "/etc/seaweedfs/certificates/master.pem"
+key = "/etc/seaweedfs/certificates/master.key"
+
+[grpc.filer]
+allowed_commonNames = "master.seaweedfs,volume.seaweedfs,filer.seaweedfs,client.seaweedfs"
+cert = "/etc/seaweedfs/certificates/filer.pem"
+key = "/etc/seaweedfs/certificates/filer.key"
+
+[https.client]
+enabled = true
+cert = "/etc/seaweedfs/certificates/client.pem"
+key = "/etc/seaweedfs/certificates/client.key"
+ca = "/etc/seaweedfs/certificates/ca.pem"
+
+[https.volume]
+cert = "/etc/seaweedfs/certificates/volume.pem"
+key = "/etc/seaweedfs/certificates/volume.key"
+ca = "/etc/seaweedfs/certificates/ca.pem"
+
+[https.master]
+cert = "/etc/seaweedfs/certificates/master.pem"
+key = "/etc/seaweedfs/certificates/master.key"
+ca = "/etc/seaweedfs/certificates/ca.pem"
+
+[https.filer]
+disable_tls_verify_client_cert = false
+cert = "/etc/seaweedfs/certificates/filer.pem"
+key = "/etc/seaweedfs/certificates/filer.key"
+ca = "/etc/seaweedfs/certificates/ca.pem"
