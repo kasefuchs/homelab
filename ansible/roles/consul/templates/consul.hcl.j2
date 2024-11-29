@@ -12,7 +12,8 @@ retry_join = {{ hostvars | community.general.json_query('* | [?consul_server].ne
 
 encrypt = "{{ consul_encrypt | default('') }}"
 
-enable_local_script_checks = true
+enable_local_script_checks  = true
+enable_agent_tls_for_checks = true
 
 ui_config {
   enabled = {{ consul_ui_enabled | lower }}
