@@ -20,8 +20,14 @@ seaweedfs_filer: true
 # Specifies if the volume service should be runned.
 seaweedfs_volume: false
 
+# Specifies maximum numbers of volumes.
+seaweedfs_volume_max: 128
+
 # Specifies current volume server's rack name.
 seaweedfs_volume_rack: "{{ ansible_hostname }}"
+
+# Specifies hard drive or solid state drive or any tag
+seaweedfs_volume_disk: hdd
 
 # Specifies current volume server's data center name.
 seaweedfs_volume_datacenter: muttias
