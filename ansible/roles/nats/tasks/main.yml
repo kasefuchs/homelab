@@ -1,6 +1,0 @@
----
-- name: Install NATS
-  ansible.builtin.import_tasks: install.yml
-
-- name: Configure NATS
-  ansible.builtin.import_tasks: config.yml

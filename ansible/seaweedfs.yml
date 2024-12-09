@@ -1,6 +1,0 @@
----
-- name: Provision SeaweedFS
-  hosts: all
-  become: true
-  roles:
-    - role: seaweedfs

@@ -1,9 +1,0 @@
----
-- name: Install Consul
-  ansible.builtin.import_tasks: install.yml
-
-- name: Bootstrap Consul TLS certificates
-  ansible.builtin.include_tasks: certificate.yml
-
-- name: Copy Consul config files
-  ansible.builtin.import_tasks: config.yml

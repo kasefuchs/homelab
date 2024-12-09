@@ -1,6 +1,0 @@
----
-- name: Bootstrap private key infrastructure
-  hosts: all
-  roles:
-    - role: pki
-      delegate_to: localhost

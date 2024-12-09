@@ -1,8 +1,0 @@
----
-- name: Provision Nomad
-  hosts: all
-  become: true
-  roles:
-    - role: nomad
-    - role: nomad_driver
-    - role: cni

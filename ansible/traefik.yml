@@ -1,6 +1,0 @@
----
-- name: Provision Traefik
-  hosts: all
-  become: true
-  roles:
-    - role: traefik

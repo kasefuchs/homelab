@@ -1,6 +1,0 @@
----
-- name: Provision Nebula
-  hosts: all
-  become: true
-  roles:
-    - role: nebula

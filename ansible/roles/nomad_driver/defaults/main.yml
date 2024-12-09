@@ -1,4 +1,0 @@
----
-nomad_driver_qemu_systems:
-  - arm
-  - x86

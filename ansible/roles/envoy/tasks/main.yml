@@ -1,3 +1,0 @@
----
-- name: Install Envoy
-  ansible.builtin.import_tasks: install.yml
