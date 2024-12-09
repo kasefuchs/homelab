@@ -1,8 +1,0 @@
----
-- name: Bootstrap node
-  hosts: all
-  become: true
-  roles:
-    - role: node
-    - role: nebula
-    - role: coredns

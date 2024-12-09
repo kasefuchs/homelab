@@ -1,6 +1,0 @@
----
-- name: Bootstrap vault
-  hosts: all
-  become: true
-  roles:
-    - role: vault

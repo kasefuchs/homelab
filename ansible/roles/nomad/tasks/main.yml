@@ -1,9 +1,0 @@
----
-- name: Install Nomad
-  ansible.builtin.import_tasks: install.yml
-
-- name: Copy Nomad TLS certificates
-  ansible.builtin.import_tasks: certificate.yml
-
-- name: Copy Nomad config files
-  ansible.builtin.import_tasks: config.yml
