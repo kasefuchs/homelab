@@ -1,0 +1,5 @@
+---
+# Map of packages for installation, broken down by distribution.
+bootstrap_package_distribution_install:
+  default:
+    - supervisor
