@@ -1,0 +1,10 @@
+---
+- name: Create PKI entity certificate directory
+  run_once: true
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ pki_entity_dir }}"
+    state: directory
+
+- name: Create Nebula entity certificate
+  ansible.builtin.import_tasks: nebula.yml

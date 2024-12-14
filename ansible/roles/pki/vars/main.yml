@@ -1,0 +1,12 @@
+---
+# The path to the directory where PKI certificates stored.
+pki_dir: "{{ playbook_dir }}/../secrets/pki"
+
+# The path to the directory where PKI CA certificates stored.
+pki_ca_dir: "{{ pki_dir }}/ca"
+
+# The path to the directory where PKI entity certificates stored.
+pki_entity_dir: "{{ pki_dir }}/entity"
+
+# The path to the directory where Nebula PKI entity certificates stored.
+pki_entity_nebula_dir: "{{ pki_entity_dir }}/nebula"

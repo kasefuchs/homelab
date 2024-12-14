@@ -1,0 +1,19 @@
+---
+- name: Create Nebula client certificate directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ pki_entity_nebula_dir }}/{{ inventory_hostname }}"
+    state: directory
+
+- name: Create Nebula client certificate
+  ansible.builtin.command:
+    argv:
+      - nebula-cert
+      - sign
+      - -ip={{ nebula_ip }}
+      - -name={{ inventory_hostname }}
+      - -ca-crt={{ pki_ca_dir }}/nebula.pem
+      - -ca-key={{ pki_ca_dir }}/nebula.key
+      - -out-crt={{ pki_entity_nebula_dir }}/{{ inventory_hostname }}/client.pem
+      - -out-key={{ pki_entity_nebula_dir }}/{{ inventory_hostname }}/client.key
+    creates: "{{ pki_entity_nebula_dir }}/{{ inventory_hostname }}/client.pem"
