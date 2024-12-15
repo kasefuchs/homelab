@@ -22,7 +22,7 @@ Vagrant.configure("2") do |cfg|
 
 		cfg.vm.define "node-#{node_str}" do |node|
 		  node.vm.network "forwarded_port", id: "ssh", guest: 22, host: SSH_PORT_PREFIX + idx
-		  node.vm.network "private_network", ip: "192.168.56.#{NETWORK_IP_PREFIX + idx}"
+		  node.vm.network "private_network", ip: "192.168.56.#{NETWORK_IP_PREFIX + idx}", nic_type: "virtio"
 		end
 	end
 end

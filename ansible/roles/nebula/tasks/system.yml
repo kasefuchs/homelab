@@ -1,0 +1,10 @@
+---
+- name: Create Nebula group
+  ansible.builtin.group:
+    name: "{{ nebula_group }}"
+
+- name: Create Nebula user
+  ansible.builtin.user:
+    name: "{{ nebula_user }}"
+    group: "{{ nebula_group }}"
+    system: true

@@ -1,0 +1,39 @@
+---
+- name: Get latest release of a public repository
+  when: nebula_version == "latest"
+  run_once: true
+  register: nebula_github_release
+  delegate_to: localhost
+  community.general.github_release:
+    user: "{{ nebula_github_user }}"
+    repo: "{{ nebula_github_repository }}"
+    action: latest_release
+
+- name: Gather Nebula facts
+  block:
+    - name: Gather Nebula download facts
+      ansible.builtin.set_fact:
+        nebula_version: "{{ nebula_github_release.tag | default(nebula_version) | regex_replace('^v', '') }}"
+        nebula_architecture: "{{ nebula_architectures[ansible_architecture] }}"
+
+    - name: Set Nebula package directory fact
+      ansible.builtin.set_fact:
+        nebula_version_dir: "{{ (nebula_package_dir, nebula_version) | ansible.builtin.path_join }}"
+
+    - name: Set Nebula path fact
+      ansible.builtin.set_fact:
+        nebula_binary_path: "{{ (nebula_version_dir, 'nebula') | ansible.builtin.path_join }}"
+        nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"
+
+- name: Create Nebula package directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ nebula_version_dir }}"
+    state: directory
+
+- name: Download & extract Nebula package
+  ansible.builtin.unarchive:
+    src: "{{ nebula_download_url }}"
+    dest: "{{ nebula_version_dir }}"
+    creates: "{{ nebula_binary_path }}"
+    remote_src: true
