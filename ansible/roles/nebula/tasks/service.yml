@@ -1,0 +1,12 @@
+---
+- name: Set Nebula binary capablities
+  community.general.capabilities:
+    path: "{{ nebula_binary_path }}"
+    capability: cap_net_admin=eip
+
+- name: Install Nebula service
+  notify: Restart Nebula
+  ansible.builtin.template:
+    src: nebula.conf.j2
+    dest: /etc/supervisor/conf.d/nebula.conf
+    mode: "0644"

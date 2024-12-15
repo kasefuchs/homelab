@@ -1,0 +1,32 @@
+---
+# The GitHub account that owns the repository.
+nebula_github_user: slackhq
+
+# Repository name.
+nebula_github_repository: nebula
+
+# Map of Ansible architectures to correspondent Nebula architectures.
+nebula_architectures:
+  aarch64: arm64
+  x86_64: amd64
+
+# The path to the directory where extracted Nebula package stored.
+nebula_package_dir: /usr/local/src/nebula
+
+# The path to the directory where Nebula configuration stored.
+nebula_config_dir: /etc/nebula
+
+# The path to the directory where Nebula certificates stored.
+nebula_cert_dir: /etc/pki/nebula
+
+# The user to run Nebula as.
+nebula_user: nebula
+
+# The group to use running Nebula.
+nebula_group: nebula
+
+#
+nebula_pki_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/nebula"
+
+#
+nebula_pki_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/nebula"

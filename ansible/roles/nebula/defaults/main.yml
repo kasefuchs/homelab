@@ -1,0 +1,31 @@
+---
+# Nebula version to download.
+nebula_version: latest
+
+# URL to download Nebula from.
+nebula_download_url: https://github.com/{{ nebula_github_user }}/{{ nebula_github_repository }}/releases/download/v{{ nebula_version }}/nebula-linux-{{ nebula_architecture }}.tar.gz
+
+# Enables lighthouse functionality for a node.
+nebula_lighthouse_enable: true
+
+# Host Nebula will be listening on.
+nebula_listen_host: 0.0.0.0
+
+# Port Nebula will be listening on.
+nebula_listen_port: 4646
+
+# Nebula TUN configuration.
+nebula_tun:
+  dev: nebula0
+
+# Nebula firewall configuration.
+nebula_firewall:
+  outbound:
+    - host: any
+      port: any
+      proto: any
+
+  inbound:
+    - host: any
+      port: any
+      proto: any

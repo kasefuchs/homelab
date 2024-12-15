@@ -1,0 +1,5 @@
+---
+- name: Restart Nebula
+  community.general.supervisorctl:
+    name: nebula
+    state: restarted

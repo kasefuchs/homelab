@@ -1,0 +1,6 @@
+---
+- name: Nebula
+  hosts: all
+  become: true
+  roles:
+    - role: nebula

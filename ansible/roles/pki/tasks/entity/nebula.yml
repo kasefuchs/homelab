@@ -1,19 +1,19 @@
 ---
-- name: Create Nebula client certificate directory
+- name: Create Nebula host certificate directory
   ansible.builtin.file:
     mode: "0755"
-    path: "{{ pki_entity_nebula_dir }}/{{ inventory_hostname }}"
+    path: "{{ (pki_entity_nebula_dir, inventory_hostname) | ansible.builtin.path_join }}"
     state: directory
 
-- name: Create Nebula client certificate
+- name: Create Nebula host certificate
   ansible.builtin.command:
     argv:
       - nebula-cert
       - sign
-      - -ip={{ nebula_ip }}
+      - -ip={{ nebula_ip }}/{{ nebula_netmask }}
       - -name={{ inventory_hostname }}
-      - -ca-crt={{ pki_ca_dir }}/nebula.pem
-      - -ca-key={{ pki_ca_dir }}/nebula.key
-      - -out-crt={{ pki_entity_nebula_dir }}/{{ inventory_hostname }}/client.pem
-      - -out-key={{ pki_entity_nebula_dir }}/{{ inventory_hostname }}/client.key
-    creates: "{{ pki_entity_nebula_dir }}/{{ inventory_hostname }}/client.pem"
+      - -ca-crt={{ (pki_ca_nebula_dir, 'ca.pem') | ansible.builtin.path_join }}
+      - -ca-key={{ (pki_ca_nebula_dir, 'ca.key') | ansible.builtin.path_join }}
+      - -out-crt={{ (pki_entity_nebula_dir, inventory_hostname, 'host.pem') | ansible.builtin.path_join }}
+      - -out-key={{ (pki_entity_nebula_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}
+    creates: "{{ (pki_entity_nebula_dir, inventory_hostname, 'host.*') | ansible.builtin.path_join }}"

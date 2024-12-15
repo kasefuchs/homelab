@@ -1,0 +1,12 @@
+---
+- name: Modify system config for Nebula
+  ansible.builtin.import_tasks: system.yml
+
+- name: Download Nebula package
+  ansible.builtin.import_tasks: download.yml
+
+- name: Configure Nebula
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Nebula
+  ansible.builtin.import_tasks: service.yml

@@ -1,4 +1,10 @@
 ---
+- name: Create PKI Root CA certificate directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ pki_ca_nebula_dir }}"
+    state: directory
+
 - name: Create Nebula CA certificate
   ansible.builtin.command:
     argv:
@@ -8,6 +14,6 @@
       - -name={{ pki_ca_nebula_cn }}
       - -groups={{ pki_ca_nebula_groups | join(',') }}
       - -duration={{ pki_ca_nebula_duration }}
-      - -out-crt={{ pki_ca_dir }}/nebula.pem
-      - -out-key={{ pki_ca_dir }}/nebula.key
-    creates: "{{ pki_ca_dir }}/nebula.pem"
+      - -out-crt={{ (pki_ca_nebula_dir, 'ca.pem') | ansible.builtin.path_join }}
+      - -out-key={{ (pki_ca_nebula_dir, 'ca.key') | ansible.builtin.path_join }}
+    creates: "{{ pki_ca_nebula_dir }}/ca.*"

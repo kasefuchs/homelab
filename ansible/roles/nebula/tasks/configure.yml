@@ -1,0 +1,40 @@
+---
+- name: Create Nebula directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ nebula_user }}"
+    group: "{{ nebula_group }}"
+  loop:
+    - "{{ nebula_cert_dir }}"
+    - "{{ nebula_config_dir }}"
+
+- name: Copy Nebula certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ nebula_user }}"
+    group: "{{ nebula_group }}"
+  loop:
+    - src: "{{ (nebula_pki_ca_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_cert_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (nebula_pki_entity_dir, inventory_hostname, 'host.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_cert_dir, 'host.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (nebula_pki_entity_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_cert_dir, 'host.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Copy Nebula configuration
+  register: nebula_config_template
+  ansible.builtin.template:
+    src: nebula.yml.j2
+    dest: "{{ nebula_config_path }}"
+    mode: "0644"
+    owner: "{{ nebula_user }}"
+    group: "{{ nebula_group }}"
