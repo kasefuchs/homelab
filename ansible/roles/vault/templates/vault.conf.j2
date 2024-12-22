@@ -1,0 +1,15 @@
+; vault version: {{ vault_version }}
+; config file checksum: {{ vault_config_template.checksum }}
+
+[program:vault]
+command=/usr/local/bin/vault server -config={{ vault_config_path }}
+process_name=%(program_name)s
+
+priority=10
+autostart=true
+
+user={{ vault_user }}
+directory={{ vault_config_dir }}
+
+stopsignal=TERM
+stopwaitsecs=10

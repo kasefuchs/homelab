@@ -1,0 +1,16 @@
+---
+- name: Create Supervisor directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ supervisor_config_dir }}"
+    - "{{ supervisor_include_dir }}"
+
+- name: Copy Supervisor configuration
+  register: supervisor_config_template
+  ansible.builtin.template:
+    src: supervisor.conf.j2
+    dest: "{{ supervisor_config_path }}"
+    mode: "0644"

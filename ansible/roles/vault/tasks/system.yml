@@ -1,0 +1,10 @@
+---
+- name: Create Vault group
+  ansible.builtin.group:
+    name: "{{ vault_group }}"
+
+- name: Create Vault user
+  ansible.builtin.user:
+    name: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    system: true

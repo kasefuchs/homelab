@@ -8,3 +8,6 @@
 
 - name: Create Nebula entity certificate
   ansible.builtin.import_tasks: nebula.yml
+
+- name: Create Vault entity certificate
+  ansible.builtin.import_tasks: vault.yml

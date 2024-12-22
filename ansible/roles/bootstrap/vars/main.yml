@@ -1,5 +1,17 @@
 ---
 # Map of packages for installation, broken down by distribution.
 bootstrap_package_distribution_install:
+  archlinux:
+    - unzip
+    - python-pip
+    - python-virtualenv
+
+  debian:
+    - unzip
+    - python3-pip
+    - python3-virtualenv
+
   default:
-    - supervisor
+    - unzip
+    - python3-pip
+    - python3-virtualenv

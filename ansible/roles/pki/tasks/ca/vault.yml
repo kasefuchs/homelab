@@ -1,0 +1,33 @@
+---
+- name: Create PKI Vault CA certificate directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ pki_ca_vault_dir }}"
+    state: directory
+
+- name: Create Vault CA private key
+  register: pki_ca_vault_private_key
+  community.crypto.openssl_privatekey:
+    path: "{{ (pki_ca_vault_dir, 'ca.key') | ansible.builtin.path_join }}"
+
+- name: Create Vault CA certificate signing request
+  register: pki_ca_vault_csr
+  community.crypto.openssl_csr:
+    path: "{{ (pki_ca_vault_dir, 'ca.csr') | ansible.builtin.path_join }}"
+    privatekey_path: "{{ pki_ca_vault_private_key.filename }}"
+    common_name: "{{ pki_ca_vault_cn }}"
+    use_common_name_for_san: false
+    basic_constraints: [CA:TRUE]
+    basic_constraints_critical: true
+    key_usage: [keyCertSign]
+    key_usage_critical: true
+
+- name: Create self-signed Vault CA certificate from CSR
+  register: pki_ca_vault_certificate
+  community.crypto.x509_certificate:
+    path: "{{ (pki_ca_vault_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    csr_path: "{{ pki_ca_vault_csr.filename }}"
+    privatekey_path: "{{ pki_ca_vault_private_key.filename }}"
+    provider: selfsigned
+    ownca_not_after: "+{{ pki_ca_vault_duration }}"
+    ownca_not_before: "-1d"

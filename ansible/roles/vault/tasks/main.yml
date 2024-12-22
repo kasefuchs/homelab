@@ -1,0 +1,12 @@
+---
+- name: Modify system config for Vault
+  ansible.builtin.import_tasks: system.yml
+
+- name: Download Vault package
+  ansible.builtin.import_tasks: download.yml
+
+- name: Configure Vault
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Vault
+  ansible.builtin.import_tasks: service.yml

@@ -10,3 +10,6 @@
 
 - name: Create Nebula CA certificate
   ansible.builtin.import_tasks: nebula.yml
+
+- name: Create Vault CA certificate
+  ansible.builtin.import_tasks: vault.yml

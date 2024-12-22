@@ -3,10 +3,13 @@
 box_image: ubuntu/22.04
 
 # Amount of nodes to create.
-node_count: 5
+node_count: 9
 
 # Number on which forwarded ssh port will be generated.
 ssh_port_prefix: 2230
+
+# Number on which forwarded nebula port will be generated.
+nebula_port_prefix: 4660
 
 # Number to add for node ips in private network.
 network_ip_prefix: 30

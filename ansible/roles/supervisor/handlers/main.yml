@@ -1,0 +1,21 @@
+---
+- name: Reload SystemD daemon
+  when: ansible_service_mgr == "systemd"
+  listen: Daemon Reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start Supervisor
+  ansible.builtin.service:
+    name: supervisor
+    state: started
+
+- name: Enable Supervisor
+  ansible.builtin.service:
+    name: supervisor
+    enabled: true
+
+- name: Reload Supervisor
+  ansible.builtin.service:
+    name: supervisor
+    state: reloaded
