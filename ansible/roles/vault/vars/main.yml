@@ -1,0 +1,50 @@
+---
+# The GitHub account that owns the repository.
+vault_github_user: hashicorp
+
+# Repository name.
+vault_github_repository: vault
+
+# Map of Ansible architectures to correspondent Vault architectures.
+vault_architectures:
+  aarch64: arm64
+  x86_64: amd64
+
+# The path to the directory where extracted Vault package stored.
+vault_package_dir: /usr/local/src/vault
+
+# The path to the directory where Vault storage data stored.
+vault_storage_dir: "/opt/vault/storage"
+
+# The path to the directory where Vault configuration stored.
+vault_config_dir: /etc/vault
+
+# The path to the directory where Vault certificates stored.
+vault_cert_dir: /etc/pki/vault
+
+# The user to run Vault as.
+vault_user: vault
+
+# The group to use running Vault.
+vault_group: vault
+
+# The path to the directory where Vault PKI CA certificates stored.
+vault_pki_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/vault"
+
+# The path to the directory where Vault PKI entity certificates stored.
+vault_pki_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/vault"
+
+# Specifies the address (full URL) to advertise to other Vault servers in the cluster for client redirection.
+vault_api_address: "https://{{ vault_listener_api_address }}"
+
+# Specifies the address to advertise to other Vault servers in the cluster for request forwarding.
+vault_cluster_address: "https://{{ vault_listener_cluster_address }}"
+
+# The path to the directory where Supervisor config stored.
+vault_supervisor_config_dir: /etc/supervisor
+
+# The path to the directory where Supervisor includes stored.
+vault_supervisor_include_dir: "{{ (vault_supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# The path to the file where Supervisor config stored.
+vault_supervisor_config_path: "{{ (vault_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"

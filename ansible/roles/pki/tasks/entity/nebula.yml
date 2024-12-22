@@ -11,7 +11,7 @@
       - nebula-cert
       - sign
       - -ip={{ nebula_ip }}/{{ nebula_netmask }}
-      - -name={{ inventory_hostname }}
+      - -name={{ pki_entity_nebula_cn }}
       - -ca-crt={{ (pki_ca_nebula_dir, 'ca.pem') | ansible.builtin.path_join }}
       - -ca-key={{ (pki_ca_nebula_dir, 'ca.key') | ansible.builtin.path_join }}
       - -out-crt={{ (pki_entity_nebula_dir, inventory_hostname, 'host.pem') | ansible.builtin.path_join }}

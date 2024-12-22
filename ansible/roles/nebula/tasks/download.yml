@@ -20,7 +20,7 @@
       ansible.builtin.set_fact:
         nebula_version_dir: "{{ (nebula_package_dir, nebula_version) | ansible.builtin.path_join }}"
 
-    - name: Set Nebula path fact
+    - name: Set Supervisor package path fact
       ansible.builtin.set_fact:
         nebula_binary_path: "{{ (nebula_version_dir, 'nebula') | ansible.builtin.path_join }}"
         nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"

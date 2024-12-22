@@ -1,0 +1,33 @@
+cluster_name = "{{ vault_cluster_name }}"
+
+api_addr     = "{{ vault_api_address }}"
+cluster_addr = "{{ vault_cluster_address }}"
+
+ui            = true
+disable_mlock = true
+
+listener "tcp" {
+  address         = "{{ vault_listener_api_address }}"
+  cluster_address = "{{ vault_listener_cluster_address }}"
+
+  tls_key_file  = "{{ (vault_cert_dir, 'server.key') | ansible.builtin.path_join }}"
+  tls_cert_file = "{{ (vault_cert_dir, 'server.pem') | ansible.builtin.path_join }}"
+
+  tls_require_and_verify_client_cert = false
+}
+
+storage "raft" {
+  path    = "{{ vault_storage_dir }}"
+  node_id = "{{ vault_storage_node_id }}"
+
+{% for host, api_addr in vault_storage_peers.items() %}
+  retry_join {
+    leader_api_addr       = "{{ api_addr }}"
+    leader_tls_servername = "{{ host }}.server.vault"
+
+    leader_ca_cert_file     = "{{ (vault_cert_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    leader_client_key_file  = "{{ (vault_cert_dir, 'cli.key') | ansible.builtin.path_join }}"
+    leader_client_cert_file = "{{ (vault_cert_dir, 'cli.pem') | ansible.builtin.path_join }}"
+  }
+{% endfor %}
+}

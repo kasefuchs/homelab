@@ -4,9 +4,16 @@
     path: "{{ nebula_binary_path }}"
     capability: cap_net_admin=eip
 
+- name: Link Nebula binary
+  ansible.builtin.file:
+    src: "{{ nebula_binary_path }}"
+    dest: /usr/local/bin/nebula
+    state: link
+    force: true
+
 - name: Install Nebula service
   notify: Restart Nebula
   ansible.builtin.template:
     src: nebula.conf.j2
-    dest: /etc/supervisor/conf.d/nebula.conf
+    dest: "{{ (nebula_supervisor_include_dir, 'nebula.conf') | ansible.builtin.path_join }}"
     mode: "0644"

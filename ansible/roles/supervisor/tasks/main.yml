@@ -1,0 +1,9 @@
+---
+- name: Download Supervisor package
+  ansible.builtin.import_tasks: download.yml
+
+- name: Configure Supervisor
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Supervisor
+  ansible.builtin.import_tasks: service.yml

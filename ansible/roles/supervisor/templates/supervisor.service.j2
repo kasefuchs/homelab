@@ -1,0 +1,17 @@
+# supervisor version: {{ supervisor_version }}
+# config file checksum: {{ supervisor_config_template.checksum }}
+
+[Unit]
+Description=Supervisor process control system
+Documentation=https://supervisord.org
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/supervisord -c {{ supervisor_config_path }}
+ExecReload=/usr/local/bin/supervisorctl -c {{ supervisor_config_path }} reload
+ExecStop=/usr/local/bin/supervisorctl -c {{ supervisor_config_path }} shutdown
+
+RuntimeDirectory={{ supervisor_runtime_dir | relpath('/run') }}
+
+[Install]
+WantedBy=multi-user.target

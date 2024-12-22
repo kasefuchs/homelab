@@ -3,3 +3,4 @@
   community.general.supervisorctl:
     name: nebula
     state: restarted
+    config: "{{ nebula_supervisor_config_path }}"

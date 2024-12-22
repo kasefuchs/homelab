@@ -6,3 +6,6 @@ secrets/
 
 # ---> Ansible
 inventories/
+
+# ---> Diagrams
+diagrams/

@@ -4,3 +4,4 @@
   become: true
   roles:
     - role: bootstrap
+    - role: supervisor
