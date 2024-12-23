@@ -13,8 +13,8 @@ vault_architectures:
 # The path to the directory where extracted Vault package stored.
 vault_package_dir: /usr/local/src/vault
 
-# The path to the directory where Vault storage data stored.
-vault_storage_dir: "/opt/vault/storage"
+# The path to the directory where Vault raft data stored.
+vault_raft_dir: /opt/vault/raft
 
 # The path to the directory where Vault configuration stored.
 vault_config_dir: /etc/vault
@@ -33,12 +33,6 @@ vault_pki_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/vault"
 
 # The path to the directory where Vault PKI entity certificates stored.
 vault_pki_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/vault"
-
-# Specifies the address (full URL) to advertise to other Vault servers in the cluster for client redirection.
-vault_api_address: "https://{{ vault_listener_api_address }}"
-
-# Specifies the address to advertise to other Vault servers in the cluster for request forwarding.
-vault_cluster_address: "https://{{ vault_listener_cluster_address }}"
 
 # The path to the directory where Supervisor config stored.
 vault_supervisor_config_dir: /etc/supervisor

@@ -5,14 +5,20 @@ vault_version: latest
 # URL to download Vault from.
 vault_download_url: https://hashicorp-releases.yandexcloud.net/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_{{ vault_architecture }}.zip
 
-#
+# Specifies a human-readable identifier for the Vault cluster.
 vault_cluster_name: muttias
 
-#
-vault_listener_api_address: "{{ nebula_ip }}:8200"
+# Specifies the address to bind to for listening.
+vault_api_address: "{{ nebula_ip }}:8200"
 
-#
-vault_listener_cluster_address: "{{ nebula_ip }}:8201"
+# Specifies the address to bind to for cluster server-to-server requests.
+vault_cluster_address: "{{ nebula_ip }}:8201"
 
-#
-vault_storage_node_id: "{{ inventory_hostname }}"
+# Specifies the address (full URL) to advertise to other Vault servers in the cluster for client redirection.
+vault_advertise_api_address: "https://{{ vault_api_address }}"
+
+# Specifies the address to advertise to other Vault servers in the cluster for request forwarding.
+vault_advertise_cluster_address: "https://{{ vault_cluster_address }}"
+
+# The identifier for the node in the Raft cluster.
+vault_raft_node_id: "{{ inventory_hostname }}"
