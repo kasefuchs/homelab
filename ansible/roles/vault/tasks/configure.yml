@@ -8,8 +8,8 @@
     group: "{{ vault_group }}"
   loop:
     - "{{ vault_cert_dir }}"
+    - "{{ vault_raft_dir }}"
     - "{{ vault_config_dir }}"
-    - "{{ vault_storage_dir }}"
 
 - name: Copy Vault certificates
   ansible.builtin.copy:
