@@ -22,3 +22,9 @@ vault_advertise_cluster_address: "https://{{ vault_cluster_address }}"
 
 # The identifier for the node in the Raft cluster.
 vault_raft_node_id: "{{ inventory_hostname }}"
+
+# Number of key shares to split the generated root key into.
+vault_initialize_key_shares: 5
+
+# Number of key shares required to reconstruct the root key.
+vault_initialize_key_threshold: 3

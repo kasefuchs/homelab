@@ -1,0 +1,60 @@
+---
+- name: Get initialize Vault server address
+  run_once: true
+  ansible.builtin.set_fact:
+    vault_initialize_server_address: "https://{{ nebula_ip }}:8200"
+
+- name: Check initialize Vault server status
+  run_once: true
+  block:
+    - name: Get Vault server status
+      register: vault_initialize_status_raw
+      failed_when: vault_initialize_status_raw.rc == 1
+      changed_when: false
+      ansible.builtin.command:
+        argv:
+          - vault
+          - status
+          - --format=json
+          - --address={{ vault_initialize_server_address }}
+          - --ca-cert={{ (vault_cert_dir, 'ca.pem') | ansible.builtin.path_join }}
+          - --client-key={{ (vault_cert_dir, 'cli.key') | ansible.builtin.path_join }}
+          - --client-cert={{ (vault_cert_dir, 'cli.pem') | ansible.builtin.path_join }}
+
+    - name: Parse Vault server status
+      when: vault_initialize_status_raw.stdout is defined
+      ansible.builtin.set_fact:
+        vault_initialize_status_json: "{{ vault_initialize_status_raw.stdout | from_json }}"
+
+- name: Initialize Vault server keys
+  when: not vault_initialize_status_json.initialized
+  run_once: true
+  block:
+    - name: Initialize Vault server keys
+      register: vault_initialize_raw
+      ansible.builtin.command:
+        argv:
+          - vault
+          - operator
+          - init
+          - --format=json
+          - --address={{ vault_initialize_server_address }}
+          - --ca-cert={{ (vault_cert_dir, 'ca.pem') | ansible.builtin.path_join }}
+          - --client-key={{ (vault_cert_dir, 'cli.key') | ansible.builtin.path_join }}
+          - --client-cert={{ (vault_cert_dir, 'cli.pem') | ansible.builtin.path_join }}
+          - --key-shares={{ vault_initialize_key_shares }}
+          - --key-threshold={{ vault_initialize_key_threshold }}
+
+    - name: Parse keys response
+      when: vault_initialize_raw.stdout is defined
+      ansible.builtin.set_fact:
+        vault_initialize_json: "{{ vault_initialize_raw.stdout | from_json }}"
+
+    - name: Write Vault keys to file
+      when: vault_initialize_json is defined
+      vars:
+        ansible_become: false
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ vault_secrets_keys_path }}"
+        content: "{{ vault_initialize_json | to_json(indent=2, sort_keys=True) }}"
