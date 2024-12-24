@@ -10,3 +10,6 @@
 
 - name: Daemonize Vault
   ansible.builtin.import_tasks: service.yml
+
+- name: Initialize Vault
+  ansible.builtin.import_tasks: initialize.yml

@@ -42,3 +42,9 @@ vault_supervisor_include_dir: "{{ (vault_supervisor_config_dir, 'conf.d') | ansi
 
 # The path to the file where Supervisor config stored.
 vault_supervisor_config_path: "{{ (vault_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
+
+# The path to the directory where Vault secrets stored.
+vault_secrets_dir: "{{ playbook_dir }}/../secrets/vault"
+
+# The path to the file where Vault keys stored.
+vault_secrets_keys_path: "{{ (vault_secrets_dir, 'keys.json') | ansible.builtin.path_join }}"

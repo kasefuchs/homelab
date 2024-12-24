@@ -1,4 +1,13 @@
 ---
+- name: Create Vault secrets directory
+  vars:
+    ansible_become: false
+  delegate_to: localhost
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ vault_secrets_dir }}"
+    state: directory
+
 - name: Create Vault group
   ansible.builtin.group:
     name: "{{ vault_group }}"
