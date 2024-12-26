@@ -1,5 +1,6 @@
 [supervisord]
 logfile=/dev/null
+childlogdir={{ supervisor_log_dir }}
 logfile_maxbytes=0
 pidfile={{ supervisor_pid_path }}
 nodaemon=true

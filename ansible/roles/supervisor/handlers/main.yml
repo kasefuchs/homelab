@@ -19,3 +19,8 @@
   ansible.builtin.service:
     name: supervisor
     state: reloaded
+
+- name: Restart Supervisor
+  ansible.builtin.service:
+    name: supervisor
+    state: restarted
