@@ -5,6 +5,7 @@
     mode: "0755"
     state: directory
   loop:
+    - "{{ supervisor_log_dir }}"
     - "{{ supervisor_config_dir }}"
     - "{{ supervisor_include_dir }}"
 

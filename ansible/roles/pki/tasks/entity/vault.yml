@@ -17,7 +17,7 @@
       community.crypto.openssl_csr:
         path: "{{ (pki_entity_vault_dir, 'cli.csr') | ansible.builtin.path_join }}"
         privatekey_path: "{{ pki_entity_vault_cli_private_key.filename }}"
-        common_name: vault.cli
+        common_name: cli.vault
         subject_alt_name:
           - IP:127.0.0.1
           - DNS:localhost
@@ -47,7 +47,7 @@
       community.crypto.openssl_csr:
         path: "{{ (pki_entity_vault_dir, inventory_hostname, 'server.csr') | ansible.builtin.path_join }}"
         privatekey_path: "{{ pki_entity_vault_server_private_key.filename }}"
-        common_name: vault.server
+        common_name: server.vault
         subject_alt_name:
           # Local
           - IP:127.0.0.1

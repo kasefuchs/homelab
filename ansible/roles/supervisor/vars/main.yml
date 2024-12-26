@@ -2,6 +2,9 @@
 # Supervisor package name on PyPi.
 supervisor_package: supervisor
 
+# The path to the directory where Supervisor logs stored.
+supervisor_log_dir: /var/log/supervisor
+
 # The path to the directory where Supervisor configuration stored.
 supervisor_config_dir: /etc/supervisor
 
