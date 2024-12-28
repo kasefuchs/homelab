@@ -1,16 +1,4 @@
 ---
-- name: Set Nebula binary capablities
-  community.general.capabilities:
-    path: "{{ nebula_binary_path }}"
-    capability: cap_net_admin=eip
-
-- name: Link Nebula binary
-  ansible.builtin.file:
-    src: "{{ nebula_binary_path }}"
-    dest: /usr/local/bin/nebula
-    state: link
-    force: true
-
 - name: Install Nebula service
   notify: Restart Nebula
   ansible.builtin.template:

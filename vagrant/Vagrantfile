@@ -22,15 +22,16 @@ Vagrant.configure("2") do |cfg|
 		node_str = "#{idx}".rjust(2, "0")
 
 		cfg.vm.define "node-#{node_str}" do |node|
-		  node.vm.network "forwarded_port", id: "ssh", host: SSH_PORT_PREFIX + idx, guest: 22, protocol: "tcp"
-		  node.vm.network "forwarded_port", id: "nebula", host: NEBULA_PORT_PREFIX + idx, guest: 4646, protocol: "udp"
-		  node.vm.network "private_network", ip: "192.168.56.#{NETWORK_IP_PREFIX + idx}", nic_type: "virtio"
+			node.vm.network "forwarded_port", id: "ssh", host: SSH_PORT_PREFIX + idx, guest: 22, protocol: "tcp"
+			node.vm.network "forwarded_port", id: "nebula", host: NEBULA_PORT_PREFIX + idx, guest: 4646, protocol: "udp"
+			node.vm.network "private_network", ip: "192.168.56.#{NETWORK_IP_PREFIX + idx}", nic_type: "virtio"
 
 			if idx == NODE_COUNT
-			  node.vm.provision "ansible" do |ans|
-			    ans.limit = "all"
-          ans.playbook = "../ansible/bootstrap.yml"
-			  end
+				node.vm.provision "ansible" do |ans|
+					ans.limit = "all"
+					ans.playbook = "../ansible/playbooks/bootstrap.yml"
+					ans.config_file = "../ansible/ansible.cfg"
+				end
 			end
 		end
 	end

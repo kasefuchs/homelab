@@ -2,7 +2,7 @@
 ; config file checksum: {{ nebula_config_template.checksum }}
 
 [program:nebula]
-command=/usr/local/bin/nebula -config={{ nebula_config_path }}
+command={{ nebula_binary_path }} -config={{ nebula_config_path }}
 process_name=%(program_name)s
 
 priority=10

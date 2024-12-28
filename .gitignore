@@ -1,11 +1,10 @@
 # ---> Vagrant
 .vagrant/
 
-# ---> Secrets
-secrets/
-
 # ---> Ansible
 inventories/
+secrets/
+cache/
 
 # ---> Diagrams
 diagrams/
