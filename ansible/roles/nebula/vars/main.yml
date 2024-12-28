@@ -17,7 +17,7 @@ nebula_package_dir: /usr/local/src/nebula
 nebula_config_dir: /etc/nebula
 
 # The path to the directory where Nebula certificates stored.
-nebula_cert_dir: /etc/pki/nebula
+nebula_pki_dir: /etc/pki/nebula
 
 # The path to the file where Nebula configuration stored.
 nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"
@@ -29,10 +29,10 @@ nebula_user: nebula
 nebula_group: nebula
 
 # The path to the directory where Nebula PKI CA certificates stored.
-nebula_pki_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/nebula"
+nebula_pki_host_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/nebula"
 
 # The path to the directory where Nebula PKI entity certificates stored.
-nebula_pki_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/nebula"
+nebula_pki_host_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/nebula"
 
 # The path to the directory where Supervisor configuration stored.
 nebula_supervisor_config_dir: /etc/supervisor
@@ -42,3 +42,9 @@ nebula_supervisor_include_dir: "{{ (nebula_supervisor_config_dir, 'conf.d') | an
 
 # The path to the file where Supervisor configuration stored.
 nebula_supervisor_config_path: "{{ (nebula_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
+
+# The path to the directory where cache stored.
+nebula_cache_dir: "{{ playbook_dir }}/../cache/nebula"
+
+# The path to the directory where download cache stored.
+nebula_cache_download_dir: "{{ (nebula_cache_dir, 'download') | ansible.builtin.path_join }}"

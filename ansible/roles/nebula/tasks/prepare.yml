@@ -1,0 +1,12 @@
+---
+- name: Create local directories
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ nebula_cache_dir }}"
+    - "{{ nebula_cache_download_dir }}"
