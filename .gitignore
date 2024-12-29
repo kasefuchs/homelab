@@ -6,5 +6,8 @@ inventories/
 secrets/
 cache/
 
+# Packer
+output-*/
+
 # ---> Diagrams
 diagrams/

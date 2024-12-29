@@ -1,6 +1,12 @@
 ---
 # Vagrant box image to use.
-box_image: ubuntu/22.04
+box_image: homelab/centos
+
+# Amount of vCPU's on node.
+vm_cpus: 2
+
+# Amount of memory on node.
+vm_memory: 1024
 
 # Amount of nodes to create.
 node_count: 9
