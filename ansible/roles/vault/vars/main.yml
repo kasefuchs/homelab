@@ -22,10 +22,10 @@ vault_config_dir: /etc/vault
 # The path to the file where Vault configuration stored.
 vault_config_path: "{{ (vault_config_dir, 'vault.hcl') | ansible.builtin.path_join }}"
 
-#
+# The path to the directory where current version of Vault stored.
 vault_current_dir: "{{ (vault_package_dir, 'current') | ansible.builtin.path_join }}"
 
-#
+# The path to the binary of Vault.
 vault_binary_path: "{{ (vault_current_dir, 'vault') | ansible.builtin.path_join }}"
 
 # The path to the directory where Vault certificates stored.

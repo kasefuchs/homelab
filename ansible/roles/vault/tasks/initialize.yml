@@ -48,7 +48,7 @@
     - name: Parse keys response
       when: vault_initialize_raw.stdout is defined
       ansible.builtin.set_fact:
-        vault_initialize_json: "{{ vault_initialize_raw.stdout | from_json }}"
+        vault_initialize_json: "{{ vault_initialize_raw.stdout | ansible.builtin.from_json }}"
 
     - name: Write Vault keys to file
       when: vault_initialize_json is defined
@@ -56,4 +56,4 @@
       delegate_to: localhost
       ansible.builtin.copy:
         dest: "{{ vault_secrets_init_result_path }}"
-        content: "{{ vault_initialize_json | to_json(indent=2, sort_keys=True) }}"
+        content: "{{ vault_initialize_json | ansible.builtin.to_json(indent=2, sort_keys=True) }}"
