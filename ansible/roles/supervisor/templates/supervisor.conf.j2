@@ -1,7 +1,7 @@
 [supervisord]
-logfile=/dev/null
+logfile={{ supervisor_log_file }}
+logfile_maxbytes={{ supervisor_log_max_bytes }}
 childlogdir={{ supervisor_log_dir }}
-logfile_maxbytes=0
 pidfile={{ supervisor_pid_path }}
 nodaemon=true
 

@@ -1,19 +1,10 @@
 ---
-- name: Link Vault binary
-  ansible.builtin.file:
-    src: "{{ vault_binary_path }}"
-    dest: /usr/local/bin/vault
-    state: link
-    force: true
-
-- name: Set Vault binary capablities
-  community.general.capabilities:
-    path: "{{ vault_binary_path }}"
-    capability: cap_ipc_lock=eip
-
 - name: Install Vault service
   notify: Restart Vault
   ansible.builtin.template:
     src: vault.conf.j2
     dest: "{{ (vault_supervisor_include_dir, 'vault.conf') | ansible.builtin.path_join }}"
     mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

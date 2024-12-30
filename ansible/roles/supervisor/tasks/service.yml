@@ -1,16 +1,4 @@
 ---
-- name: Link Supervisor binaries
-  ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    state: link
-    force: true
-  loop:
-    - src: "{{ supervisor_daemon_bin }}"
-      dest: "/usr/local/bin/supervisord"
-    - src: "{{ supervisor_control_bin }}"
-      dest: "/usr/local/bin/supervisorctl"
-
 - name: Install Supervisor SystemD service
   when: ansible_service_mgr == "systemd"
   notify:
@@ -22,3 +10,6 @@
     src: supervisor.service.j2
     dest: /etc/systemd/system/supervisor.service
     mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

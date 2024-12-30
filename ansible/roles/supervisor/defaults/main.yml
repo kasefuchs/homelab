@@ -1,3 +1,6 @@
 ---
 # Supervisor version to download.
 supervisor_version: latest
+
+# The maximum number of bytes that may be consumed by the activity log file before it is rotated.
+supervisor_log_max_bytes: 10MB

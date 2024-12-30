@@ -1,39 +1,67 @@
 ---
-- name: Get latest release of a public repository
+- name: Get latest Vault version
   when: vault_version == "latest"
   run_once: true
-  register: vault_github_release
   delegate_to: localhost
-  community.general.github_release:
-    user: "{{ vault_github_user }}"
-    repo: "{{ vault_github_repository }}"
-    action: latest_release
-
-- name: Gather Vault facts
   block:
-    - name: Gather Vault download facts
+    - name: Fetch latest Vault release on GitHub
+      register: vault_github_release
+      community.general.github_release:
+        user: "{{ vault_github_user }}"
+        repo: "{{ vault_github_repository }}"
+        action: latest_release
+
+    - name: Set Vault version
       ansible.builtin.set_fact:
         vault_version: "{{ vault_github_release.tag | default(vault_version) | regex_replace('^v', '') }}"
-        vault_architecture: "{{ vault_architectures[ansible_architecture] }}"
 
-    - name: Set Vault package directory fact
-      ansible.builtin.set_fact:
-        vault_version_dir: "{{ (vault_package_dir, vault_version) | ansible.builtin.path_join }}"
+- name: Download Vault archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (vault_cache_download_dir, vault_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
 
-    - name: Set Vault path fact
-      ansible.builtin.set_fact:
-        vault_binary_path: "{{ (vault_version_dir, 'vault') | ansible.builtin.path_join }}"
-        vault_config_path: "{{ (vault_config_dir, 'vault.hcl') | ansible.builtin.path_join }}"
+    - name: Download Vault archives
+      loop: "{{ vault_architectures.values() }}"
+      loop_control:
+        loop_var: vault_architecture
+      ansible.builtin.get_url:
+        url: "{{ vault_archive_url }}"
+        dest: "{{ (vault_cache_download_dir, vault_version, vault_architecture) | ansible.builtin.path_join }}"
 
-- name: Create Vault package directory
-  ansible.builtin.file:
-    mode: "0755"
-    path: "{{ vault_version_dir }}"
-    state: directory
+- name: Set Vault filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    vault_version_dir: "{{ (vault_package_dir, vault_version) | ansible.builtin.path_join }}"
 
-- name: Download & extract Vault package
-  ansible.builtin.unarchive:
-    src: "{{ vault_download_url }}"
-    dest: "{{ vault_version_dir }}"
-    creates: "{{ vault_binary_path }}"
-    remote_src: true
+- name: Install Vault binary
+  block:
+    - name: Create Vault package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ vault_version_dir }}"
+        state: directory
+
+    - name: Extract Vault archive
+      ansible.builtin.unarchive:
+        src: "{{ (vault_cache_download_dir, vault_version, vault_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ vault_version_dir }}"
+        creates: "{{ vault_binary_path }}"
+
+- name: Prepare Vault for use
+  block:
+    - name: Link Vault current version directory
+      ansible.builtin.file:
+        src: "{{ vault_version_dir }}"
+        dest: "{{ vault_current_dir }}"
+        state: link
+
+    - name: Set Vault binary capablities
+      community.general.capabilities:
+        path: "{{ vault_binary_path }}"
+        capability: cap_ipc_lock=eip

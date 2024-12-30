@@ -7,9 +7,9 @@ Documentation=https://supervisord.org
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/supervisord -c {{ supervisor_config_path }}
-ExecReload=/usr/local/bin/supervisorctl -c {{ supervisor_config_path }} reload
-ExecStop=/usr/local/bin/supervisorctl -c {{ supervisor_config_path }} shutdown
+ExecStart={{ supervisor_daemon_bin }} -c {{ supervisor_config_path }}
+ExecReload={{ supervisor_control_bin }} -c {{ supervisor_config_path }} reload
+ExecStop={{ supervisor_control_bin }} -c {{ supervisor_config_path }} shutdown
 
 RuntimeDirectory={{ supervisor_runtime_dir | relpath('/run') }}
 
