@@ -16,3 +16,6 @@
 
 - name: Initialize Vault
   ansible.builtin.import_tasks: initialize.yml
+
+- name: Unseal Vault
+  ansible.builtin.import_tasks: unseal.yml
