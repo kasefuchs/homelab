@@ -9,8 +9,8 @@ listener "tcp" {
   address         = "{{ vault_api_address }}"
   cluster_address = "{{ vault_cluster_address }}"
 
-  tls_key_file  = "{{ (vault_cert_dir, 'server.key') | ansible.builtin.path_join }}"
-  tls_cert_file = "{{ (vault_cert_dir, 'server.pem') | ansible.builtin.path_join }}"
+  tls_key_file  = "{{ (vault_pki_dir, 'server.key') | ansible.builtin.path_join }}"
+  tls_cert_file = "{{ (vault_pki_dir, 'server.pem') | ansible.builtin.path_join }}"
 
   tls_require_and_verify_client_cert = false
 }
@@ -24,9 +24,9 @@ storage "raft" {
     leader_api_addr       = "{{ api_addr }}"
     leader_tls_servername = "{{ host }}.server.vault"
 
-    leader_ca_cert_file     = "{{ (vault_cert_dir, 'ca.pem') | ansible.builtin.path_join }}"
-    leader_client_key_file  = "{{ (vault_cert_dir, 'cli.key') | ansible.builtin.path_join }}"
-    leader_client_cert_file = "{{ (vault_cert_dir, 'cli.pem') | ansible.builtin.path_join }}"
+    leader_ca_cert_file     = "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    leader_client_key_file  = "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+    leader_client_cert_file = "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
   }
 {% endfor %}
 }

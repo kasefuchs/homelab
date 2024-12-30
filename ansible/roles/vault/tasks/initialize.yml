@@ -2,7 +2,7 @@
 - name: Get initialize Vault server address
   run_once: true
   ansible.builtin.set_fact:
-    vault_initialize_server_address: "https://{{ nebula_ip }}:8200"
+    vault_initialize_server_address: "{{ vault_advertise_api_address }}"
 
 - name: Check initialize Vault server status
   run_once: true
@@ -13,13 +13,13 @@
       changed_when: false
       ansible.builtin.command:
         argv:
-          - vault
+          - "{{ vault_binary_path }}"
           - status
-          - --format=json
-          - --address={{ vault_initialize_server_address }}
-          - --ca-cert={{ (vault_cert_dir, 'ca.pem') | ansible.builtin.path_join }}
-          - --client-key={{ (vault_cert_dir, 'cli.key') | ansible.builtin.path_join }}
-          - --client-cert={{ (vault_cert_dir, 'cli.pem') | ansible.builtin.path_join }}
+          - -format=json
+          - -address={{ vault_initialize_server_address }}
+          - -ca-cert={{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}
+          - -client-key={{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}
+          - -client-cert={{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}
 
     - name: Parse Vault server status
       when: vault_initialize_status_raw.stdout is defined
@@ -34,16 +34,16 @@
       register: vault_initialize_raw
       ansible.builtin.command:
         argv:
-          - vault
+          - "{{ vault_binary_path }}"
           - operator
           - init
-          - --format=json
-          - --address={{ vault_initialize_server_address }}
-          - --ca-cert={{ (vault_cert_dir, 'ca.pem') | ansible.builtin.path_join }}
-          - --client-key={{ (vault_cert_dir, 'cli.key') | ansible.builtin.path_join }}
-          - --client-cert={{ (vault_cert_dir, 'cli.pem') | ansible.builtin.path_join }}
-          - --key-shares={{ vault_initialize_key_shares }}
-          - --key-threshold={{ vault_initialize_key_threshold }}
+          - -format=json
+          - -address={{ vault_initialize_server_address }}
+          - -ca-cert={{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}
+          - -client-key={{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}
+          - -client-cert={{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}
+          - -key-shares={{ vault_initialize_key_shares }}
+          - -key-threshold={{ vault_initialize_key_threshold }}
 
     - name: Parse keys response
       when: vault_initialize_raw.stdout is defined
@@ -52,9 +52,8 @@
 
     - name: Write Vault keys to file
       when: vault_initialize_json is defined
-      vars:
-        ansible_become: false
+      become: false
       delegate_to: localhost
       ansible.builtin.copy:
-        dest: "{{ vault_secrets_keys_path }}"
+        dest: "{{ vault_secrets_init_result_path }}"
         content: "{{ vault_initialize_json | to_json(indent=2, sort_keys=True) }}"

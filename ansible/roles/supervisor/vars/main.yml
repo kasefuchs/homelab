@@ -11,6 +11,15 @@ supervisor_config_dir: /etc/supervisor
 # The path to the directory where Supervisor packages stored.
 supervisor_package_dir: /usr/local/src/supervisor
 
+# The path to the directory where current Supervisor version stored.
+supervisor_current_dir: "{{ (supervisor_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the binary of Supervisor daemon.
+supervisor_daemon_bin: "{{ (supervisor_current_dir, 'bin', 'supervisord') | ansible.builtin.path_join }}"
+
+# The path to the binary of Supervisor control.
+supervisor_control_bin: "{{ (supervisor_current_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"
+
 # The path to the directory where Supervisor runtime data stored.
 supervisor_runtime_dir: /run/supervisor
 
@@ -25,3 +34,6 @@ supervisor_sock_path: "{{ (supervisor_runtime_dir, 'supervisor.sock') | ansible.
 
 # The path to the file where Supervisor configuration stored.
 supervisor_config_path: "{{ (supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
+
+# The path to the file where Supervisor logs stored.
+supervisor_log_file: "{{ (supervisor_log_dir, 'supervisor.log') | ansible.builtin.path_join }}"

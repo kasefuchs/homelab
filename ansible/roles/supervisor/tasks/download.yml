@@ -14,25 +14,29 @@
       ansible.builtin.set_fact:
         supervisor_version: "{{ supervisor_pypi_response.json.info.version }}"
 
-- name: Gather Supervisor facts
+- name: Set Supervisor version directory fact
+  run_once: true
+  ansible.builtin.set_fact:
+    supervisor_version_dir: "{{ (supervisor_package_dir, supervisor_version) | ansible.builtin.path_join }}"
+
+- name: Download Supervisor
   block:
-    - name: Set Supervisor package directory fact
-      ansible.builtin.set_fact:
-        supervisor_version_dir: "{{ (supervisor_package_dir, supervisor_version) | ansible.builtin.path_join }}"
-        supervisor_binary_dir: "{{ (supervisor_package_dir, supervisor_version, 'bin') | ansible.builtin.path_join }}"
+    - name: Create Supervisor version directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ supervisor_version_dir }}"
+        state: directory
 
-    - name: Set Supervisor package path fact
-      ansible.builtin.set_fact:
-        supervisor_daemon_bin: "{{ (supervisor_binary_dir, 'supervisord') | ansible.builtin.path_join }}"
-        supervisor_control_bin: "{{ (supervisor_binary_dir, 'supervisorctl') | ansible.builtin.path_join }}"
+    - name: Install Supervisor Python package
+      ansible.builtin.pip:
+        name: "{{ supervisor_package }}"
+        virtualenv: "{{ supervisor_version_dir }}"
+        virtualenv_command: "{{ ansible_python.executable }} -m venv"
 
-- name: Create Supervisor package directory
-  ansible.builtin.file:
-    mode: "0755"
-    path: "{{ supervisor_version_dir }}"
-    state: directory
-
-- name: Install Supervisor Python package
-  ansible.builtin.pip:
-    name: "{{ supervisor_package }}"
-    virtualenv: "{{ supervisor_version_dir }}"
+- name: Prepare Supervisor for use
+  block:
+    - name: Link Supervisor current version directory
+      ansible.builtin.file:
+        src: "{{ supervisor_version_dir }}"
+        dest: "{{ supervisor_current_dir }}"
+        state: link

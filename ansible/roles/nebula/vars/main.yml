@@ -19,6 +19,12 @@ nebula_config_dir: /etc/nebula
 # The path to the directory where Nebula certificates stored.
 nebula_pki_dir: /etc/pki/nebula
 
+# The path to the directory where current Nebula version stored.
+nebula_current_dir: "{{ (nebula_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the binary of Nebula.
+nebula_binary_path: "{{ (nebula_current_dir, 'nebula') | ansible.builtin.path_join }}"
+
 # The path to the file where Nebula configuration stored.
 nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"
 
@@ -39,6 +45,12 @@ nebula_supervisor_config_dir: /etc/supervisor
 
 # The path to the directory where Supervisor includes stored.
 nebula_supervisor_include_dir: "{{ (nebula_supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# The path to the directory where current Supervisor version installed.
+nebula_supervisor_current_dir: "/usr/local/src/supervisor/current"
+
+# The path to the Supervisor control binary.
+nebula_supervisor_control_bin: "{{ (nebula_supervisor_current_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"
 
 # The path to the file where Supervisor configuration stored.
 nebula_supervisor_config_path: "{{ (nebula_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"

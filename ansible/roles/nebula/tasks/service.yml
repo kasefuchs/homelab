@@ -5,3 +5,6 @@
     src: nebula.conf.j2
     dest: "{{ (nebula_supervisor_include_dir, 'nebula.conf') | ansible.builtin.path_join }}"
     mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

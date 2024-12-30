@@ -4,3 +4,4 @@
     name: nebula
     state: restarted
     config: "{{ nebula_supervisor_config_path }}"
+    supervisorctl_path: "{{ nebula_supervisor_control_bin }}"
