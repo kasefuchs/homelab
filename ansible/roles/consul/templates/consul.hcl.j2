@@ -1,0 +1,44 @@
+node_name  = "{{ consul_node_name }}"
+datacenter = "{{ consul_datacenter }}"
+
+data_dir    = "{{ consul_data_dir }}"
+bind_addr   = "{{ consul_bind_address }}"
+client_addr = "{{ consul_client_address }}"
+
+server           = {{ consul_server | lower }}
+retry_join       = {{ consul_join_peers | ansible.builtin.to_json }}
+bootstrap_expect = {{ consul_bootstrap_expect if consul_server else 0 }}
+
+acl {
+  enabled                  = true
+  default_policy           = "{{ consul_acl_default_policy }}"
+  enable_token_persistence = true
+}
+
+ui_config {
+  enabled = true
+}
+
+tls {
+  defaults {
+    ca_file   = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    key_file  = "{{ (consul_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
+    cert_file = "{{ (consul_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+  }
+}
+
+ports {
+  dns      = {{ consul_dns_port }}
+  http     = {{ consul_http_port }}
+  grpc     = {{ consul_grpc_port }}
+  https    = {{ consul_https_port }}
+  grpc_tls = {{ consul_grpc_tls_port }}
+}
+
+addresses {
+  dns      = "{{ consul_dns_address }}"
+  http     = "{{ consul_http_address }}"
+  grpc     = "{{ consul_grpc_address }}"
+  https    = "{{ consul_https_address }}"
+  grpc_tls = "{{ consul_grpc_tls_address }}"
+}

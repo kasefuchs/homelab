@@ -1,0 +1,71 @@
+---
+# The GitHub account that owns the repository.
+consul_github_user: hashicorp
+
+# Repository name.
+consul_github_repository: consul
+
+# Map of Ansible architectures to correspondent Consul architectures.
+consul_architectures:
+  aarch64: arm64
+  x86_64: amd64
+
+# The path to the directory where extracted Consul package stored.
+consul_package_dir: /usr/local/src/consul
+
+# The path to the directory where Consul data stored.
+consul_data_dir: /opt/consul/data
+
+# The path to the directory where Consul configuration stored.
+consul_config_dir: /etc/consul
+
+# The path to the file where Consul configuration stored.
+consul_config_path: "{{ (consul_config_dir, 'consul.hcl') | ansible.builtin.path_join }}"
+
+# The path to the directory where current version of Consul stored.
+consul_current_dir: "{{ (consul_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the binary of Consul.
+consul_binary_path: "{{ (consul_current_dir, 'consul') | ansible.builtin.path_join }}"
+
+# The path to the directory where Consul certificates stored.
+consul_pki_dir: /etc/pki/consul
+
+# The user to run Consul as.
+consul_user: consul
+
+# The group to use running Consul.
+consul_group: consul
+
+# The path to the directory where Consul PKI CA certificates stored.
+consul_pki_host_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/consul"
+
+# The path to the directory where Consul PKI entity certificates stored.
+consul_pki_host_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/consul"
+
+# The path to the directory where Supervisor configuration stored.
+consul_supervisor_config_dir: /etc/supervisor
+
+# The path to the directory where Supervisor includes stored.
+consul_supervisor_include_dir: "{{ (consul_supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# The path to the directory where current Supervisor version installed.
+consul_supervisor_current_dir: "/usr/local/src/supervisor/current"
+
+# The path to the Supervisor control binary.
+consul_supervisor_control_bin: "{{ (consul_supervisor_current_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"
+
+# The path to the file where Supervisor configuration stored.
+consul_supervisor_config_path: "{{ (consul_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
+
+# The path to the directory where cache stored.
+consul_cache_dir: "{{ playbook_dir }}/../cache/consul"
+
+# The path to the directory where secrets stored.
+consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
+
+# The path to the directory where download cache stored.
+consul_cache_download_dir: "{{ (consul_cache_dir, 'download') | ansible.builtin.path_join }}"
+
+# The path to the file where Consul ACL bootstrap result stored.
+consul_secrets_acl_bootstrap_result_path: "{{ (consul_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"

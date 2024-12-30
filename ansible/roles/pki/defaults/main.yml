@@ -11,6 +11,12 @@ pki_ca_vault_cn: Muttias Vault CA
 # Specifies amount of time the Vault CA should be valid for.
 pki_ca_vault_duration: 87600h0m0s
 
+# Specifies common name of the Consul CA.
+pki_ca_consul_cn: Muttias Consul CA
+
+# Specifies amount of time the Consul CA should be valid for.
+pki_ca_consul_duration: 87600h0m0s
+
 # Specifies common name of the Nebula CA.
 pki_ca_nebula_cn: Muttias Nebula CA
 
@@ -28,3 +34,6 @@ pki_ca_nebula_duration: 87600h0m0s
 
 # Specifies Nebula name of the cert, usually a hostname.
 pki_entity_nebula_cn: "{{ inventory_hostname }}"
+
+# Specifies Consul datacenter.
+pki_entity_consul_datacenter: muttias

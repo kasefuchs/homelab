@@ -1,0 +1,10 @@
+---
+- name: Install Consul service
+  notify: Restart Consul
+  ansible.builtin.template:
+    src: consul.conf.j2
+    dest: "{{ (consul_supervisor_include_dir, 'consul.conf') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
