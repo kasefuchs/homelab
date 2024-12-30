@@ -13,3 +13,6 @@
 
 - name: Create Vault CA certificate
   ansible.builtin.import_tasks: vault.yml
+
+- name: Create Consul CA certificate
+  ansible.builtin.import_tasks: consul.yml

@@ -11,3 +11,6 @@
 
 - name: Create Vault entity certificate
   ansible.builtin.import_tasks: vault.yml
+
+- name: Create Consul entity certificate
+  ansible.builtin.import_tasks: consul.yml

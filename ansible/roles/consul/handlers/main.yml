@@ -1,0 +1,7 @@
+---
+- name: Restart Consul
+  community.general.supervisorctl:
+    name: consul
+    state: restarted
+    config: "{{ consul_supervisor_config_path }}"
+    supervisorctl_path: "{{ consul_supervisor_control_bin }}"

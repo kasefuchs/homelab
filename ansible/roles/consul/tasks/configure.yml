@@ -1,0 +1,47 @@
+---
+- name: Create Consul directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  loop:
+    - "{{ consul_pki_dir }}"
+    - "{{ consul_data_dir }}"
+    - "{{ consul_config_dir }}"
+
+- name: Copy Consul certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  loop:
+    - src: "{{ (consul_pki_host_ca_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_pki_host_entity_dir, consul_datacenter, 'cli.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_pki_host_entity_dir, consul_datacenter, 'cli.key') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_pki_host_entity_dir, consul_datacenter, inventory_hostname, ('server' if consul_server else 'client') + '.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_pki_host_entity_dir, consul_datacenter, inventory_hostname, ('server' if consul_server else 'client') + '.key') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Copy Consul configuration
+  register: consul_config_template
+  ansible.builtin.template:
+    src: consul.hcl.j2
+    dest: "{{ consul_config_path }}"
+    mode: "0644"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
