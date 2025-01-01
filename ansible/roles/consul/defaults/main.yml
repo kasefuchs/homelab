@@ -18,37 +18,37 @@ consul_node_name: "{{ inventory_hostname }}"
 consul_bind_address: "{{ nebula_ip }}"
 
 # Specifies the address to which Consul will bind client interfaces.
-consul_client_address: "{{ nebula_ip }}"
+consul_client_addresses: ["{{ nebula_ip }}", "127.0.0.1"]
 
 # Specifies the port to which Consul will bind DNS server.
 consul_dns_port: 8600
 
 # Specifies the address to which Consul will bind DNS server.
-consul_dns_address: 127.0.0.1
+consul_dns_addresses: ["127.0.0.1"]
 
 # Specifies the port to which Consul will bind HTTP API.
-consul_http_port: -1
+consul_http_port: 8500
 
 # Specifies the address to which Consul will bind HTTP API.
-consul_http_address: "{{ consul_client_address }}"
+consul_http_addresses: ["127.0.0.1"]
 
 # Specifies the port to which Consul will bind HTTPS API.
 consul_https_port: 8501
 
 # Specifies the address to which Consul will bind HTTPS API.
-consul_https_address: "{{ consul_client_address }}"
+consul_https_addresses: "{{ consul_client_addresses }}"
 
 # Specifies the port to which Consul will bind gRPC API.
 consul_grpc_port: 8502
 
 # Specifies the address to which Consul will bind gRPC API.
-consul_grpc_address: "{{ consul_client_address }}"
+consul_grpc_addresses: "{{ consul_client_addresses }}"
 
 # Specifies the port to which Consul will bind gRPC API with TLS.
 consul_grpc_tls_port: 8503
 
 # Specifies the address to which Consul will bind gRPC API with TLS.
-consul_grpc_tls_address: "{{ consul_client_address }}"
+consul_grpc_tls_addresses: "{{ consul_client_addresses }}"
 
 # Specifies the default Consul ACL policy.
 consul_acl_default_policy: deny

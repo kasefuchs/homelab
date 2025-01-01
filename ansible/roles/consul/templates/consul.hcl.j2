@@ -3,7 +3,7 @@ datacenter = "{{ consul_datacenter }}"
 
 data_dir    = "{{ consul_data_dir }}"
 bind_addr   = "{{ consul_bind_address }}"
-client_addr = "{{ consul_client_address }}"
+client_addr = "{{ consul_client_addresses | join(' ') }}"
 
 server           = {{ consul_server | lower }}
 retry_join       = {{ consul_join_peers | ansible.builtin.to_json }}
@@ -30,15 +30,15 @@ tls {
 ports {
   dns      = {{ consul_dns_port }}
   http     = {{ consul_http_port }}
-  grpc     = {{ consul_grpc_port }}
   https    = {{ consul_https_port }}
+  grpc     = {{ consul_grpc_port }}
   grpc_tls = {{ consul_grpc_tls_port }}
 }
 
 addresses {
-  dns      = "{{ consul_dns_address }}"
-  http     = "{{ consul_http_address }}"
-  grpc     = "{{ consul_grpc_address }}"
-  https    = "{{ consul_https_address }}"
-  grpc_tls = "{{ consul_grpc_tls_address }}"
+  dns      = "{{ consul_dns_addresses | join(' ') }}"
+  http     = "{{ consul_http_addresses | join(' ') }}"
+  https    = "{{ consul_https_addresses | join(' ') }}"
+  grpc     = "{{ consul_grpc_addresses | join(' ') }}"
+  grpc_tls = "{{ consul_grpc_tls_addresses | join(' ') }}"
 }
