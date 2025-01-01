@@ -22,7 +22,7 @@
   block:
     - name: Create version directory
       ansible.builtin.file:
-        path: "{{ (nebula_cache_download_dir, nebula_version) | ansible.builtin.path_join }}"
+        path: "{{ (nebula_download_cache_dir, nebula_version) | ansible.builtin.path_join }}"
         mode: "0755"
         state: directory
 
@@ -32,7 +32,7 @@
         loop_var: nebula_architecture
       ansible.builtin.get_url:
         url: "{{ nebula_archive_url }}"
-        dest: "{{ (nebula_cache_download_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"
+        dest: "{{ (nebula_download_cache_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"
 
 - name: Set Nebula current version directory fact
   run_once: true
@@ -49,7 +49,7 @@
 
     - name: Extract Nebula archive
       ansible.builtin.unarchive:
-        src: "{{ (nebula_cache_download_dir, nebula_version, nebula_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        src: "{{ (nebula_download_cache_dir, nebula_version, nebula_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ nebula_version_dir }}"
         creates: "{{ nebula_binary_path }}"
 

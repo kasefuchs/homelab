@@ -58,14 +58,11 @@ vault_supervisor_control_bin: "{{ (vault_supervisor_current_dir, 'bin', 'supervi
 # The path to the file where Supervisor configuration stored.
 vault_supervisor_config_path: "{{ (vault_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
 
-# The path to the directory where cache stored.
-vault_cache_dir: "{{ playbook_dir }}/../cache/vault"
-
 # The path to the directory where secrets stored.
 vault_secrets_dir: "{{ playbook_dir }}/../secrets/vault"
 
 # The path to the directory where download cache stored.
-vault_cache_download_dir: "{{ (vault_cache_dir, 'download') | ansible.builtin.path_join }}"
+vault_download_cache_dir: "{{ playbook_dir }}/../cache/download/vault"
 
 # The path to the file where Vault keys stored.
 vault_secrets_init_result_path: "{{ (vault_secrets_dir, 'init.json') | ansible.builtin.path_join }}"

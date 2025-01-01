@@ -8,6 +8,5 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ vault_cache_download_dir }}"
-    - "{{ vault_cache_dir }}"
     - "{{ vault_secrets_dir }}"
+    - "{{ vault_download_cache_dir }}"
