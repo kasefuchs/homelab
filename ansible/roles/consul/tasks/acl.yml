@@ -2,7 +2,7 @@
 - name: Get ACL bootstrap Consul server address
   run_once: true
   ansible.builtin.set_fact:
-    consul_acl_server_address: "https://{{ consul_https_address }}:{{ consul_https_port }}"
+    consul_acl_server_address: "https://{{ consul_https_addresses[0] }}:{{ consul_https_port }}"
 
 - name: Bootstrap Consul ACL
   run_once: true
