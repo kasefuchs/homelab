@@ -8,5 +8,4 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ nebula_cache_dir }}"
-    - "{{ nebula_cache_download_dir }}"
+    - "{{ nebula_download_cache_dir }}"

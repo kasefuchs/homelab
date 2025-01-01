@@ -58,14 +58,11 @@ consul_supervisor_control_bin: "{{ (consul_supervisor_current_dir, 'bin', 'super
 # The path to the file where Supervisor configuration stored.
 consul_supervisor_config_path: "{{ (consul_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
 
-# The path to the directory where cache stored.
-consul_cache_dir: "{{ playbook_dir }}/../cache/consul"
-
 # The path to the directory where secrets stored.
 consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
 
 # The path to the directory where download cache stored.
-consul_cache_download_dir: "{{ (consul_cache_dir, 'download') | ansible.builtin.path_join }}"
+consul_download_cache_dir: "{{ playbook_dir }}/../cache/download/consul"
 
 # The path to the file where Consul ACL bootstrap result stored.
 consul_secrets_acl_bootstrap_result_path: "{{ (consul_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"

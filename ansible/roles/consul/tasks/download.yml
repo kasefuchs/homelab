@@ -22,7 +22,7 @@
   block:
     - name: Create version directory
       ansible.builtin.file:
-        path: "{{ (consul_cache_download_dir, consul_version) | ansible.builtin.path_join }}"
+        path: "{{ (consul_download_cache_dir, consul_version) | ansible.builtin.path_join }}"
         mode: "0755"
         state: directory
 
@@ -32,7 +32,7 @@
         loop_var: consul_architecture
       ansible.builtin.get_url:
         url: "{{ consul_archive_url }}"
-        dest: "{{ (consul_cache_download_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"
+        dest: "{{ (consul_download_cache_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"
 
 - name: Set Consul filesystem facts
   run_once: true
@@ -49,7 +49,7 @@
 
     - name: Extract Consul archive
       ansible.builtin.unarchive:
-        src: "{{ (consul_cache_download_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        src: "{{ (consul_download_cache_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ consul_version_dir }}"
         creates: "{{ consul_binary_path }}"
 

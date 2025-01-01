@@ -55,8 +55,5 @@ nebula_supervisor_control_bin: "{{ (nebula_supervisor_current_dir, 'bin', 'super
 # The path to the file where Supervisor configuration stored.
 nebula_supervisor_config_path: "{{ (nebula_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
 
-# The path to the directory where cache stored.
-nebula_cache_dir: "{{ playbook_dir }}/../cache/nebula"
-
 # The path to the directory where download cache stored.
-nebula_cache_download_dir: "{{ (nebula_cache_dir, 'download') | ansible.builtin.path_join }}"
+nebula_download_cache_dir: "{{ playbook_dir }}/../cache/download/nebula"
