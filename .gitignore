@@ -6,8 +6,19 @@ inventories/
 secrets/
 cache/
 
-# Packer
+# ---> Packer
 output-*/
+
+# ---> Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+variables/
 
 # ---> Diagrams
 diagrams/
+
+# ---> IDE
+.idea/
+.vscode/
