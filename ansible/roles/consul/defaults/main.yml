@@ -3,7 +3,7 @@
 consul_version: latest
 
 # URL to download Consul archive from.
-consul_archive_url: https://hashicorp-releases.yandexcloud.net/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip
+consul_download_url: https://hashicorp-releases.yandexcloud.net/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip
 
 # Specifies the datacenter in which the agent is running.
 consul_datacenter: muttias

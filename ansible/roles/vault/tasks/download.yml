@@ -31,7 +31,7 @@
       loop_control:
         loop_var: vault_architecture
       ansible.builtin.get_url:
-        url: "{{ vault_archive_url }}"
+        url: "{{ vault_download_url }}"
         dest: "{{ (vault_download_cache_dir, vault_version, vault_architecture) | ansible.builtin.path_join }}"
 
 - name: Set Vault filesystem facts
@@ -39,7 +39,7 @@
   ansible.builtin.set_fact:
     vault_version_dir: "{{ (vault_package_dir, vault_version) | ansible.builtin.path_join }}"
 
-- name: Install Vault binary
+- name: Prepare Vault for use
   block:
     - name: Create Vault package directory
       ansible.builtin.file:
@@ -47,21 +47,21 @@
         path: "{{ vault_version_dir }}"
         state: directory
 
-    - name: Extract Vault archive
-      ansible.builtin.unarchive:
-        src: "{{ (vault_download_cache_dir, vault_version, vault_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
-        dest: "{{ vault_version_dir }}"
-        creates: "{{ vault_binary_path }}"
-
-- name: Prepare Vault for use
-  block:
     - name: Link Vault current version directory
       ansible.builtin.file:
         src: "{{ vault_version_dir }}"
         dest: "{{ vault_current_dir }}"
         state: link
 
-    - name: Set Vault binary capablities
+- name: Install Vault binary
+  block:
+    - name: Extract Vault archive
+      ansible.builtin.unarchive:
+        src: "{{ (vault_download_cache_dir, vault_version, vault_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ vault_current_dir }}"
+        creates: "{{ vault_binary_path }}"
+
+    - name: Set Vault binary capabilities
       community.general.capabilities:
         path: "{{ vault_binary_path }}"
         capability: cap_ipc_lock=eip
