@@ -31,7 +31,7 @@
       loop_control:
         loop_var: consul_architecture
       ansible.builtin.get_url:
-        url: "{{ consul_archive_url }}"
+        url: "{{ consul_download_url }}"
         dest: "{{ (consul_download_cache_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"
 
 - name: Set Consul filesystem facts
@@ -39,7 +39,7 @@
   ansible.builtin.set_fact:
     consul_version_dir: "{{ (consul_package_dir, consul_version) | ansible.builtin.path_join }}"
 
-- name: Install Consul binary
+- name: Create Consul package directory
   block:
     - name: Create Consul package directory
       ansible.builtin.file:
@@ -47,16 +47,16 @@
         path: "{{ consul_version_dir }}"
         state: directory
 
-    - name: Extract Consul archive
-      ansible.builtin.unarchive:
-        src: "{{ (consul_download_cache_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
-        dest: "{{ consul_version_dir }}"
-        creates: "{{ consul_binary_path }}"
-
-- name: Prepare Consul for use
-  block:
     - name: Link Consul current version directory
       ansible.builtin.file:
         src: "{{ consul_version_dir }}"
         dest: "{{ consul_current_dir }}"
         state: link
+
+- name: Install Consul binary
+  block:
+    - name: Extract Consul archive
+      ansible.builtin.unarchive:
+        src: "{{ (consul_download_cache_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ consul_current_dir }}"
+        creates: "{{ consul_binary_path }}"
