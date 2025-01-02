@@ -1,0 +1,6 @@
+---
+- name: Prepare for Envoy installation
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Download Envoy package
+  ansible.builtin.import_tasks: download.yml
