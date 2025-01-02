@@ -17,6 +17,12 @@ pki_ca_consul_cn: Muttias Consul CA
 # Specifies amount of time the Consul CA should be valid for.
 pki_ca_consul_duration: 87600h0m0s
 
+# Specifies common name of the Nomad CA.
+pki_ca_nomad_cn: Muttias Nomad CA
+
+# Specifies amount of time the Nomad CA should be valid for.
+pki_ca_nomad_duration: 87600h0m0s
+
 # Specifies common name of the Nebula CA.
 pki_ca_nebula_cn: Muttias Nebula CA
 
@@ -37,3 +43,6 @@ pki_entity_nebula_cn: "{{ inventory_hostname }}"
 
 # Specifies Consul datacenter.
 pki_entity_consul_datacenter: muttias
+
+# Specifies Nomad region.
+pki_entity_nomad_region: global

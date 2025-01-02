@@ -1,0 +1,6 @@
+---
+# Envoy version to download.
+envoy_version: latest
+
+# URL to download Envoy binary from.
+envoy_download_url: https://github.com/{{ envoy_github_user }}/{{ envoy_github_repository }}/releases/download/v{{ envoy_version }}/envoy-{{ envoy_version }}-linux-{{ envoy_architecture }}
