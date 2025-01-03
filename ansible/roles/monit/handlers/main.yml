@@ -5,22 +5,17 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
 
-- name: Start Supervisor
+- name: Start Monit
   ansible.builtin.service:
-    name: supervisor
+    name: monit
     state: started
 
-- name: Enable Supervisor
+- name: Reload Monit
   ansible.builtin.service:
-    name: supervisor
-    enabled: true
-
-- name: Reload Supervisor
-  ansible.builtin.service:
-    name: supervisor
+    name: monit
     state: reloaded
 
-- name: Restart Supervisor
+- name: Enable Monit
   ansible.builtin.service:
-    name: supervisor
-    state: restarted
+    name: monit
+    enabled: true

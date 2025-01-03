@@ -16,3 +16,6 @@
 
 - name: Create Consul CA certificate
   ansible.builtin.import_tasks: consul.yml
+
+- name: Create Nomad CA certificate
+  ansible.builtin.import_tasks: nomad.yml

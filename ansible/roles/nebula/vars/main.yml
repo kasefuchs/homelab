@@ -16,6 +16,12 @@ nebula_package_dir: /usr/local/src/nebula
 # The path to the directory where Nebula configuration stored.
 nebula_config_dir: /etc/nebula
 
+# The path to the directory where Nebula logs stored.
+nebula_log_dir: /var/log/nebula
+
+# The path to the directory where Nebula runtime data stored.
+nebula_runtime_dir: /run/nebula
+
 # The path to the directory where Nebula certificates stored.
 nebula_pki_dir: /etc/pki/nebula
 
@@ -34,26 +40,38 @@ nebula_user: nebula
 # The group to use running Nebula.
 nebula_group: nebula
 
+# The path to the file where Nebula log stored.
+nebula_log_path: "{{ (nebula_log_dir, 'nebula.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Nebula process id stored.
+nebula_pid_path: "{{ (nebula_runtime_dir, 'nebula.pid') | ansible.builtin.path_join }}"
+
 # The path to the directory where Nebula PKI CA certificates stored.
 nebula_pki_host_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/nebula"
 
 # The path to the directory where Nebula PKI entity certificates stored.
 nebula_pki_host_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/nebula"
 
-# The path to the directory where Supervisor configuration stored.
-nebula_supervisor_config_dir: /etc/supervisor
-
-# The path to the directory where Supervisor includes stored.
-nebula_supervisor_include_dir: "{{ (nebula_supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
-
-# The path to the directory where current Supervisor version installed.
-nebula_supervisor_current_dir: "/usr/local/src/supervisor/current"
-
-# The path to the Supervisor control binary.
-nebula_supervisor_control_bin: "{{ (nebula_supervisor_current_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"
-
-# The path to the file where Supervisor configuration stored.
-nebula_supervisor_config_path: "{{ (nebula_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
-
 # The path to the directory where download cache stored.
 nebula_download_cache_dir: "{{ playbook_dir }}/../cache/download/nebula"
+
+# The path to the directory where Monit configuration stored.
+nebula_monit_config_dir: /etc/monit
+
+# The path to the directory where current Monit configuration stored.
+nebula_monit_current_dir: /usr/local/src/monit/current
+
+# The path to the directory where Monit includes stored.
+nebula_monit_include_dir: "{{ (nebula_monit_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# The path to the directory where Monit services init scripts stored.
+nebula_monit_init_dir: "{{ (nebula_monit_config_dir, 'init.d') | ansible.builtin.path_join }}"
+
+# The path to the Monit Nebula init script.
+nebula_monit_init_path: "{{ (nebula_monit_init_dir, 'nebula.sh') | ansible.builtin.path_join }}"
+
+# The path to the Monit binary.
+nebula_monit_binary_path: "{{ (nebula_monit_current_dir, 'bin/monit') | ansible.builtin.path_join }}"
+
+# The path of the Monit configuration file.
+nebula_monit_config_path: "{{ (nebula_monit_config_dir, 'monitrc') | ansible.builtin.path_join }}"

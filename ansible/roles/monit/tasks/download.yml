@@ -1,0 +1,46 @@
+- name: Download Monit archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (monit_download_cache_dir, monit_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Download Monit archives
+      loop: "{{ monit_architectures.values() }}"
+      loop_control:
+        loop_var: monit_architecture
+      ansible.builtin.get_url:
+        url: "{{ monit_download_url }}"
+        dest: "{{ (monit_download_cache_dir, monit_version, monit_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Monit filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    monit_version_dir: "{{ (monit_package_dir, monit_version) | ansible.builtin.path_join }}"
+
+- name: Create Monit package directory
+  block:
+    - name: Create Monit package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ monit_version_dir }}"
+        state: directory
+
+    - name: Link Monit current version directory
+      ansible.builtin.file:
+        src: "{{ monit_version_dir }}"
+        dest: "{{ monit_current_dir }}"
+        state: link
+
+- name: Install Monit binary
+  block:
+    - name: Extract Monit archive
+      ansible.builtin.unarchive:
+        src: "{{ (monit_download_cache_dir, monit_version, monit_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ monit_current_dir }}"
+        creates: "{{ monit_binary_path }}"
+        extra_opts: "{{ monit_unarchive_extra_opts }}"

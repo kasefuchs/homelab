@@ -1,7 +1,23 @@
 ---
+- name: Reload Monit
+  ansible.builtin.command:
+    argv:
+      - "{{ nebula_monit_binary_path }}"
+      - reload
+      - -c{{ nebula_monit_config_path }}
+
+- name: Monitor Nebula
+  ansible.builtin.command:
+    argv:
+      - "{{ nebula_monit_binary_path }}"
+      - monitor
+      - nebula
+      - -c{{ nebula_monit_config_path }}
+
 - name: Restart Nebula
-  community.general.supervisorctl:
-    name: nebula
-    state: restarted
-    config: "{{ nebula_supervisor_config_path }}"
-    supervisorctl_path: "{{ nebula_supervisor_control_bin }}"
+  ansible.builtin.command:
+    argv:
+      - "{{ nebula_monit_binary_path }}"
+      - restart
+      - nebula
+      - -c{{ nebula_monit_config_path }}

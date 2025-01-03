@@ -27,7 +27,7 @@ consul_dns_port: 8600
 consul_dns_addresses: ["127.0.0.1"]
 
 # Specifies the port to which Consul will bind HTTP API.
-consul_http_port: 8500
+consul_http_port: -1
 
 # Specifies the address to which Consul will bind HTTP API.
 consul_http_addresses: ["127.0.0.1"]
