@@ -14,3 +14,6 @@
 
 - name: Create Consul entity certificate
   ansible.builtin.import_tasks: consul.yml
+
+- name: Create Nomad entity certificate
+  ansible.builtin.import_tasks: nomad.yml

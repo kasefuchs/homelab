@@ -1,0 +1,12 @@
+set daemon {{ monit_check_interval }}
+
+set log {{ monit_log_path }}
+
+set pidfile {{ monit_pid_path }}
+set idfile {{ monit_id_path }}
+set statefile {{ monit_state_path }}
+
+set httpd unixsocket {{ monit_sock_path }}
+    allow {{ monit_allow_user }}:"{{ monit_allow_password }}"
+
+include {{ monit_include_glob }}
