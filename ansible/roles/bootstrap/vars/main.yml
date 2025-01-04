@@ -3,15 +3,10 @@
 bootstrap_package_distribution_install:
   default:
     - unzip
-    - python3
-    - python3-pip
-    - python3-venv
     - dmidecode
     - libnsl2
 
   centos:
     - unzip
-    - python3
-    - python3-pip
     - dmidecode
     - libnsl

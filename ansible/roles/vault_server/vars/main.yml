@@ -16,3 +16,6 @@ vault_server_secrets_init_result_path: "{{ (vault_secrets_dir, 'init.json') | an
 
 # The path to the Monit Vault server init script.
 vault_server_monit_init_path: "{{ (monit_init_dir, 'vault-server.sh') | ansible.builtin.path_join }}"
+
+# The name of the Vault server Monit service.
+vault_server_monit_service_name: vault-server

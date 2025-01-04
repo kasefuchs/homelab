@@ -51,3 +51,6 @@ nebula_download_cache_dir: "{{ playbook_dir }}/../cache/download/nebula"
 
 # The path to the Monit Nebula init script.
 nebula_monit_init_path: "{{ (monit_init_dir, 'nebula.sh') | ansible.builtin.path_join }}"
+
+# The name of the Nebula Monit service.
+nebula_monit_service_name: nebula

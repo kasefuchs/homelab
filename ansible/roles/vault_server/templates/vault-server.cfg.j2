@@ -2,7 +2,8 @@
 # init file checksum: {{ vault_server_init_template.checksum }}
 # config file checksum: {{ vault_server_config_template.checksum }}
 
-check process vault-server with pidfile {{ vault_server_pid_path }}
+check process {{ vault_server_monit_service_name }} with pidfile {{ vault_server_pid_path }}
   start program = "{{ vault_server_monit_init_path }} start"
   stop program = "{{ vault_server_monit_init_path }} stop"
-  if not exist for 5 cycles then restart
+  if not exist then restart
+  depends on {{ nebula_monit_service_name }}

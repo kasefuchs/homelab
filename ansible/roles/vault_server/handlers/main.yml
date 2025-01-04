@@ -3,21 +3,21 @@
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - reload
       - -c{{ monit_config_path }}
+      - reload
 
 - name: Monitor Vault server
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - monitor
-      - vault-server
       - -c{{ monit_config_path }}
+      - monitor
+      - "{{ vault_server_monit_service_name }}"
 
 - name: Restart Vault server
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - restart
-      - vault-server
       - -c{{ monit_config_path }}
+      - restart
+      - "{{ vault_server_monit_service_name }}"

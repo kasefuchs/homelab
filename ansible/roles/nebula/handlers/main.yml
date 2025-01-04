@@ -3,21 +3,21 @@
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - reload
       - -c{{ monit_config_path }}
+      - reload
 
 - name: Monitor Nebula
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - monitor
-      - nebula
       - -c{{ monit_config_path }}
+      - monitor
+      - "{{ nebula_monit_service_name }}"
 
 - name: Restart Nebula
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - restart
-      - nebula
       - -c{{ monit_config_path }}
+      - restart
+      - "{{ nebula_monit_service_name }}"
