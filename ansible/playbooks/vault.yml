@@ -4,3 +4,5 @@
   become: true
   roles:
     - role: vault
+    - role: vault_server
+      when: vault_server

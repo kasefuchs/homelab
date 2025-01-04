@@ -6,18 +6,18 @@
       - reload
       - -c{{ monit_config_path }}
 
-- name: Monitor Consul
+- name: Monitor Vault server
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
       - monitor
-      - consul
+      - vault-server
       - -c{{ monit_config_path }}
 
-- name: Restart Consul
+- name: Restart Vault server
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
       - restart
-      - consul
+      - vault-server
       - -c{{ monit_config_path }}

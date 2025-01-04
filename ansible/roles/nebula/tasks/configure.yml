@@ -18,13 +18,13 @@
     owner: "{{ nebula_user }}"
     group: "{{ nebula_group }}"
   loop:
-    - src: "{{ (nebula_pki_host_ca_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    - src: "{{ (pki_ca_nebula_dir, 'ca.pem') | ansible.builtin.path_join }}"
       dest: "{{ (nebula_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
       mode: "0644"
-    - src: "{{ (nebula_pki_host_entity_dir, inventory_hostname, 'host.pem') | ansible.builtin.path_join }}"
+    - src: "{{ (pki_entity_nebula_dir, inventory_hostname, 'host.pem') | ansible.builtin.path_join }}"
       dest: "{{ (nebula_pki_dir, 'host.pem') | ansible.builtin.path_join }}"
       mode: "0644"
-    - src: "{{ (nebula_pki_host_entity_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}"
+    - src: "{{ (pki_entity_nebula_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}"
       dest: "{{ (nebula_pki_dir, 'host.key') | ansible.builtin.path_join }}"
       mode: "0600"
   loop_control:

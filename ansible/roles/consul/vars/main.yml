@@ -37,27 +37,6 @@ consul_user: consul
 # The group to use running Consul.
 consul_group: consul
 
-# The path to the directory where Consul PKI CA certificates stored.
-consul_pki_host_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/consul"
-
-# The path to the directory where Consul PKI entity certificates stored.
-consul_pki_host_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/consul"
-
-# The path to the directory where Supervisor configuration stored.
-consul_supervisor_config_dir: /etc/supervisor
-
-# The path to the directory where Supervisor includes stored.
-consul_supervisor_include_dir: "{{ (consul_supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
-
-# The path to the directory where current Supervisor version installed.
-consul_supervisor_current_dir: "/usr/local/src/supervisor/current"
-
-# The path to the Supervisor control binary.
-consul_supervisor_control_bin: "{{ (consul_supervisor_current_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"
-
-# The path to the file where Supervisor configuration stored.
-consul_supervisor_config_path: "{{ (consul_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
-
 # The path to the directory where secrets stored.
 consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
 
@@ -66,3 +45,18 @@ consul_download_cache_dir: "{{ playbook_dir }}/../cache/download/consul"
 
 # The path to the file where Consul ACL bootstrap result stored.
 consul_secrets_acl_bootstrap_result_path: "{{ (consul_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
+
+# The path to the directory where Consul logs stored.
+consul_log_dir: /var/log/consul
+
+# The path to the directory where Consul runtime data stored.
+consul_runtime_dir: /run/consul
+
+# The path to the file where Consul log stored.
+consul_log_path: "{{ (consul_log_dir, 'consul.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Consul process id stored.
+consul_pid_path: "{{ (consul_runtime_dir, 'consul.pid') | ansible.builtin.path_join }}"
+
+# The path to the Monit Consul init script.
+consul_monit_init_path: "{{ (monit_init_dir, 'consul.sh') | ansible.builtin.path_join }}"

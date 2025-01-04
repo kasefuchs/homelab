@@ -1,0 +1,15 @@
+---
+- name: Prepare for Vault server installation
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Configure Vault server
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Vault server
+  ansible.builtin.import_tasks: service.yml
+
+- name: Initialize Vault server
+  ansible.builtin.import_tasks: initialize.yml
+
+- name: Unseal Vault server
+  ansible.builtin.import_tasks: unseal.yml

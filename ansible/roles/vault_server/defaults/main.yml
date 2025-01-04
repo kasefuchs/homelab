@@ -1,0 +1,24 @@
+---
+# Specifies a human-readable identifier for the Vault cluster.
+vault_server_cluster_name: muttias
+
+# Specifies the address to bind to for listening.
+vault_server_api_address: "{{ nebula_ip }}:8200"
+
+# Specifies the address to bind to for cluster server-to-server requests.
+vault_server_cluster_address: "{{ nebula_ip }}:8201"
+
+# Specifies the address (full URL) to advertise to other Vault servers in the cluster for client redirection.
+vault_server_advertise_api_address: "https://{{ vault_server_api_address }}"
+
+# Specifies the address to advertise to other Vault servers in the cluster for request forwarding.
+vault_server_advertise_cluster_address: "https://{{ vault_server_cluster_address }}"
+
+# The identifier for the node in the Raft cluster.
+vault_server_raft_node_id: "{{ inventory_hostname }}"
+
+# Number of key shares to split the generated root key into.
+vault_server_initialize_key_shares: 5
+
+# Number of key shares required to reconstruct the root key.
+vault_server_initialize_key_threshold: 3

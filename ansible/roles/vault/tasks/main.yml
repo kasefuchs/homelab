@@ -10,12 +10,3 @@
 
 - name: Configure Vault
   ansible.builtin.import_tasks: configure.yml
-
-- name: Daemonize Vault
-  ansible.builtin.import_tasks: service.yml
-
-- name: Initialize Vault
-  ansible.builtin.import_tasks: initialize.yml
-
-- name: Unseal Vault
-  ansible.builtin.import_tasks: unseal.yml

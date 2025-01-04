@@ -47,7 +47,7 @@ monit_state_path: "{{ (monit_state_dir, 'monit.state') | ansible.builtin.path_jo
 monit_include_dir: "{{ (monit_config_dir, 'conf.d') | ansible.builtin.path_join }}"
 
 # The path to the directory where Monit services init scripts stored.
-monit_init_dir:  "{{ (monit_config_dir, 'init.d') | ansible.builtin.path_join }}"
+monit_init_dir: "{{ (monit_config_dir, 'init.d') | ansible.builtin.path_join }}"
 
 # The path to the file where Monit control socket stored.
 monit_sock_path: "{{ (monit_runtime_dir, 'monit.sock') | ansible.builtin.path_join }}"
