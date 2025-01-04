@@ -1,7 +1,0 @@
----
-- name: Restart Vault
-  community.general.supervisorctl:
-    name: vault
-    state: restarted
-    config: "{{ vault_supervisor_config_path }}"
-    supervisorctl_path: "{{ vault_supervisor_control_bin }}"

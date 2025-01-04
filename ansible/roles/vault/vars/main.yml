@@ -13,14 +13,8 @@ vault_architectures:
 # The path to the directory where extracted Vault package stored.
 vault_package_dir: /usr/local/src/vault
 
-# The path to the directory where Vault raft data stored.
-vault_raft_dir: /opt/vault/raft
-
 # The path to the directory where Vault configuration stored.
 vault_config_dir: /etc/vault
-
-# The path to the file where Vault configuration stored.
-vault_config_path: "{{ (vault_config_dir, 'vault.hcl') | ansible.builtin.path_join }}"
 
 # The path to the directory where current version of Vault stored.
 vault_current_dir: "{{ (vault_package_dir, 'current') | ansible.builtin.path_join }}"
@@ -37,32 +31,14 @@ vault_user: vault
 # The group to use running Vault.
 vault_group: vault
 
-# The path to the directory where Vault PKI CA certificates stored.
-vault_pki_host_ca_dir: "{{ playbook_dir }}/../secrets/pki/ca/vault"
-
-# The path to the directory where Vault PKI entity certificates stored.
-vault_pki_host_entity_dir: "{{ playbook_dir }}/../secrets/pki/entity/vault"
-
-# The path to the directory where Supervisor configuration stored.
-vault_supervisor_config_dir: /etc/supervisor
-
-# The path to the directory where Supervisor includes stored.
-vault_supervisor_include_dir: "{{ (vault_supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
-
-# The path to the directory where current Supervisor version installed.
-vault_supervisor_current_dir: "/usr/local/src/supervisor/current"
-
-# The path to the Supervisor control binary.
-vault_supervisor_control_bin: "{{ (vault_supervisor_current_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"
-
-# The path to the file where Supervisor configuration stored.
-vault_supervisor_config_path: "{{ (vault_supervisor_config_dir, 'supervisor.conf') | ansible.builtin.path_join }}"
-
 # The path to the directory where secrets stored.
 vault_secrets_dir: "{{ playbook_dir }}/../secrets/vault"
 
 # The path to the directory where download cache stored.
 vault_download_cache_dir: "{{ playbook_dir }}/../cache/download/vault"
 
-# The path to the file where Vault keys stored.
-vault_secrets_init_result_path: "{{ (vault_secrets_dir, 'init.json') | ansible.builtin.path_join }}"
+# The path to the directory where Vault logs stored.
+vault_log_dir: /var/log/vault
+
+# The path to the directory where Vault runtime data stored.
+vault_runtime_dir: /run/vault

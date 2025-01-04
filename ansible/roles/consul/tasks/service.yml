@@ -1,9 +1,19 @@
 ---
-- name: Install Consul service
-  notify: Restart Consul
+- name: Copy Consul init script
+  register: consul_init_template
   ansible.builtin.template:
-    src: consul.conf.j2
-    dest: "{{ (consul_supervisor_include_dir, 'consul.conf') | ansible.builtin.path_join }}"
+    src: consul.sh.j2
+    dest: "{{ consul_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Consul service
+  notify:
+    - Reload Monit
+    - Monitor Consul
+    - Restart Consul
+  ansible.builtin.template:
+    src: consul.cfg.j2
+    dest: "{{ (monit_include_dir, 'consul.cfg') | ansible.builtin.path_join }}"
     mode: "0644"
 
 - name: Flush handlers
