@@ -60,3 +60,6 @@ consul_pid_path: "{{ (consul_runtime_dir, 'consul.pid') | ansible.builtin.path_j
 
 # The path to the Monit Consul init script.
 consul_monit_init_path: "{{ (monit_init_dir, 'consul.sh') | ansible.builtin.path_join }}"
+
+# The name of the Consul Monit service.
+consul_monit_service_name: consul

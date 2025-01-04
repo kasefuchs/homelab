@@ -3,21 +3,21 @@
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - reload
       - -c{{ monit_config_path }}
+      - reload
 
 - name: Monitor Consul
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - monitor
-      - consul
       - -c{{ monit_config_path }}
+      - monitor
+      - "{{ consul_monit_service_name }}"
 
 - name: Restart Consul
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
-      - restart
-      - consul
       - -c{{ monit_config_path }}
+      - restart
+      - "{{ consul_monit_service_name }}"

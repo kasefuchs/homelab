@@ -4,5 +4,6 @@
     - pki
     - monit
     - vault
+    - nebula
   ansible.builtin.include_vars:
     file: "{{ role_path }}/../{{ item }}/vars/main.yml"
