@@ -6,3 +6,4 @@
     - role: vault
     - role: vault_server
       when: vault_server
+    - role: vault_envoy
