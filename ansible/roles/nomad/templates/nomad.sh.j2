@@ -1,0 +1,58 @@
+#!/bin/sh
+
+RUNAS="{{ nomad_user }}"
+SCRIPT="{{ nomad_binary_path }} agent -config={{ nomad_config_path }}"
+
+LOGDIR="{{ nomad_log_dir }}"
+RUNTIMEDIR="{{ nomad_runtime_dir }}"
+
+PIDFILE="{{ nomad_pid_path }}"
+LOGFILE="{{ nomad_log_path }}"
+
+start() {
+  if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")"; then
+    echo "Service already running" >&2
+    return 1
+  fi
+
+  if [ ! -d "$RUNTIMEDIR" ]; then
+    echo "Creating runtime directory: $RUNTIMEDIR" >&2
+    mkdir -p "$RUNTIMEDIR"
+    chown "$RUNAS" "$RUNTIMEDIR"
+    chmod 750 "$RUNTIMEDIR"
+  fi
+
+  if [ ! -d "$LOGDIR" ]; then
+    echo "Creating log directory: $LOGDIR" >&2
+    mkdir -p "$LOGDIR"
+    chown "$RUNAS" "$LOGDIR"
+    chmod 750 "$LOGDIR"
+  fi
+
+  echo "Starting service…" >&2
+  CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
+  su -c "$CMD" "$RUNAS" > "$PIDFILE"
+
+  echo "Service started" >&2
+}
+
+stop() {
+  if [ ! -f "$PIDFILE" ] || ! kill -0 "$(cat "$PIDFILE")"; then
+    echo "Service not running" >&2
+    return 1
+  fi
+
+  echo "Stopping service…" >&2
+  kill -15 "$(cat "$PIDFILE")" && rm -f "$PIDFILE"
+
+  echo "Service stopped" >&2
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+esac

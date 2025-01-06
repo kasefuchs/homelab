@@ -1,0 +1,47 @@
+---
+- name: Create Nomad directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - "{{ nomad_pki_dir }}"
+    - "{{ nomad_data_dir }}"
+    - "{{ nomad_config_dir }}"
+
+- name: Copy Nomad certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - src: "{{ (pki_ca_nomad_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (pki_entity_nomad_dir, nomad_region, 'cli.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (pki_entity_nomad_dir, nomad_region, 'cli.key') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (pki_entity_nomad_dir, nomad_region, inventory_hostname, ('server' if nomad_server else 'client') + '.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (pki_entity_nomad_dir, nomad_region, inventory_hostname, ('server' if nomad_server else 'client') + '.key') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Copy Nomad configuration
+  register: nomad_config_template
+  ansible.builtin.template:
+    src: nomad.hcl.j2
+    dest: "{{ nomad_config_path }}"
+    mode: "0644"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"

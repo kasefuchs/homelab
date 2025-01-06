@@ -1,0 +1,62 @@
+---
+- name: Get latest Nomad version
+  when: nomad_version == "latest"
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest Nomad release on GitHub
+      register: nomad_github_release
+      community.general.github_release:
+        user: "{{ nomad_github_user }}"
+        repo: "{{ nomad_github_repository }}"
+        action: latest_release
+
+    - name: Set Nomad version
+      ansible.builtin.set_fact:
+        nomad_version: "{{ nomad_github_release.tag | default(nomad_version) | regex_replace('^v', '') }}"
+
+- name: Download Nomad archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (nomad_download_cache_dir, nomad_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Download Nomad archives
+      loop: "{{ nomad_architectures.values() }}"
+      loop_control:
+        loop_var: nomad_architecture
+      ansible.builtin.get_url:
+        url: "{{ nomad_download_url }}"
+        dest: "{{ (nomad_download_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Nomad filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    nomad_version_dir: "{{ (nomad_package_dir, nomad_version) | ansible.builtin.path_join }}"
+
+- name: Create Nomad package directory
+  block:
+    - name: Create Nomad package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ nomad_version_dir }}"
+        state: directory
+
+    - name: Link Nomad current version directory
+      ansible.builtin.file:
+        src: "{{ nomad_version_dir }}"
+        dest: "{{ nomad_current_dir }}"
+        state: link
+
+- name: Install Nomad binary
+  block:
+    - name: Extract Nomad archive
+      ansible.builtin.unarchive:
+        src: "{{ (nomad_download_cache_dir, nomad_version, nomad_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ nomad_current_dir }}"
+        creates: "{{ nomad_binary_path }}"

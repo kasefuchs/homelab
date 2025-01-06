@@ -1,0 +1,42 @@
+---
+# Nomad version to download.
+nomad_version: latest
+
+# URL to download Nomad archive from.
+nomad_download_url: https://hashicorp-releases.yandexcloud.net/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ nomad_architecture }}.zip
+
+# Specifies the datacenter in which the agent is running.
+nomad_datacenter: muttias
+
+# Specifies the region in which the agent is running.
+nomad_region: global
+
+# Specifies if an agent is in server mode.
+nomad_server: true
+
+# Specifies if an agent is in client mode.
+nomad_client: true
+
+# Specifies the name of this node in the cluster.
+nomad_node_name: "{{ inventory_hostname }}"
+
+# Specifies the address that should be bound to for internal cluster communications.
+nomad_bind_address: "{{ nebula_ip }}"
+
+# Specifies the port to which Nomad will bind HTTP server.
+nomad_http_port: 4646
+
+# Specifies the address to which Nomad will bind HTTP server.
+nomad_http_addresses: ["{{ nebula_ip }}"]
+
+# Specifies the port to which Nomad will bind RPC server.
+nomad_rpc_port: 4647
+
+# Specifies the address to which Nomad will bind RPC server.
+nomad_rpc_address: "{{ nebula_ip }}"
+
+# Specifies the port to which Nomad will bind serf server.
+nomad_serf_port: 4648
+
+# Specifies the address to which Nomad will bind serf server.
+nomad_serf_address: "{{ nebula_ip }}"

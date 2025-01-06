@@ -1,0 +1,9 @@
+# nomad version: {{ nomad_version }}
+# init file checksum: {{ nomad_init_template.checksum }}
+# config file checksum: {{ nomad_config_template.checksum }}
+
+check process {{ nomad_monit_service_name }} with pidfile {{ nomad_pid_path }}
+  start program = "{{ nomad_monit_init_path }} start"
+  stop program = "{{ nomad_monit_init_path }} stop"
+  if not exist then restart
+  depends on {{ nebula_monit_service_name }}
