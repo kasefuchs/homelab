@@ -43,8 +43,8 @@ static_resources:
     - name: listener
       address:
         socket_address:
-          address: "{{ ('//' + vault_envoy_address) | ansible.builtin.urlsplit('hostname') }}"
-          port_value: {{ ('//' + vault_envoy_address) | ansible.builtin.urlsplit('port') }}
+          address: "{{ ('//' + vault_envoy_bind_address) | ansible.builtin.urlsplit('hostname') }}"
+          port_value: {{ ('//' + vault_envoy_bind_address) | ansible.builtin.urlsplit('port') }}
       filter_chains:
         - filters:
             - name: envoy.filters.network.tcp_proxy

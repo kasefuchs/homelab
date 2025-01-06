@@ -1,0 +1,20 @@
+---
+- name: Copy Nomad init script
+  register: nomad_init_template
+  ansible.builtin.template:
+    src: nomad.sh.j2
+    dest: "{{ nomad_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Nomad service
+  notify:
+    - Reload Monit
+    - Monitor Nomad
+    - Restart Nomad
+  ansible.builtin.template:
+    src: nomad.cfg.j2
+    dest: "{{ (monit_include_dir, 'nomad.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

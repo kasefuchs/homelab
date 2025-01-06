@@ -1,6 +1,6 @@
 ---
 # Specifies the address to bind to for listening.
-vault_envoy_address: 127.0.0.1:8102
+vault_envoy_bind_address: 127.0.0.1:8100
 
 # Specifies health check timeout.
 vault_envoy_check_timeout: 3s

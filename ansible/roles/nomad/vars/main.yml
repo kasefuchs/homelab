@@ -1,0 +1,65 @@
+---
+# The GitHub account that owns the repository.
+nomad_github_user: hashicorp
+
+# Repository name.
+nomad_github_repository: nomad
+
+# Map of Ansible architectures to correspondent Nomad architectures.
+nomad_architectures:
+  aarch64: arm64
+  x86_64: amd64
+
+# The path to the directory where extracted Nomad package stored.
+nomad_package_dir: /usr/local/src/nomad
+
+# The path to the directory where Nomad data stored.
+nomad_data_dir: /opt/nomad/data
+
+# The path to the directory where Nomad configuration stored.
+nomad_config_dir: /etc/nomad
+
+# The path to the file where Nomad configuration stored.
+nomad_config_path: "{{ (nomad_config_dir, 'nomad.hcl') | ansible.builtin.path_join }}"
+
+# The path to the directory where current version of Nomad stored.
+nomad_current_dir: "{{ (nomad_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the binary of Nomad.
+nomad_binary_path: "{{ (nomad_current_dir, 'nomad') | ansible.builtin.path_join }}"
+
+# The path to the directory where Nomad certificates stored.
+nomad_pki_dir: /etc/pki/nomad
+
+# The user to run Nomad as.
+nomad_user: nomad
+
+# The group to use running Nomad.
+nomad_group: nomad
+
+# The path to the directory where secrets stored.
+nomad_secrets_dir: "{{ playbook_dir }}/../secrets/nomad"
+
+# The path to the directory where download cache stored.
+nomad_download_cache_dir: "{{ playbook_dir }}/../cache/download/nomad"
+
+# The path to the file where Nomad ACL bootstrap result stored.
+nomad_secrets_acl_bootstrap_result_path: "{{ (nomad_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
+
+# The path to the directory where Nomad logs stored.
+nomad_log_dir: /var/log/nomad
+
+# The path to the directory where Nomad runtime data stored.
+nomad_runtime_dir: /run/nomad
+
+# The path to the file where Nomad log stored.
+nomad_log_path: "{{ (nomad_log_dir, 'nomad.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Nomad process id stored.
+nomad_pid_path: "{{ (nomad_runtime_dir, 'nomad.pid') | ansible.builtin.path_join }}"
+
+# The path to the Monit Nomad init script.
+nomad_monit_init_path: "{{ (monit_init_dir, 'nomad.sh') | ansible.builtin.path_join }}"
+
+# The name of the Nomad Monit service.
+nomad_monit_service_name: nomad
