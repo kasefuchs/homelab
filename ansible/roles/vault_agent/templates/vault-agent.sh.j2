@@ -1,17 +1,17 @@
 #!/bin/sh
 
 RUNAS="{{ vault_user }}"
-SCRIPT="{{ vault_binary_path }} server -config={{ vault_server_config_path }}"
+SCRIPT="{{ vault_binary_path }} agent -config={{ vault_agent_config_path }}"
 
 LOGDIR="{{ vault_log_dir }}"
 STATEDIR="{{ vault_state_dir }}"
 RUNTIMEDIR="{{ vault_runtime_dir }}"
 
-PIDFILE="{{ vault_server_pid_path }}"
-LOGFILE="{{ vault_server_log_path }}"
+PIDFILE="{{ vault_agent_pid_path }}"
+LOGFILE="{{ vault_agent_log_path }}"
 
-STOPSIGNAL="{{ vault_server_stop_signal }}"
-RELOADSIGNAL="{{ vault_server_reload_signal }}"
+STOPSIGNAL="{{ vault_agent_stop_signal }}"
+RELOADSIGNAL="{{ vault_agent_reload_signal }}"
 
 start() {
   if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")"; then

@@ -1,0 +1,20 @@
+---
+- name: Copy Vault agent init script
+  register: vault_agent_init_template
+  ansible.builtin.template:
+    src: vault-agent.sh.j2
+    dest: "{{ vault_agent_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Vault agent service
+  notify:
+    - Reload Monit
+    - Monitor Vault agent
+    - Restart Vault agent
+  ansible.builtin.template:
+    src: vault-agent.cfg.j2
+    dest: "{{ (monit_include_dir, 'vault-agent.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

@@ -19,6 +19,9 @@ nebula_config_dir: /etc/nebula
 # The path to the directory where Nebula logs stored.
 nebula_log_dir: /var/log/nebula
 
+# The path to the directory where Nebula state data stored.
+nebula_state_dir: /var/lib/nebula
+
 # The path to the directory where Nebula runtime data stored.
 nebula_runtime_dir: /run/nebula
 
@@ -54,3 +57,9 @@ nebula_monit_init_path: "{{ (monit_init_dir, 'nebula.sh') | ansible.builtin.path
 
 # The name of the Nebula Monit service.
 nebula_monit_service_name: nebula
+
+# Specifies the service stop signal.
+nebula_stop_signal: 15
+
+# Specifies the service reload signal.
+nebula_reload_signal: 0

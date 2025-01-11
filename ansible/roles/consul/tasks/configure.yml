@@ -37,6 +37,13 @@
   loop_control:
     label: "{{ item.dest }}"
 
+- name: Consul ACL template
+  ansible.builtin.copy:
+    src: acl.hcl.ctmpl
+    dest: "{{ consul_acl_template_path }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+
 - name: Copy Consul configuration
   register: consul_config_template
   ansible.builtin.template:
