@@ -19,3 +19,9 @@ vault_server_monit_init_path: "{{ (monit_init_dir, 'vault-server.sh') | ansible.
 
 # The name of the Vault server Monit service.
 vault_server_monit_service_name: vault-server
+
+# Specifies the service stop signal.
+vault_server_stop_signal: 15
+
+# Specifies the service reload signal.
+vault_server_reload_signal: 1

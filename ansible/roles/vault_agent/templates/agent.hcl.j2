@@ -1,0 +1,38 @@
+vault {
+  address = "{{ vault_agent_backend_address }}"
+
+  ca_cert     = "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  client_key  = "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+  client_cert = "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+}
+
+auto_auth {
+  method "approle" {
+    config = {
+      role_id_file_path   = "{{ vault_agent_auto_auth_method_role_id_path }}"
+      secret_id_file_path = "{{ vault_agent_auto_auth_method_secret_id_path }}"
+
+      remove_secret_id_file_after_reading = false
+    }
+  }
+
+  sink "file" {
+    config = {
+      path = "{{ vault_agent_auto_auth_sink_path }}"
+    }
+  }
+}
+
+template_config {
+  static_secret_render_interval = "{{ vault_agent_static_secret_render_interval }}"
+}
+
+{% for item in vault_agent_templates %}
+template {
+  source      = "{{ item.src }}"
+  destination = "{{ item.dest }}"
+
+  user  = "{{ item.owner }}"
+  group = "{{ item.group }}"
+}
+{% endfor %}

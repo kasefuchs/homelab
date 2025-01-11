@@ -4,10 +4,14 @@ RUNAS="{{ consul_user }}"
 SCRIPT="{{ consul_binary_path }} agent -config-file={{ consul_config_path }}"
 
 LOGDIR="{{ consul_log_dir }}"
+STATEDIR="{{ consul_state_dir }}"
 RUNTIMEDIR="{{ consul_runtime_dir }}"
 
 PIDFILE="{{ consul_pid_path }}"
 LOGFILE="{{ consul_log_path }}"
+
+STOPSIGNAL="{{ consul_stop_signal }}"
+RELOADSIGNAL="{{ consul_reload_signal }}"
 
 start() {
   if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")"; then
@@ -20,6 +24,13 @@ start() {
     mkdir -p "$RUNTIMEDIR"
     chown "$RUNAS" "$RUNTIMEDIR"
     chmod 750 "$RUNTIMEDIR"
+  fi
+
+  if [ ! -d "$STATEDIR" ]; then
+    echo "Creating state directory: $STATEDIR" >&2
+    mkdir -p "$STATEDIR"
+    chown "$RUNAS" "$STATEDIR"
+    chmod 750 "$STATEDIR"
   fi
 
   if [ ! -d "$LOGDIR" ]; then
@@ -43,9 +54,32 @@ stop() {
   fi
 
   echo "Stopping service…" >&2
-  kill -15 "$(cat "$PIDFILE")" && rm -f "$PIDFILE"
+  kill -s "$STOPSIGNAL" "$(cat "$PIDFILE")" && rm -f "$PIDFILE"
 
   echo "Service stopped" >&2
+}
+
+restart() {
+  stop
+  start
+}
+
+reload() {
+  if [ ! -f "$PIDFILE" ] || ! kill -0 "$(cat "$PIDFILE")"; then
+    echo "Service not running" >&2
+    return 1
+  fi
+
+  if [ "$RELOADSIGNAL" -eq 0 ]; then
+    echo "Reload signal is 0, restarting service…" >&2
+    restart
+    return
+  fi
+
+  echo "Reloading service…" >&2
+  kill -s "$RELOADSIGNAL" "$(cat "$PIDFILE")"
+
+  echo "Service reloaded" >&2
 }
 
 case "$1" in
@@ -55,4 +89,12 @@ case "$1" in
   stop)
     stop
     ;;
+  restart)
+    restart
+    ;;
+  reload)
+    reload
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|reload}"
 esac

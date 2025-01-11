@@ -13,3 +13,9 @@ vault_envoy_monit_init_path: "{{ (monit_init_dir, 'vault-envoy.sh') | ansible.bu
 
 # The name of the Vault Envoy Monit service.
 vault_envoy_monit_service_name: vault-envoy
+
+# Specifies the service stop signal.
+vault_envoy_stop_signal: 15
+
+# Specifies the service reload signal.
+vault_envoy_reload_signal: 0

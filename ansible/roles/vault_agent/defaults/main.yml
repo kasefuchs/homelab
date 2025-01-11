@@ -1,0 +1,13 @@
+---
+# The address of the Vault server to connect to.
+vault_agent_backend_address: https://127.0.0.1:8100
+
+# Configures how often Vault Agent Template should render non-leased secrets.
+vault_agent_static_secret_render_interval: 30s
+
+# Agent templates to use.
+vault_agent_templates:
+  - src: "{{ consul_acl_template_path }}"
+    dest: "{{ consul_acl_path }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"

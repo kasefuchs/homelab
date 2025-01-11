@@ -48,3 +48,32 @@ variable "vault_token" {
   sensitive = true
 }
 
+variable "nomad_address" {
+  type    = string
+  default = "172.16.1.1:8200"
+}
+
+variable "nomad_scheme" {
+  type    = string
+  default = "https"
+}
+
+variable "nomad_ca_file" {
+  type    = string
+  default = "../../ansible/secrets/pki/ca/nomad/ca.pem"
+}
+
+variable "nomad_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "nomad_remote_address" {
+  type    = string
+  default = "127.0.0.1:4646"
+}
+
+variable "nomad_remote_scheme" {
+  type    = string
+  default = "https"
+}
