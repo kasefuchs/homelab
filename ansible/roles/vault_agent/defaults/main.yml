@@ -11,3 +11,4 @@ vault_agent_templates:
     dest: "{{ consul_acl_path }}"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
+    command: ["{{ consul_monit_init_path }}", "reload"]

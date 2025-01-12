@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RUNAS="{{ vault_user }}"
+RUNAS="{{ vault_agent_user }}"
 SCRIPT="{{ vault_binary_path }} agent -config={{ vault_agent_config_path }}"
 
 LOGDIR="{{ vault_log_dir }}"

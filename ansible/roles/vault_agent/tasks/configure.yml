@@ -3,8 +3,8 @@
   ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "{{ item.dest }}"
-    owner: "{{ vault_user }}"
-    group: "{{ vault_group }}"
+    owner: "{{ vault_agent_user }}"
+    group: "{{ vault_agent_group }}"
   loop:
     - content: "{{ vault_agent_auto_auth_method_role_id }}"
       dest: "{{ vault_agent_auto_auth_method_role_id_path }}"
@@ -19,5 +19,5 @@
     src: agent.hcl.j2
     dest: "{{ vault_agent_config_path }}"
     mode: "0644"
-    owner: "{{ vault_user }}"
-    group: "{{ vault_group }}"
+    owner: "{{ vault_agent_user }}"
+    group: "{{ vault_agent_group }}"

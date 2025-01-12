@@ -34,5 +34,9 @@ template {
 
   user  = "{{ item.owner }}"
   group = "{{ item.group }}"
+
+  exec = {
+    command = {{ item.command | ansible.builtin.to_json }}
+  }
 }
 {% endfor %}
