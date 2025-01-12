@@ -67,8 +67,3 @@
         capability: "{{ item }}"
       loop:
         - CAP_IPC_LOCK=eip
-        # Required for Vault Agent
-        - CAP_KILL=eip
-        - CAP_CHOWN=eip
-        - CAP_FOWNER=eip
-        - CAP_DAC_OVERRIDE=eip

@@ -31,3 +31,9 @@ vault_agent_stop_signal: 15
 
 # Specifies the service reload signal.
 vault_agent_reload_signal: 1
+
+# The user to run Vault Agent as.
+vault_agent_user: root
+
+# The group to run Vault Agent as.
+vault_agent_group: root

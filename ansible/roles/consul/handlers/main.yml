@@ -17,7 +17,5 @@
 - name: Restart Consul
   ansible.builtin.command:
     argv:
-      - "{{ monit_binary_path }}"
-      - -c{{ monit_config_path }}
+      - "{{ consul_monit_init_path }}"
       - restart
-      - "{{ consul_monit_service_name }}"
