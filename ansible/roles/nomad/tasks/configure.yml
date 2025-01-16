@@ -37,6 +37,13 @@
   loop_control:
     label: "{{ item.dest }}"
 
+- name: Copy Nomad ACL template
+  ansible.builtin.template:
+    src: acl.hcl.ctmpl.j2
+    dest: "{{ nomad_acl_template_path }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+
 - name: Copy Nomad configuration
   register: nomad_config_template
   ansible.builtin.template:

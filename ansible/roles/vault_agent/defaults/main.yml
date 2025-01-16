@@ -12,3 +12,9 @@ vault_agent_templates:
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     command: ["{{ consul_monit_init_path }}", "reload"]
+
+  - src: "{{ nomad_acl_template_path }}"
+    dest: "{{ nomad_acl_path }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    command: ["{{ nomad_monit_init_path }}", "reload"]

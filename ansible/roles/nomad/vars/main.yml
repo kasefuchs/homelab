@@ -46,6 +46,12 @@ nomad_download_cache_dir: "{{ playbook_dir }}/../cache/download/nomad"
 # The path to the file where Nomad ACL bootstrap result stored.
 nomad_secrets_acl_bootstrap_result_path: "{{ (nomad_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
 
+# The path to the file where Nomad ACL tokens stored.
+nomad_acl_path: "{{ (nomad_config_dir, 'acl.hcl') | ansible.builtin.path_join }}"
+
+# The path to the file where Nomad ACL template stored.
+nomad_acl_template_path: "{{ (nomad_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
+
 # The path to the directory where Nomad logs stored.
 nomad_log_dir: /var/log/nomad
 
