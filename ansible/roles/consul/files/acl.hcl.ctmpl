@@ -1,5 +1,0 @@
-acl {
-  tokens {
-    dns = "{{ with secret "consul/creds/dns" }}{{ .Data.token }}{{ end }}"
-  }
-}

@@ -32,6 +32,9 @@ template {
   source      = "{{ item.src }}"
   destination = "{{ item.dest }}"
 
+  left_delimiter  = "[["
+  right_delimiter = "]]"
+
   user  = "{{ item.owner }}"
   group = "{{ item.group }}"
 
