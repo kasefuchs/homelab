@@ -1,0 +1,24 @@
+---
+# The path to the file where Consul Envoy log stored.
+consul_envoy_log_path: "{{ (consul_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Consul Envoy process id stored.
+consul_envoy_pid_path: "{{ (consul_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
+
+# The path to the file where Consul Envoy configuration stored.
+consul_envoy_config_path: "{{ (consul_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
+
+# The path to the Monit Consul Envoy init script.
+consul_envoy_monit_init_path: "{{ (monit_init_dir, 'consul-envoy.sh') | ansible.builtin.path_join }}"
+
+# The name of the Consul Envoy Monit service.
+consul_envoy_monit_service_name: consul-envoy
+
+# Specifies the service stop signal.
+consul_envoy_stop_signal: 15
+
+# Specifies the service reload signal.
+consul_envoy_reload_signal: 0
+
+# Writes the Consul Envoy base ID to the given path.
+consul_envoy_base_id_path: "{{ (consul_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"

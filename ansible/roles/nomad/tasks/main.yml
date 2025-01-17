@@ -10,9 +10,3 @@
 
 - name: Configure Nomad
   ansible.builtin.import_tasks: configure.yml
-
-- name: Daemonize Nomad
-  ansible.builtin.import_tasks: service.yml
-
-- name: Bootstrap Nomad ACL
-  ansible.builtin.import_tasks: acl.yml

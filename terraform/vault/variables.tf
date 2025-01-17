@@ -20,7 +20,7 @@ variable "consul_token" {
 
 variable "consul_remote_address" {
   type    = string
-  default = "127.0.0.1:8501"
+  default = "127.0.0.1:8401"
 }
 
 variable "consul_remote_scheme" {
@@ -70,7 +70,7 @@ variable "nomad_token" {
 
 variable "nomad_remote_address" {
   type    = string
-  default = "127.0.0.1:4646"
+  default = "127.0.0.1:4546"
 }
 
 variable "nomad_remote_scheme" {

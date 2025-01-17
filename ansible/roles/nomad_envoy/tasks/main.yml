@@ -1,0 +1,9 @@
+---
+- name: Prepare for Nomad Envoy installation
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Configure Nomad Envoy
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Nomad Envoy
+  ansible.builtin.import_tasks: service.yml

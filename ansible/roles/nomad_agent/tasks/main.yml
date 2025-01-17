@@ -1,0 +1,12 @@
+---
+- name: Prepare Nomad Agent
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Configure Nomad Agent
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Nomad Agent
+  ansible.builtin.import_tasks: service.yml
+
+- name: Bootstrap Nomad Agent ACL
+  ansible.builtin.import_tasks: acl.yml

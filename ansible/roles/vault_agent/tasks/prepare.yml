@@ -7,5 +7,7 @@
     - vault_envoy
     - consul
     - nomad
+    - consul_agent
+    - nomad_agent
   ansible.builtin.include_vars:
     file: "{{ role_path }}/../{{ item }}/vars/main.yml"

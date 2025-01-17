@@ -1,0 +1,9 @@
+---
+- name: Copy Nomad Envoy configuration
+  register: nomad_envoy_config_template
+  ansible.builtin.template:
+    src: envoy.yml.j2
+    dest: "{{ nomad_envoy_config_path }}"
+    mode: "0644"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
