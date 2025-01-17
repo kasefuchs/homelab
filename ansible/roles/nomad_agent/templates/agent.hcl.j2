@@ -1,0 +1,52 @@
+name       = "{{ nomad_agent_node_name }}"
+region     = "{{ nomad_agent_region }}"
+datacenter = "{{ nomad_agent_datacenter }}"
+
+data_dir  = "{{ nomad_agent_data_dir }}"
+bind_addr = "{{ nomad_agent_bind_address }}"
+
+acl {
+  enabled = true
+}
+
+tls {
+  rpc  = true
+  http = true
+
+  ca_file   = "{{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  key_file  = "{{ (nomad_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
+  cert_file = "{{ (nomad_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+
+  verify_https_client    = false
+  verify_server_hostname = true
+}
+
+server {
+  enabled = {{ nomad_agent_server | lower }}
+
+  bootstrap_expect = {{ nomad_agent_bootstrap_expect }}
+
+  server_join {
+    retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}
+  }
+}
+
+client {
+  enabled = {{ nomad_agent_client | lower }}
+
+  server_join {
+    retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}
+  }
+}
+
+ports {
+  http = {{ nomad_agent_http_port }}
+  rpc  = {{ nomad_agent_rpc_port }}
+  serf = {{ nomad_agent_serf_port }}
+}
+
+addresses {
+  http = "{{ nomad_agent_http_addresses | join(' ') }}"
+  rpc  = "{{ nomad_agent_rpc_address }}"
+  serf = "{{ nomad_agent_serf_address }}"
+}

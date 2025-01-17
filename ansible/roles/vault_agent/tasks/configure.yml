@@ -13,7 +13,7 @@
   loop_control:
     label: "{{ item.dest }}"
 
-- name: Copy Vault agent configuration
+- name: Copy Vault Agent configuration
   register: vault_agent_config_template
   ansible.builtin.template:
     src: agent.hcl.j2

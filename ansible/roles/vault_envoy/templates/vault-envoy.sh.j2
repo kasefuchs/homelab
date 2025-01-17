@@ -1,7 +1,7 @@
 #!/bin/sh
 
 RUNAS="{{ vault_user }}"
-SCRIPT="{{ envoy_binary_path }} --config-path {{ vault_envoy_config_path }}"
+SCRIPT="{{ envoy_binary_path }} --config-path {{ vault_envoy_config_path }} --base-id-path {{ vault_envoy_base_id_path }} --use-dynamic-base-id"
 
 LOGDIR="{{ vault_log_dir }}"
 STATEDIR="{{ vault_state_dir }}"

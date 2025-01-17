@@ -1,0 +1,31 @@
+---
+- name: Get ACL bootstrap Nomad Agent server address
+  run_once: true
+  ansible.builtin.set_fact:
+    nomad_agent_acl_server_address: "https://{{ nomad_agent_http_addresses[0] }}:{{ nomad_agent_http_port }}"
+
+- name: Bootstrap Nomad Agent ACL
+  run_once: true
+  block:
+    - name: Bootstrap Nomad Agent ACL
+      register: nomad_agent_acl_raw
+      failed_when: false
+      changed_when: nomad_agent_acl_raw.rc == 0
+      ansible.builtin.command:
+        argv:
+          - "{{ nomad_binary_path }}"
+          - acl
+          - bootstrap
+          - -json
+          - -address={{ nomad_agent_acl_server_address }}
+          - -ca-cert={{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}
+          - -client-key={{ (nomad_pki_dir, 'cli.key') | ansible.builtin.path_join }}
+          - -client-cert={{ (nomad_pki_dir, 'cli.pem') | ansible.builtin.path_join }}
+
+    - name: Write Nomad Agent ACL bootstrap result to file
+      when: nomad_agent_acl_raw.rc == 0
+      become: false
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ nomad_agent_secrets_acl_bootstrap_result_path }}"
+        content: "{{ nomad_agent_acl_raw.stdout | ansible.builtin.from_json | ansible.builtin.to_nice_json }}"

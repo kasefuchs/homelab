@@ -6,7 +6,11 @@
       - -c{{ monit_config_path }}
       - reload
 
-- name: Monitor Vault agent
+- name: Monitor Vault Agent
+  retries: 3
+  delay: 3
+  register: vault_agent_monit_monitor_result
+  until: vault_agent_monit_monitor_result.rc == 0
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
@@ -14,10 +18,8 @@
       - monitor
       - "{{ vault_agent_monit_service_name }}"
 
-- name: Restart Vault agent
+- name: Restart Vault Agent
   ansible.builtin.command:
     argv:
-      - "{{ monit_binary_path }}"
-      - -c{{ monit_config_path }}
+      - "{{ vault_agent_monit_init_path }}"
       - restart
-      - "{{ vault_agent_monit_service_name }}"

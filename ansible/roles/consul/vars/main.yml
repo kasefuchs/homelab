@@ -13,20 +13,11 @@ consul_architectures:
 # The path to the directory where extracted Consul package stored.
 consul_package_dir: /usr/local/src/consul
 
-# The path to the directory where Consul data stored.
-consul_data_dir: /opt/consul/data
-
 # The path to the directory where Consul configuration stored.
 consul_config_dir: /etc/consul
 
 # The path to the file where Consul configuration stored.
 consul_config_path: "{{ (consul_config_dir, 'consul.hcl') | ansible.builtin.path_join }}"
-
-# The path to the file where Consul ACL tokens stored.
-consul_acl_path: "{{ (consul_config_dir, 'acl.hcl') | ansible.builtin.path_join }}"
-
-# The path to the file where Consul ACL template stored.
-consul_acl_template_path: "{{ (consul_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
 
 # The path to the directory where current version of Consul stored.
 consul_current_dir: "{{ (consul_package_dir, 'current') | ansible.builtin.path_join }}"
@@ -49,9 +40,6 @@ consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
 # The path to the directory where download cache stored.
 consul_download_cache_dir: "{{ playbook_dir }}/../cache/download/consul"
 
-# The path to the file where Consul ACL bootstrap result stored.
-consul_secrets_acl_bootstrap_result_path: "{{ (consul_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
-
 # The path to the directory where Consul logs stored.
 consul_log_dir: /var/log/consul
 
@@ -60,21 +48,3 @@ consul_state_dir: /var/lib/consul
 
 # The path to the directory where Consul runtime data stored.
 consul_runtime_dir: /run/consul
-
-# The path to the file where Consul log stored.
-consul_log_path: "{{ (consul_log_dir, 'consul.log') | ansible.builtin.path_join }}"
-
-# The path to the file where Consul process id stored.
-consul_pid_path: "{{ (consul_runtime_dir, 'consul.pid') | ansible.builtin.path_join }}"
-
-# The path to the Monit Consul init script.
-consul_monit_init_path: "{{ (monit_init_dir, 'consul.sh') | ansible.builtin.path_join }}"
-
-# The name of the Consul Monit service.
-consul_monit_service_name: consul
-
-# Specifies the service stop signal.
-consul_stop_signal: 15
-
-# Specifies the service reload signal.
-consul_reload_signal: 1

@@ -4,3 +4,6 @@
   become: true
   roles:
     - role: consul
+    - role: consul_agent
+    - role: envoy
+    - role: consul_envoy

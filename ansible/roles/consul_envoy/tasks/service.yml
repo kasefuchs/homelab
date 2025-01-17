@@ -1,0 +1,20 @@
+---
+- name: Copy Consul Envoy init script
+  register: consul_envoy_init_template
+  ansible.builtin.template:
+    src: consul-envoy.sh.j2
+    dest: "{{ consul_envoy_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Consul Envoy service
+  notify:
+    - Reload Monit
+    - Monitor Consul Envoy
+    - Restart Consul Envoy
+  ansible.builtin.template:
+    src: consul-envoy.cfg.j2
+    dest: "{{ (monit_include_dir, 'consul-envoy.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

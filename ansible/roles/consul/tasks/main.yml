@@ -10,9 +10,3 @@
 
 - name: Configure Consul
   ansible.builtin.import_tasks: configure.yml
-
-- name: Daemonize Consul
-  ansible.builtin.import_tasks: service.yml
-
-- name: Bootstrap Consul ACL
-  ansible.builtin.import_tasks: acl.yml

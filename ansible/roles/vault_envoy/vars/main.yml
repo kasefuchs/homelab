@@ -19,3 +19,6 @@ vault_envoy_stop_signal: 15
 
 # Specifies the service reload signal.
 vault_envoy_reload_signal: 0
+
+# Writes the Vault Envoy base ID to the given path.
+vault_envoy_base_id_path: "{{ (vault_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"

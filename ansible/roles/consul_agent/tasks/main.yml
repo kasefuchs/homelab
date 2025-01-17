@@ -1,0 +1,12 @@
+---
+- name: Prepare Consul Agent
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Configure Consul Agent
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Consul Agent
+  ansible.builtin.import_tasks: service.yml
+
+- name: Bootstrap Consul Agent ACL
+  ansible.builtin.import_tasks: acl.yml

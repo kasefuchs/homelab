@@ -1,0 +1,23 @@
+---
+- name: Reload Monit
+  ansible.builtin.command:
+    argv:
+      - "{{ monit_binary_path }}"
+      - -c{{ monit_config_path }}
+      - reload
+
+- name: Monitor Consul Envoy
+  ansible.builtin.command:
+    argv:
+      - "{{ monit_binary_path }}"
+      - -c{{ monit_config_path }}
+      - monitor
+      - "{{ consul_envoy_monit_service_name }}"
+
+- name: Restart Consul Envoy
+  ansible.builtin.command:
+    argv:
+      - "{{ monit_binary_path }}"
+      - -c{{ monit_config_path }}
+      - restart
+      - "{{ consul_envoy_monit_service_name }}"
