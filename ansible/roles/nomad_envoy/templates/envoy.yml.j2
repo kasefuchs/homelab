@@ -1,21 +1,21 @@
 ---
 static_resources:
   clusters:
-    - name: backend
+    - name: https
       health_checks:
         - timeout: {{ nomad_envoy_check_timeout }}
           interval: {{ nomad_envoy_check_interval }}
           healthy_threshold: {{ nomad_envoy_check_healthy_threshold }}
           unhealthy_threshold: {{ nomad_envoy_check_unhealthy_threshold }}
           http_health_check:
-            path: "/v1/sys/health"
+            path: "/v1/status/leader"
           transport_socket_match_criteria:
             useMTLS: true
       load_assignment:
-        cluster_name: backend
+        cluster_name: https
         endpoints:
           - lb_endpoints:
-{% for endpoint in nomad_envoy_endpoints %}
+{% for endpoint in nomad_envoy_https_endpoints %}
               - endpoint:
                   address:
                     socket_address:
@@ -40,15 +40,15 @@ static_resources:
                   trusted_ca:
                     filename: "{{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
   listeners:
-    - name: listener
+    - name: https
       address:
         socket_address:
-          address: "{{ ('//' + nomad_envoy_bind_address) | ansible.builtin.urlsplit('hostname') }}"
-          port_value: {{ ('//' + nomad_envoy_bind_address) | ansible.builtin.urlsplit('port') }}
+          address: "{{ ('//' + nomad_envoy_https_address) | ansible.builtin.urlsplit('hostname') }}"
+          port_value: {{ ('//' + nomad_envoy_https_address) | ansible.builtin.urlsplit('port') }}
       filter_chains:
         - filters:
             - name: envoy.filters.network.tcp_proxy
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
-                cluster: backend
+                cluster: https
                 stat_prefix: destination

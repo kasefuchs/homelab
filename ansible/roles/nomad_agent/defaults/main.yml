@@ -34,3 +34,9 @@ nomad_agent_serf_port: 4648
 
 # Specifies the address to which Nomad will bind serf server.
 nomad_agent_serf_address: "{{ nebula_ip }}"
+
+# Specifies the address to the local Consul agent.
+nomad_agent_consul_https_address: 127.0.0.1:8401
+
+# Specifies the address to the local Consul agent for gRPC requests.
+nomad_agent_consul_grpc_tls_address: 127.0.0.1:8403

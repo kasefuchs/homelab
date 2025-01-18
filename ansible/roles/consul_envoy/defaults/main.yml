@@ -1,6 +1,9 @@
 ---
-# Specifies the address to bind to for listening.
-consul_envoy_bind_address: 127.0.0.1:8401
+# Specifies the address to bind to for HTTPS listening.
+consul_envoy_https_address: 127.0.0.1:8401
+
+# Specifies the address to bind to for gRPC TLS listening.
+consul_envoy_grpc_tls_address: 127.0.0.1:8403
 
 # Specifies health check timeout.
 consul_envoy_check_timeout: 3s

@@ -20,23 +20,11 @@ consul_agent_dns_port: 8600
 # Specifies the address to which Consul will bind DNS server.
 consul_agent_dns_addresses: ["127.0.0.1"]
 
-# Specifies the port to which Consul will bind HTTP API.
-consul_agent_http_port: -1
-
-# Specifies the address to which Consul will bind HTTP API.
-consul_agent_http_addresses: ["127.0.0.1"]
-
 # Specifies the port to which Consul will bind HTTPS API.
 consul_agent_https_port: 8501
 
 # Specifies the address to which Consul will bind HTTPS API.
 consul_agent_https_addresses: "{{ consul_agent_client_addresses }}"
-
-# Specifies the port to which Consul will bind gRPC API.
-consul_agent_grpc_port: 8502
-
-# Specifies the address to which Consul will bind gRPC API.
-consul_agent_grpc_addresses: "{{ consul_agent_client_addresses }}"
 
 # Specifies the port to which Consul will bind gRPC API with TLS.
 consul_agent_grpc_tls_port: 8503

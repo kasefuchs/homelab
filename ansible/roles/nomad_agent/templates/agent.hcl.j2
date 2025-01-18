@@ -21,6 +21,20 @@ tls {
   verify_server_hostname = true
 }
 
+consul {
+  address      = "{{ nomad_agent_consul_https_address }}"
+  ca_file      = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  key_file     = "{{ (consul_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+  cert_file    = "{{ (consul_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+
+  grpc_ca_file = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  grpc_address = "{{ nomad_agent_consul_grpc_tls_address }}"
+
+  ssl            = true
+  share_ssl      = true
+  auto_advertise = false
+}
+
 server {
   enabled = {{ nomad_agent_server | lower }}
 

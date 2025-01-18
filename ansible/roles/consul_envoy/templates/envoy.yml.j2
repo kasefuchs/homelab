@@ -1,21 +1,21 @@
 ---
 static_resources:
   clusters:
-    - name: backend
+    - name: https
       health_checks:
         - timeout: {{ consul_envoy_check_timeout }}
           interval: {{ consul_envoy_check_interval }}
           healthy_threshold: {{ consul_envoy_check_healthy_threshold }}
           unhealthy_threshold: {{ consul_envoy_check_unhealthy_threshold }}
           http_health_check:
-            path: "/v1/sys/health"
+            path: "/v1/status/leader"
           transport_socket_match_criteria:
             useMTLS: true
       load_assignment:
-        cluster_name: backend
+        cluster_name: https
         endpoints:
           - lb_endpoints:
-{% for endpoint in consul_envoy_endpoints %}
+{% for endpoint in consul_envoy_https_endpoints %}
               - endpoint:
                   address:
                     socket_address:
@@ -39,16 +39,68 @@ static_resources:
                 validation_context:
                   trusted_ca:
                     filename: "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+
+    - name: grpc_tls
+      health_checks:
+        - timeout: {{ consul_envoy_check_timeout }}
+          interval: {{ consul_envoy_check_interval }}
+          healthy_threshold: {{ consul_envoy_check_healthy_threshold }}
+          unhealthy_threshold: {{ consul_envoy_check_unhealthy_threshold }}
+          tcp_health_check: {}
+          transport_socket_match_criteria:
+            useMTLS: true
+      load_assignment:
+        cluster_name: grpc_tls
+        endpoints:
+          - lb_endpoints:
+{% for endpoint in consul_envoy_grpc_tls_endpoints %}
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: "{{ ('//' + endpoint) | ansible.builtin.urlsplit('hostname') }}"
+                      port_value: {{ ('//' + endpoint) | ansible.builtin.urlsplit('port') }}
+{% endfor %}
+      transport_socket_matches:
+        - name: useMTLS
+          match:
+            useMTLS: true
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+              common_tls_context:
+                tls_certificates:
+                  - private_key:
+                      filename: "{{ (consul_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+                    certificate_chain:
+                      filename: "{{ (consul_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+                validation_context:
+                  trusted_ca:
+                    filename: "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+
   listeners:
-    - name: listener
+    - name: https
       address:
         socket_address:
-          address: "{{ ('//' + consul_envoy_bind_address) | ansible.builtin.urlsplit('hostname') }}"
-          port_value: {{ ('//' + consul_envoy_bind_address) | ansible.builtin.urlsplit('port') }}
+          address: "{{ ('//' + consul_envoy_https_address) | ansible.builtin.urlsplit('hostname') }}"
+          port_value: {{ ('//' + consul_envoy_https_address) | ansible.builtin.urlsplit('port') }}
       filter_chains:
         - filters:
             - name: envoy.filters.network.tcp_proxy
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
-                cluster: backend
+                cluster: https
+                stat_prefix: destination
+
+    - name: grpc_tls
+      address:
+        socket_address:
+          address: "{{ ('//' + consul_envoy_grpc_tls_address) | ansible.builtin.urlsplit('hostname') }}"
+          port_value: {{ ('//' + consul_envoy_grpc_tls_address) | ansible.builtin.urlsplit('port') }}
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.tcp_proxy
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+                cluster: grpc_tls
                 stat_prefix: destination
