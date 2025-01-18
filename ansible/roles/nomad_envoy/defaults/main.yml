@@ -1,6 +1,6 @@
 ---
 # Specifies the address to bind to for listening.
-nomad_envoy_bind_address: 127.0.0.1:4546
+nomad_envoy_https_address: 127.0.0.1:4546
 
 # Specifies health check timeout.
 nomad_envoy_check_timeout: 3s

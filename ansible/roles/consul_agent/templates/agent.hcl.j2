@@ -28,17 +28,16 @@ tls {
 }
 
 ports {
+  http = -1
+  grpc = -1
+
   dns      = {{ consul_agent_dns_port }}
-  http     = {{ consul_agent_http_port }}
   https    = {{ consul_agent_https_port }}
-  grpc     = {{ consul_agent_grpc_port }}
   grpc_tls = {{ consul_agent_grpc_tls_port }}
 }
 
 addresses {
   dns      = "{{ consul_agent_dns_addresses | join(' ') }}"
-  http     = "{{ consul_agent_http_addresses | join(' ') }}"
   https    = "{{ consul_agent_https_addresses | join(' ') }}"
-  grpc     = "{{ consul_agent_grpc_addresses | join(' ') }}"
   grpc_tls = "{{ consul_agent_grpc_tls_addresses | join(' ') }}"
 }

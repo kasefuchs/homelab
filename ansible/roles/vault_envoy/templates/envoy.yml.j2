@@ -1,7 +1,7 @@
 ---
 static_resources:
   clusters:
-    - name: backend
+    - name: https
       health_checks:
         - timeout: {{ vault_envoy_check_timeout }}
           interval: {{ vault_envoy_check_interval }}
@@ -12,10 +12,10 @@ static_resources:
           transport_socket_match_criteria:
             useMTLS: true
       load_assignment:
-        cluster_name: backend
+        cluster_name: https
         endpoints:
           - lb_endpoints:
-{% for endpoint in vault_envoy_endpoints %}
+{% for endpoint in vault_envoy_https_endpoints %}
               - endpoint:
                   address:
                     socket_address:
@@ -40,15 +40,15 @@ static_resources:
                   trusted_ca:
                     filename: "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
   listeners:
-    - name: listener
+    - name: https
       address:
         socket_address:
-          address: "{{ ('//' + vault_envoy_bind_address) | ansible.builtin.urlsplit('hostname') }}"
-          port_value: {{ ('//' + vault_envoy_bind_address) | ansible.builtin.urlsplit('port') }}
+          address: "{{ ('//' + vault_envoy_https_address) | ansible.builtin.urlsplit('hostname') }}"
+          port_value: {{ ('//' + vault_envoy_https_address) | ansible.builtin.urlsplit('port') }}
       filter_chains:
         - filters:
             - name: envoy.filters.network.tcp_proxy
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
-                cluster: backend
+                cluster: https
                 stat_prefix: destination
