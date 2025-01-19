@@ -40,3 +40,6 @@ nomad_agent_consul_https_address: 127.0.0.1:8401
 
 # Specifies the address to the local Consul agent for gRPC requests.
 nomad_agent_consul_grpc_tls_address: 127.0.0.1:8403
+
+# Specifies the address to the local Vault server.
+nomad_agent_vault_https_address: 127.0.0.1:8100
