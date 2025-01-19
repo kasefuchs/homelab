@@ -6,5 +6,6 @@
     - nebula
     - nomad
     - consul
+    - vault
   ansible.builtin.include_vars:
     file: "{{ role_path }}/../{{ item }}/vars/main.yml"

@@ -21,6 +21,25 @@ tls {
   verify_server_hostname = true
 }
 
+vault {
+  enabled = true
+
+  address   = "https://{{ nomad_agent_vault_https_address }}"
+  ca_file   = "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  key_file  = "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+  cert_file = "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+
+  create_from_role      = "workload"
+  jwt_auth_backend_path = "jwt-nomad"
+
+  default_identity {
+    aud  = ["vault.io"]
+    ttl  = "1h"
+    env  = true
+    file = true
+  }
+}
+
 consul {
   address      = "{{ nomad_agent_consul_https_address }}"
   ca_file      = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"

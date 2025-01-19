@@ -11,7 +11,8 @@ vault_agent_templates:
     dest: "{{ nomad_agent_acl_path }}"
     owner: "{{ nomad_agent_user }}"
     group: "{{ nomad_agent_group }}"
-    command: ["{{ nomad_agent_monit_init_path }}", "reload"]
+    # So, we should restart Nomad agent to reload Consul token. ¯\_(ツ)_/¯
+    command: ["{{ nomad_agent_monit_init_path }}", "restart"]
 
   - src: "{{ consul_agent_acl_template_path }}"
     dest: "{{ consul_agent_acl_path }}"
