@@ -8,7 +8,7 @@
 
 - name: Install Nebula service
   notify:
-    - Reload Monit
+    - Reload Nebula Monit
     - Monitor Nebula
     - Restart Nebula
   ansible.builtin.template:

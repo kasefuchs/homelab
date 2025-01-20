@@ -2,6 +2,12 @@
 # The path to the directory where Nomad Agent data stored.
 nomad_agent_data_dir: /opt/nomad/data
 
+# Specifies the directory to use for allocation data.
+nomad_agent_alloc_dir: /opt/nomad/alloc
+
+# Specifies the directory to use for binding mounts for the unveil file isolation mode.
+nomad_agent_alloc_mounts_dir: /opt/nomad/mounts
+
 # The path to the file where Nomad Agent configuration stored.
 nomad_agent_config_path: "{{ (nomad_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
 
@@ -12,7 +18,7 @@ nomad_agent_current_dir: "{{ (nomad_package_dir, 'current') | ansible.builtin.pa
 nomad_agent_binary_path: "{{ (nomad_current_dir, 'nomad') | ansible.builtin.path_join }}"
 
 # The user to run Nomad Agent as.
-nomad_agent_user: "{{ nomad_user }}"
+nomad_agent_user: "{{ 'root' if (nomad_agent_client | default(true)) else nomad_user }}"
 
 # The group to use running Nomad Agent.
 nomad_agent_group: "{{ nomad_group }}"
@@ -43,3 +49,8 @@ nomad_agent_stop_signal: 15
 
 # Specifies the service reload signal.
 nomad_agent_reload_signal: 1
+
+# Services user by Docker driver.
+nomad_agent_driver_docker_services:
+  - docker
+  - containerd

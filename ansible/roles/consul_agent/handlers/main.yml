@@ -1,5 +1,5 @@
 ---
-- name: Reload Monit
+- name: Reload Consul Agent Monit
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
@@ -7,6 +7,10 @@
       - reload
 
 - name: Monitor Consul Agent
+  retries: 3
+  delay: 3
+  register: consul_agent_monit_monitor_result
+  until: consul_agent_monit_monitor_result.rc == 0
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"

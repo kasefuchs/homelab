@@ -1,4 +1,8 @@
-path "${consul_mount_path}/creds/${dns_role_name}" {
+path "${consul_mount_path}/creds/${consul_agent_role_name}" {
+  capabilities = ["read"]
+}
+
+path "${consul_mount_path}/creds/${consul_dns_role_name}" {
   capabilities = ["read"]
 }
 

@@ -11,6 +11,9 @@ nomad_agent_server: true
 # Specifies if an agent is in client mode.
 nomad_agent_client: true
 
+# Specifies the name of the interface to force network fingerprinting on.
+nomad_agent_network_interface: nebula0
+
 # Specifies the name of this node in the cluster.
 nomad_agent_node_name: "{{ inventory_hostname }}"
 

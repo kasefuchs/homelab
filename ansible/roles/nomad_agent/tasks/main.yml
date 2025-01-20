@@ -5,6 +5,9 @@
 - name: Configure Nomad Agent
   ansible.builtin.import_tasks: configure.yml
 
+- name: Prepare Nomad task drivers
+  ansible.builtin.import_tasks: driver.yml
+
 - name: Daemonize Nomad Agent
   ansible.builtin.import_tasks: service.yml
 

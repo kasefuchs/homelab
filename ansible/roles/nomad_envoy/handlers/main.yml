@@ -1,5 +1,5 @@
 ---
-- name: Reload Monit
+- name: Reload Nomad Envoy Monit
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
@@ -7,6 +7,10 @@
       - reload
 
 - name: Monitor Nomad Envoy
+  retries: 3
+  delay: 3
+  register: nomad_envoy_monit_monitor_result
+  until: nomad_envoy_monit_monitor_result.rc == 0
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
@@ -17,7 +21,5 @@
 - name: Restart Nomad Envoy
   ansible.builtin.command:
     argv:
-      - "{{ monit_binary_path }}"
-      - -c{{ monit_config_path }}
+      - "{{ nomad_envoy_monit_init_path }}"
       - restart
-      - "{{ nomad_envoy_monit_service_name }}"

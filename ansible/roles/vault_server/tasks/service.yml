@@ -16,9 +16,9 @@
 
 - name: Install Vault server service
   notify:
-    - Reload Monit
-    - Monitor Vault server
-    - Restart Vault server
+    - Reload Vault Server Monit
+    - Monitor Vault Server
+    - Restart Vault Server
   ansible.builtin.template:
     src: vault-server.cfg.j2
     dest: "{{ (monit_include_dir, 'vault-server.cfg') | ansible.builtin.path_join }}"

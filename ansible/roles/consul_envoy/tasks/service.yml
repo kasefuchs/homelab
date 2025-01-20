@@ -8,7 +8,7 @@
 
 - name: Install Consul Envoy service
   notify:
-    - Reload Monit
+    - Reload Consul Envoy Monit
     - Monitor Consul Envoy
     - Restart Consul Envoy
   ansible.builtin.template:
