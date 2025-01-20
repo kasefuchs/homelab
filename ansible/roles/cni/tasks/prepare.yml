@@ -1,0 +1,16 @@
+---
+- name: Include role vars
+  loop: []
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/../{{ item }}/vars/main.yml"
+
+- name: Create local directories
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ cni_download_cache_dir }}"

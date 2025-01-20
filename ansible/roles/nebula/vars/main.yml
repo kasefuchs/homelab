@@ -32,7 +32,10 @@ nebula_pki_dir: /etc/pki/nebula
 nebula_current_dir: "{{ (nebula_package_dir, 'current') | ansible.builtin.path_join }}"
 
 # The path to the binary of Nebula.
-nebula_binary_path: "{{ (nebula_current_dir, 'nebula') | ansible.builtin.path_join }}"
+nebula_current_path: "{{ (nebula_current_dir, 'nebula') | ansible.builtin.path_join }}"
+
+# The path to the binary of Nebula.
+nebula_binary_path: /usr/local/bin/nebula
 
 # The path to the file where Nebula configuration stored.
 nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"

@@ -5,5 +5,8 @@ nomad_version: latest
 # URL to download Nomad archive from.
 nomad_download_url: https://hashicorp-releases.yandexcloud.net/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ nomad_architecture }}.zip
 
+# Extra options to pass to unarchive command.
+nomad_unarchive_extra_opts: []
+
 # Specifies the region in which the agent is running.
 nomad_region: global

@@ -1,0 +1,6 @@
+---
+# CNI version to download.
+cni_version: latest
+
+# URL to download CNI archive from.
+cni_download_url: https://github.com/containernetworking/plugins/releases/download/v{{ cni_version }}/cni-plugins-linux-{{ cni_architecture }}-v{{ cni_version }}.tgz

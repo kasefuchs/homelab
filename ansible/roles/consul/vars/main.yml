@@ -22,8 +22,11 @@ consul_config_path: "{{ (consul_config_dir, 'consul.hcl') | ansible.builtin.path
 # The path to the directory where current version of Consul stored.
 consul_current_dir: "{{ (consul_package_dir, 'current') | ansible.builtin.path_join }}"
 
+# THE path to the current version of Consul.
+consul_current_path: "{{ (consul_current_dir, 'consul') | ansible.builtin.path_join }}"
+
 # The path to the binary of Consul.
-consul_binary_path: "{{ (consul_current_dir, 'consul') | ansible.builtin.path_join }}"
+consul_binary_path: /usr/local/bin/consul
 
 # The path to the directory where Consul certificates stored.
 consul_pki_dir: /etc/pki/consul

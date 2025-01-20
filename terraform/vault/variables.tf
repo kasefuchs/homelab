@@ -15,7 +15,7 @@ variable "consul_token" {
 
 variable "consul_remote_address" {
   type    = string
-  default = "127.0.0.1:8401"
+  default = "127.0.0.1:8501"
 }
 
 variable "vault_address" {

@@ -1,9 +1,0 @@
----
-- name: Copy Consul Envoy configuration
-  register: consul_envoy_config_template
-  ansible.builtin.template:
-    src: envoy.yml.j2
-    dest: "{{ consul_envoy_config_path }}"
-    mode: "0644"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"

@@ -1,0 +1,6 @@
+---
+- name: Prepare CNI
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Download CNI package
+  ansible.builtin.import_tasks: download.yml
