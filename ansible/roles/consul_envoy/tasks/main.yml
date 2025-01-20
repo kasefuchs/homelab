@@ -1,9 +1,0 @@
----
-- name: Prepare for Consul Envoy installation
-  ansible.builtin.import_tasks: prepare.yml
-
-- name: Configure Consul Envoy
-  ansible.builtin.import_tasks: configure.yml
-
-- name: Daemonize Consul Envoy
-  ansible.builtin.import_tasks: service.yml

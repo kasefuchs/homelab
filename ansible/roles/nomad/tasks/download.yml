@@ -59,4 +59,11 @@
       ansible.builtin.unarchive:
         src: "{{ (nomad_download_cache_dir, nomad_version, nomad_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ nomad_current_dir }}"
-        creates: "{{ nomad_binary_path }}"
+        creates: "{{ nomad_current_path }}"
+        extra_opts: "{{ nomad_unarchive_extra_opts }}"
+
+    - name: Create Nomad binary symlink
+      ansible.builtin.file:
+        src: "{{ nomad_current_path }}"
+        dest: "{{ nomad_binary_path }}"
+        state: link

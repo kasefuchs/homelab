@@ -42,5 +42,11 @@
       ansible.builtin.unarchive:
         src: "{{ (monit_download_cache_dir, monit_version, monit_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ monit_current_dir }}"
-        creates: "{{ monit_binary_path }}"
+        creates: "{{ monit_current_path }}"
         extra_opts: "{{ monit_unarchive_extra_opts }}"
+
+    - name: Create Monit binary symlink
+      ansible.builtin.file:
+        src: "{{ monit_current_path }}"
+        dest: "{{ monit_binary_path }}"
+        state: link

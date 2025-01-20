@@ -5,6 +5,9 @@ nebula_version: latest
 # URL to download Nebula archive from.
 nebula_download_url: https://github.com/{{ nebula_github_user }}/{{ nebula_github_repository }}/releases/download/v{{ nebula_version }}/nebula-linux-{{ nebula_architecture }}.tar.gz
 
+# Extra options to pass to unarchive command.
+nebula_unarchive_extra_opts: []
+
 # Enables lighthouse functionality for a node.
 nebula_lighthouse_enable: true
 

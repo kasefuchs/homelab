@@ -39,10 +39,10 @@ nomad_agent_serf_port: 4648
 nomad_agent_serf_address: "{{ nebula_ip }}"
 
 # Specifies the address to the local Consul agent.
-nomad_agent_consul_https_address: 127.0.0.1:8401
+nomad_agent_consul_https_address: 127.0.0.1:8501
 
 # Specifies the address to the local Consul agent for gRPC requests.
-nomad_agent_consul_grpc_tls_address: 127.0.0.1:8403
+nomad_agent_consul_grpc_tls_address: 127.0.0.1:8503
 
 # Specifies the address to the local Vault server.
 nomad_agent_vault_https_address: 127.0.0.1:8100
