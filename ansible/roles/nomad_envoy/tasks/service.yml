@@ -8,7 +8,7 @@
 
 - name: Install Nomad Envoy service
   notify:
-    - Reload Monit
+    - Reload Nomad Envoy Monit
     - Monitor Nomad Envoy
     - Restart Nomad Envoy
   ansible.builtin.template:

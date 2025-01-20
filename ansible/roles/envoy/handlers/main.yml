@@ -1,7 +1,0 @@
----
-- name: Restart Envoy
-  community.general.supervisorctl:
-    name: envoy
-    state: restarted
-    config: "{{ envoy_supervisor_config_path }}"
-    supervisorctl_path: "{{ envoy_supervisor_control_bin }}"

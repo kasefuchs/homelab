@@ -1,5 +1,5 @@
 ---
-- name: Reload Monit
+- name: Reload Nebula Monit
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
@@ -7,6 +7,10 @@
       - reload
 
 - name: Monitor Nebula
+  retries: 3
+  delay: 3
+  register: nebula_monit_monitor_result
+  until: nebula_monit_monitor_result.rc == 0
   ansible.builtin.command:
     argv:
       - "{{ monit_binary_path }}"
@@ -17,7 +21,5 @@
 - name: Restart Nebula
   ansible.builtin.command:
     argv:
-      - "{{ monit_binary_path }}"
-      - -c{{ monit_config_path }}
+      - "{{ nebula_monit_init_path }}"
       - restart
-      - "{{ nebula_monit_service_name }}"

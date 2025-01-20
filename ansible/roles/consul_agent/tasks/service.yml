@@ -8,7 +8,7 @@
 
 - name: Install Consul Agent service
   notify:
-    - Reload Monit
+    - Reload Consul Agent Monit
     - Monitor Consul Agent
     - Restart Consul Agent
   ansible.builtin.template:

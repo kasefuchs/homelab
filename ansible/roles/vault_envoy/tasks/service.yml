@@ -8,7 +8,7 @@
 
 - name: Install Vault Envoy service
   notify:
-    - Reload Monit
+    - Reload Vault Envoy Monit
     - Monitor Vault Envoy
     - Restart Vault Envoy
   ansible.builtin.template:

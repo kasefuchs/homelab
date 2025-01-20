@@ -8,7 +8,7 @@
 
 - name: Install Vault Agent service
   notify:
-    - Reload Monit
+    - Reload Vault Agent Monit
     - Monitor Vault Agent
     - Restart Vault Agent
   ansible.builtin.template:

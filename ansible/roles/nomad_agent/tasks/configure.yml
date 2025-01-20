@@ -8,6 +8,8 @@
     group: "{{ nomad_agent_group }}"
   loop:
     - "{{ nomad_agent_data_dir }}"
+    - "{{ nomad_agent_alloc_dir }}"
+    - "{{ nomad_agent_alloc_mounts_dir }}"
 
 - name: Copy Nomad Agent certificates
   ansible.builtin.copy:

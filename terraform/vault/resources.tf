@@ -21,9 +21,14 @@ resource "vault_mount" "kv" {
 }
 
 # Consul policies.
-resource "consul_acl_policy" "dns" {
-  name  = "dns"
-  rules = file("${path.module}/policies/consul/dns.hcl")
+resource "consul_acl_policy" "consul_agent" {
+  name  = "consul-agent"
+  rules = file("${path.module}/policies/consul/consul-agent.hcl")
+}
+
+resource "consul_acl_policy" "consul_dns" {
+  name  = "consul-dns"
+  rules = file("${path.module}/policies/consul/consul-dns.hcl")
 }
 
 resource "consul_acl_policy" "nomad_client" {
@@ -37,11 +42,12 @@ resource "consul_acl_policy" "nomad_server" {
 }
 
 # Vault policies.
-resource "vault_policy" "agent" {
-  name = "agent"
-  policy = templatefile("${path.module}/policies/vault/agent.hcl.tftpl", {
+resource "vault_policy" "vault_agent" {
+  name = "vault-agent"
+  policy = templatefile("${path.module}/policies/vault/vault-agent.hcl.tftpl", {
     consul_mount_path      = vault_consul_secret_backend.consul.path
-    dns_role_name          = vault_consul_secret_backend_role.dns.name
+    consul_agent_role_name = vault_consul_secret_backend_role.consul_agent.name
+    consul_dns_role_name   = vault_consul_secret_backend_role.consul_dns.name
     nomad_server_role_name = vault_consul_secret_backend_role.nomad_server.name
     nomad_client_role_name = vault_consul_secret_backend_role.nomad_client.name
   })
@@ -91,7 +97,7 @@ resource "vault_auth_backend" "approle" {
 resource "vault_approle_auth_backend_role" "agent" {
   backend        = vault_auth_backend.approle.path
   role_name      = "agent"
-  token_policies = [vault_policy.agent.name]
+  token_policies = [vault_policy.vault_agent.name]
 }
 
 resource "vault_approle_auth_backend_role_secret_id" "agent" {
@@ -99,10 +105,16 @@ resource "vault_approle_auth_backend_role_secret_id" "agent" {
   role_name = vault_approle_auth_backend_role.agent.role_name
 }
 
-resource "vault_consul_secret_backend_role" "dns" {
-  name            = "dns"
+resource "vault_consul_secret_backend_role" "consul_agent" {
+  name            = "consul-agent"
   backend         = vault_consul_secret_backend.consul.path
-  consul_policies = [consul_acl_policy.dns.name]
+  consul_policies = [consul_acl_policy.consul_agent.name]
+}
+
+resource "vault_consul_secret_backend_role" "consul_dns" {
+  name            = "consul-dns"
+  backend         = vault_consul_secret_backend.consul.path
+  consul_policies = [consul_acl_policy.consul_dns.name]
 }
 
 resource "vault_consul_secret_backend_role" "nomad_server" {

@@ -8,7 +8,7 @@
 
 - name: Install Nomad Agent service
   notify:
-    - Reload Monit
+    - Reload Nomad Agent Monit
     - Monitor Nomad Agent
     - Restart Nomad Agent
   ansible.builtin.template:

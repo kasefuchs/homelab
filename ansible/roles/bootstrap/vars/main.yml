@@ -1,12 +1,2 @@
 ---
-# Map of packages for installation, broken down by distribution.
-bootstrap_package_distribution_install:
-  default:
-    - unzip
-    - dmidecode
-    - libnsl2
-
-  centos:
-    - unzip
-    - dmidecode
-    - libnsl
+bootstrap_package_apt_keyring_dir: /etc/apt/keyrings
