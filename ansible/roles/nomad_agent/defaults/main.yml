@@ -46,3 +46,13 @@ nomad_agent_consul_grpc_tls_address: 127.0.0.1:8503
 
 # Specifies the address to the local Vault server.
 nomad_agent_vault_https_address: 127.0.0.1:8100
+
+# Registers additional host networks with the node that can be selected when port mapping.
+nomad_agent_host_networks:
+  # Public network.
+  public:
+    interface: "{{ ansible_default_ipv4.interface }}"
+
+  # Private network.
+  private:
+    interface: nebula0

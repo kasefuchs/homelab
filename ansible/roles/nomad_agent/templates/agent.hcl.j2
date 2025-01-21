@@ -74,6 +74,14 @@ client {
   server_join {
     retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}
   }
+
+{% for name, config in nomad_agent_host_networks.items() %}
+  host_network "{{ name }}" {
+    cidr           = "{{ config.cidr | default('') }}"
+    interface      = "{{ config.interface | default('') }}"
+    reserved_ports = "{{ config.reserved_ports | default([]) | join(',') }}"
+  }
+{% endfor %}
 }
 
 ports {
