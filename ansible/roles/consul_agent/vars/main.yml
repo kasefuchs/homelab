@@ -37,3 +37,6 @@ consul_agent_stop_signal: 15
 
 # Specifies the service reload signal.
 consul_agent_reload_signal: 1
+
+# Specifies the environment variables of program.
+consul_agent_environment: {}

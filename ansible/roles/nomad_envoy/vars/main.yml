@@ -22,3 +22,6 @@ nomad_envoy_reload_signal: 0
 
 # Writes the Nomad Envoy base ID to the given path.
 nomad_envoy_base_id_path: "{{ (nomad_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
+
+# Specifies the environment variables of program.
+nomad_envoy_environment: {}

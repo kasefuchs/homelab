@@ -1,4 +1,3 @@
-# Vault secret backends.
 resource "vault_consul_secret_backend" "consul" {
   address = var.consul_remote_address
   scheme  = "https"
@@ -12,15 +11,17 @@ resource "vault_nomad_secret_backend" "nomad" {
   token   = var.nomad_token
 }
 
-resource "vault_mount" "kv" {
-  path = "kv"
+resource "vault_mount" "nomad_workload" {
   type = "kv"
+  path = var.vault_kv_nomad_workload_path
+
+  description = "KV storage for Nomad Workloads"
+
   options = {
     version = 2
   }
 }
 
-# Consul policies.
 resource "consul_acl_policy" "consul_agent" {
   name  = "consul-agent"
   rules = file("${path.module}/policies/consul/consul-agent.hcl")
@@ -41,7 +42,6 @@ resource "consul_acl_policy" "nomad_server" {
   rules = file("${path.module}/policies/consul/nomad-server.hcl")
 }
 
-# Vault policies.
 resource "vault_policy" "vault_agent" {
   name = "vault-agent"
   policy = templatefile("${path.module}/policies/vault/vault-agent.hcl.tftpl", {
@@ -56,23 +56,23 @@ resource "vault_policy" "vault_agent" {
 resource "vault_policy" "nomad_workload" {
   name = "nomad-workload"
   policy = templatefile("${path.module}/policies/vault/nomad-workload.hcl.tftpl", {
-    kv_mount_path        = vault_mount.kv.path
+    kv_mount_path        = vault_mount.nomad_workload.path
     auth_method_accessor = vault_jwt_auth_backend.nomad.accessor
   })
 }
 
-# Vault auth backends.
 resource "vault_jwt_auth_backend" "nomad" {
   path        = "jwt-nomad"
   jwks_url    = var.nomad_remote_jwks_url
   jwks_ca_pem = file(var.nomad_ca_file)
+  default_role = "nomad-workload"
 }
 
 resource "vault_jwt_auth_backend_role" "nomad_workload" {
   backend = vault_jwt_auth_backend.nomad.path
 
   role_type = "jwt"
-  role_name = "workload"
+  role_name = vault_jwt_auth_backend.nomad.default_role
 
   token_type      = "service"
   token_policies  = [vault_policy.nomad_workload.name]
@@ -94,15 +94,15 @@ resource "vault_auth_backend" "approle" {
   type = "approle"
 }
 
-resource "vault_approle_auth_backend_role" "agent" {
+resource "vault_approle_auth_backend_role" "vault_agent" {
   backend        = vault_auth_backend.approle.path
-  role_name      = "agent"
+  role_name      = "vault-agent"
   token_policies = [vault_policy.vault_agent.name]
 }
 
-resource "vault_approle_auth_backend_role_secret_id" "agent" {
+resource "vault_approle_auth_backend_role_secret_id" "vault_agent" {
   backend   = vault_auth_backend.approle.path
-  role_name = vault_approle_auth_backend_role.agent.role_name
+  role_name = vault_approle_auth_backend_role.vault_agent.role_name
 }
 
 resource "vault_consul_secret_backend_role" "consul_agent" {

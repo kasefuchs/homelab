@@ -57,3 +57,8 @@ variable "nomad_remote_jwks_url" {
   type    = string
   default = "https://127.0.0.1:4546/.well-known/jwks.json"
 }
+
+variable "vault_kv_nomad_workload_path" {
+  type    = string
+  default = "kvnw"
+}
