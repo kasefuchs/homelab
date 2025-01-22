@@ -66,3 +66,6 @@ nebula_stop_signal: 15
 
 # Specifies the service reload signal.
 nebula_reload_signal: 0
+
+# Specifies the environment variables of program.
+nebula_environment: {}

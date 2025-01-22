@@ -25,3 +25,6 @@ vault_server_stop_signal: 15
 
 # Specifies the service reload signal.
 vault_server_reload_signal: 1
+
+# Specifies the environment variables of program.
+vault_server_environment: {}

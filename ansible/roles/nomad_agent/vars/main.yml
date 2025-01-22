@@ -54,3 +54,8 @@ nomad_agent_reload_signal: 1
 nomad_agent_driver_docker_services:
   - docker
   - containerd
+
+
+# Specifies the environment variables of program.
+nomad_agent_environment:
+  PATH: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin

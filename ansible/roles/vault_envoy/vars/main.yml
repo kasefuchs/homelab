@@ -22,3 +22,6 @@ vault_envoy_reload_signal: 0
 
 # Writes the Vault Envoy base ID to the given path.
 vault_envoy_base_id_path: "{{ (vault_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
+
+# Specifies the environment variables of program.
+vault_envoy_environment: {}

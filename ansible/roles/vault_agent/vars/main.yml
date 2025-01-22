@@ -37,3 +37,6 @@ vault_agent_user: root
 
 # The group to run Vault Agent as.
 vault_agent_group: root
+
+# Specifies the environment variables of program.
+vault_agent_environment: {}

@@ -13,6 +13,8 @@ LOGFILE="{{ vault_agent_log_path }}"
 STOPSIGNAL="{{ vault_agent_stop_signal }}"
 RELOADSIGNAL="{{ vault_agent_reload_signal }}"
 
+ENVIRONMENT="{{ vault_agent_environment.items() | map('join', '=') | join(' ') }}"
+
 start() {
   if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")"; then
     echo "Service already running" >&2
@@ -41,7 +43,7 @@ start() {
   fi
 
   echo "Starting service…" >&2
-  CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
+  CMD="env $ENVIRONMENT $SCRIPT &> \"$LOGFILE\" & echo \$!"
   su -c "$CMD" "$RUNAS" > "$PIDFILE"
 
   echo "Service started" >&2
