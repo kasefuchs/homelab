@@ -40,15 +40,42 @@ variable "constraints" {
   default = []
 }
 
+variable "port" {
+  description = "Nomad port to use."
+  type = object({
+    name         = string
+    to           = number
+    static       = number
+    host_network = string
+  })
+  default = null
+}
+
 variable "service" {
   description = "Specifies integrations with Consul for service discovery."
   type = object({
-    name = string
-    tags = list(string)
+    name    = string
+    port    = string
+    tags    = list(string)
+    connect = bool
+    proxy_upstreams = list(
+      object({
+        name = string
+        port = number
+      })
+    )
+    sidecar_resources = object({
+      cpu    = number
+      memory = number
+    })
   })
   default = {
-    name = "lavalink"
-    tags = []
+    name              = "lavalink"
+    port              = "2333"
+    tags              = []
+    connect           = true
+    proxy_upstreams   = []
+    sidecar_resources = null
   }
 }
 
@@ -73,6 +100,9 @@ variable "config" {
   type        = string
   default     = <<EOH
 ---
+server:
+  port: 2333
+  address: 0.0.0.0
   EOH
 }
 
@@ -85,17 +115,5 @@ variable "resources" {
   default = {
     cpu    = 512,
     memory = 512
-  }
-}
-
-variable "sidecar_resources" {
-  description = "The resource to assign to the application."
-  type = object({
-    cpu    = number
-    memory = number
-  })
-  default = {
-    cpu    = 96,
-    memory = 96
   }
 }
