@@ -15,25 +15,17 @@ job [[ template "job_name" . ]] {
   group "servers" {
     network {
       mode = "bridge"
+      [[- if var "port" . ]]
+      [[ template "port" var "port" . ]]
+      [[- end ]]
     }
 
-    service {
-      name = [[ ( var "service" . ).name | quote ]]
-      tags = [[ ( var "service" . ).tags | toStringList ]]
-      port = "2333"
-      connect {
-        sidecar_task {
-          [[ template "resources" var "sidecar_resources" . ]]
-        }
-        sidecar_service {}
-      }
-    }
+    [[ template "service" var "service" . ]]
 
-    [[- if var "vault" . ]]
+    [[- $vault := var "vault" . -]]
+    [[- if $vault ]]
 
-    vault {
-      role = [[ ( var "vault" . ).role | quote ]]
-    }
+    [[ template "vault" $vault ]]
     [[- end ]]
 
     task "lavalink" {
@@ -42,11 +34,6 @@ job [[ template "job_name" . ]] {
       config {
         image = [[ var "docker_image" . | quote ]]
         args  = ["--spring.config.location=${NOMAD_TASK_DIR}/lavalink.yml"]
-      }
-
-      env {
-        SERVER_PORT    = "2333"
-        SERVER_ADDRESS = "0.0.0.0"
       }
 
       template {

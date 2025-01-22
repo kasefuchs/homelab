@@ -22,22 +22,22 @@ job [[ template "job_name" . ]] {
       [[- end ]]
     }
 
+    [[ $service := var "service" . -]]
     service {
-      name = [[ ( var "service" . ).name | quote ]]
-      port = [[ ( var "service" . ).port | quote ]]
-      tags = [[ ( var "service" . ).tags | toStringList ]]
-      [[ if ( var "service" . ).connect -]]
+      name = [[ $service.name | quote ]]
+      port = [[ $service.port | quote ]]
+      tags = [[ $service.tags | toStringList ]]
+      [[ if $service.connect -]]
       connect {
         native = true
       }
       [[- end ]]
     }
 
-    [[- if var "vault" . ]]
+    [[- $vault := var "vault" . -]]
+    [[- if $vault ]]
 
-    vault {
-      role = [[ ( var "vault" . ).role | quote ]]
-    }
+    [[ template "vault" $vault ]]
     [[- end ]]
 
     task "traefik" {
