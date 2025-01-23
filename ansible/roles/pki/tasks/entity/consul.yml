@@ -1,107 +1,106 @@
 ---
-- name: Create Consul certificate store
+- name: Create Consul host certificate directory
   ansible.builtin.file:
     mode: "0755"
-    path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}"
+    path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname) | ansible.builtin.path_join }}"
     state: directory
-
-- name: Create Consul Client certificate
-  block:
-    - name: Create Consul Client private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}/client.key"
-      register: entity_consul_client_private_key
-
-    - name: Create Consul Client certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}/client.csr"
-        privatekey_path: "{{ entity_consul_client_private_key.filename }}"
-        common_name: "client.{{ pki_entity_consul_datacenter }}.consul"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
-          - "DNS:client.{{ pki_entity_consul_datacenter }}.consul"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_consul_client_csr
-
-    - name: Sign Consul Client certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}/client.pem"
-        provider: ownca
-        csr_path: "{{ entity_consul_client_csr.filename }}"
-        ownca_path: "{{ ca_consul_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_consul_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
-
-- name: Create Consul Server certificate
-  block:
-    - name: Create Consul Server private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}/server.key"
-      register: entity_consul_server_private_key
-
-    - name: Create Consul Server certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}/server.csr"
-        privatekey_path: "{{ entity_consul_server_private_key.filename }}"
-        common_name: "server.{{ pki_entity_consul_datacenter }}.consul"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
-          - "DNS:server.{{ pki_entity_consul_datacenter }}.consul"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_consul_server_csr
-
-    - name: Sign Consul Server certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/{{ ansible_hostname }}/server.pem"
-        provider: ownca
-        csr_path: "{{ entity_consul_server_csr.filename }}"
-        ownca_path: "{{ ca_consul_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_consul_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
 
 - name: Create Consul CLI certificate
   block:
     - name: Create Consul CLI private key
       community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/cli.key"
-      register: entity_consul_cli_private_key
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, 'cli.key') | ansible.builtin.path_join }}"
+      register: pki_entity_consul_cli_private_key
 
     - name: Create Consul CLI certificate signing request
       community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/cli.csr"
-        privatekey_path: "{{ entity_consul_cli_private_key.filename }}"
-        common_name: "cli.{{ pki_entity_consul_datacenter }}.consul"
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, 'cli.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_consul_cli_private_key.filename }}"
+        common_name: cli.{{ pki_entity_consul_datacenter }}.consul
+        subject_alt_name:
+          - IP:127.0.0.1
+          - DNS:localhost
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: pki_entity_consul_cli_csr
+
+    - name: Sign Consul CLI certificate
+      community.crypto.x509_certificate:
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, 'cli.pem') | ansible.builtin.path_join }}"
+        provider: ownca
+        csr_path: "{{ pki_entity_consul_cli_csr.filename }}"
+        ownca_path: "{{ pki_ca_consul_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_consul_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create Consul server certificates
+  block:
+    - name: Create Consul server private key
+      community.crypto.openssl_privatekey:
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'server.key') | ansible.builtin.path_join }}"
+      register: pki_entity_consul_server_private_key
+
+    - name: Create Consul server certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'server.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_consul_server_private_key.filename }}"
+        common_name: server.{{ pki_entity_consul_datacenter }}.consul
         subject_alt_name:
           # Local
           - IP:127.0.0.1
           - DNS:localhost
           # Node
-          - "DNS:cli.{{ pki_entity_consul_datacenter }}.consul"
+          - "IP:{{ nebula_ip }}"
+          - "DNS:server.{{ pki_entity_consul_datacenter }}.consul"
+          - "DNS:{{ inventory_hostname }}.server.{{ pki_entity_consul_datacenter }}.consul"
         extended_key_usage:
           - serverAuth
           - clientAuth
-      register: entity_consul_cli_csr
+      register: pki_entity_consul_server_csr
 
-    - name: Sign Consul CLI certificate
+    - name: Sign Consul server certificate
       community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/consul/{{ pki_entity_consul_datacenter }}/cli.pem"
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'server.pem') | ansible.builtin.path_join }}"
         provider: ownca
-        csr_path: "{{ entity_consul_cli_csr.filename }}"
-        ownca_path: "{{ ca_consul_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_consul_private_key.filename }}"
+        csr_path: "{{ pki_entity_consul_server_csr.filename }}"
+        ownca_path: "{{ pki_ca_consul_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_consul_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create Consul client certificates
+  block:
+    - name: Create Consul client private key
+      community.crypto.openssl_privatekey:
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'client.key') | ansible.builtin.path_join }}"
+      register: pki_entity_consul_client_private_key
+
+    - name: Create Consul client certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'client.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_consul_client_private_key.filename }}"
+        common_name: client.{{ pki_entity_consul_datacenter }}.consul
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip }}"
+          - "DNS:client.{{ pki_entity_consul_datacenter }}.consul"
+          - "DNS:{{ inventory_hostname }}.client.{{ pki_entity_consul_datacenter }}.consul"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: pki_entity_consul_client_csr
+
+    - name: Sign Consul client certificate
+      community.crypto.x509_certificate:
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'client.pem') | ansible.builtin.path_join }}"
+        provider: ownca
+        csr_path: "{{ pki_entity_consul_client_csr.filename }}"
+        ownca_path: "{{ pki_ca_consul_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_consul_private_key.filename }}"
         ownca_not_after: "+1825d"
         ownca_not_before: "-1d"

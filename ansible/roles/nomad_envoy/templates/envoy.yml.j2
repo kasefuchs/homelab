@@ -1,0 +1,54 @@
+---
+static_resources:
+  clusters:
+    - name: https
+      health_checks:
+        - timeout: {{ nomad_envoy_check_timeout }}
+          interval: {{ nomad_envoy_check_interval }}
+          healthy_threshold: {{ nomad_envoy_check_healthy_threshold }}
+          unhealthy_threshold: {{ nomad_envoy_check_unhealthy_threshold }}
+          http_health_check:
+            path: "/v1/status/leader"
+          transport_socket_match_criteria:
+            useMTLS: true
+      load_assignment:
+        cluster_name: https
+        endpoints:
+          - lb_endpoints:
+{% for endpoint in nomad_envoy_https_endpoints %}
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: "{{ ('//' + endpoint) | ansible.builtin.urlsplit('hostname') }}"
+                      port_value: {{ ('//' + endpoint) | ansible.builtin.urlsplit('port') }}
+{% endfor %}
+      transport_socket_matches:
+        - name: useMTLS
+          match:
+            useMTLS: true
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+              common_tls_context:
+                tls_certificates:
+                  - private_key:
+                      filename: "{{ (nomad_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+                    certificate_chain:
+                      filename: "{{ (nomad_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+                validation_context:
+                  trusted_ca:
+                    filename: "{{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  listeners:
+    - name: https
+      address:
+        socket_address:
+          address: "{{ ('//' + nomad_envoy_https_address) | ansible.builtin.urlsplit('hostname') }}"
+          port_value: {{ ('//' + nomad_envoy_https_address) | ansible.builtin.urlsplit('port') }}
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.tcp_proxy
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+                cluster: https
+                stat_prefix: destination

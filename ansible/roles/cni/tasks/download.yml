@@ -1,0 +1,62 @@
+---
+- name: Get latest CNI version
+  when: cni_version == "latest"
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest CNI release on GitHub
+      register: cni_github_release
+      community.general.github_release:
+        user: "{{ cni_github_user }}"
+        repo: "{{ cni_github_repository }}"
+        action: latest_release
+
+    - name: Set CNI version
+      ansible.builtin.set_fact:
+        cni_version: "{{ cni_github_release.tag | default(cni_version) | regex_replace('^v', '') }}"
+
+- name: Download CNI archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (cni_download_cache_dir, cni_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Download CNI archives
+      loop: "{{ cni_architectures.values() }}"
+      loop_control:
+        loop_var: cni_architecture
+      ansible.builtin.get_url:
+        url: "{{ cni_download_url }}"
+        dest: "{{ (cni_download_cache_dir, cni_version, cni_architecture) | ansible.builtin.path_join }}"
+
+- name: Set CNI filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    cni_version_dir: "{{ (cni_package_dir, cni_version) | ansible.builtin.path_join }}"
+
+- name: Create CNI package directory
+  block:
+    - name: Create CNI package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ cni_version_dir }}"
+        state: directory
+
+    - name: Link CNI current version directory
+      ansible.builtin.file:
+        src: "{{ cni_version_dir }}"
+        dest: "{{ cni_current_dir }}"
+        state: link
+
+- name: Install CNI binaries
+  block:
+    - name: Extract CNI archive
+      ansible.builtin.unarchive:
+        src: "{{ (cni_download_cache_dir, cni_version, cni_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ cni_current_dir }}"
+        creates: "{{ (cni_current_dir, 'bridge') | ansible.builtin.path_join }}"

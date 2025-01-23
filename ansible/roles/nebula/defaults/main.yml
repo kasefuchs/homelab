@@ -3,42 +3,32 @@
 nebula_version: latest
 
 # URL to download Nebula archive from.
-nebula_source: https://github.com/slackhq/nebula/releases/download/v{{ nebula_version }}/nebula-linux-{{ nebula_architecture }}.tar.gz
+nebula_download_url: https://github.com/{{ nebula_github_user }}/{{ nebula_github_repository }}/releases/download/v{{ nebula_version }}/nebula-linux-{{ nebula_architecture }}.tar.gz
 
-# Name of the Nebula certificate authority.
-nebula_ca_name: Nebula CA
-
-# List of ipv4 address and network in CIDR notation that can be used withing Nebula overlay network.
-nebula_ca_ips:
-  - 172.16.0.0/12
+# Extra options to pass to unarchive command.
+nebula_unarchive_extra_opts: []
 
 # Enables lighthouse functionality for a node.
-nebula_lighthouse: false
+nebula_lighthouse_enable: true
 
-# Nebula sshd administration interface.
-nebula_sshd:
-  enabled: false
+# Host Nebula will be listening on.
+nebula_listen_host: 0.0.0.0
+
+# Port Nebula will be listening on.
+nebula_listen_port: 4646
 
 # Nebula TUN configuration.
 nebula_tun:
   dev: nebula0
 
-# Nebula logging configuration.
-nebula_logging:
-  level: warning
-  disable_timestamp: true
-
-# Nebula security group configuration.
+# Nebula firewall configuration.
 nebula_firewall:
-  outbound_action: drop
-  inbound_action: drop
-
   outbound:
-    - port: any
+    - host: any
+      port: any
       proto: any
-      host: any
 
   inbound:
-    - port: any
+    - host: any
+      port: any
       proto: any
-      host: any

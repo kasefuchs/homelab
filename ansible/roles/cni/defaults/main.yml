@@ -1,6 +1,6 @@
 ---
-cni_common_version: latest
-cni_common_source: "https://github.com/containernetworking/plugins/releases/download/v{{ cni_common_version }}/cni-plugins-linux-{{ cni_common_architecture }}-v{{ cni_common_version }}.tgz"
+# CNI version to download.
+cni_version: latest
 
-cni_consul_version: latest
-cni_consul_source: "https://releases.hashicorp.com/consul-cni/{{ cni_consul_version }}/consul-cni_{{ cni_consul_version }}_linux_{{ cni_consul_architecture }}.zip"
+# URL to download CNI archive from.
+cni_download_url: https://github.com/containernetworking/plugins/releases/download/v{{ cni_version }}/cni-plugins-linux-{{ cni_architecture }}-v{{ cni_version }}.tgz

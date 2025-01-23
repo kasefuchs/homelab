@@ -1,0 +1,52 @@
+---
+- name: Add package repositories
+  block:
+    - name: Add package repositories (Yum-like)
+      when: ansible_pkg_mgr == "yum" or ansible_pkg_mgr == "dnf"
+      block:
+        - name: Add package repositories
+          loop: "{{ bootstrap_package_yum_repositories.items() }}"
+          loop_control:
+            label: "{{ item[0] }}"
+          ansible.builtin.yum_repository:
+            name: "{{ item[0] }}"
+            description: "{{ item[1].description }}"
+            baseurl: "{{ item[1].url }}"
+            gpgkey: "{{ item[1].key }}"
+            gpgcheck: true
+
+    - name: Add package repositories (APT-like)
+      when: ansible_pkg_mgr == "apt"
+      block:
+        - name: Ensure keyring directory exists
+          ansible.builtin.file:
+            path: "{{ bootstrap_package_apt_keyring_dir }}"
+            mode: "0755"
+            state: directory
+
+        - name: Add repositories signing keys
+          loop: "{{ bootstrap_package_apt_repositories.items() }}"
+          loop_control:
+            label: "{{ item[0] }}"
+          ansible.builtin.get_url:
+            url: "{{ item[1].key }}"
+            dest: "{{ (bootstrap_package_apt_keyring_dir, item[0]) | ansible.builtin.path_join }}"
+            mode: "0644"
+
+        - name: Add package repositories
+          loop: "{{ bootstrap_package_apt_repositories.items() }}"
+          loop_control:
+            label: "{{ item[0] }}"
+          ansible.builtin.apt_repository:
+            repo: "deb [signed-by={{ (bootstrap_package_apt_keyring_dir, item[0]) | ansible.builtin.path_join }}] {{ item[1].url }} {{ ansible_distribution_release }} {{ item[1].components | join(' ') }}"
+            filename: "{{ item[0] }}"
+            update_cache: false
+
+- name: Update package cache
+  when: bootstrap_package_update_cache
+  ansible.builtin.package:
+    update_cache: true
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ bootstrap_package_distribution_install[ansible_distribution | lower] | default(bootstrap_package_distribution_install['default']) }}"

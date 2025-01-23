@@ -1,0 +1,31 @@
+---
+- name: Create Vault directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+  loop:
+    - "{{ vault_pki_dir }}"
+    - "{{ vault_config_dir }}"
+
+- name: Copy Vault certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+  loop:
+    - src: "{{ (pki_ca_vault_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (pki_entity_vault_dir, 'cli.pem') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (pki_entity_vault_dir, 'cli.key') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+      mode: "0644"
+  loop_control:
+    label: "{{ item.dest }}"

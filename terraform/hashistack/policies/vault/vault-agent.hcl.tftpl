@@ -1,0 +1,15 @@
+path "${consul_mount_path}/creds/${consul_agent_role_name}" {
+  capabilities = ["read"]
+}
+
+path "${consul_mount_path}/creds/${consul_dns_role_name}" {
+  capabilities = ["read"]
+}
+
+path "${consul_mount_path}/creds/${nomad_server_role_name}" {
+  capabilities = ["read"]
+}
+
+path "${consul_mount_path}/creds/${nomad_client_role_name}" {
+  capabilities = ["read"]
+}

@@ -2,14 +2,67 @@
 [[ coalesce ( var "job_name" . ) ( meta "pack.name" . ) | quote ]]
 [[- end -]]
 
-[[ define "region" -]]
-[[- if var "region" . -]]
-  region = "[[ var "region" . ]]"
+[[ define "ui_description" -]]
+[[ coalesce ( var "ui_description" .) ( meta "pack.description" . ) | quote ]]
 [[- end -]]
+
+[[ define "job_type" -]]
+  type = [[ var "job_type" . | quote ]]
+[[- end -]]
+
+[[ define "region" -]]
+  region = [[ var "region" . | quote ]]
+[[- end -]]
+
+[[ define "namespace" -]]
+  namespace = [[ var "namespace" . | quote ]]
 [[- end -]]
 
 [[ define "datacenters" -]]
-  datacenters =  [ [[ range $idx, $dc := (var "datacenters" .) ]][[if $idx]],[[end]][[ $dc | quote ]][[ end ]] ]
+  datacenters = [[ var "datacenters" . | toStringList ]]
+[[- end -]]
+
+[[ define "port" -]]
+[[- $port := . -]]
+      port [[ $port.name | quote ]] {
+        [[ if $port.to -]]
+        to           = [[ $port.to ]]
+        [[ end -]]
+        [[ if $port.static -]]
+        static       = [[ $port.static ]]
+        [[ end -]]
+        [[ if $port.host_network -]]
+        host_network = [[ $port.host_network | quote ]]
+        [[ end -]]
+      }
+[[- end -]]
+
+[[ define "service" -]]
+[[- $service := . -]]
+    service {
+      name = [[ $service.name | quote ]]
+      port = [[ $service.port | quote ]]
+      tags = [[ $service.tags | toStringList ]]
+      [[ if $service.connect -]]
+      connect {
+        sidecar_service {
+          proxy {
+            [[- range $idx, $upstream := $service.proxy_upstreams ]]
+            upstreams {
+              destination_name = [[ $upstream.name | quote ]]
+              local_bind_port  = [[ $upstream.port ]]
+            }
+            [[- end ]]
+          }
+        }
+        [[ if $service.sidecar_resources -]]
+        sidecar_task {
+          [[ template "resources" $service.sidecar_resources ]]
+        }
+        [[ end -]]
+      }
+      [[ end -]]
+    }
 [[- end -]]
 
 [[ define "resources" -]]
@@ -20,31 +73,8 @@
       }
 [[- end -]]
 
-[[ define "service" -]]
-[[- $service := . -]]
-    service {
-      name     = [[ $service.name | quote ]]
-      port     = [[ $service.port | quote ]]
-      tags     = [[ $service.tags | toStringList ]]
-      provider = [[ coalesce $service.provider "nomad" | quote ]]
-    }
-[[- end -]]
-
-[[ define "host_network" -]]
-[[- if . -]]
-  host_network = "[[ . ]]"
-[[- end -]]
-[[- end -]]
-
-[[ define "port" -]]
-[[- $service := . -]]
-      port "[[ $service.port ]]" {
-        [[ template "host_network" $service.host_network ]]
-      }
-[[- end -]]
-
-[[ define "constraints" -]]
-[[- range $idx, $constraint := . -]]
+[[ define "constraint" -]]
+[[- $constraint := . -]]
   constraint {
     attribute = [[ $constraint.attribute | quote ]]
     [[ if $constraint.operator -]]
@@ -53,40 +83,12 @@
     value     = [[ $constraint.value | quote ]]
   }
 [[- end -]]
-[[- end -]]
 
-[[ define "env" -]]
-        [[- range $key, $var := . ]]
-        [[ $key ]] = "[[ $var ]]"
-        [[- end ]]
-[[- end ]]
-
-[[ define "volume" -]]
-[[- $volume := . -]]
-    volume [[ $volume.name | quote ]] {
-      type      = [[ $volume.type | quote ]]
-      source    = [[ $volume.source | quote ]]
-      read_only = [[ $volume.read_only ]]
-      [[ if eq $volume.type "csi" -]]
-      access_mode     = [[ $volume.access_mode | quote ]]
-      attachment_mode = [[ $volume.attachment_mode | quote ]]
+[[ define "vault" -]]
+[[- $vault := . -]]
+    vault {
+      [[ if $vault.role -]]
+      role = [[ $vault.role | quote ]]
       [[ end -]]
     }
-[[- end -]]
-
-[[ define "artifact" -]]
-[[- $artifact := . -]]
-      artifact {
-        source      = [[ $artifact.source | quote ]]
-        destination = [[ coalesce $artifact.destination "${NOMAD_TASK_DIR}/artifacts" | quote ]]
-      }
-[[- end -]]
-
-[[ define "csi_plugin" -]]
-[[- $csi_plugin := . -]]
-      csi_plugin {
-        id        = [[ $csi_plugin.id | quote ]]
-        type      = [[ $csi_plugin.type | quote ]]
-        mount_dir = "/csi"
-      }
 [[- end -]]

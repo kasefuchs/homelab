@@ -1,39 +1,46 @@
 job [[ template "job_name" . ]] {
-  [[ template "datacenters" . ]]
   [[ template "region" . ]]
-  [[ template "constraints" var "constraints" . ]]
+  [[ template "namespace" . ]]
+  [[ template "datacenters" . ]]
+
+  [[- range $idx, $constraint := var "constraints" . ]]
+
+  [[ template "constraint" $constraint ]]
+  [[- end ]]
+
+  ui {
+    description = [[ template "ui_description" . ]]
+  }
 
   group "servers" {
-    [[ $service := var "service" . -]]
-
-    [[ template "service" $service ]]
-
     network {
-      [[ template "port" $service ]]
+      mode = "bridge"
+      [[- if var "port" . ]]
+      [[ template "port" var "port" . ]]
+      [[- end ]]
     }
+
+    [[ template "service" var "service" . ]]
+
+    [[- $vault := var "vault" . -]]
+    [[- if $vault ]]
+
+    [[ template "vault" $vault ]]
+    [[- end ]]
 
     task "lavalink" {
       driver = "docker"
 
       config {
-        image   = [[ var "docker_image" . | quote ]]
-        ports   = [[ list $service.port | toStringList ]]
-
-        entrypoint = ["java", "-jar", "/opt/Lavalink/Lavalink.jar"]
-        args       = ["--spring.config.location=${NOMAD_SECRETS_DIR}/config/lavalink.yaml"]
+        image = [[ var "docker_image" . | quote ]]
+        args  = ["--spring.config.location=${NOMAD_TASK_DIR}/lavalink.yml"]
       }
 
       template {
         data = <<EOH
 [[ var "config" . ]]
         EOH
-
-        destination = "${NOMAD_SECRETS_DIR}/config/lavalink.yaml"
-      }
-
-      env {
-        SERVER_PORT    = "${NOMAD_PORT_[[ $service.port ]]}"
-        SERVER_ADDRESS = "0.0.0.0"
+        destination = "${NOMAD_TASK_DIR}/lavalink.yml"
       }
 
       [[ template "resources" var "resources" . ]]

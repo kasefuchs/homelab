@@ -1,0 +1,96 @@
+name       = "{{ nomad_agent_node_name }}"
+region     = "{{ nomad_agent_region }}"
+datacenter = "{{ nomad_agent_datacenter }}"
+
+data_dir  = "{{ nomad_agent_data_dir }}"
+bind_addr = "{{ nomad_agent_bind_address }}"
+
+acl {
+  enabled = true
+}
+
+tls {
+  rpc  = true
+  http = true
+
+  ca_file   = "{{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  key_file  = "{{ (nomad_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
+  cert_file = "{{ (nomad_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+
+  verify_https_client    = false
+  verify_server_hostname = true
+}
+
+vault {
+  enabled = true
+
+  address   = "https://{{ nomad_agent_vault_https_address }}"
+  ca_file   = "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  key_file  = "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+  cert_file = "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+
+  jwt_auth_backend_path = "jwt-nomad"
+
+  default_identity {
+    aud = ["vault.io"]
+    ttl = "1h"
+  }
+}
+
+consul {
+  address      = "{{ nomad_agent_consul_https_address }}"
+  ca_file      = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  key_file     = "{{ (consul_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
+  cert_file    = "{{ (consul_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+
+  grpc_ca_file = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  grpc_address = "{{ nomad_agent_consul_grpc_tls_address }}"
+
+  ssl            = true
+  share_ssl      = true
+  auto_advertise = false
+}
+
+server {
+  enabled = {{ nomad_agent_server | lower }}
+
+  bootstrap_expect = {{ nomad_agent_bootstrap_expect }}
+
+  server_join {
+    retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}
+  }
+}
+
+client {
+  enabled = {{ nomad_agent_client | lower }}
+
+  cni_path         = "{{ cni_current_dir }}"
+  alloc_dir        = "{{ nomad_agent_alloc_dir }}"
+  alloc_mounts_dir = "{{ nomad_agent_alloc_mounts_dir }}"
+
+  network_interface = "{{ nomad_agent_network_interface }}"
+
+  server_join {
+    retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}
+  }
+
+{% for name, config in nomad_agent_host_networks.items() %}
+  host_network "{{ name }}" {
+    cidr           = "{{ config.cidr | default('') }}"
+    interface      = "{{ config.interface | default('') }}"
+    reserved_ports = "{{ config.reserved_ports | default([]) | join(',') }}"
+  }
+{% endfor %}
+}
+
+ports {
+  http = {{ nomad_agent_http_port }}
+  rpc  = {{ nomad_agent_rpc_port }}
+  serf = {{ nomad_agent_serf_port }}
+}
+
+addresses {
+  http = "{{ nomad_agent_http_addresses | join(' ') }}"
+  rpc  = "{{ nomad_agent_rpc_address }}"
+  serf = "{{ nomad_agent_serf_address }}"
+}

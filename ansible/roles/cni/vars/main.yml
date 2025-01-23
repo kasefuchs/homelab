@@ -1,12 +1,20 @@
 ---
-# Map of Ansible architectures to correspondent common CNI plugins architectures.
-cni_common_architectures:
-  aarch64: arm64
-  x86_64: amd64
-  armv71: arm
+# The GitHub account that owns the repository.
+cni_github_user: containernetworking
 
-# Map of Ansible architectures to correspondent Consul CNI plugin architectures.
-cni_consul_architectures:
+# Repository name.
+cni_github_repository: plugins
+
+# Map of Ansible architectures to correspondent CNI architectures.
+cni_architectures:
   aarch64: arm64
   x86_64: amd64
-  armv71: arm
+
+# The path to the directory where extracted CNI package stored.
+cni_package_dir: /usr/local/src/cni
+
+# The path to the directory where current version of CNI stored.
+cni_current_dir: "{{ (cni_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the directory where download cache stored.
+cni_download_cache_dir: "{{ playbook_dir }}/../cache/download/cni"

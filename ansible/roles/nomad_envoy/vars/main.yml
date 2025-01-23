@@ -1,0 +1,27 @@
+---
+# The path to the file where Nomad Envoy log stored.
+nomad_envoy_log_path: "{{ (nomad_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Nomad Envoy process id stored.
+nomad_envoy_pid_path: "{{ (nomad_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
+
+# The path to the file where Nomad Envoy configuration stored.
+nomad_envoy_config_path: "{{ (nomad_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
+
+# The path to the Monit Nomad Envoy init script.
+nomad_envoy_monit_init_path: "{{ (monit_init_dir, 'nomad-envoy.sh') | ansible.builtin.path_join }}"
+
+# The name of the Nomad Envoy Monit service.
+nomad_envoy_monit_service_name: nomad-envoy
+
+# Specifies the service stop signal.
+nomad_envoy_stop_signal: 15
+
+# Specifies the service reload signal.
+nomad_envoy_reload_signal: 0
+
+# Writes the Nomad Envoy base ID to the given path.
+nomad_envoy_base_id_path: "{{ (nomad_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
+
+# Specifies the environment variables of program.
+nomad_envoy_environment: {}

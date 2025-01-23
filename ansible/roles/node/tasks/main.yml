@@ -1,6 +1,0 @@
----
-- name: Ensure locales exists
-  ansible.builtin.import_tasks: locale.yml
-
-- name: Update hostname
-  ansible.builtin.import_tasks: hostname.yml

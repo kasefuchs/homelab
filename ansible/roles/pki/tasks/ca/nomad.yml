@@ -1,29 +1,33 @@
 ---
+- name: Create PKI Nomad CA certificate directory
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ pki_ca_nomad_dir }}"
+    state: directory
+
 - name: Create Nomad CA private key
+  register: pki_ca_nomad_private_key
   community.crypto.openssl_privatekey:
-    path: "{{ playbook_dir }}/secrets/pki/ca/nomad.key"
-  register: ca_nomad_private_key
+    path: "{{ (pki_ca_nomad_dir, 'ca.key') | ansible.builtin.path_join }}"
 
 - name: Create Nomad CA certificate signing request
+  register: pki_ca_nomad_csr
   community.crypto.openssl_csr:
-    path: "{{ playbook_dir }}/secrets/pki/ca/nomad.csr"
-    privatekey_path: "{{ ca_nomad_private_key.filename }}"
-    common_name: Muttias Nomad CA
+    path: "{{ (pki_ca_nomad_dir, 'ca.csr') | ansible.builtin.path_join }}"
+    privatekey_path: "{{ pki_ca_nomad_private_key.filename }}"
+    common_name: "{{ pki_ca_nomad_cn }}"
     use_common_name_for_san: false
-    basic_constraints:
-      - CA:TRUE
+    basic_constraints: [CA:TRUE]
     basic_constraints_critical: true
-    key_usage:
-      - keyCertSign
+    key_usage: [keyCertSign]
     key_usage_critical: true
-  register: ca_nomad_csr
 
 - name: Create self-signed Nomad CA certificate from CSR
+  register: pki_ca_nomad_certificate
   community.crypto.x509_certificate:
-    path: "{{ playbook_dir }}/secrets/pki/ca/nomad.pem"
-    csr_path: "{{ ca_nomad_csr.filename }}"
-    privatekey_path: "{{ ca_nomad_private_key.filename }}"
-    provider: ownca
-    ownca_path: "{{ ca_root_certificate.filename }}"
-    ownca_privatekey_path: "{{ ca_root_private_key.filename }}"
-  register: ca_nomad_certificate
+    path: "{{ (pki_ca_nomad_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    csr_path: "{{ pki_ca_nomad_csr.filename }}"
+    privatekey_path: "{{ pki_ca_nomad_private_key.filename }}"
+    provider: selfsigned
+    ownca_not_after: "+{{ pki_ca_nomad_duration }}"
+    ownca_not_before: "-1d"

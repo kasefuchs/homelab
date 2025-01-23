@@ -1,0 +1,62 @@
+---
+- name: Get latest Envoy version
+  when: envoy_version == "latest"
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest Envoy release on GitHub
+      register: envoy_github_release
+      community.general.github_release:
+        user: "{{ envoy_github_user }}"
+        repo: "{{ envoy_github_repository }}"
+        action: latest_release
+
+    - name: Set Envoy version
+      ansible.builtin.set_fact:
+        envoy_version: "{{ envoy_github_release.tag | default(envoy_version) | regex_replace('^v', '') }}"
+
+- name: Download Envoy binaries
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (envoy_download_cache_dir, envoy_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Download Envoy binaries
+      loop: "{{ envoy_architectures.values() }}"
+      loop_control:
+        loop_var: envoy_architecture
+      ansible.builtin.get_url:
+        url: "{{ envoy_download_url }}"
+        dest: "{{ (envoy_download_cache_dir, envoy_version, envoy_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Envoy current version directory fact
+  run_once: true
+  ansible.builtin.set_fact:
+    envoy_version_dir: "{{ (envoy_package_dir, envoy_version) | ansible.builtin.path_join }}"
+
+- name: Create Envoy package directory
+  block:
+    - name: Create Envoy package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ envoy_version_dir }}"
+        state: directory
+
+    - name: Link Envoy current version directory
+      ansible.builtin.file:
+        src: "{{ envoy_version_dir }}"
+        dest: "{{ envoy_current_dir }}"
+        state: link
+
+- name: Install Envoy binary
+  block:
+    - name: Copy Envoy binary
+      ansible.builtin.copy:
+        src: "{{ (envoy_download_cache_dir, envoy_version, envoy_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ envoy_binary_path }}"
+        mode: "0755"

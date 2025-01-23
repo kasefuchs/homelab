@@ -1,5 +1,23 @@
 ---
+# The GitHub account that owns the repository.
+envoy_github_user: envoyproxy
+
+# Repository name.
+envoy_github_repository: envoy
+
 # Map of Ansible architectures to correspondent Envoy architectures.
 envoy_architectures:
   aarch64: aarch_64
   x86_64: x86_64
+
+# The path to the directory where extracted Envoy package stored.
+envoy_package_dir: /usr/local/src/envoy
+
+# The path to the directory where current Envoy version stored.
+envoy_current_dir: "{{ (envoy_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the binary of Envoy.
+envoy_binary_path: "{{ (envoy_current_dir, 'envoy') | ansible.builtin.path_join }}"
+
+# The path to the directory where download cache stored.
+envoy_download_cache_dir: "{{ playbook_dir }}/../cache/download/envoy"

@@ -1,0 +1,7 @@
+---
+- name: Vault agent
+  hosts: all
+  become: true
+  roles:
+    - role: vault
+    - role: vault_agent

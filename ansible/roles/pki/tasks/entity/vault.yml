@@ -1,41 +1,38 @@
 ---
-- name: Create Vault certificate store
+- name: Create Vault host certificate directory
   ansible.builtin.file:
     mode: "0755"
-    path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}"
+    path: "{{ (pki_entity_vault_dir, inventory_hostname) | ansible.builtin.path_join }}"
     state: directory
 
-- name: Create Vault proxy certificates
+- name: Create Vault CLI certificate
+  run_once: true
   block:
-    - name: Create Vault proxy private key
+    - name: Create Vault CLI private key
       community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/proxy.key"
-      register: entity_vault_proxy_private_key
+        path: "{{ (pki_entity_vault_dir, 'cli.key') | ansible.builtin.path_join }}"
+      register: pki_entity_vault_cli_private_key
 
-    - name: Create Vault proxy certificate signing request
+    - name: Create Vault CLI certificate signing request
       community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/proxy.csr"
-        privatekey_path: "{{ entity_vault_proxy_private_key.filename }}"
-        common_name: vault.proxy
+        path: "{{ (pki_entity_vault_dir, 'cli.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_vault_cli_private_key.filename }}"
+        common_name: cli.vault
         subject_alt_name:
-          # Local
           - IP:127.0.0.1
           - DNS:localhost
-          # Node
-          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
-          - "DNS:{{ ansible_hostname }}.proxy.vault"
         extended_key_usage:
           - serverAuth
           - clientAuth
-      register: entity_vault_proxy_csr
+      register: pki_entity_vault_cli_csr
 
-    - name: Sign Vault proxy certificate
+    - name: Sign Vault CLI certificate
       community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/proxy.pem"
+        path: "{{ (pki_entity_vault_dir, 'cli.pem') | ansible.builtin.path_join }}"
         provider: ownca
-        csr_path: "{{ entity_vault_proxy_csr.filename }}"
-        ownca_path: "{{ ca_vault_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_vault_private_key.filename }}"
+        csr_path: "{{ pki_entity_vault_cli_csr.filename }}"
+        ownca_path: "{{ pki_ca_vault_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_vault_private_key.filename }}"
         ownca_not_after: "+1825d"
         ownca_not_before: "-1d"
 
@@ -43,63 +40,32 @@
   block:
     - name: Create Vault server private key
       community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/server.key"
-      register: entity_vault_server_private_key
+        path: "{{ (pki_entity_vault_dir, inventory_hostname, 'server.key') | ansible.builtin.path_join }}"
+      register: pki_entity_vault_server_private_key
 
     - name: Create Vault server certificate signing request
       community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/server.csr"
-        privatekey_path: "{{ entity_vault_server_private_key.filename }}"
-        common_name: vault.server
+        path: "{{ (pki_entity_vault_dir, inventory_hostname, 'server.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_vault_server_private_key.filename }}"
+        common_name: server.vault
         subject_alt_name:
           # Local
           - IP:127.0.0.1
           - DNS:localhost
           # Node
-          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
-          - "DNS:{{ ansible_hostname }}.server.vault"
+          - "IP:{{ nebula_ip }}"
+          - "DNS:{{ inventory_hostname }}.server.vault"
         extended_key_usage:
           - serverAuth
           - clientAuth
-      register: entity_vault_server_csr
+      register: pki_entity_vault_server_csr
 
     - name: Sign Vault server certificate
       community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/{{ ansible_hostname }}/server.pem"
+        path: "{{ (pki_entity_vault_dir, inventory_hostname, 'server.pem') | ansible.builtin.path_join }}"
         provider: ownca
-        csr_path: "{{ entity_vault_server_csr.filename }}"
-        ownca_path: "{{ ca_vault_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_vault_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
-
-- name: Create Vault CLI certificate
-  run_once: true
-  block:
-    - name: Create Vault CLI private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/cli.key"
-      register: entity_vault_cli_private_key
-
-    - name: Create Vault CLI certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/cli.csr"
-        privatekey_path: "{{ entity_vault_cli_private_key.filename }}"
-        common_name: vault.cli
-        subject_alt_name:
-          - IP:127.0.0.1
-          - DNS:localhost
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_vault_cli_csr
-
-    - name: Sign Vault CLI certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/vault/cli.pem"
-        provider: ownca
-        csr_path: "{{ entity_vault_cli_csr.filename }}"
-        ownca_path: "{{ ca_vault_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_vault_private_key.filename }}"
+        csr_path: "{{ pki_entity_vault_server_csr.filename }}"
+        ownca_path: "{{ pki_ca_vault_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_vault_private_key.filename }}"
         ownca_not_after: "+1825d"
         ownca_not_before: "-1d"

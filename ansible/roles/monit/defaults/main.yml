@@ -1,0 +1,12 @@
+---
+# Monit version to download.
+monit_version: 5.34.3
+
+# URL to download Monit archive from.
+monit_download_url: https://mmonit.com/monit/dist/binary/{{ monit_version }}/monit-{{ monit_version }}-linux-{{ monit_architecture }}.tar.gz
+
+# Extra options to pass to unarchive command.
+monit_unarchive_extra_opts: ["--strip-components=1"]
+
+# Check services at specified seconds intervals.
+monit_check_interval: 15

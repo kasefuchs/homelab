@@ -1,0 +1,20 @@
+---
+- name: Copy Consul Agent init script
+  register: consul_agent_init_template
+  ansible.builtin.template:
+    src: consul-agent.sh.j2
+    dest: "{{ consul_agent_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Consul Agent service
+  notify:
+    - Reload Consul Agent Monit
+    - Monitor Consul Agent
+    - Restart Consul Agent
+  ansible.builtin.template:
+    src: consul-agent.cfg.j2
+    dest: "{{ (monit_include_dir, 'consul-agent.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

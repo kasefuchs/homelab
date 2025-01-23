@@ -1,0 +1,10 @@
+---
+- name: Create Consul group
+  ansible.builtin.group:
+    name: "{{ consul_group }}"
+
+- name: Create Consul user
+  ansible.builtin.user:
+    name: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    system: true

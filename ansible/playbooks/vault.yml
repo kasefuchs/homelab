@@ -1,0 +1,10 @@
+---
+- name: Vault
+  hosts: all
+  become: true
+  roles:
+    - role: vault
+    - role: vault_server
+      when: vault_server
+    - role: envoy
+    - role: vault_envoy

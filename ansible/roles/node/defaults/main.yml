@@ -1,5 +1,0 @@
----
-# Locales to generate on node.
-node_locales:
-  - en_US.UTF-8
-  - ru_RU.UTF-8

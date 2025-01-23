@@ -5,5 +5,6 @@ app {
 pack {
   name        = "lavalink"
   description = "Standalone audio sending node based on Lavaplayer."
-  version     = "1.0.0"
+
+  version = "0.1.0"
 }

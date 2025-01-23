@@ -1,0 +1,20 @@
+---
+- name: Copy Nebula init script
+  register: nebula_init_template
+  ansible.builtin.template:
+    src: nebula.sh.j2
+    dest: "{{ nebula_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Nebula service
+  notify:
+    - Reload Nebula Monit
+    - Monitor Nebula
+    - Restart Nebula
+  ansible.builtin.template:
+    src: nebula.cfg.j2
+    dest: "{{ (monit_include_dir, 'nebula.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

@@ -1,0 +1,69 @@
+---
+- name: Get latest Consul version
+  when: consul_version == "latest"
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest Consul release on GitHub
+      register: consul_github_release
+      community.general.github_release:
+        user: "{{ consul_github_user }}"
+        repo: "{{ consul_github_repository }}"
+        action: latest_release
+
+    - name: Set Consul version
+      ansible.builtin.set_fact:
+        consul_version: "{{ consul_github_release.tag | default(consul_version) | regex_replace('^v', '') }}"
+
+- name: Download Consul archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (consul_download_cache_dir, consul_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Download Consul archives
+      loop: "{{ consul_architectures.values() }}"
+      loop_control:
+        loop_var: consul_architecture
+      ansible.builtin.get_url:
+        url: "{{ consul_download_url }}"
+        dest: "{{ (consul_download_cache_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Consul filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    consul_version_dir: "{{ (consul_package_dir, consul_version) | ansible.builtin.path_join }}"
+
+- name: Create Consul package directory
+  block:
+    - name: Create Consul package directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ consul_version_dir }}"
+        state: directory
+
+    - name: Link Consul current version directory
+      ansible.builtin.file:
+        src: "{{ consul_version_dir }}"
+        dest: "{{ consul_current_dir }}"
+        state: link
+
+- name: Install Consul binary
+  block:
+    - name: Extract Consul archive
+      ansible.builtin.unarchive:
+        src: "{{ (consul_download_cache_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ consul_current_dir }}"
+        creates: "{{ consul_current_path }}"
+        extra_opts: "{{ consul_unarchive_extra_opts }}"
+
+    - name: Create Consul binary symlink
+      ansible.builtin.file:
+        src: "{{ consul_current_path }}"
+        dest: "{{ consul_binary_path }}"
+        state: link

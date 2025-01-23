@@ -1,108 +1,106 @@
 ---
-- name: Create Nomad certificate store
+- name: Create Nomad host certificate directory
   ansible.builtin.file:
     mode: "0755"
-    path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}"
+    path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname) | ansible.builtin.path_join }}"
     state: directory
-
-- name: Create Nomad Client certificate
-  block:
-    - name: Create Nomad Client private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}/client.key"
-      register: entity_nomad_client_private_key
-
-    - name: Create Nomad Client certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}/client.csr"
-        privatekey_path: "{{ entity_nomad_client_private_key.filename }}"
-        common_name: "client.{{ pki_entity_nomad_region }}.nomad"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
-          - "DNS:client.{{ pki_entity_nomad_region }}.nomad"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_nomad_client_csr
-
-    - name: Sign Nomad Client certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}/client.pem"
-        provider: ownca
-        csr_path: "{{ entity_nomad_client_csr.filename }}"
-        ownca_path: "{{ ca_nomad_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_nomad_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
-
-- name: Create Nomad Server certificate
-  block:
-    - name: Create Nomad Server private key
-      community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}/server.key"
-      register: entity_nomad_server_private_key
-
-    - name: Create Nomad Server certificate signing request
-      community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}/server.csr"
-        privatekey_path: "{{ entity_nomad_server_private_key.filename }}"
-        common_name: "server.{{ pki_entity_nomad_region }}.nomad"
-        subject_alt_name:
-          # Local
-          - IP:127.0.0.1
-          - DNS:localhost
-          # Node
-          - "IP:{{ nebula_ip | ansible.utils.ipaddr('address') }}"
-          - "DNS:server.{{ pki_entity_nomad_region }}.nomad"
-          - "DNS:{{ ansible_hostname }}.server.{{ pki_entity_nomad_region }}.nomad"
-        extended_key_usage:
-          - serverAuth
-          - clientAuth
-      register: entity_nomad_server_csr
-
-    - name: Sign Nomad Server certificate
-      community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/{{ ansible_hostname }}/server.pem"
-        provider: ownca
-        csr_path: "{{ entity_nomad_server_csr.filename }}"
-        ownca_path: "{{ ca_nomad_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_nomad_private_key.filename }}"
-        ownca_not_after: "+1825d"
-        ownca_not_before: "-1d"
 
 - name: Create Nomad CLI certificate
   block:
     - name: Create Nomad CLI private key
       community.crypto.openssl_privatekey:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/cli.key"
-      register: entity_nomad_cli_private_key
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, 'cli.key') | ansible.builtin.path_join }}"
+      register: pki_entity_nomad_cli_private_key
 
     - name: Create Nomad CLI certificate signing request
       community.crypto.openssl_csr:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/cli.csr"
-        privatekey_path: "{{ entity_nomad_cli_private_key.filename }}"
-        common_name: "cli.{{ pki_entity_nomad_region }}.nomad"
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, 'cli.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_nomad_cli_private_key.filename }}"
+        common_name: cli.{{ pki_entity_nomad_region }}.nomad
+        subject_alt_name:
+          - IP:127.0.0.1
+          - DNS:localhost
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: pki_entity_nomad_cli_csr
+
+    - name: Sign Nomad CLI certificate
+      community.crypto.x509_certificate:
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, 'cli.pem') | ansible.builtin.path_join }}"
+        provider: ownca
+        csr_path: "{{ pki_entity_nomad_cli_csr.filename }}"
+        ownca_path: "{{ pki_ca_nomad_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_nomad_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create Nomad server certificates
+  block:
+    - name: Create Nomad server private key
+      community.crypto.openssl_privatekey:
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'server.key') | ansible.builtin.path_join }}"
+      register: pki_entity_nomad_server_private_key
+
+    - name: Create Nomad server certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'server.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_nomad_server_private_key.filename }}"
+        common_name: server.{{ pki_entity_nomad_region }}.nomad
         subject_alt_name:
           # Local
           - IP:127.0.0.1
           - DNS:localhost
           # Node
-          - "DNS:cli.{{ pki_entity_nomad_region }}.nomad"
+          - "IP:{{ nebula_ip }}"
+          - "DNS:server.{{ pki_entity_nomad_region }}.nomad"
+          - "DNS:{{ inventory_hostname }}.server.{{ pki_entity_nomad_region }}.nomad"
         extended_key_usage:
           - serverAuth
           - clientAuth
-      register: entity_nomad_cli_csr
+      register: pki_entity_nomad_server_csr
 
-    - name: Sign Nomad CLI certificate
+    - name: Sign Nomad server certificate
       community.crypto.x509_certificate:
-        path: "{{ playbook_dir }}/secrets/pki/entity/nomad/{{ pki_entity_nomad_region }}/cli.pem"
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'server.pem') | ansible.builtin.path_join }}"
         provider: ownca
-        csr_path: "{{ entity_nomad_cli_csr.filename }}"
-        ownca_path: "{{ ca_nomad_certificate.filename }}"
-        ownca_privatekey_path: "{{ ca_nomad_private_key.filename }}"
+        csr_path: "{{ pki_entity_nomad_server_csr.filename }}"
+        ownca_path: "{{ pki_ca_nomad_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_nomad_private_key.filename }}"
+        ownca_not_after: "+1825d"
+        ownca_not_before: "-1d"
+
+- name: Create Nomad client certificates
+  block:
+    - name: Create Nomad client private key
+      community.crypto.openssl_privatekey:
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'client.key') | ansible.builtin.path_join }}"
+      register: pki_entity_nomad_client_private_key
+
+    - name: Create Nomad client certificate signing request
+      community.crypto.openssl_csr:
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'client.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ pki_entity_nomad_client_private_key.filename }}"
+        common_name: client.{{ pki_entity_nomad_region }}.nomad
+        subject_alt_name:
+          # Local
+          - IP:127.0.0.1
+          - DNS:localhost
+          # Node
+          - "IP:{{ nebula_ip }}"
+          - "DNS:client.{{ pki_entity_nomad_region }}.nomad"
+          - "DNS:{{ inventory_hostname }}.client.{{ pki_entity_nomad_region }}.nomad"
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+      register: pki_entity_nomad_client_csr
+
+    - name: Sign Nomad client certificate
+      community.crypto.x509_certificate:
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'client.pem') | ansible.builtin.path_join }}"
+        provider: ownca
+        csr_path: "{{ pki_entity_nomad_client_csr.filename }}"
+        ownca_path: "{{ pki_ca_nomad_certificate.filename }}"
+        ownca_privatekey_path: "{{ pki_ca_nomad_private_key.filename }}"
         ownca_not_after: "+1825d"
         ownca_not_before: "-1d"

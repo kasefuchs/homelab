@@ -1,0 +1,58 @@
+---
+# Specifies the datacenter in which the agent is running.
+nomad_agent_datacenter: muttias
+
+# Specifies the region in which the agent is running.
+nomad_agent_region: global
+
+# Specifies if an agent is in server mode.
+nomad_agent_server: true
+
+# Specifies if an agent is in client mode.
+nomad_agent_client: true
+
+# Specifies the name of the interface to force network fingerprinting on.
+nomad_agent_network_interface: nebula0
+
+# Specifies the name of this node in the cluster.
+nomad_agent_node_name: "{{ inventory_hostname }}"
+
+# Specifies the address that should be bound to for internal cluster communications.
+nomad_agent_bind_address: "{{ nebula_ip }}"
+
+# Specifies the port to which Nomad will bind HTTP server.
+nomad_agent_http_port: 4646
+
+# Specifies the address to which Nomad will bind HTTP server.
+nomad_agent_http_addresses: ["{{ nebula_ip }}"]
+
+# Specifies the port to which Nomad will bind RPC server.
+nomad_agent_rpc_port: 4647
+
+# Specifies the address to which Nomad will bind RPC server.
+nomad_agent_rpc_address: "{{ nebula_ip }}"
+
+# Specifies the port to which Nomad will bind serf server.
+nomad_agent_serf_port: 4648
+
+# Specifies the address to which Nomad will bind serf server.
+nomad_agent_serf_address: "{{ nebula_ip }}"
+
+# Specifies the address to the local Consul agent.
+nomad_agent_consul_https_address: 127.0.0.1:8501
+
+# Specifies the address to the local Consul agent for gRPC requests.
+nomad_agent_consul_grpc_tls_address: 127.0.0.1:8503
+
+# Specifies the address to the local Vault server.
+nomad_agent_vault_https_address: 127.0.0.1:8100
+
+# Registers additional host networks with the node that can be selected when port mapping.
+nomad_agent_host_networks:
+  # Public network.
+  public:
+    interface: "{{ ansible_default_ipv4.interface }}"
+
+  # Private network.
+  private:
+    interface: nebula0

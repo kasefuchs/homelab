@@ -1,0 +1,27 @@
+---
+# The path to the file where Vault Envoy log stored.
+vault_envoy_log_path: "{{ (vault_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault Envoy process id stored.
+vault_envoy_pid_path: "{{ (vault_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault Envoy configuration stored.
+vault_envoy_config_path: "{{ (vault_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
+
+# The path to the Monit Vault Envoy init script.
+vault_envoy_monit_init_path: "{{ (monit_init_dir, 'vault-envoy.sh') | ansible.builtin.path_join }}"
+
+# The name of the Vault Envoy Monit service.
+vault_envoy_monit_service_name: vault-envoy
+
+# Specifies the service stop signal.
+vault_envoy_stop_signal: 15
+
+# Specifies the service reload signal.
+vault_envoy_reload_signal: 0
+
+# Writes the Vault Envoy base ID to the given path.
+vault_envoy_base_id_path: "{{ (vault_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
+
+# Specifies the environment variables of program.
+vault_envoy_environment: {}

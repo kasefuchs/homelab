@@ -1,0 +1,10 @@
+---
+- name: Create Nomad group
+  ansible.builtin.group:
+    name: "{{ nomad_group }}"
+
+- name: Create Nomad user
+  ansible.builtin.user:
+    name: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    system: true

@@ -1,6 +1,0 @@
----
-- name: Provision Envoy
-  hosts: all
-  become: true
-  roles:
-    - role: envoy

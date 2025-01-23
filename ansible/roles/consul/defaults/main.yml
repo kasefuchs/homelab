@@ -3,19 +3,10 @@
 consul_version: latest
 
 # URL to download Consul archive from.
-consul_source: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip
+consul_download_url: https://hashicorp-releases.yandexcloud.net/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ consul_architecture }}.zip
 
-# Specifies a local directory used to store agent state.
-consul_data_dir: /opt/consul
-
-# Specifies if this agent should run in server mode.
-consul_server: true
-
-# Specifies the data center of the local agent.
+# Specifies the datacenter in which the agent is running.
 consul_datacenter: muttias
 
-# Specifies the secret key to use for encryption of Consul network traffic.
-consul_encrypt: null
-
-# Specifies whether the web UI is enabled.
-consul_ui_enabled: true
+# Extra options for unarchive command.
+consul_unarchive_extra_opts: []

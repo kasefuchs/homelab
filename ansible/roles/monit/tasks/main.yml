@@ -1,0 +1,12 @@
+---
+- name: Prepare for Monit installation
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Download Monit package
+  ansible.builtin.import_tasks: download.yml
+
+- name: Configure Monit
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Daemonize Monit
+  ansible.builtin.import_tasks: service.yml

@@ -1,0 +1,21 @@
+---
+# The address of the Vault server to connect to.
+vault_agent_backend_address: https://127.0.0.1:8100
+
+# Configures how often Vault Agent Template should render non-leased secrets.
+vault_agent_static_secret_render_interval: 30s
+
+# Agent templates to use.
+vault_agent_templates:
+  - src: "{{ nomad_agent_acl_template_path }}"
+    dest: "{{ nomad_agent_acl_path }}"
+    owner: "{{ nomad_agent_user }}"
+    group: "{{ nomad_agent_group }}"
+    # So, we should restart Nomad agent to reload Consul token. ¯\_(ツ)_/¯
+    command: ["{{ nomad_agent_monit_init_path }}", "restart"]
+
+  - src: "{{ consul_agent_acl_template_path }}"
+    dest: "{{ consul_agent_acl_path }}"
+    owner: "{{ consul_agent_user }}"
+    group: "{{ consul_agent_group }}"
+    command: ["{{ consul_agent_monit_init_path }}", "reload"]

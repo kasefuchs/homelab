@@ -1,0 +1,30 @@
+---
+# The path to the directory where Vault raft data stored.
+vault_server_raft_dir: /opt/vault/raft
+
+# The path to the file where Vault server log stored.
+vault_server_log_path: "{{ (vault_log_dir, 'server.log') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault server process id stored.
+vault_server_pid_path: "{{ (vault_runtime_dir, 'server.pid') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault server configuration stored.
+vault_server_config_path: "{{ (vault_config_dir, 'server.hcl') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault keys stored.
+vault_server_secrets_init_result_path: "{{ (vault_secrets_dir, 'init.json') | ansible.builtin.path_join }}"
+
+# The path to the Monit Vault server init script.
+vault_server_monit_init_path: "{{ (monit_init_dir, 'vault-server.sh') | ansible.builtin.path_join }}"
+
+# The name of the Vault server Monit service.
+vault_server_monit_service_name: vault-server
+
+# Specifies the service stop signal.
+vault_server_stop_signal: 15
+
+# Specifies the service reload signal.
+vault_server_reload_signal: 1
+
+# Specifies the environment variables of program.
+vault_server_environment: {}

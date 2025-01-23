@@ -1,0 +1,9 @@
+---
+- name: Nomad
+  hosts: all
+  become: true
+  roles:
+    - role: nomad
+    - role: nomad_agent
+    - role: envoy
+    - role: nomad_envoy

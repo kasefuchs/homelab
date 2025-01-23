@@ -1,0 +1,8 @@
+# nebula version: {{ nebula_version }}
+# init file checksum: {{ nebula_init_template.checksum }}
+# config file checksum: {{ nebula_config_template.checksum }}
+
+check process {{ nebula_monit_service_name }} with pidfile {{ nebula_pid_path }}
+  start program = "{{ nebula_monit_init_path }} start"
+  stop program = "{{ nebula_monit_init_path }} stop"
+  if not exist then restart

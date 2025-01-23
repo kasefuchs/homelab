@@ -1,24 +1,18 @@
 ---
 pki:
-  ca: /etc/nebula/certificates/ca.pem
-  key: /etc/nebula/certificates/client.key
-  cert: /etc/nebula/certificates/client.pem
-  disconnect_invalid: true
-
-static_host_map:
-{% for host in hostvars.values() if host.nebula_lighthouse | default(False) %}
-  "{{ host.nebula_ip | ansible.utils.ipaddr('address') }}": ["{{ host.ansible_host }}:4242"]
-{% endfor %}
-
-lighthouse:
-  am_lighthouse: {{ nebula_lighthouse | lower }}
-  hosts: {{( [] if nebula_lighthouse else hostvars | community.general.json_query('* | [?nebula_lighthouse].nebula_ip') ) | ansible.utils.ipaddr('address') | ansible.builtin.to_json }}
+  ca: {{ (nebula_pki_dir, 'ca.pem') | ansible.builtin.path_join }}
+  key: {{ (nebula_pki_dir, 'host.key') | ansible.builtin.path_join }}
+  cert: {{ (nebula_pki_dir, 'host.pem') | ansible.builtin.path_join }}
 
 listen:
-  host: 0.0.0.0
-  port: 4242
+  host: {{ nebula_listen_host }}
+  port: {{ nebula_listen_port }}
 
-{{ { "sshd": nebula_sshd } | ansible.builtin.to_nice_yaml(indent=2) }}
+lighthouse:
+  am_lighthouse: {{ nebula_lighthouse_enable | lower }}
+  {{ { "hosts": [] if nebula_lighthouse_enable else nebula_lighthouse_hosts } | ansible.builtin.to_yaml }}
+
+{{ { "static_host_map": nebula_static_host_map } | ansible.builtin.to_yaml(indent=2) }}
+
 {{ { "tun": nebula_tun } | ansible.builtin.to_nice_yaml(indent=2) }}
-{{ { "logging": nebula_logging } | ansible.builtin.to_nice_yaml(indent=2) }}
 {{ { "firewall": nebula_firewall } | ansible.builtin.to_nice_yaml(indent=2) }}

@@ -1,0 +1,36 @@
+---
+# The path to the directory where PKI certificates stored.
+pki_dir: "{{ (playbook_dir, '../secrets/pki') | ansible.builtin.path_join }}"
+
+# The path to the directory where PKI CA certificates stored.
+pki_ca_dir: "{{ (pki_dir, 'ca') | ansible.builtin.path_join }}"
+
+# The path to the directory where Root PKI CA certificates stored.
+pki_ca_root_dir: "{{ (pki_ca_dir, 'root') | ansible.builtin.path_join }}"
+
+# The path to the directory where Vault PKI CA certificates stored.
+pki_ca_vault_dir: "{{ (pki_ca_dir, 'vault') | ansible.builtin.path_join }}"
+
+# The path to the directory where Nebula PKI CA certificates stored.
+pki_ca_nebula_dir: "{{ (pki_ca_dir, 'nebula') | ansible.builtin.path_join }}"
+
+# The path to the directory where Consul PKI CA certificates stored.
+pki_ca_consul_dir: "{{ (pki_ca_dir, 'consul') | ansible.builtin.path_join }}"
+
+# The path to the directory where Nomad PKI CA certificates stored.
+pki_ca_nomad_dir: "{{ (pki_ca_dir, 'nomad') | ansible.builtin.path_join }}"
+
+# The path to the directory where PKI entity certificates stored.
+pki_entity_dir: "{{ (pki_dir, 'entity') | ansible.builtin.path_join }}"
+
+# The path to the directory where Vault PKI entity certificates stored.
+pki_entity_vault_dir: "{{ (pki_entity_dir, 'vault') | ansible.builtin.path_join }}"
+
+# The path to the directory where Nebula PKI entity certificates stored.
+pki_entity_nebula_dir: "{{ (pki_entity_dir, 'nebula') | ansible.builtin.path_join }}"
+
+# The path to the directory where Consul PKI entity certificates stored.
+pki_entity_consul_dir: "{{ (pki_entity_dir, 'consul') | ansible.builtin.path_join }}"
+
+# The path to the directory where Nomad PKI entity certificates stored.
+pki_entity_nomad_dir: "{{ (pki_entity_dir, 'nomad') | ansible.builtin.path_join }}"

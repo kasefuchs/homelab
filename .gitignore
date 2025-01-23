@@ -1,45 +1,24 @@
-# ---> Ansible
-*.retry
-inventories/
-
-# ---> MkDocs
-.cache/
-docs/build/
-
 # ---> Vagrant
-# State
 .vagrant/
 
+# ---> Ansible
+inventories/
+secrets/
+cache/
+
+# ---> Packer
+output-*/
+
 # ---> Terraform
-# Local .terraform directories
 .terraform/
-
-# .tfstate files
-*.tfstate
-*.tfstate.*
-
-# .tfvars files
-*.tfvars
-*.tfvars.json
-
-# .terraform.lock files
 .terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+variables/
 
-# ---> Custom
-# Integrated development environment
+# ---> Diagrams
+diagrams/
+
+# ---> IDE
 .idea/
-.vs/
 .vscode/
-*.iml
-
-# Secrets
-*.secret.*
-keys.json
-
-# Certificates
-*.pem
-*.p12
-*.crt
-*.key
-*.pub
-*.csr

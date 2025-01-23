@@ -1,7 +1,53 @@
 ---
+# The GitHub account that owns the repository.
+consul_github_user: hashicorp
+
+# Repository name.
+consul_github_repository: consul
+
 # Map of Ansible architectures to correspondent Consul architectures.
 consul_architectures:
   aarch64: arm64
   x86_64: amd64
-  i386: 386
-  armv71: arm
+
+# The path to the directory where extracted Consul package stored.
+consul_package_dir: /usr/local/src/consul
+
+# The path to the directory where Consul configuration stored.
+consul_config_dir: /etc/consul
+
+# The path to the file where Consul configuration stored.
+consul_config_path: "{{ (consul_config_dir, 'consul.hcl') | ansible.builtin.path_join }}"
+
+# The path to the directory where current version of Consul stored.
+consul_current_dir: "{{ (consul_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# THE path to the current version of Consul.
+consul_current_path: "{{ (consul_current_dir, 'consul') | ansible.builtin.path_join }}"
+
+# The path to the binary of Consul.
+consul_binary_path: /usr/local/bin/consul
+
+# The path to the directory where Consul certificates stored.
+consul_pki_dir: /etc/pki/consul
+
+# The user to run Consul as.
+consul_user: consul
+
+# The group to use running Consul.
+consul_group: consul
+
+# The path to the directory where secrets stored.
+consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
+
+# The path to the directory where download cache stored.
+consul_download_cache_dir: "{{ playbook_dir }}/../cache/download/consul"
+
+# The path to the directory where Consul logs stored.
+consul_log_dir: /var/log/consul
+
+# The path to the directory where Consul state data stored.
+consul_state_dir: /var/lib/consul
+
+# The path to the directory where Consul runtime data stored.
+consul_runtime_dir: /run/consul

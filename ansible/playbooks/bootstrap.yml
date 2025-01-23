@@ -1,0 +1,7 @@
+---
+- name: Bootstrap
+  hosts: all
+  become: true
+  roles:
+    - role: bootstrap
+    - role: monit

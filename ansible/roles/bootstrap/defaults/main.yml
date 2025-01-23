@@ -1,0 +1,33 @@
+---
+# Whether to update the package cache or not.
+bootstrap_package_update_cache: true
+
+# Map of packages for installation, broken down by distribution.
+bootstrap_package_distribution_install:
+  default:
+    - unzip
+    - dmidecode
+    - libnsl2
+    - docker-ce
+    - containerd.io
+
+  centos:
+    - unzip
+    - dmidecode
+    - libnsl
+    - docker-ce
+    - containerd.io
+
+# Yum package repositories to add.
+bootstrap_package_yum_repositories:
+  docker-ce-stable:
+    description: Docker CE Stable
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
+    key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+
+# APT package repositories to add.
+bootstrap_package_apt_repositories:
+  docker:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
+    key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    components: [stable]

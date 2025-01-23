@@ -1,27 +1,21 @@
 ---
-- name: Create CA certificate store
+- name: Create PKI CA certificate directory
   ansible.builtin.file:
     mode: "0755"
-    path: "{{ playbook_dir }}/secrets/pki/ca"
+    path: "{{ pki_ca_dir }}"
     state: directory
 
-- name: Create Root certification authority
+- name: Create Root CA certificate
   ansible.builtin.import_tasks: root.yml
 
-- name: Create Nebula certification authority
+- name: Create Nebula CA certificate
   ansible.builtin.import_tasks: nebula.yml
 
-- name: Create etcd certification authority
-  ansible.builtin.import_tasks: etcd.yml
-
-- name: Create SeaweedFS certification authority
-  ansible.builtin.import_tasks: seaweedfs.yml
-
-- name: Create Vault certification authority
+- name: Create Vault CA certificate
   ansible.builtin.import_tasks: vault.yml
 
-- name: Create Consul certification authority
+- name: Create Consul CA certificate
   ansible.builtin.import_tasks: consul.yml
 
-- name: Create Nomad certification authority
+- name: Create Nomad CA certificate
   ansible.builtin.import_tasks: nomad.yml

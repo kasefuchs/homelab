@@ -1,0 +1,20 @@
+---
+- name: Copy Nomad Agent init script
+  register: nomad_agent_init_template
+  ansible.builtin.template:
+    src: nomad-agent.sh.j2
+    dest: "{{ nomad_agent_monit_init_path }}"
+    mode: "0755"
+
+- name: Install Nomad Agent service
+  notify:
+    - Reload Nomad Agent Monit
+    - Monitor Nomad Agent
+    - Restart Nomad Agent
+  ansible.builtin.template:
+    src: nomad-agent.cfg.j2
+    dest: "{{ (monit_include_dir, 'nomad-agent.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
