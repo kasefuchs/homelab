@@ -3,9 +3,9 @@
 RUNAS="{{ vault_user }}"
 SCRIPT="{{ vault_binary_path }} server -config={{ vault_server_config_path }}"
 
-LOGDIR="{{ vault_log_dir }}"
-STATEDIR="{{ vault_state_dir }}"
-RUNTIMEDIR="{{ vault_runtime_dir }}"
+LOGDIR="{{ vault_server_log_dir }}"
+STATEDIR="{{ vault_server_state_dir }}"
+RUNTIMEDIR="{{ vault_server_runtime_dir }}"
 
 PIDFILE="{{ vault_server_pid_path }}"
 LOGFILE="{{ vault_server_log_path }}"

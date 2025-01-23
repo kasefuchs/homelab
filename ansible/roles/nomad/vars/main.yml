@@ -43,15 +43,6 @@ nomad_secrets_dir: "{{ playbook_dir }}/../secrets/nomad"
 # The path to the directory where download cache stored.
 nomad_download_cache_dir: "{{ playbook_dir }}/../cache/download/nomad"
 
-# The path to the directory where Nomad logs stored.
-nomad_log_dir: /var/log/nomad
-
-# The path to the directory where Nomad state data stored.
-nomad_state_dir: /var/lib/nomad
-
-# The path to the directory where Nomad runtime data stored.
-nomad_runtime_dir: /run/nomad
-
 # Specifies the service stop signal.
 nomad_stop_signal: 15
 

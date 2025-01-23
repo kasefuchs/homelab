@@ -3,9 +3,9 @@
 RUNAS="{{ vault_user }}"
 SCRIPT="{{ envoy_binary_path }} --config-path {{ vault_envoy_config_path }} --base-id-path {{ vault_envoy_base_id_path }} --use-dynamic-base-id"
 
-LOGDIR="{{ vault_log_dir }}"
-STATEDIR="{{ vault_state_dir }}"
-RUNTIMEDIR="{{ vault_runtime_dir }}"
+LOGDIR="{{ vault_envoy_log_dir }}"
+STATEDIR="{{ vault_envoy_state_dir }}"
+RUNTIMEDIR="{{ vault_envoy_runtime_dir }}"
 
 PIDFILE="{{ vault_envoy_pid_path }}"
 LOGFILE="{{ vault_envoy_log_path }}"

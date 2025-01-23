@@ -39,12 +39,3 @@ vault_secrets_dir: "{{ playbook_dir }}/../secrets/vault"
 
 # The path to the directory where download cache stored.
 vault_download_cache_dir: "{{ playbook_dir }}/../cache/download/vault"
-
-# The path to the directory where Vault logs stored.
-vault_log_dir: /var/log/vault
-
-# The path to the directory where Vault state data stored.
-vault_state_dir: /var/lib/vault
-
-# The path to the directory where Vault runtime data stored.
-vault_runtime_dir: /run/vault

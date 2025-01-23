@@ -3,9 +3,9 @@
 RUNAS="{{ vault_agent_user }}"
 SCRIPT="{{ vault_binary_path }} agent -config={{ vault_agent_config_path }}"
 
-LOGDIR="{{ vault_log_dir }}"
-STATEDIR="{{ vault_state_dir }}"
-RUNTIMEDIR="{{ vault_runtime_dir }}"
+LOGDIR="{{ vault_agent_log_dir }}"
+STATEDIR="{{ vault_agent_state_dir }}"
+RUNTIMEDIR="{{ vault_agent_runtime_dir }}"
 
 PIDFILE="{{ vault_agent_pid_path }}"
 LOGFILE="{{ vault_agent_log_path }}"

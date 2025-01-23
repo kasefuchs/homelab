@@ -2,8 +2,12 @@
 - name: Add package repositories
   block:
     - name: Add package repositories (Yum-like)
-      when: ansible_pkg_mgr == "yum" or ansible_pkg_mgr == "dnf"
+      when: ansible_pkg_mgr == "yum" or ansible_pkg_mgr == "dnf" or ansible_pkg_mgr == "dnf5"
       block:
+        - name: Get repositories items
+          ansible.builtin.set_fact:
+            bootstrap_package_yum_repositories: "{{ bootstrap_package_yum_distribution_repositories[ansible_distribution | lower] | default(bootstrap_package_yum_distribution_repositories['default']) }}"
+
         - name: Add package repositories
           loop: "{{ bootstrap_package_yum_repositories.items() }}"
           loop_control:
@@ -23,6 +27,10 @@
             path: "{{ bootstrap_package_apt_keyring_dir }}"
             mode: "0755"
             state: directory
+
+        - name: Get repositories items
+          ansible.builtin.set_fact:
+            bootstrap_package_apt_repositories: "{{ bootstrap_package_apt_distribution_repositories[ansible_distribution | lower] | default(bootstrap_package_apt_distribution_repositories['default']) }}"
 
         - name: Add repositories signing keys
           loop: "{{ bootstrap_package_apt_repositories.items() }}"

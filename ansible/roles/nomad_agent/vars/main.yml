@@ -23,6 +23,15 @@ nomad_agent_user: "{{ 'root' if (nomad_agent_client | default(true)) else nomad_
 # The group to use running Nomad Agent.
 nomad_agent_group: "{{ nomad_group }}"
 
+# The path to the directory where Nomad logs stored.
+nomad_agent_log_dir: /var/log/nomad-agent
+
+# The path to the directory where Nomad state data stored.
+nomad_agent_state_dir: /var/lib/nomad-agent
+
+# The path to the directory where Nomad runtime data stored.
+nomad_agent_runtime_dir: /run/nomad-agent
+
 # The path to the file where Nomad Agent ACL bootstrap result stored.
 nomad_agent_secrets_acl_bootstrap_result_path: "{{ (nomad_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
 
@@ -33,10 +42,10 @@ nomad_agent_acl_path: "{{ (nomad_config_dir, 'acl.hcl') | ansible.builtin.path_j
 nomad_agent_acl_template_path: "{{ (nomad_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
 
 # The path to the file where Nomad Agent log stored.
-nomad_agent_log_path: "{{ (nomad_log_dir, 'agent.log') | ansible.builtin.path_join }}"
+nomad_agent_log_path: "{{ (nomad_agent_log_dir, 'agent.log') | ansible.builtin.path_join }}"
 
 # The path to the file where Nomad Agent process id stored.
-nomad_agent_pid_path: "{{ (nomad_runtime_dir, 'agent.pid') | ansible.builtin.path_join }}"
+nomad_agent_pid_path: "{{ (nomad_agent_runtime_dir, 'agent.pid') | ansible.builtin.path_join }}"
 
 # The path to the Monit Nomad Agent init script.
 nomad_agent_monit_init_path: "{{ (monit_init_dir, 'nomad-agent.sh') | ansible.builtin.path_join }}"
