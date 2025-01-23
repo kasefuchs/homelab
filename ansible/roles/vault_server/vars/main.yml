@@ -1,12 +1,21 @@
 ---
+# The path to the directory where Vault logs stored.
+vault_server_log_dir: /var/log/vault-server
+
+# The path to the directory where Vault state data stored.
+vault_server_state_dir: /var/lib/vault-server
+
+# The path to the directory where Vault runtime data stored.
+vault_server_runtime_dir: /run/vault-server
+
 # The path to the directory where Vault raft data stored.
 vault_server_raft_dir: /opt/vault/raft
 
 # The path to the file where Vault server log stored.
-vault_server_log_path: "{{ (vault_log_dir, 'server.log') | ansible.builtin.path_join }}"
+vault_server_log_path: "{{ (vault_server_log_dir, 'server.log') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault server process id stored.
-vault_server_pid_path: "{{ (vault_runtime_dir, 'server.pid') | ansible.builtin.path_join }}"
+vault_server_pid_path: "{{ (vault_server_runtime_dir, 'server.pid') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault server configuration stored.
 vault_server_config_path: "{{ (vault_config_dir, 'server.hcl') | ansible.builtin.path_join }}"

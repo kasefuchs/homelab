@@ -3,9 +3,9 @@
 RUNAS="{{ nomad_user }}"
 SCRIPT="{{ envoy_binary_path }} --config-path {{ nomad_envoy_config_path }} --base-id-path {{ nomad_envoy_base_id_path }} --use-dynamic-base-id"
 
-LOGDIR="{{ nomad_log_dir }}"
-STATEDIR="{{ nomad_state_dir }}"
-RUNTIMEDIR="{{ nomad_runtime_dir }}"
+LOGDIR="{{ nomad_envoy_log_dir }}"
+STATEDIR="{{ nomad_envoy_state_dir }}"
+RUNTIMEDIR="{{ nomad_envoy_runtime_dir }}"
 
 PIDFILE="{{ nomad_envoy_pid_path }}"
 LOGFILE="{{ nomad_envoy_log_path }}"

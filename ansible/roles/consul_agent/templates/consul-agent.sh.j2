@@ -3,9 +3,9 @@
 RUNAS="{{ consul_agent_user }}"
 SCRIPT="{{ consul_binary_path }} agent -config-dir={{ consul_config_dir }}"
 
-LOGDIR="{{ consul_log_dir }}"
-STATEDIR="{{ consul_state_dir }}"
-RUNTIMEDIR="{{ consul_runtime_dir }}"
+LOGDIR="{{ consul_agent_log_dir }}"
+STATEDIR="{{ consul_agent_state_dir }}"
+RUNTIMEDIR="{{ consul_agent_runtime_dir }}"
 
 PIDFILE="{{ consul_agent_pid_path }}"
 LOGFILE="{{ consul_agent_log_path }}"

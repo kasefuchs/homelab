@@ -42,12 +42,3 @@ consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
 
 # The path to the directory where download cache stored.
 consul_download_cache_dir: "{{ playbook_dir }}/../cache/download/consul"
-
-# The path to the directory where Consul logs stored.
-consul_log_dir: /var/log/consul
-
-# The path to the directory where Consul state data stored.
-consul_state_dir: /var/lib/consul
-
-# The path to the directory where Consul runtime data stored.
-consul_runtime_dir: /run/consul

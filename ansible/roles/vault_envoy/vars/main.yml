@@ -1,9 +1,18 @@
 ---
+# The path to the directory where Vault logs stored.
+vault_envoy_log_dir: /var/log/vault-envoy
+
+# The path to the directory where Vault state data stored.
+vault_envoy_state_dir: /var/lib/vault-envoy
+
+# The path to the directory where Vault runtime data stored.
+vault_envoy_runtime_dir: /run/vault-envoy
+
 # The path to the file where Vault Envoy log stored.
-vault_envoy_log_path: "{{ (vault_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
+vault_envoy_log_path: "{{ (vault_envoy_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault Envoy process id stored.
-vault_envoy_pid_path: "{{ (vault_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
+vault_envoy_pid_path: "{{ (vault_envoy_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault Envoy configuration stored.
 vault_envoy_config_path: "{{ (vault_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
@@ -21,7 +30,7 @@ vault_envoy_stop_signal: 15
 vault_envoy_reload_signal: 0
 
 # Writes the Vault Envoy base ID to the given path.
-vault_envoy_base_id_path: "{{ (vault_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
+vault_envoy_base_id_path: "{{ (vault_envoy_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
 
 # Specifies the environment variables of program.
 vault_envoy_environment: {}

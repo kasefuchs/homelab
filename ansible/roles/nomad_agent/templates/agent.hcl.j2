@@ -54,7 +54,7 @@ consul {
 server {
   enabled = {{ nomad_agent_server | lower }}
 
-  bootstrap_expect = {{ nomad_agent_bootstrap_expect }}
+  bootstrap_expect = {{ nomad_agent_bootstrap_expect if nomad_agent_server else 0 }}
 
   server_join {
     retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}

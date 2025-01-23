@@ -1,9 +1,18 @@
 ---
+# The path to the directory where Nomad logs stored.
+nomad_envoy_log_dir: /var/log/nomad-envoy
+
+# The path to the directory where Nomad state data stored.
+nomad_envoy_state_dir: /var/lib/nomad-envoy
+
+# The path to the directory where Nomad runtime data stored.
+nomad_envoy_runtime_dir: /run/nomad-envoy
+
 # The path to the file where Nomad Envoy log stored.
-nomad_envoy_log_path: "{{ (nomad_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
+nomad_envoy_log_path: "{{ (nomad_envoy_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
 
 # The path to the file where Nomad Envoy process id stored.
-nomad_envoy_pid_path: "{{ (nomad_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
+nomad_envoy_pid_path: "{{ (nomad_envoy_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
 
 # The path to the file where Nomad Envoy configuration stored.
 nomad_envoy_config_path: "{{ (nomad_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
@@ -21,7 +30,7 @@ nomad_envoy_stop_signal: 15
 nomad_envoy_reload_signal: 0
 
 # Writes the Nomad Envoy base ID to the given path.
-nomad_envoy_base_id_path: "{{ (nomad_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
+nomad_envoy_base_id_path: "{{ (nomad_envoy_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
 
 # Specifies the environment variables of program.
 nomad_envoy_environment: {}

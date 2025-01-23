@@ -3,9 +3,9 @@
 RUNAS="{{ nomad_agent_user }}"
 SCRIPT="{{ nomad_binary_path }} agent -config={{ nomad_config_dir }}"
 
-LOGDIR="{{ nomad_log_dir }}"
-STATEDIR="{{ nomad_state_dir }}"
-RUNTIMEDIR="{{ nomad_runtime_dir }}"
+LOGDIR="{{ nomad_agent_log_dir }}"
+STATEDIR="{{ nomad_agent_state_dir }}"
+RUNTIMEDIR="{{ nomad_agent_runtime_dir }}"
 
 PIDFILE="{{ nomad_agent_pid_path }}"
 LOGFILE="{{ nomad_agent_log_path }}"
