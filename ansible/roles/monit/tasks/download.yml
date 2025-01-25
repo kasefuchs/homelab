@@ -9,10 +9,20 @@
         mode: "0755"
         state: directory
 
-    - name: Download Monit archives
+    - name: Check if the Monit archives already exists
       loop: "{{ monit_architectures.values() }}"
       loop_control:
         loop_var: monit_architecture
+      register: monit_files
+      ansible.builtin.stat:
+        path: "{{ (monit_download_cache_dir, monit_version, monit_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Monit archives
+      loop: "{{ monit_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: monit_architecture
+      when: not monit_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ monit_download_url }}"
         dest: "{{ (monit_download_cache_dir, monit_version, monit_architecture) | ansible.builtin.path_join }}"
