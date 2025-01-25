@@ -35,7 +35,7 @@ vault_user: vault
 vault_group: vault
 
 # The path to the directory where secrets stored.
-vault_secrets_dir: "{{ playbook_dir }}/../secrets/vault"
+vault_secrets_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'vault') | ansible.builtin.path_join }}"
 
 # The path to the directory where download cache stored.
-vault_download_cache_dir: "{{ playbook_dir }}/../cache/download/vault"
+vault_download_cache_dir: "{{ (playbook_dir, '../cache/download/vault') | ansible.builtin.path_join }}"

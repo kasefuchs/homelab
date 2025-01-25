@@ -4,6 +4,7 @@
   become: true
   roles:
     - role: nomad
+    - role: cni
     - role: nomad_agent
     - role: envoy
     - role: nomad_envoy

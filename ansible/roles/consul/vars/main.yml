@@ -38,7 +38,7 @@ consul_user: consul
 consul_group: consul
 
 # The path to the directory where secrets stored.
-consul_secrets_dir: "{{ playbook_dir }}/../secrets/consul"
+consul_secrets_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'consul') | ansible.builtin.path_join }}"
 
 # The path to the directory where download cache stored.
-consul_download_cache_dir: "{{ playbook_dir }}/../cache/download/consul"
+consul_download_cache_dir: "{{ (playbook_dir, '../cache/download/consul') | ansible.builtin.path_join }}"

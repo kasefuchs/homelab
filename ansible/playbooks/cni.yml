@@ -1,6 +1,0 @@
----
-- name: CNI
-  hosts: all
-  become: true
-  roles:
-    - role: cni

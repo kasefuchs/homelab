@@ -38,10 +38,10 @@ nomad_user: nomad
 nomad_group: nomad
 
 # The path to the directory where secrets stored.
-nomad_secrets_dir: "{{ playbook_dir }}/../secrets/nomad"
+nomad_secrets_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'nomad') | ansible.builtin.path_join }}"
 
 # The path to the directory where download cache stored.
-nomad_download_cache_dir: "{{ playbook_dir }}/../cache/download/nomad"
+nomad_download_cache_dir: "{{ (playbook_dir, '../cache/download/nomad') | ansible.builtin.path_join }}"
 
 # Specifies the service stop signal.
 nomad_stop_signal: 15
