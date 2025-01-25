@@ -1,6 +1,6 @@
 ---
 # The path to the directory where PKI certificates stored.
-pki_dir: "{{ (playbook_dir, '../secrets/pki') | ansible.builtin.path_join }}"
+pki_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'pki') | ansible.builtin.path_join }}"
 
 # The path to the directory where PKI CA certificates stored.
 pki_ca_dir: "{{ (pki_dir, 'ca') | ansible.builtin.path_join }}"
