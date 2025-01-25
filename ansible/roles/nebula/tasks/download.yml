@@ -26,10 +26,20 @@
         mode: "0755"
         state: directory
 
-    - name: Download Nebula archives
+    - name: Check if the Nebula archives already exists
       loop: "{{ nebula_architectures.values() }}"
       loop_control:
         loop_var: nebula_architecture
+      register: nebula_files
+      ansible.builtin.stat:
+        path: "{{ (nebula_download_cache_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Nebula archives
+      loop: "{{ nebula_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: nebula_architecture
+      when: not nebula_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ nebula_download_url }}"
         dest: "{{ (nebula_download_cache_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"

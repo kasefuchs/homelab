@@ -26,10 +26,20 @@
         mode: "0755"
         state: directory
 
-    - name: Download Nomad archives
+    - name: Check if the Nomad archives already exists
       loop: "{{ nomad_architectures.values() }}"
       loop_control:
         loop_var: nomad_architecture
+      register: nomad_files
+      ansible.builtin.stat:
+        path: "{{ (nomad_download_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Nomad archives
+      loop: "{{ nomad_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: nomad_architecture
+      when: not nomad_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ nomad_download_url }}"
         dest: "{{ (nomad_download_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"

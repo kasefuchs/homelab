@@ -26,10 +26,20 @@
         mode: "0755"
         state: directory
 
-    - name: Download CNI archives
+    - name: Check if the CNI archive already exists
       loop: "{{ cni_architectures.values() }}"
       loop_control:
         loop_var: cni_architecture
+      register: cni_files
+      ansible.builtin.stat:
+        path: "{{ (cni_download_cache_dir, cni_version, cni_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download CNI archives
+      loop: "{{ cni_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: cni_architecture
+      when: not cni_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ cni_download_url }}"
         dest: "{{ (cni_download_cache_dir, cni_version, cni_architecture) | ansible.builtin.path_join }}"

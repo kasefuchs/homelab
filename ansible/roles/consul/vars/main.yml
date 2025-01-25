@@ -16,9 +16,6 @@ consul_package_dir: /usr/local/src/consul
 # The path to the directory where Consul configuration stored.
 consul_config_dir: /etc/consul
 
-# The path to the file where Consul configuration stored.
-consul_config_path: "{{ (consul_config_dir, 'consul.hcl') | ansible.builtin.path_join }}"
-
 # The path to the directory where current version of Consul stored.
 consul_current_dir: "{{ (consul_package_dir, 'current') | ansible.builtin.path_join }}"
 

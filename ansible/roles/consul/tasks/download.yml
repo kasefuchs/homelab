@@ -26,10 +26,20 @@
         mode: "0755"
         state: directory
 
-    - name: Download Consul archives
+    - name: Check if the Consul archives already exists
       loop: "{{ consul_architectures.values() }}"
       loop_control:
         loop_var: consul_architecture
+      register: consul_files
+      ansible.builtin.stat:
+        path: "{{ (consul_download_cache_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Consul archives
+      loop: "{{ consul_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: consul_architecture
+      when: not consul_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ consul_download_url }}"
         dest: "{{ (consul_download_cache_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"

@@ -26,10 +26,20 @@
         mode: "0755"
         state: directory
 
-    - name: Download Envoy binaries
+    - name: Check if the Envoy binaries already exists
       loop: "{{ envoy_architectures.values() }}"
       loop_control:
         loop_var: envoy_architecture
+      register: envoy_files
+      ansible.builtin.stat:
+        path: "{{ (envoy_download_cache_dir, envoy_version, envoy_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Envoy binaries
+      loop: "{{ envoy_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: envoy_architecture
+      when: not envoy_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ envoy_download_url }}"
         dest: "{{ (envoy_download_cache_dir, envoy_version, envoy_architecture) | ansible.builtin.path_join }}"
