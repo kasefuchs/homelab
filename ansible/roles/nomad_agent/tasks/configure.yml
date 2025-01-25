@@ -19,8 +19,8 @@
     owner: "{{ nomad_agent_user }}"
     group: "{{ nomad_agent_group }}"
   loop:
-    - src: "{{ (pki_entity_nomad_dir, nomad_agent_region, inventory_hostname, ('server' if nomad_agent_server else 'client') + '.pem') | ansible.builtin.path_join }}"
-      dest: "{{ (nomad_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+    - src: "{{ (pki_entity_nomad_dir, nomad_agent_region, inventory_hostname, ('server' if nomad_agent_server else 'client') + '.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_dir, 'agent.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - src: "{{ (pki_entity_nomad_dir, nomad_agent_region, inventory_hostname, ('server' if nomad_agent_server else 'client') + '.key') | ansible.builtin.path_join }}"
       dest: "{{ (nomad_pki_dir, 'agent.key') | ansible.builtin.path_join }}"

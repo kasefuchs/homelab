@@ -13,9 +13,9 @@ tls {
   rpc  = true
   http = true
 
-  ca_file   = "{{ (nomad_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  ca_file   = "{{ (nomad_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
   key_file  = "{{ (nomad_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
-  cert_file = "{{ (nomad_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+  cert_file = "{{ (nomad_pki_dir, 'agent.crt') | ansible.builtin.path_join }}"
 
   verify_https_client    = false
   verify_server_hostname = true
@@ -25,9 +25,9 @@ vault {
   enabled = true
 
   address   = "https://{{ nomad_agent_vault_https_address }}"
-  ca_file   = "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  ca_file   = "{{ (vault_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
   key_file  = "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
-  cert_file = "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+  cert_file = "{{ (vault_pki_dir, 'cli.crt') | ansible.builtin.path_join }}"
 
   jwt_auth_backend_path = "jwt-nomad"
 
@@ -39,11 +39,11 @@ vault {
 
 consul {
   address      = "{{ nomad_agent_consul_https_address }}"
-  ca_file      = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  ca_file      = "{{ (consul_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
   key_file     = "{{ (consul_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
-  cert_file    = "{{ (consul_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+  cert_file    = "{{ (consul_pki_dir, 'cli.crt') | ansible.builtin.path_join }}"
 
-  grpc_ca_file = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  grpc_ca_file = "{{ (consul_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
   grpc_address = "{{ nomad_agent_consul_grpc_tls_address }}"
 
   ssl            = true

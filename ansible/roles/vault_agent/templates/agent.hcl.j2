@@ -1,9 +1,9 @@
 vault {
   address = "{{ vault_agent_backend_address }}"
 
-  ca_cert     = "{{ (vault_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+  ca_cert     = "{{ (vault_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
   client_key  = "{{ (vault_pki_dir, 'cli.key') | ansible.builtin.path_join }}"
-  client_cert = "{{ (vault_pki_dir, 'cli.pem') | ansible.builtin.path_join }}"
+  client_cert = "{{ (vault_pki_dir, 'cli.crt') | ansible.builtin.path_join }}"
 }
 
 auto_auth {

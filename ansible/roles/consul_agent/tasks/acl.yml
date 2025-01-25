@@ -18,9 +18,9 @@
           - bootstrap
           - -format=json
           - -http-addr={{ consul_agent_acl_server_address }}
-          - -ca-file={{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}
+          - -ca-file={{ (consul_pki_dir, 'ca.crt') | ansible.builtin.path_join }}
           - -client-key={{ (consul_pki_dir, 'cli.key') | ansible.builtin.path_join }}
-          - -client-cert={{ (consul_pki_dir, 'cli.pem') | ansible.builtin.path_join }}
+          - -client-cert={{ (consul_pki_dir, 'cli.crt') | ansible.builtin.path_join }}
 
     - name: Write Consul Agent ACL bootstrap result to file
       when: consul_agent_acl_raw.rc == 0

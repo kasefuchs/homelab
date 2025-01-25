@@ -1,8 +1,8 @@
 ---
 pki:
-  ca: {{ (nebula_pki_dir, 'ca.pem') | ansible.builtin.path_join }}
+  ca: {{ (nebula_pki_dir, 'ca.crt') | ansible.builtin.path_join }}
   key: {{ (nebula_pki_dir, 'host.key') | ansible.builtin.path_join }}
-  cert: {{ (nebula_pki_dir, 'host.pem') | ansible.builtin.path_join }}
+  cert: {{ (nebula_pki_dir, 'host.crt') | ansible.builtin.path_join }}
 
 listen:
   host: {{ nebula_listen_host }}

@@ -21,9 +21,9 @@ ui_config {
 
 tls {
   defaults {
-    ca_file   = "{{ (consul_pki_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    ca_file   = "{{ (consul_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
     key_file  = "{{ (consul_pki_dir, 'agent.key') | ansible.builtin.path_join }}"
-    cert_file = "{{ (consul_pki_dir, 'agent.pem') | ansible.builtin.path_join }}"
+    cert_file = "{{ (consul_pki_dir, 'agent.crt') | ansible.builtin.path_join }}"
   }
 }
 

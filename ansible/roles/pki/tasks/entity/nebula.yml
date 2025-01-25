@@ -12,8 +12,8 @@
       - sign
       - -ip={{ nebula_ip }}/{{ nebula_netmask }}
       - -name={{ pki_entity_nebula_cn }}
-      - -ca-crt={{ (pki_ca_nebula_dir, 'ca.pem') | ansible.builtin.path_join }}
+      - -ca-crt={{ (pki_ca_nebula_dir, 'ca.crt') | ansible.builtin.path_join }}
       - -ca-key={{ (pki_ca_nebula_dir, 'ca.key') | ansible.builtin.path_join }}
-      - -out-crt={{ (pki_entity_nebula_dir, inventory_hostname, 'host.pem') | ansible.builtin.path_join }}
+      - -out-crt={{ (pki_entity_nebula_dir, inventory_hostname, 'host.crt') | ansible.builtin.path_join }}
       - -out-key={{ (pki_entity_nebula_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}
     creates: "{{ (pki_entity_nebula_dir, inventory_hostname, 'host.*') | ansible.builtin.path_join }}"
