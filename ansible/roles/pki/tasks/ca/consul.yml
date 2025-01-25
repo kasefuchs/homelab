@@ -25,7 +25,7 @@
 - name: Create self-signed Consul CA certificate from CSR
   register: pki_ca_consul_certificate
   community.crypto.x509_certificate:
-    path: "{{ (pki_ca_consul_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    path: "{{ (pki_ca_consul_dir, 'ca.crt') | ansible.builtin.path_join }}"
     csr_path: "{{ pki_ca_consul_csr.filename }}"
     privatekey_path: "{{ pki_ca_consul_private_key.filename }}"
     provider: selfsigned

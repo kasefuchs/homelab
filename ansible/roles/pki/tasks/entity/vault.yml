@@ -28,7 +28,7 @@
 
     - name: Sign Vault CLI certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_vault_dir, 'cli.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_vault_dir, 'cli.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_vault_cli_csr.filename }}"
         ownca_path: "{{ pki_ca_vault_certificate.filename }}"
@@ -62,7 +62,7 @@
 
     - name: Sign Vault server certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_vault_dir, inventory_hostname, 'server.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_vault_dir, inventory_hostname, 'server.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_vault_server_csr.filename }}"
         ownca_path: "{{ pki_ca_vault_certificate.filename }}"

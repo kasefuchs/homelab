@@ -27,7 +27,7 @@
 
     - name: Sign Nomad CLI certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, 'cli.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, 'cli.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_nomad_cli_csr.filename }}"
         ownca_path: "{{ pki_ca_nomad_certificate.filename }}"
@@ -62,7 +62,7 @@
 
     - name: Sign Nomad server certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'server.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'server.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_nomad_server_csr.filename }}"
         ownca_path: "{{ pki_ca_nomad_certificate.filename }}"
@@ -97,7 +97,7 @@
 
     - name: Sign Nomad client certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'client.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_nomad_dir, pki_entity_nomad_region, inventory_hostname, 'client.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_nomad_client_csr.filename }}"
         ownca_path: "{{ pki_ca_nomad_certificate.filename }}"

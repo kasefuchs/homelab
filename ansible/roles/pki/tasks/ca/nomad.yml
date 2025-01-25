@@ -25,7 +25,7 @@
 - name: Create self-signed Nomad CA certificate from CSR
   register: pki_ca_nomad_certificate
   community.crypto.x509_certificate:
-    path: "{{ (pki_ca_nomad_dir, 'ca.pem') | ansible.builtin.path_join }}"
+    path: "{{ (pki_ca_nomad_dir, 'ca.crt') | ansible.builtin.path_join }}"
     csr_path: "{{ pki_ca_nomad_csr.filename }}"
     privatekey_path: "{{ pki_ca_nomad_private_key.filename }}"
     provider: selfsigned

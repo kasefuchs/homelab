@@ -27,7 +27,7 @@
 
     - name: Sign Consul CLI certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, 'cli.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, 'cli.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_consul_cli_csr.filename }}"
         ownca_path: "{{ pki_ca_consul_certificate.filename }}"
@@ -62,7 +62,7 @@
 
     - name: Sign Consul server certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'server.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'server.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_consul_server_csr.filename }}"
         ownca_path: "{{ pki_ca_consul_certificate.filename }}"
@@ -97,7 +97,7 @@
 
     - name: Sign Consul client certificate
       community.crypto.x509_certificate:
-        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'client.pem') | ansible.builtin.path_join }}"
+        path: "{{ (pki_entity_consul_dir, pki_entity_consul_datacenter, inventory_hostname, 'client.crt') | ansible.builtin.path_join }}"
         provider: ownca
         csr_path: "{{ pki_entity_consul_client_csr.filename }}"
         ownca_path: "{{ pki_ca_consul_certificate.filename }}"

@@ -5,7 +5,7 @@ variable "consul_address" {
 
 variable "consul_ca_file" {
   type    = string
-  default = "../../ansible/secrets/testing/pki/ca/consul/ca.pem"
+  default = "../../ansible/secrets/testing/pki/ca/consul/ca.crt"
 }
 
 variable "consul_token" {
@@ -25,7 +25,7 @@ variable "vault_address" {
 
 variable "vault_ca_file" {
   type    = string
-  default = "../../ansible/secrets/testing/pki/ca/vault/ca.pem"
+  default = "../../ansible/secrets/testing/pki/ca/vault/ca.crt"
 }
 
 variable "vault_token" {
@@ -40,7 +40,7 @@ variable "nomad_address" {
 
 variable "nomad_ca_file" {
   type    = string
-  default = "../../ansible/secrets/testing/pki/ca/nomad/ca.pem"
+  default = "../../ansible/secrets/testing/pki/ca/nomad/ca.crt"
 }
 
 variable "nomad_token" {
