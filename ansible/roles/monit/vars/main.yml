@@ -11,7 +11,7 @@ monit_package_dir: /usr/local/src/monit
 monit_current_dir: "{{ (monit_package_dir, 'current') | ansible.builtin.path_join }}"
 
 # The path to the binary of Monit.
-monit_current_path: "{{ (monit_current_dir, 'bin', 'monit') | ansible.builtin.path_join }}"
+monit_current_binary_path: "{{ (monit_current_dir, 'bin', 'monit') | ansible.builtin.path_join }}"
 
 # The path to the binary of Monit.
 monit_binary_path: /usr/local/bin/monit

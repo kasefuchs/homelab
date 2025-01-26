@@ -20,7 +20,7 @@ vault_config_dir: /etc/vault
 vault_current_dir: "{{ (vault_package_dir, 'current') | ansible.builtin.path_join }}"
 
 # The path to the binary of Vault.
-vault_current_path: "{{ (vault_current_dir, 'vault') | ansible.builtin.path_join }}"
+vault_current_binary_path: "{{ (vault_current_dir, 'vault') | ansible.builtin.path_join }}"
 
 # The path to the binary of Vault.
 vault_binary_path: /usr/local/bin/vault

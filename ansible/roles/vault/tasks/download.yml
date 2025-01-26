@@ -69,18 +69,18 @@
       ansible.builtin.unarchive:
         src: "{{ (vault_download_cache_dir, vault_version, vault_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ vault_current_dir }}"
-        creates: "{{ vault_current_path }}"
+        creates: "{{ vault_current_binary_path }}"
         extra_opts: "{{ vault_unarchive_extra_opts }}"
 
     - name: Set Vault binary capabilities
       community.general.capabilities:
-        path: "{{ vault_current_path }}"
+        path: "{{ vault_current_binary_path }}"
         capability: "{{ item }}"
       loop:
         - CAP_IPC_LOCK=eip
 
     - name: Create Vault binary symlink
       ansible.builtin.file:
-        src: "{{ vault_current_path }}"
+        src: "{{ vault_current_binary_path }}"
         dest: "{{ vault_binary_path }}"
         state: link

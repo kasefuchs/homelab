@@ -92,3 +92,14 @@
       [[ end -]]
     }
 [[- end -]]
+
+[[ define "template" -]]
+[[- $template := . -]]
+      template {
+        data = <<EOH
+[[ $template.data ]]
+        EOH
+        destination = [[ $template.destination | quote ]]
+        change_mode = [[ $template.change_mode | quote ]]
+      }
+[[- end -]]

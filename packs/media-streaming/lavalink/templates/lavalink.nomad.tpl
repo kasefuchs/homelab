@@ -28,7 +28,7 @@ job [[ template "job_name" . ]] {
     [[ template "vault" $vault ]]
     [[- end ]]
 
-    task "lavalink" {
+    task [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
