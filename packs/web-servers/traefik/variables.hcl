@@ -67,9 +67,7 @@ variable "vault" {
   type = object({
     role = string
   })
-  default = {
-    role = ""
-  }
+  default = null
 }
 
 variable "ports" {

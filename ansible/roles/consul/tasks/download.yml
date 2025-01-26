@@ -69,11 +69,11 @@
       ansible.builtin.unarchive:
         src: "{{ (consul_download_cache_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ consul_current_dir }}"
-        creates: "{{ consul_current_path }}"
+        creates: "{{ consul_current_binary_path }}"
         extra_opts: "{{ consul_unarchive_extra_opts }}"
 
     - name: Create Consul binary symlink
       ansible.builtin.file:
-        src: "{{ consul_current_path }}"
+        src: "{{ consul_current_binary_path }}"
         dest: "{{ consul_binary_path }}"
         state: link

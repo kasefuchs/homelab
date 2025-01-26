@@ -23,7 +23,7 @@ nomad_config_dir: /etc/nomad
 nomad_current_dir: "{{ (nomad_package_dir, 'current') | ansible.builtin.path_join }}"
 
 # The path to the binary of Nomad.
-nomad_current_path: "{{ (nomad_current_dir, 'nomad') | ansible.builtin.path_join }}"
+nomad_current_binary_path: "{{ (nomad_current_dir, 'nomad') | ansible.builtin.path_join }}"
 
 # The path to the binary of Nomad.
 nomad_binary_path: /usr/local/bin/nomad

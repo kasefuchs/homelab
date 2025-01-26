@@ -69,16 +69,16 @@
       ansible.builtin.unarchive:
         src: "{{ (nebula_download_cache_dir, nebula_version, nebula_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ nebula_current_dir }}"
-        creates: "{{ nebula_current_path }}"
+        creates: "{{ nebula_current_binary_path }}"
         extra_opts: "{{ nebula_unarchive_extra_opts }}"
 
     - name: Set Nebula binary capabilities
       community.general.capabilities:
-        path: "{{ nebula_current_path }}"
+        path: "{{ nebula_current_binary_path }}"
         capability: cap_net_admin=eip
 
     - name: Create Nebula binary symlink
       ansible.builtin.file:
-        src: "{{ nebula_current_path }}"
+        src: "{{ nebula_current_binary_path }}"
         dest: "{{ nebula_binary_path }}"
         state: link

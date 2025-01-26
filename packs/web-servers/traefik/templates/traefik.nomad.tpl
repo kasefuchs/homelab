@@ -40,7 +40,7 @@ job [[ template "job_name" . ]] {
     [[ template "vault" $vault ]]
     [[- end ]]
 
-    task "traefik" {
+    task [[ template "job_name" . ]] {
       driver = "docker"
 
       config {
@@ -50,13 +50,7 @@ job [[ template "job_name" . ]] {
 
       [[- range $idx, $template := var "templates" . ]]
 
-      template {
-        data = <<EOH
-[[ $template.data ]]
-        EOH
-        destination = [[ $template.destination | quote ]]
-        change_mode = [[ $template.change_mode | quote ]]
-      }
+      [[ template "template" $template ]]
       [[- end ]]
 
       [[ template "resources" var "resources" . ]]
