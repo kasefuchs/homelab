@@ -81,6 +81,13 @@ client {
     reserved_ports = "{{ config.reserved_ports | default([]) | join(',') }}"
   }
 {% endfor %}
+
+{% for name, config in nomad_agent_host_volumes.items() %}
+  host_volume "{{ name }}" {
+    path      = "{{ config.path }}"
+    read_only = "{{ config.read_only | default(False) | lower }}"
+  }
+{% endfor %}
 }
 
 ports {
