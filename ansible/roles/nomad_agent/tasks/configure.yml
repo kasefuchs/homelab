@@ -35,6 +35,16 @@
     owner: "{{ nomad_agent_user }}"
     group: "{{ nomad_agent_group }}"
 
+- name: Create Nomad Agent host volumes
+  loop: "{{ nomad_agent_host_volumes.values() }}"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ nomad_agent_user }}"
+    group: "{{ nomad_agent_group }}"
+    state: directory
+
 - name: Copy Nomad Agent configuration
   register: nomad_agent_config_template
   ansible.builtin.template:

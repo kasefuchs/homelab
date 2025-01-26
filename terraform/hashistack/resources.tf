@@ -62,9 +62,9 @@ resource "vault_policy" "nomad_workload" {
 }
 
 resource "vault_jwt_auth_backend" "nomad" {
-  path        = "jwt-nomad"
-  jwks_url    = var.nomad_remote_jwks_url
-  jwks_ca_pem = file(var.nomad_ca_file)
+  path         = "jwt-nomad"
+  jwks_url     = var.nomad_remote_jwks_url
+  jwks_ca_pem  = file(var.nomad_ca_file)
   default_role = "nomad-workload"
 }
 
