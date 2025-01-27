@@ -120,7 +120,11 @@
 [[ define "volume_mount" -]]
 [[- $volume_mount := . -]]
       volume_mount {
-        volume      = [[ $volume_mount.volume | quote ]]
-        destination = [[ $volume_mount.destination | quote ]]
+        volume        = [[ $volume_mount.volume | quote ]]
+        destination   = [[ $volume_mount.destination | quote ]]
+        read_only     = [[ $volume_mount.read_only ]]
+        [[ if $volume_mount.selinux_label -]]
+        selinux_label = [[ $volume_mount.selinux_label | quote ]]
+        [[ end -]]
       }
 [[- end -]]

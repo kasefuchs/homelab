@@ -44,6 +44,10 @@ job [[ template "job_name" . ]] {
         image = [[ var "docker_image" . | quote ]]
       }
 
+      env {
+        [[- template "env" var "environment" . ]]
+      }
+
       [[- range $idx, $template := var "templates" . ]]
 
       [[ template "template" $template ]]

@@ -48,6 +48,10 @@ job [[ template "job_name" . ]] {
         args  = [[ var "arguments" . | toStringList ]]
       }
 
+      env {
+        [[- template "env" var "environment" . ]]
+      }
+
       [[- range $idx, $template := var "templates" . ]]
 
       [[ template "template" $template ]]

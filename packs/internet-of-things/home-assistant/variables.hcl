@@ -150,14 +150,24 @@ variable "volume_mounts" {
   description = "Volumes to mount."
   type = list(
     object({
-      volume      = string
-      destination = string
+      volume        = string
+      destination   = string
+      read_only     = bool
+      selinux_label = string
     })
   )
   default = [
     {
-      volume      = "config"
-      destination = "/config"
+      volume        = "config"
+      destination   = "/config"
+      read_only     = false
+      selinux_label = null
     }
   ]
+}
+
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {}
 }

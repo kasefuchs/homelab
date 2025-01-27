@@ -103,3 +103,34 @@
         change_mode = [[ $template.change_mode | quote ]]
       }
 [[- end -]]
+
+[[ define "volume" -]]
+[[- $volume := . -]]
+    volume [[ $volume.name | quote ]] {
+      type      = [[ $volume.type | quote ]]
+      source    = [[ $volume.source | quote ]]
+      read_only = [[ $volume.read_only ]]
+      [[ if eq $volume.type "csi" -]]
+      access_mode     = [[ $volume.access_mode | quote ]]
+      attachment_mode = [[ $volume.attachment_mode | quote ]]
+      [[ end -]]
+    }
+[[- end -]]
+
+[[ define "volume_mount" -]]
+[[- $volume_mount := . -]]
+      volume_mount {
+        volume        = [[ $volume_mount.volume | quote ]]
+        destination   = [[ $volume_mount.destination | quote ]]
+        read_only     = [[ $volume_mount.read_only ]]
+        [[ if $volume_mount.selinux_label -]]
+        selinux_label = [[ $volume_mount.selinux_label | quote ]]
+        [[ end -]]
+      }
+[[- end -]]
+
+[[ define "env" -]]
+        [[- range $key, $var := . ]]
+        [[ $key ]] = "[[ $var ]]"
+        [[- end ]]
+[[- end ]]
