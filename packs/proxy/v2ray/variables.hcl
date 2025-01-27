@@ -137,6 +137,12 @@ variable "templates" {
   ]
 }
 
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {}
+}
+
 variable "resources" {
   description = "The resource to assign to the application."
   type = object({

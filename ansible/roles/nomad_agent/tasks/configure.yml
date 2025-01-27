@@ -41,8 +41,9 @@
     label: "{{ item.path }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ nomad_agent_user }}"
-    group: "{{ nomad_agent_group }}"
+    mode: "{{ item.mode | default('0755') }}"
+    owner: "{{ item.owner | default(nomad_agent_user) }}"
+    group: "{{ item.group | default(nomad_agent_group) }}"
     state: directory
 
 - name: Copy Nomad Agent configuration

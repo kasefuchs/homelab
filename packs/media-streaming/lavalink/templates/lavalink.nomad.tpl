@@ -8,7 +8,7 @@ job [[ template "job_name" . ]] {
   [[ template "constraint" $constraint ]]
   [[- end ]]
 
-  ui {
+  ui {v
     description = [[ template "ui_description" . ]]
   }
 
@@ -34,6 +34,10 @@ job [[ template "job_name" . ]] {
       config {
         image = [[ var "docker_image" . | quote ]]
         args  = ["--spring.config.location=${NOMAD_TASK_DIR}/lavalink.yml"]
+      }
+
+      env {
+        [[- template "env" var "environment" . ]]
       }
 
       template {

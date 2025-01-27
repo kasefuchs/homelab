@@ -30,6 +30,10 @@ job [[ template "job_name" . ]] {
         args  = [[ var "arguments" . | toStringList ]]
       }
 
+      env {
+        [[- template "env" var "environment" . ]]
+      }
+
       [[ template "resources" var "resources" . ]]
     }
   }

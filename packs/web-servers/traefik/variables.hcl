@@ -1,4 +1,4 @@
-variable "job_name" {
+cvariable "job_name" {
   description = "The name to use as the job name which overrides using the pack name."
   type        = string
   default     = ""
@@ -130,6 +130,12 @@ entryPoints:
       change_mode = "restart"
     }
   ]
+}
+
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {}
 }
 
 variable "resources" {

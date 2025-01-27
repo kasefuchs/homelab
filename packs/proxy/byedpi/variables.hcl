@@ -91,6 +91,12 @@ variable "arguments" {
   default     = ["--ip=0.0.0.0", "--port=1080"]
 }
 
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {}
+}
+
 variable "resources" {
   description = "The resource to assign to the application."
   type = object({
