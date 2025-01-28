@@ -49,6 +49,11 @@ job [[ template "job_name" . ]] {
         [[- template "env" var "environment" . ]]
       }
 
+      [[- range $idx, $artifact := var "artifacts" . ]]
+
+      [[ template "artifact" $artifact ]]
+      [[- end ]]
+
       [[- range $idx, $template := var "templates" . ]]
 
       [[ template "template" $template ]]

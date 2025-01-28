@@ -124,6 +124,17 @@ variable "environment" {
   default     = {}
 }
 
+variable "artifacts" {
+  description = "Instructs Nomad to fetch and unpack a remote resource."
+  type = list(
+    object({
+      source      = string
+      destination = string
+    })
+  )
+  default = []
+}
+
 variable "resources" {
   description = "The resource to assign to the application."
   type = object({

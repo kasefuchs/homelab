@@ -179,3 +179,14 @@ variable "environment" {
   type        = map(string)
   default     = {}
 }
+
+variable "artifacts" {
+  description = "Instructs Nomad to fetch and unpack a remote resource."
+  type = list(
+    object({
+      source      = string
+      destination = string
+    })
+  )
+  default = []
+}

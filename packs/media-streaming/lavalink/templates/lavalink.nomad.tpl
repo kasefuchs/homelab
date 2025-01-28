@@ -8,7 +8,7 @@ job [[ template "job_name" . ]] {
   [[ template "constraint" $constraint ]]
   [[- end ]]
 
-  ui {v
+  ui {
     description = [[ template "ui_description" . ]]
   }
 
@@ -39,6 +39,11 @@ job [[ template "job_name" . ]] {
       env {
         [[- template "env" var "environment" . ]]
       }
+
+      [[- range $idx, $artifact := var "artifacts" . ]]
+
+      [[ template "artifact" $artifact ]]
+      [[- end ]]
 
       template {
         data = <<EOH
