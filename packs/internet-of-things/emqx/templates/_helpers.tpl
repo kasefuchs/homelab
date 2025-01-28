@@ -45,19 +45,26 @@
       tags = [[ $service.tags | toStringList ]]
       [[ if $service.connect -]]
       connect {
+        [[ if $service.connect.native -]]
+        native = [[ $service.connect.native ]]
+        [[ end -]]
+        [[ if $service.connect.sidecar -]]
+        [[ if $service.connect.sidecar.resources -]]
+        sidecar_task {
+          [[ template "resources" $service.connect.sidecar.resources ]]
+        }
+        [[ end -]]
         sidecar_service {
+          [[ if $service.connect.sidecar.upstreams -]]
           proxy {
-            [[- range $idx, $upstream := $service.proxy_upstreams ]]
+            [[- range $idx, $upstream := $service.connect.sidecar.upstreams ]]
             upstreams {
               destination_name = [[ $upstream.name | quote ]]
               local_bind_port  = [[ $upstream.port ]]
             }
             [[- end ]]
           }
-        }
-        [[ if $service.sidecar_resources -]]
-        sidecar_task {
-          [[ template "resources" $service.sidecar_resources ]]
+          [[ end -]]
         }
         [[ end -]]
       }
