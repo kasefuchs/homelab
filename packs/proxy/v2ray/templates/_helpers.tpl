@@ -141,3 +141,11 @@
         [[ $key ]] = "[[ $var ]]"
         [[- end ]]
 [[- end ]]
+
+[[ define "artifact" -]]
+[[- $artifact := . -]]
+      artifact {
+        source        = [[ $artifact.source | quote ]]
+        destination   = [[ $artifact.destination | quote ]]
+      }
+[[- end -]]
