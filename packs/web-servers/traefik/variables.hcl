@@ -1,4 +1,4 @@
-cvariable "job_name" {
+variable "job_name" {
   description = "The name to use as the job name which overrides using the pack name."
   type        = string
   default     = ""
@@ -46,20 +46,41 @@ variable "constraints" {
   default = []
 }
 
-variable "service" {
+variable "services" {
   description = "Specifies integrations with Consul for service discovery."
-  type = object({
-    name    = string
-    port    = string
-    tags    = list(string)
-    connect = bool
-  })
-  default = {
-    name    = "traefik"
-    port    = "http"
-    tags    = []
-    connect = true
-  }
+  type = list(
+    object({
+      name = string
+      port = string
+      tags = list(string)
+      connect = object({
+        native = bool
+        sidecar = object({
+          resources = object({
+            cpu    = number
+            memory = number
+          })
+          upstreams = list(
+            object({
+              name = string
+              port = number
+            })
+          )
+        })
+      })
+    })
+  )
+  default = [
+    {
+      name = "traefik"
+      port = "http"
+      tags = []
+      connect = {
+        native  = true
+        sidecar = null
+      }
+    }
+  ]
 }
 
 variable "vault" {

@@ -54,28 +54,36 @@ variable "port" {
 variable "service" {
   description = "Specifies integrations with Consul for service discovery."
   type = object({
-    name    = string
-    port    = string
-    tags    = list(string)
-    connect = bool
-    proxy_upstreams = list(
-      object({
-        name = string
-        port = number
+    name = string
+    port = string
+    tags = list(string)
+    connect = object({
+      native = bool
+      sidecar = object({
+        resources = object({
+          cpu    = number
+          memory = number
+        })
+        upstreams = list(
+          object({
+            name = string
+            port = number
+          })
+        )
       })
-    )
-    sidecar_resources = object({
-      cpu    = number
-      memory = number
     })
   })
   default = {
-    name              = "byedpi"
-    port              = "1080"
-    tags              = []
-    connect           = true
-    proxy_upstreams   = []
-    sidecar_resources = null
+    name = "byedpi"
+    port = "1080"
+    tags = []
+    connect = {
+      native = false
+      sidecar = {
+        upstreams = []
+        resources = null
+      }
+    }
   }
 }
 

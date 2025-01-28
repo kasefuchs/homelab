@@ -22,17 +22,10 @@ job [[ template "job_name" . ]] {
       [[- end ]]
     }
 
-    [[ $service := var "service" . -]]
-    service {
-      name = [[ $service.name | quote ]]
-      port = [[ $service.port | quote ]]
-      tags = [[ $service.tags | toStringList ]]
-      [[ if $service.connect -]]
-      connect {
-        native = true
-      }
-      [[- end ]]
-    }
+    [[- range $idx, $service := var "services" . ]]
+
+    [[ template "service" $service ]]
+    [[- end ]]
 
     [[- $vault := var "vault" . -]]
     [[- if $vault ]]
