@@ -41,9 +41,7 @@ job [[ template "job_name" . ]] {
     task [[ template "job_name" . ]] {
       driver = "docker"
 
-      config {
-        image = [[ var "docker_image" . | quote ]]
-      }
+      [[ template "docker_config" var "docker_config" . ]]
 
       env {
         [[- template "env" var "environment" . ]]

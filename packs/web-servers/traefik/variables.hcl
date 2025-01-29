@@ -111,16 +111,18 @@ variable "ports" {
   ]
 }
 
-variable "docker_image" {
-  description = "Docker image of application to deploy."
-  type        = string
-  default     = "traefik:latest"
-}
-
-variable "arguments" {
-  description = "List of arguments to pass to application."
-  type        = list(string)
-  default     = ["--configFile", "$${NOMAD_TASK_DIR}/static.yml"]
+variable "docker_config" {
+  description = "Docker driver task configuration."
+  type = object({
+    image      = string
+    entrypoint = list(string)
+    args       = list(string)
+  })
+  default = {
+    image      = "traefik:latest"
+    entrypoint = null
+    args       = ["--configFile", "$${NOMAD_TASK_DIR}/static.yml"]
+  }
 }
 
 variable "templates" {
@@ -180,4 +182,32 @@ variable "resources" {
     cpu    = 128,
     memory = 128
   }
+}
+
+variable "volumes" {
+  description = "Volumes to require."
+  type = list(
+    object({
+      name            = string
+      type            = string
+      source          = string
+      read_only       = bool
+      access_mode     = string
+      attachment_mode = string
+    })
+  )
+  default = []
+}
+
+variable "volume_mounts" {
+  description = "Volumes to mount."
+  type = list(
+    object({
+      volume        = string
+      destination   = string
+      read_only     = bool
+      selinux_label = string
+    })
+  )
+  default = []
 }

@@ -107,7 +107,9 @@
 [[ $template.data ]]
         EOH
         destination = [[ $template.destination | quote ]]
+        [[ if $template.change_mode -]]
         change_mode = [[ $template.change_mode | quote ]]
+        [[ end -]]
       }
 [[- end -]]
 
@@ -147,5 +149,18 @@
       artifact {
         source        = [[ $artifact.source | quote ]]
         destination   = [[ $artifact.destination | quote ]]
+      }
+[[- end -]]
+
+[[ define "docker_config" -]]
+[[- $docker_config := . -]]
+      config {
+        image       = [[ $docker_config.image | quote ]]
+        [[ if ne $docker_config.entrypoint nil -]]
+        entrypoint  = [[ $docker_config.entrypoint | toStringList ]]
+        [[ end -]]
+        [[ if ne $docker_config.args nil -]]
+        args        = [[ $docker_config.args | toStringList ]]
+        [[ end -]]
       }
 [[- end -]]

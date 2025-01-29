@@ -118,10 +118,18 @@ variable "vault" {
   default = null
 }
 
-variable "docker_image" {
-  description = "Docker image of application to deploy."
-  type        = string
-  default     = "emqx/emqx:latest"
+variable "docker_config" {
+  description = "Docker driver task configuration."
+  type = object({
+    image      = string
+    entrypoint = list(string)
+    args       = list(string)
+  })
+  default = {
+    image      = "emqx/emqx:latest"
+    entrypoint = null
+    args       = null
+  }
 }
 
 variable "templates" {

@@ -4,6 +4,12 @@ variable "job_name" {
   default     = ""
 }
 
+variable "job_type" {
+  description = "Specifies the Nomad scheduler to use."
+  type        = string
+  default     = "service"
+}
+
 variable "ui_description" {
   description = "The markdown-enabled description of the job."
   type        = string
@@ -40,51 +46,57 @@ variable "constraints" {
   default = []
 }
 
-variable "port" {
+variable "ports" {
   description = "Nomad port to use."
-  type = object({
-    name         = string
-    to           = number
-    static       = number
-    host_network = string
-  })
-  default = null
+  type = list(
+    object({
+      name         = string
+      to           = number
+      static       = number
+      host_network = string
+    })
+  )
+  default = []
 }
 
-variable "service" {
+variable "services" {
   description = "Specifies integrations with Consul for service discovery."
-  type = object({
-    name = string
-    port = string
-    tags = list(string)
-    connect = object({
-      native = bool
-      sidecar = object({
-        resources = object({
-          cpu    = number
-          memory = number
-        })
-        upstreams = list(
-          object({
-            name = string
-            port = number
+  type = list(
+    object({
+      name = string
+      port = string
+      tags = list(string)
+      connect = object({
+        native = bool
+        sidecar = object({
+          resources = object({
+            cpu    = number
+            memory = number
           })
-        )
+          upstreams = list(
+            object({
+              name = string
+              port = number
+            })
+          )
+        })
       })
     })
-  })
-  default = {
-    name = "lavalink"
-    port = "2333"
-    tags = []
-    connect = {
-      native = false
-      sidecar = {
-        upstreams = []
-        resources = null
+  )
+  default = [
+    {
+      name = "lavalink"
+      port = "2333"
+      tags = []
+      connect = {
+        native = false
+        sidecar = {
+          upstreams = []
+          resources = null
+        }
       }
     }
-  }
+  ]
 }
 
 variable "vault" {
@@ -95,21 +107,41 @@ variable "vault" {
   default = null
 }
 
-variable "docker_image" {
-  description = "Docker image of application to deploy."
-  type        = string
-  default     = "ghcr.io/lavalink-devs/lavalink:latest"
+variable "docker_config" {
+  description = "Docker driver task configuration."
+  type = object({
+    image      = string
+    entrypoint = list(string)
+    args       = list(string)
+  })
+  default = {
+    image      = "ghcr.io/lavalink-devs/lavalink:latest"
+    entrypoint = null
+    args       = ["--spring.config.location=$${NOMAD_TASK_DIR}/lavalink.yml"]
+  }
 }
 
-variable "config" {
-  description = "Lavalink configuration in YAML format."
-  type        = string
-  default     = <<EOH
+variable "templates" {
+  description = "List of templates to render."
+  type = list(
+    object({
+      data        = string
+      destination = string
+      change_mode = string
+    })
+  )
+  default = [
+    {
+      data        = <<EOH
 ---
 server:
   port: 2333
   address: 0.0.0.0
-  EOH
+      EOH
+      destination = "$${NOMAD_TASK_DIR}/lavalink.yml"
+      change_mode = "restart"
+    }
+  ]
 }
 
 variable "environment" {
@@ -139,4 +171,32 @@ variable "resources" {
     cpu    = 512,
     memory = 512
   }
+}
+
+variable "volumes" {
+  description = "Volumes to require."
+  type = list(
+    object({
+      name            = string
+      type            = string
+      source          = string
+      read_only       = bool
+      access_mode     = string
+      attachment_mode = string
+    })
+  )
+  default = []
+}
+
+variable "volume_mounts" {
+  description = "Volumes to mount."
+  type = list(
+    object({
+      volume        = string
+      destination   = string
+      read_only     = bool
+      selinux_label = string
+    })
+  )
+  default = []
 }

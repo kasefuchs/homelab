@@ -1,4 +1,5 @@
 job [[ template "job_name" . ]] {
+  [[ template "job_type" . ]]
   [[ template "region" . ]]
   [[ template "namespace" . ]]
   [[ template "datacenters" . ]]
@@ -26,6 +27,11 @@ job [[ template "job_name" . ]] {
     [[ template "service" $service ]]
     [[- end ]]
 
+    [[- range $idx, $volume := var "volumes" . ]]
+
+    [[ template "volume" $volume ]]
+    [[- end ]]
+
     [[- $vault := var "vault" . -]]
     [[- if $vault ]]
 
@@ -35,10 +41,7 @@ job [[ template "job_name" . ]] {
     task [[ template "job_name" . ]] {
       driver = "docker"
 
-      config {
-        image = [[ var "docker_image" . | quote ]]
-        args  = [[ var "arguments" . | toStringList ]]
-      }
+      [[ template "docker_config" var "docker_config" . ]]
 
       env {
         [[- template "env" var "environment" . ]]
@@ -52,6 +55,11 @@ job [[ template "job_name" . ]] {
       [[- range $idx, $template := var "templates" . ]]
 
       [[ template "template" $template ]]
+      [[- end ]]
+
+      [[- range $idx, $volume_mount := var "volume_mounts" . ]]
+
+      [[ template "volume_mount" $volume_mount ]]
       [[- end ]]
 
       [[ template "resources" var "resources" . ]]
