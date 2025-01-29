@@ -1,4 +1,5 @@
 job [[ template "job_name" . ]] {
+  [[ template "job_type" . ]]
   [[ template "region" . ]]
   [[ template "namespace" . ]]
   [[ template "datacenters" . ]]
@@ -15,12 +16,21 @@ job [[ template "job_name" . ]] {
   group "servers" {
     network {
       mode = "bridge"
-      [[- if var "port" . ]]
-      [[ template "port" var "port" . ]]
+      [[- range $idx, $port := var "ports" . ]]
+
+      [[ template "port" $port ]]
       [[- end ]]
     }
 
-    [[ template "service" var "service" . ]]
+    [[- range $idx, $service := var "services" . ]]
+
+    [[ template "service" $service ]]
+    [[- end ]]
+
+    [[- range $idx, $volume := var "volumes" . ]]
+
+    [[ template "volume" $volume ]]
+    [[- end ]]
 
     [[- $vault := var "vault" . -]]
     [[- if $vault ]]
@@ -31,10 +41,7 @@ job [[ template "job_name" . ]] {
     task [[ template "job_name" . ]] {
       driver = "docker"
 
-      config {
-        image = [[ var "docker_image" . | quote ]]
-        args  = ["--spring.config.location=${NOMAD_TASK_DIR}/lavalink.yml"]
-      }
+      [[ template "docker_config" var "docker_config" . ]]
 
       env {
         [[- template "env" var "environment" . ]]
@@ -45,12 +52,15 @@ job [[ template "job_name" . ]] {
       [[ template "artifact" $artifact ]]
       [[- end ]]
 
-      template {
-        data = <<EOH
-[[ var "config" . ]]
-        EOH
-        destination = "${NOMAD_TASK_DIR}/lavalink.yml"
-      }
+      [[- range $idx, $template := var "templates" . ]]
+
+      [[ template "template" $template ]]
+      [[- end ]]
+
+      [[- range $idx, $volume_mount := var "volume_mounts" . ]]
+
+      [[ template "volume_mount" $volume_mount ]]
+      [[- end ]]
 
       [[ template "resources" var "resources" . ]]
     }

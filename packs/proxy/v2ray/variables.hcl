@@ -4,6 +4,12 @@ variable "job_name" {
   default     = ""
 }
 
+variable "job_type" {
+  description = "Specifies the Nomad scheduler to use."
+  type        = string
+  default     = "service"
+}
+
 variable "ui_description" {
   description = "The markdown-enabled description of the job."
   type        = string
@@ -100,16 +106,18 @@ variable "vault" {
   default = null
 }
 
-variable "docker_image" {
-  description = "Docker image of application to deploy."
-  type        = string
-  default     = "ghcr.io/v2fly/v2ray:v5.24"
-}
-
-variable "arguments" {
-  description = "List of arguments to pass to application."
-  type        = list(string)
-  default     = ["run", "-config", "$${NOMAD_TASK_DIR}/config.json", "-format", "jsonv5"]
+variable "docker_config" {
+  description = "Docker driver task configuration."
+  type = object({
+    image      = string
+    entrypoint = list(string)
+    args       = list(string)
+  })
+  default = {
+    image      = "ghcr.io/v2fly/v2ray:v5.24"
+    entrypoint = null
+    args       = ["run", "-config", "$${NOMAD_TASK_DIR}/config.json", "-format", "jsonv5"]
+  }
 }
 
 variable "templates" {
@@ -172,4 +180,32 @@ variable "resources" {
     cpu    = 128,
     memory = 128
   }
+}
+
+variable "volumes" {
+  description = "Volumes to require."
+  type = list(
+    object({
+      name            = string
+      type            = string
+      source          = string
+      read_only       = bool
+      access_mode     = string
+      attachment_mode = string
+    })
+  )
+  default = []
+}
+
+variable "volume_mounts" {
+  description = "Volumes to mount."
+  type = list(
+    object({
+      volume        = string
+      destination   = string
+      read_only     = bool
+      selinux_label = string
+    })
+  )
+  default = []
 }

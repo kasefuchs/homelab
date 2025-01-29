@@ -4,6 +4,12 @@ variable "job_name" {
   default     = ""
 }
 
+variable "job_type" {
+  description = "Specifies the Nomad scheduler to use."
+  type        = string
+  default     = "service"
+}
+
 variable "ui_description" {
   description = "The markdown-enabled description of the job."
   type        = string
@@ -40,63 +46,90 @@ variable "constraints" {
   default = []
 }
 
-variable "port" {
+variable "ports" {
   description = "Nomad port to use."
-  type = object({
+  type = list(object({
     name         = string
     to           = number
     static       = number
     host_network = string
+    })
+  )
+  default = []
+}
+
+variable "services" {
+  description = "Specifies integrations with Consul for service discovery."
+  type = list(
+    object({
+      name = string
+      port = string
+      tags = list(string)
+      connect = object({
+        native = bool
+        sidecar = object({
+          resources = object({
+            cpu    = number
+            memory = number
+          })
+          upstreams = list(
+            object({
+              name = string
+              port = number
+            })
+          )
+        })
+      })
+    })
+  )
+  default = [
+    {
+      name = "byedpi"
+      port = "1080"
+      tags = []
+      connect = {
+        native = false
+        sidecar = {
+          upstreams = []
+          resources = null
+        }
+      }
+    }
+
+  ]
+}
+variable "docker_config" {
+  description = "Docker driver task configuration."
+  type = object({
+    image      = string
+    entrypoint = list(string)
+    args       = list(string)
+  })
+  default = {
+    image      = "tazihad/byedpi:latest"
+    entrypoint = null
+    args       = ["--ip=0.0.0.0", "--port=1080"]
+  }
+}
+
+variable "vault" {
+  description = "Allows a task to specify that it requires a token from a HashiCorp Vault server."
+  type = object({
+    role = string
   })
   default = null
 }
 
-variable "service" {
-  description = "Specifies integrations with Consul for service discovery."
-  type = object({
-    name = string
-    port = string
-    tags = list(string)
-    connect = object({
-      native = bool
-      sidecar = object({
-        resources = object({
-          cpu    = number
-          memory = number
-        })
-        upstreams = list(
-          object({
-            name = string
-            port = number
-          })
-        )
-      })
+variable "templates" {
+  description = "List of templates to render."
+  type = list(
+    object({
+      data        = string
+      destination = string
+      change_mode = string
     })
-  })
-  default = {
-    name = "byedpi"
-    port = "1080"
-    tags = []
-    connect = {
-      native = false
-      sidecar = {
-        upstreams = []
-        resources = null
-      }
-    }
-  }
-}
-
-variable "docker_image" {
-  description = "Docker image of application to deploy."
-  type        = string
-  default     = "tazihad/byedpi:latest"
-}
-
-variable "arguments" {
-  description = "List of arguments to pass to application."
-  type        = list(string)
-  default     = ["--ip=0.0.0.0", "--port=1080"]
+  )
+  default = []
 }
 
 variable "environment" {
@@ -126,4 +159,32 @@ variable "resources" {
     cpu    = 64,
     memory = 64
   }
+}
+
+variable "volumes" {
+  description = "Volumes to require."
+  type = list(
+    object({
+      name            = string
+      type            = string
+      source          = string
+      read_only       = bool
+      access_mode     = string
+      attachment_mode = string
+    })
+  )
+  default = []
+}
+
+variable "volume_mounts" {
+  description = "Volumes to mount."
+  type = list(
+    object({
+      volume        = string
+      destination   = string
+      read_only     = bool
+      selinux_label = string
+    })
+  )
+  default = []
 }

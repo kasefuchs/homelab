@@ -4,6 +4,12 @@ variable "job_name" {
   default     = ""
 }
 
+variable "job_type" {
+  description = "Specifies the Nomad scheduler to use."
+  type        = string
+  default     = "service"
+}
+
 variable "ui_description" {
   description = "The markdown-enabled description of the job."
   type        = string
@@ -100,10 +106,18 @@ variable "vault" {
   default = null
 }
 
-variable "docker_image" {
-  description = "Docker image of application to deploy."
-  type        = string
-  default     = "ghcr.io/home-assistant/home-assistant:stable"
+variable "docker_config" {
+  description = "Docker driver task configuration."
+  type = object({
+    image      = string
+    entrypoint = list(string)
+    args       = list(string)
+  })
+  default = {
+    image      = "ghcr.io/home-assistant/home-assistant:stable"
+    entrypoint = null
+    args       = null
+  }
 }
 
 variable "templates" {
