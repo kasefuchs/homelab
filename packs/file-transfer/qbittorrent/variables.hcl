@@ -55,7 +55,14 @@ variable "ports" {
       static       = number
       host_network = string
   }))
-  default = []
+  default = [
+    {
+      name         = "torrent"
+      to           = 6881
+      static       = 6881
+      host_network = "public"
+    }
+  ]
 }
 
 variable "services" {
@@ -84,8 +91,8 @@ variable "services" {
   )
   default = [
     {
-      name = "prometheus"
-      port = "9090"
+      name = "qbittorrent"
+      port = "8080"
       tags = []
       connect = {
         native = false
@@ -114,21 +121,9 @@ variable "docker_config" {
     args       = list(string)
   })
   default = {
-    image      = "prom/prometheus:latest"
+    image      = "qbittorrentofficial/qbittorrent-nox:latest"
     entrypoint = null
     args       = null
-  }
-}
-
-variable "resources" {
-  description = "The resource to assign to the application."
-  type = object({
-    cpu    = number
-    memory = number
-  })
-  default = {
-    cpu    = 128,
-    memory = 256
   }
 }
 
@@ -141,17 +136,38 @@ variable "templates" {
       change_mode = string
     })
   )
-  default = [
-    {
-      data        = <<EOH
----
-global:
-  scrape_interval: 15s
-      EOH
-      destination = "/etc/prometheus/prometheus.yml"
-      change_mode = "restart"
-    }
-  ]
+  default = []
+}
+
+variable "environment" {
+  description = "Environment variables to pass to task."
+  type        = map(string)
+  default     = {
+    QBT_LEGAL_NOTICE = "confirm"
+  }
+}
+
+variable "artifacts" {
+  description = "Instructs Nomad to fetch and unpack a remote resource."
+  type = list(
+    object({
+      source      = string
+      destination = string
+    })
+  )
+  default = []
+}
+
+variable "resources" {
+  description = "The resource to assign to the application."
+  type = object({
+    cpu    = number
+    memory = number
+  })
+  default = {
+    cpu    = 96,
+    memory = 128
+  }
 }
 
 variable "volumes" {
@@ -169,8 +185,16 @@ variable "volumes" {
   default = [
     {
       type            = "host"
-      name            = "data"
-      source          = "prometheus-data"
+      name            = "config"
+      source          = "qbittorrent-config"
+      read_only       = false
+      access_mode     = "single-node-writer"
+      attachment_mode = "file-system"
+    },
+    {
+      type            = "host"
+      name            = "downloads"
+      source          = "qbittorrent-downloads"
       read_only       = false
       access_mode     = "single-node-writer"
       attachment_mode = "file-system"
@@ -190,27 +214,16 @@ variable "volume_mounts" {
   )
   default = [
     {
-      volume        = "data"
-      destination   = "/prometheus"
+      volume        = "config"
+      destination   = "/config"
+      read_only     = false
+      selinux_label = null
+    },
+    {
+      volume        = "downloads"
+      destination   = "/downloads"
       read_only     = false
       selinux_label = null
     }
   ]
-}
-
-variable "environment" {
-  description = "Environment variables to pass to task."
-  type        = map(string)
-  default     = {}
-}
-
-variable "artifacts" {
-  description = "Instructs Nomad to fetch and unpack a remote resource."
-  type = list(
-    object({
-      source      = string
-      destination = string
-    })
-  )
-  default = []
 }
