@@ -104,11 +104,13 @@ variable "docker_config" {
     image      = string
     entrypoint = list(string)
     args       = list(string)
+    volumes    = list(string)
   })
   default = {
     image      = "tazihad/byedpi:latest"
     entrypoint = null
     args       = ["--ip=0.0.0.0", "--port=1080"]
+    volumes    = []
   }
 }
 
@@ -144,6 +146,7 @@ variable "artifacts" {
     object({
       source      = string
       destination = string
+      mode        = string
     })
   )
   default = []

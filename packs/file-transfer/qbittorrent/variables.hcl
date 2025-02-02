@@ -119,11 +119,13 @@ variable "docker_config" {
     image      = string
     entrypoint = list(string)
     args       = list(string)
+    volumes    = list(string)
   })
   default = {
     image      = "qbittorrentofficial/qbittorrent-nox:latest"
     entrypoint = null
     args       = null
+    volumes    = []
   }
 }
 
@@ -142,7 +144,7 @@ variable "templates" {
 variable "environment" {
   description = "Environment variables to pass to task."
   type        = map(string)
-  default     = {
+  default = {
     QBT_LEGAL_NOTICE = "confirm"
   }
 }
@@ -153,6 +155,7 @@ variable "artifacts" {
     object({
       source      = string
       destination = string
+      mode        = string
     })
   )
   default = []

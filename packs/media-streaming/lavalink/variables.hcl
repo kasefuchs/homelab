@@ -113,11 +113,13 @@ variable "docker_config" {
     image      = string
     entrypoint = list(string)
     args       = list(string)
+    volumes    = list(string)
   })
   default = {
     image      = "ghcr.io/lavalink-devs/lavalink:latest"
     entrypoint = null
     args       = ["--spring.config.location=$${NOMAD_TASK_DIR}/lavalink.yml"]
+    volumes    = []
   }
 }
 
@@ -156,6 +158,7 @@ variable "artifacts" {
     object({
       source      = string
       destination = string
+      mode        = string
     })
   )
   default = []
@@ -168,7 +171,7 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 512,
+    cpu    = 256,
     memory = 512
   }
 }

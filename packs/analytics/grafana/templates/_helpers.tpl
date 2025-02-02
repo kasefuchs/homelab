@@ -147,6 +147,7 @@
 [[ define "artifact" -]]
 [[- $artifact := . -]]
       artifact {
+        mode          = [[ $artifact.mode | quote ]]
         source        = [[ $artifact.source | quote ]]
         destination   = [[ $artifact.destination | quote ]]
       }
@@ -161,6 +162,9 @@
         [[ end -]]
         [[ if ne $docker_config.args nil -]]
         args        = [[ $docker_config.args | toStringList ]]
+        [[ end -]]
+        [[ if $docker_config.volumes -]]
+        volumes     = [[ $docker_config.volumes | toStringList ]]
         [[ end -]]
       }
 [[- end -]]

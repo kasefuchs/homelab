@@ -59,3 +59,9 @@ nomad_agent_host_networks:
 
 # Exposes paths from the host as volumes that can be mounted into jobs.
 nomad_agent_host_volumes: {}
+
+# Allows containers to use privileged mode.
+nomad_agent_docker_allow_privileged: true
+
+# Allows tasks to bind host paths inside their container.
+nomad_agent_docker_volumes_enabled: true

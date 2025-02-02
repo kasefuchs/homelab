@@ -112,11 +112,13 @@ variable "docker_config" {
     image      = string
     entrypoint = list(string)
     args       = list(string)
+    volumes    = list(string)
   })
   default = {
     image      = "ghcr.io/v2fly/v2ray:v5.24"
     entrypoint = null
     args       = ["run", "-config", "$${NOMAD_TASK_DIR}/config.json", "-format", "jsonv5"]
+    volumes    = []
   }
 }
 
@@ -165,6 +167,7 @@ variable "artifacts" {
     object({
       source      = string
       destination = string
+      mode        = string
     })
   )
   default = []
