@@ -101,3 +101,13 @@ addresses {
   rpc  = "{{ nomad_agent_rpc_address }}"
   serf = "{{ nomad_agent_serf_address }}"
 }
+
+plugin "docker" {
+  config {
+    allow_privileged = {{ nomad_agent_docker_allow_privileged | lower }}
+
+    volumes {
+      enabled = {{ nomad_agent_docker_volumes_enabled | lower }}
+    }
+  }
+}

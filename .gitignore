@@ -22,3 +22,6 @@ diagrams/
 # ---> IDE
 .idea/
 .vscode/
+
+# ---> Python
+.venv/

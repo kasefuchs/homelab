@@ -117,11 +117,13 @@ variable "docker_config" {
     image      = string
     entrypoint = list(string)
     args       = list(string)
+    volumes    = list(string)
   })
   default = {
     image      = "traefik:latest"
     entrypoint = null
     args       = ["--configFile", "$${NOMAD_TASK_DIR}/static.yml"]
+    volumes    = []
   }
 }
 
@@ -167,6 +169,7 @@ variable "artifacts" {
     object({
       source      = string
       destination = string
+      mode        = string
     })
   )
   default = []

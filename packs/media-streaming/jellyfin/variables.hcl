@@ -112,11 +112,13 @@ variable "docker_config" {
     image      = string
     entrypoint = list(string)
     args       = list(string)
+    volumes    = list(string)
   })
   default = {
     image      = "jellyfin/jellyfin:latest"
     entrypoint = null
     args       = null
+    volumes    = []
   }
 }
 
@@ -144,6 +146,7 @@ variable "artifacts" {
     object({
       source      = string
       destination = string
+      mode        = string
     })
   )
   default = []
