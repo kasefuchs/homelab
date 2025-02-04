@@ -1,6 +1,7 @@
 ---
 - name: Get latest CNI version
   when: cni_version == "latest"
+  become: false
   run_once: true
   delegate_to: localhost
   block:
