@@ -1,6 +1,7 @@
 ---
 - name: Get latest Vault version
   when: vault_version == "latest"
+  become: false
   run_once: true
   delegate_to: localhost
   block:
