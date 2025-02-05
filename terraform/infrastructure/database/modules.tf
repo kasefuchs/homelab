@@ -1,4 +1,4 @@
-module "grafana" {
+module "postgresql" {
   source                   = "./modules/postgresql"
   vault_backend_name       = vault_mount.database.path
   vault_connection_name    = vault_database_secret_backend_connection.postgresql.name
@@ -8,6 +8,6 @@ module "grafana" {
 
   for_each = {
     for index, role in var.vault_postgresql_roles :
-    index => role
+    role.role_name => role
   }
 }
