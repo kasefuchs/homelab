@@ -57,6 +57,7 @@ resource "vault_policy" "nomad_workload" {
   name = "nomad-workload"
   policy = templatefile("${path.module}/policies/vault/nomad-workload.hcl.tftpl", {
     kv_mount_path        = vault_mount.nomad_workload.path
+    database_mount_path  = var.vault_database_path
     auth_method_accessor = vault_jwt_auth_backend.nomad.accessor
   })
 }
