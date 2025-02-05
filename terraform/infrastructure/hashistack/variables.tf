@@ -62,3 +62,8 @@ variable "vault_kv_nomad_workload_path" {
   type    = string
   default = "kvnw"
 }
+
+variable "vault_database_path" {
+  type    = string
+  default = "database"
+}

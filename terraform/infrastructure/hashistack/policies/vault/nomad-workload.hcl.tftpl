@@ -13,3 +13,11 @@ path "${kv_mount_path}/metadata/{{identity.entity.aliases.${auth_method_accessor
 path "${kv_mount_path}/metadata/*" {
   capabilities = ["list"]
 }
+
+path "${database_mount_path}/creds/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_job_id}}" {
+    capabilities = ["read"]
+}
+
+path "${database_mount_path}/static-creds/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_job_id}}" {
+    capabilities = ["read"]
+}
