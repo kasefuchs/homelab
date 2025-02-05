@@ -1,6 +1,12 @@
 resource "postgresql_role" "user" {
   name  = var.postgresql_user_name
   login = true
+
+  lifecycle {
+    ignore_changes = [
+      password
+    ]
+  }
 }
 
 resource "postgresql_database" "database" {
