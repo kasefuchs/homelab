@@ -56,6 +56,9 @@ variable "services" {
       connect = object({
         native = bool
         sidecar = object({
+          config = object({
+            protocol = string
+          })
           resources = object({
             cpu    = number
             memory = number
