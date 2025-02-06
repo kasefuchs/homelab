@@ -5,4 +5,4 @@ check process {{ nomad_agent_monit_service_name }} with pidfile {{ nomad_agent_p
   start program = "{{ nomad_agent_monit_init_path }} start"
   stop program = "{{ nomad_agent_monit_init_path }} stop"
   if not exist then restart
-  depends on {{ nebula_monit_service_name }}
+  depends on {{ consul_agent_monit_service_name }}

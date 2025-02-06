@@ -75,6 +75,9 @@ variable "services" {
       connect = object({
         native = bool
         sidecar = object({
+          config = object({
+            protocol = string
+          })
           resources = object({
             cpu    = number
             memory = number
@@ -97,6 +100,9 @@ variable "services" {
       connect = {
         native = false
         sidecar = {
+          config = {
+            protocol = "http"
+          }
           upstreams = []
           resources = null
         }
@@ -140,7 +146,7 @@ variable "templates" {
   )
   default = [
     {
-      data = <<EOH
+      data        = <<EOH
 ---
 ports:
   dns: 53

@@ -55,16 +55,22 @@
         }
         [[ end -]]
         sidecar_service {
-          [[ if $service.connect.sidecar.upstreams -]]
           proxy {
+            [[ if $service.connect.sidecar.config -]]
+            config {
+              protocol = [[ $service.connect.sidecar.config.protocol | quote ]]
+            }
+            [[ end -]]
+
+            [[ if $service.connect.sidecar.upstreams -]]
             [[- range $idx, $upstream := $service.connect.sidecar.upstreams ]]
             upstreams {
               destination_name = [[ $upstream.name | quote ]]
               local_bind_port  = [[ $upstream.port ]]
             }
             [[- end ]]
+            [[- end ]]
           }
-          [[ end -]]
         }
         [[ end -]]
       }

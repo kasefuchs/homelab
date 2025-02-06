@@ -6,6 +6,7 @@
     - nebula
     - nomad
     - consul
+    - consul_agent
     - vault
     - cni
   ansible.builtin.include_vars:

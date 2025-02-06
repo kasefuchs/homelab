@@ -54,3 +54,21 @@
     mode: "0644"
     owner: "{{ nomad_agent_user }}"
     group: "{{ nomad_agent_group }}"
+
+- name: Configure firewall for Nomad
+  when: nomad_agent_client
+  block:
+    - name: Configure FirewallD for Nomad
+      block:
+        - name: Gather FirewallD information
+          register: nomad_agent_firewalld_info
+          ignore_errors: true
+          ansible.posix.firewalld_info:
+
+        - name: Configure FirewallD for Nomad
+          when: not nomad_agent_firewalld_info.failed
+          ansible.posix.firewalld:
+            interface: nomad
+            permanent: true
+            state: enabled
+            zone: trusted
