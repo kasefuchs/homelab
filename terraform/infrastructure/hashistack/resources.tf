@@ -42,6 +42,47 @@ resource "consul_acl_policy" "nomad_server" {
   rules = file("${path.module}/policies/consul/nomad-server.hcl")
 }
 
+resource "consul_acl_policy" "nomad_tasks" {
+  name  = "nomad-tasks"
+  rules = file("${path.module}/policies/consul/nomad-tasks.hcl")
+}
+
+resource "consul_acl_auth_method" "nomad" {
+  type = "jwt"
+  name = "nomad-workloads"
+  config_json = jsonencode({
+    JWKSURL          = var.nomad_remote_jwks_url
+    JWKSCACert       = file(var.nomad_ca_file)
+    JWTSupportedAlgs = ["RS256"]
+    BoundAudiences   = ["consul.io"]
+    ClaimMappings = {
+      nomad_namespace = "nomad_namespace"
+      nomad_job_id    = "nomad_job_id"
+      nomad_task      = "nomad_task"
+      nomad_service   = "nomad_service"
+    }
+  })
+}
+
+resource "consul_acl_binding_rule" "nomad_service" {
+  auth_method = consul_acl_auth_method.nomad.name
+  bind_type   = "service"
+  bind_name   = "$${value.nomad_service}"
+  selector    = "\"nomad_service\" in value"
+}
+
+resource "consul_acl_binding_rule" "nomad_role" {
+  auth_method = consul_acl_auth_method.nomad.name
+  bind_type   = "role"
+  bind_name   = "nomad-tasks-$${value.nomad_namespace}"
+  selector    = "\"nomad_service\" not in value"
+}
+
+resource "consul_acl_role" "nomad_tasks_default" {
+  name     = "nomad-tasks-default"
+  policies = [consul_acl_policy.nomad_tasks.name]
+}
+
 resource "vault_policy" "vault_agent" {
   name = "vault-agent"
   policy = templatefile("${path.module}/policies/vault/vault-agent.hcl.tftpl", {
@@ -63,10 +104,11 @@ resource "vault_policy" "nomad_workload" {
 }
 
 resource "vault_jwt_auth_backend" "nomad" {
-  path         = "jwt-nomad"
-  jwks_url     = var.nomad_remote_jwks_url
-  jwks_ca_pem  = file(var.nomad_ca_file)
-  default_role = "nomad-workload"
+  path               = "jwt-nomad"
+  jwks_url           = var.nomad_remote_jwks_url
+  jwks_ca_pem        = file(var.nomad_ca_file)
+  jwt_supported_algs = ["RS256", "EdDSA"]
+  default_role       = "nomad-workload"
 }
 
 resource "vault_jwt_auth_backend_role" "nomad_workload" {
@@ -86,8 +128,8 @@ resource "vault_jwt_auth_backend_role" "nomad_workload" {
   user_claim_json_pointer = true
   claim_mappings = {
     nomad_task      = "nomad_task"
-    nomad_job_id    = "nomad_job_id",
-    nomad_namespace = "nomad_namespace",
+    nomad_job_id    = "nomad_job_id"
+    nomad_namespace = "nomad_namespace"
   }
 }
 
