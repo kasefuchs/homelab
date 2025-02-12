@@ -49,6 +49,16 @@ consul {
   ssl            = true
   share_ssl      = true
   auto_advertise = false
+
+  service_identity {
+    aud = ["consul.io"]
+    ttl = "1h"
+  }
+
+  task_identity {
+    aud = ["consul.io"]
+    ttl = "1h"
+  }
 }
 
 server {
