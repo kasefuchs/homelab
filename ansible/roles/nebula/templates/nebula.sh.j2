@@ -1,7 +1,7 @@
 #!/bin/sh
 
 RUNAS="{{ nebula_user }}"
-SCRIPT="{{ nebula_binary_path }} -config={{ nebula_config_path }}"
+SCRIPT="{{ nebula_application_binary_path }} -config={{ nebula_config_path }}"
 
 LOGDIR="{{ nebula_log_dir }}"
 STATEDIR="{{ nebula_state_dir }}"
@@ -43,7 +43,7 @@ start() {
   fi
 
   echo "Starting service…" >&2
-  CMD="env $ENVIRONMENT $SCRIPT &> \"$LOGFILE\" & echo \$!"
+  CMD="env $ENVIRONMENT $SCRIPT > "$LOGFILE" 2>&1 & echo \$!"
   su -c "$CMD" "$RUNAS" > "$PIDFILE"
 
   echo "Service started" >&2

@@ -64,7 +64,7 @@ server {
 client {
   enabled = {{ nomad_agent_client | lower }}
 
-  cni_path         = "{{ cni_current_dir }}"
+  cni_path         = "{{ cni_application_dir }}"
   alloc_dir        = "{{ nomad_agent_alloc_dir }}"
   alloc_mounts_dir = "{{ nomad_agent_alloc_mounts_dir }}"
 

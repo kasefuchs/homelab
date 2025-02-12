@@ -8,4 +8,4 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ monit_download_cache_dir }}"
+    - "{{ monit_controller_source_cache_dir }}"

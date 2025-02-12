@@ -16,5 +16,5 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ nomad_secrets_dir }}"
-    - "{{ nomad_download_cache_dir }}"
+    - "{{ nomad_controller_secrets_dir }}"
+    - "{{ nomad_controller_source_cache_dir }}"

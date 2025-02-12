@@ -8,8 +8,11 @@ vault_server_state_dir: /var/lib/vault-server
 # The path to the directory where Vault runtime data stored.
 vault_server_runtime_dir: /run/vault-server
 
+# The path in which configuration stored.
+vault_server_config_dir: /etc/vault-server
+
 # The path to the directory where Vault raft data stored.
-vault_server_raft_dir: /opt/vault/raft
+vault_server_raft_dir: "{{ (vault_server_state_dir, 'raft') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault server log stored.
 vault_server_log_path: "{{ (vault_server_log_dir, 'server.log') | ansible.builtin.path_join }}"
@@ -18,10 +21,10 @@ vault_server_log_path: "{{ (vault_server_log_dir, 'server.log') | ansible.builti
 vault_server_pid_path: "{{ (vault_server_runtime_dir, 'server.pid') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault server configuration stored.
-vault_server_config_path: "{{ (vault_config_dir, 'server.hcl') | ansible.builtin.path_join }}"
+vault_server_config_path: "{{ (vault_server_config_dir, 'server.hcl') | ansible.builtin.path_join }}"
 
 # The path to the file where Vault keys stored.
-vault_server_secrets_init_result_path: "{{ (vault_secrets_dir, 'init.json') | ansible.builtin.path_join }}"
+vault_server_secrets_init_result_path: "{{ (vault_controller_secrets_dir, 'init.json') | ansible.builtin.path_join }}"
 
 # The path to the Monit Vault server init script.
 vault_server_monit_init_path: "{{ (monit_init_dir, 'vault-server.sh') | ansible.builtin.path_join }}"
@@ -37,3 +40,9 @@ vault_server_reload_signal: 1
 
 # Specifies the environment variables of program.
 vault_server_environment: {}
+
+# The user to run as.
+vault_server_user: "{{ vault_user }}"
+
+# The group to use.
+vault_server_group: "{{ vault_group }}"

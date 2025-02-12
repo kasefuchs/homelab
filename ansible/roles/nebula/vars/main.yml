@@ -5,60 +5,66 @@ nebula_github_user: slackhq
 # Repository name.
 nebula_github_repository: nebula
 
-# Map of Ansible architectures to correspondent Nebula architectures.
+# Map of Ansible architectures to correspondent architectures.
 nebula_architectures:
   aarch64: arm64
   x86_64: amd64
 
-# The path to the directory where extracted Nebula package stored.
-nebula_package_dir: /usr/local/src/nebula
+# The path to the directory where extracted package stored.
+nebula_source_dir: /usr/local/src/nebula
 
-# The path to the directory where Nebula configuration stored.
+# The path to the directory where packed sources stored.
+nebula_source_cache_dir: /var/cache/ansible/nebula
+
+# The path to the directory where configuration stored.
 nebula_config_dir: /etc/nebula
 
-# The path to the directory where Nebula logs stored.
+# The path to the directory where logs stored.
 nebula_log_dir: /var/log/nebula
 
-# The path to the directory where Nebula state data stored.
+# The path to the directory where state data stored.
 nebula_state_dir: /var/lib/nebula
 
-# The path to the directory where Nebula runtime data stored.
+# The path to the directory where runtime data stored.
 nebula_runtime_dir: /run/nebula
 
-# The path to the directory where Nebula certificates stored.
+# The path to the directory where certificates stored.
 nebula_pki_dir: /etc/pki/nebula
 
-# The path to the directory where current Nebula version stored.
-nebula_current_dir: "{{ (nebula_package_dir, 'current') | ansible.builtin.path_join }}"
+# The path to the directory where current version stored.
+nebula_application_dir: /usr/local/nebula
 
 # The path to the binary of Nebula.
-nebula_current_binary_path: "{{ (nebula_current_dir, 'nebula') | ansible.builtin.path_join }}"
+nebula_application_binary_path: "{{ (nebula_application_dir, 'nebula') | ansible.builtin.path_join }}"
+
+# The path to the file where configuration stored.
+nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"
 
 # The path to the binary of Nebula.
 nebula_binary_path: /usr/local/bin/nebula
 
-# The path to the file where Nebula configuration stored.
-nebula_config_path: "{{ (nebula_config_dir, 'nebula.yml') | ansible.builtin.path_join }}"
-
-# The user to run Nebula as.
+# The user to run as.
 nebula_user: nebula
 
 # The group to use running Nebula.
 nebula_group: nebula
 
-# The path to the file where Nebula log stored.
+# The path to the file where log stored.
 nebula_log_path: "{{ (nebula_log_dir, 'nebula.log') | ansible.builtin.path_join }}"
 
-# The path to the file where Nebula process id stored.
+# The path to the file where process id stored.
 nebula_pid_path: "{{ (nebula_runtime_dir, 'nebula.pid') | ansible.builtin.path_join }}"
 
-# The path to the directory where download cache stored.
-nebula_download_cache_dir: "{{ playbook_dir }}/../cache/download/nebula"
+# The path to the directory where cache stored.
+nebula_controller_cache_dir: "{{ playbook_dir }}/../cache/nebula"
 
-# The path to the Monit Nebula init script.
+# The path to the directory where download cache stored.
+nebula_controller_source_cache_dir: "{{ (nebula_controller_cache_dir, 'source') | ansible.builtin.path_join }}"
+
+# The path to the Monit init script.
 nebula_monit_init_path: "{{ (monit_init_dir, 'nebula.sh') | ansible.builtin.path_join }}"
 
-# The name of the Nebula Monit service.
+# The name of the Monit service.
 nebula_monit_service_name: nebula
 
 # Specifies the service stop signal.

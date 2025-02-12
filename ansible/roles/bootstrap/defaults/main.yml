@@ -5,6 +5,7 @@ bootstrap_package_update_cache: true
 # Map of packages for installation, broken down by distribution.
 bootstrap_package_distribution_install:
   default:
+    - tar
     - unzip
     - dmidecode
     - libnsl2
@@ -12,6 +13,7 @@ bootstrap_package_distribution_install:
     - containerd.io
 
   centos:
+    - tar
     - unzip
     - dmidecode
     - libnsl
@@ -19,6 +21,7 @@ bootstrap_package_distribution_install:
     - containerd.io
 
   rocky:
+    - tar
     - unzip
     - dmidecode
     - libnsl
@@ -26,6 +29,7 @@ bootstrap_package_distribution_install:
     - containerd.io
 
   fedora:
+    - tar
     - unzip
     - dmidecode
     - libnsl
@@ -53,3 +57,15 @@ bootstrap_package_apt_distribution_repositories:
       url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
       key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
       components: [stable]
+
+# Services to start.
+bootstrap_service_distribution_start:
+  default:
+    - docker
+    - containerd
+
+# Services to enable.
+bootstrap_service_distribution_enable:
+  default:
+    - docker
+    - containerd

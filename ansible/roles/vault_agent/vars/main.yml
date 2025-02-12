@@ -1,39 +1,42 @@
 ---
-# The path to the directory where Vault logs stored.
+# The path to the directory where logs stored.
 vault_agent_log_dir: /var/log/vault-agent
 
-# The path to the directory where Vault state data stored.
+# The path to the directory where state data stored.
 vault_agent_state_dir: /var/lib/vault-agent
 
-# The path to the directory where Vault runtime data stored.
+# The path to the directory where runtime data stored.
 vault_agent_runtime_dir: /run/vault-agent
 
-# The path to the file where Vault agent log stored.
+# The path to the directory where configuration stored.
+vault_agent_config_dir: /etc/vault-agent
+
+# The path to the file where agent log stored.
 vault_agent_log_path: "{{ (vault_agent_log_dir, 'agent.log') | ansible.builtin.path_join }}"
 
-# The path to the file where Vault agent process id stored.
+# The path to the file where agent process id stored.
 vault_agent_pid_path: "{{ (vault_agent_runtime_dir, 'agent.pid') | ansible.builtin.path_join }}"
 
-# The path to the file where Vault agent configuration stored.
-vault_agent_config_path: "{{ (vault_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
+# The path to the file where agent configuration stored.
+vault_agent_config_path: "{{ (vault_agent_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
 
-# The path to the file where Vault keys stored.
-vault_agent_secrets_init_result_path: "{{ (vault_secrets_dir, 'init.json') | ansible.builtin.path_join }}"
+# The path to the file where keys stored.
+vault_agent_secrets_init_result_path: "{{ (vault_controller_secrets_dir, 'init.json') | ansible.builtin.path_join }}"
 
-# The path to the Monit Vault agent init script.
+# The path to the Monit agent init script.
 vault_agent_monit_init_path: "{{ (monit_init_dir, 'vault-agent.sh') | ansible.builtin.path_join }}"
 
-# The name of the Vault agent Monit service.
+# The name of the agent Monit service.
 vault_agent_monit_service_name: vault-agent
 
 # The path to the auto auth sink file.
 vault_agent_auto_auth_sink_path: "{{ (vault_agent_runtime_dir, '.agent-token') | ansible.builtin.path_join }}"
 
 # The path to the file with role ID.
-vault_agent_auto_auth_method_role_id_path: "{{ (vault_config_dir, '.role-id') | ansible.builtin.path_join }}"
+vault_agent_auto_auth_method_role_id_path: "{{ (vault_agent_config_dir, '.role-id') | ansible.builtin.path_join }}"
 
 # The path to the file with secret ID.
-vault_agent_auto_auth_method_secret_id_path: "{{ (vault_config_dir, '.secret-id') | ansible.builtin.path_join }}"
+vault_agent_auto_auth_method_secret_id_path: "{{ (vault_agent_config_dir, '.secret-id') | ansible.builtin.path_join }}"
 
 # Specifies the service stop signal.
 vault_agent_stop_signal: 15
@@ -41,10 +44,10 @@ vault_agent_stop_signal: 15
 # Specifies the service reload signal.
 vault_agent_reload_signal: 1
 
-# The user to run Vault Agent as.
+# The user to run as.
 vault_agent_user: root
 
-# The group to run Vault Agent as.
+# The group to run as.
 vault_agent_group: root
 
 # Specifies the environment variables of program.

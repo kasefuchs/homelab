@@ -23,7 +23,7 @@
   block:
     - name: Create version directory
       ansible.builtin.file:
-        path: "{{ (nomad_download_cache_dir, nomad_version) | ansible.builtin.path_join }}"
+        path: "{{ (nomad_controller_source_cache_dir, nomad_version) | ansible.builtin.path_join }}"
         mode: "0755"
         state: directory
 
@@ -33,7 +33,7 @@
         loop_var: nomad_architecture
       register: nomad_files
       ansible.builtin.stat:
-        path: "{{ (nomad_download_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
+        path: "{{ (nomad_controller_source_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
 
     - name: Download Nomad archives
       loop: "{{ nomad_architectures.values() }}"
@@ -43,38 +43,50 @@
       when: not nomad_files.results[ansible_loop.index0].stat.exists
       ansible.builtin.get_url:
         url: "{{ nomad_download_url }}"
-        dest: "{{ (nomad_download_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
+        dest: "{{ (nomad_controller_source_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
 
 - name: Set Nomad filesystem facts
   run_once: true
   ansible.builtin.set_fact:
-    nomad_version_dir: "{{ (nomad_package_dir, nomad_version) | ansible.builtin.path_join }}"
+    nomad_source_version_dir: "{{ (nomad_source_dir, nomad_version) | ansible.builtin.path_join }}"
 
-- name: Create Nomad package directory
+- name: Create Nomad directories
   block:
-    - name: Create Nomad package directory
+    - name: Create Nomad source cache directory
       ansible.builtin.file:
         mode: "0755"
-        path: "{{ nomad_version_dir }}"
+        path: "{{ nomad_source_cache_dir }}"
         state: directory
 
-    - name: Link Nomad current version directory
+    - name: Create Nomad source version directory
       ansible.builtin.file:
-        src: "{{ nomad_version_dir }}"
-        dest: "{{ nomad_current_dir }}"
+        mode: "0755"
+        path: "{{ nomad_source_version_dir }}"
+        state: directory
+
+    - name: Link Nomad source version to application directory
+      ansible.builtin.file:
+        src: "{{ nomad_source_version_dir }}"
+        dest: "{{ nomad_application_dir }}"
         state: link
 
 - name: Install Nomad binary
   block:
+    - name: Copy Nomad archive
+      ansible.builtin.copy:
+        src: "{{ (nomad_controller_source_cache_dir, nomad_version, nomad_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ (nomad_source_cache_dir, nomad_version) | ansible.builtin.path_join }}"
+
     - name: Extract Nomad archive
       ansible.builtin.unarchive:
-        src: "{{ (nomad_download_cache_dir, nomad_version, nomad_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
-        dest: "{{ nomad_current_dir }}"
-        creates: "{{ nomad_current_binary_path }}"
+        src: "{{ (nomad_source_cache_dir, nomad_version) | ansible.builtin.path_join }}"
+        dest: "{{ nomad_application_dir }}"
+        creates: "{{ nomad_application_binary_path }}"
         extra_opts: "{{ nomad_unarchive_extra_opts }}"
+        remote_src: true
 
     - name: Create Nomad binary symlink
       ansible.builtin.file:
-        src: "{{ nomad_current_binary_path }}"
+        src: "{{ nomad_application_binary_path }}"
         dest: "{{ nomad_binary_path }}"
         state: link

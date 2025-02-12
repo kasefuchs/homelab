@@ -4,3 +4,6 @@ cni_version: latest
 
 # URL to download CNI archive from.
 cni_download_url: https://github.com/containernetworking/plugins/releases/download/v{{ cni_version }}/cni-plugins-linux-{{ cni_architecture }}-v{{ cni_version }}.tgz
+
+# Extra options to pass to unarchive command.
+cni_unarchive_extra_opts: []

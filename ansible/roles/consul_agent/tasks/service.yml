@@ -13,7 +13,7 @@
     - Restart Consul Agent
   ansible.builtin.template:
     src: consul-agent.cfg.j2
-    dest: "{{ (monit_include_dir, 'consul-agent.cfg') | ansible.builtin.path_join }}"
+    dest: "{{ (monit_check_dir, 'consul-agent.cfg') | ansible.builtin.path_join }}"
     mode: "0644"
 
 - name: Flush handlers

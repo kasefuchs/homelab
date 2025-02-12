@@ -13,7 +13,7 @@
     - Restart Nebula
   ansible.builtin.template:
     src: nebula.cfg.j2
-    dest: "{{ (monit_include_dir, 'nebula.cfg') | ansible.builtin.path_join }}"
+    dest: "{{ (monit_check_dir, 'nebula.cfg') | ansible.builtin.path_join }}"
     mode: "0644"
 
 - name: Flush handlers

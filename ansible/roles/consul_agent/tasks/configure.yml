@@ -7,6 +7,8 @@
     owner: "{{ consul_agent_user }}"
     group: "{{ consul_agent_group }}"
   loop:
+    - "{{ consul_agent_config_dir }}"
+    - "{{ consul_agent_state_dir }}"
     - "{{ consul_agent_data_dir }}"
 
 - name: Copy Consul Agent certificates

@@ -16,5 +16,5 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ consul_secrets_dir }}"
-    - "{{ consul_download_cache_dir }}"
+    - "{{ consul_controller_secrets_dir }}"
+    - "{{ consul_controller_source_cache_dir }}"

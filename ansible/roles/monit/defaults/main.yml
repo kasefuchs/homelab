@@ -1,6 +1,6 @@
 ---
 # Monit version to download.
-monit_version: 5.34.3
+monit_version: 5.34.4
 
 # URL to download Monit archive from.
 monit_download_url: https://mmonit.com/monit/dist/binary/{{ monit_version }}/monit-{{ monit_version }}-linux-{{ monit_architecture }}.tar.gz
@@ -10,3 +10,9 @@ monit_unarchive_extra_opts: ["--strip-components=1"]
 
 # Check services at specified seconds intervals.
 monit_check_interval: 15
+
+# The user allowed to manipulate with Monit.
+monit_allow_user: monit
+
+# The password of user allowed to manipulate with Monit.
+monit_allow_password: 5up3r_53cr37_p455w0rd

@@ -10,14 +10,23 @@ envoy_architectures:
   aarch64: aarch_64
   x86_64: x86_64
 
-# The path to the directory where extracted Envoy package stored.
-envoy_package_dir: /usr/local/src/envoy
+# The path to the directory where extracted package stored.
+envoy_source_dir: /usr/local/src/envoy
 
-# The path to the directory where current Envoy version stored.
-envoy_current_dir: "{{ (envoy_package_dir, 'current') | ansible.builtin.path_join }}"
+# The path to the directory where packed sources stored.
+envoy_source_cache_dir: /var/cache/ansible/envoy
 
-# The path to the binary of Envoy.
-envoy_binary_path: "{{ (envoy_current_dir, 'envoy') | ansible.builtin.path_join }}"
+# The path to the directory where current version stored.
+envoy_application_dir: /usr/local/envoy
+
+# The path to the binary.
+envoy_application_binary_path: "{{ (envoy_application_dir, 'envoy') | ansible.builtin.path_join }}"
+
+# The path to the binary.
+envoy_binary_path: /usr/local/bin/envoy
+
+# The path to the directory where cache stored.
+envoy_controller_cache_dir: "{{ playbook_dir }}/../cache/envoy"
 
 # The path to the directory where download cache stored.
-envoy_download_cache_dir: "{{ playbook_dir }}/../cache/download/envoy"
+envoy_controller_source_cache_dir: "{{ (envoy_controller_cache_dir, 'source') | ansible.builtin.path_join }}"

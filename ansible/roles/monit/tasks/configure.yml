@@ -6,7 +6,8 @@
     state: directory
   loop:
     - "{{ monit_config_dir }}"
-    - "{{ monit_include_dir }}"
+    - "{{ monit_check_dir }}"
+    - "{{ monit_state_dir }}"
     - "{{ monit_init_dir }}"
 
 - name: Copy Monit configuration

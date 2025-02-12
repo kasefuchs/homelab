@@ -8,7 +8,6 @@
     group: "{{ consul_group }}"
   loop:
     - "{{ consul_pki_dir }}"
-    - "{{ consul_config_dir }}"
 
 - name: Copy Consul certificates
   ansible.builtin.copy:

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 RUNAS="{{ nomad_agent_user }}"
-SCRIPT="{{ nomad_binary_path }} agent -config={{ nomad_config_dir }}"
+SCRIPT="{{ nomad_binary_path }} agent -config={{ nomad_agent_config_dir }}"
 
 LOGDIR="{{ nomad_agent_log_dir }}"
 STATEDIR="{{ nomad_agent_state_dir }}"
@@ -43,7 +43,7 @@ start() {
   fi
 
   echo "Starting service…" >&2
-  CMD="env $ENVIRONMENT $SCRIPT &> \"$LOGFILE\" & echo \$!"
+  CMD="env $ENVIRONMENT $SCRIPT > "$LOGFILE" 2>&1 & echo \$!"
   su -c "$CMD" "$RUNAS" > "$PIDFILE"
 
   echo "Service started" >&2
