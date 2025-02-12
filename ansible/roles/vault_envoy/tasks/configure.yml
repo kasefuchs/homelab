@@ -1,9 +1,20 @@
 ---
+- name: Create Vault Envoy directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_envoy_user }}"
+    group: "{{ vault_envoy_group }}"
+  loop:
+    - "{{ vault_envoy_state_dir }}"
+    - "{{ vault_envoy_config_dir }}"
+
 - name: Copy Vault Envoy configuration
   register: vault_envoy_config_template
   ansible.builtin.template:
     src: envoy.yml.j2
     dest: "{{ vault_envoy_config_path }}"
     mode: "0644"
-    owner: "{{ vault_user }}"
-    group: "{{ vault_group }}"
+    owner: "{{ vault_envoy_user }}"
+    group: "{{ vault_envoy_group }}"

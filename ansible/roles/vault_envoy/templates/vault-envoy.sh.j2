@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RUNAS="{{ vault_user }}"
+RUNAS="{{ vault_envoy_user }}"
 SCRIPT="{{ envoy_binary_path }} --config-path {{ vault_envoy_config_path }} --base-id-path {{ vault_envoy_base_id_path }} --use-dynamic-base-id"
 
 LOGDIR="{{ vault_envoy_log_dir }}"
@@ -43,7 +43,7 @@ start() {
   fi
 
   echo "Starting service…" >&2
-  CMD="env $ENVIRONMENT $SCRIPT &> \"$LOGFILE\" & echo \$!"
+  CMD="env $ENVIRONMENT $SCRIPT > "$LOGFILE" 2>&1 & echo \$!"
   su -c "$CMD" "$RUNAS" > "$PIDFILE"
 
   echo "Service started" >&2

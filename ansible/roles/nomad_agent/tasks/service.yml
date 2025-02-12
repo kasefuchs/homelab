@@ -13,7 +13,7 @@
     - Restart Nomad Agent
   ansible.builtin.template:
     src: nomad-agent.cfg.j2
-    dest: "{{ (monit_include_dir, 'nomad-agent.cfg') | ansible.builtin.path_join }}"
+    dest: "{{ (monit_check_dir, 'nomad-agent.cfg') | ansible.builtin.path_join }}"
     mode: "0644"
 
 - name: Flush handlers

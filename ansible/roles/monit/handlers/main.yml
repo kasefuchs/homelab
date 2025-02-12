@@ -10,10 +10,10 @@
     name: monit
     state: started
 
-- name: Reload Monit
+- name: Restart Monit
   ansible.builtin.service:
     name: monit
-    state: reloaded
+    state: restarted
 
 - name: Enable Monit
   ansible.builtin.service:

@@ -1,44 +1,47 @@
 ---
-# The path to the directory where Consul data stored.
-consul_agent_data_dir: /opt/consul/data
+# The path to the directory where data stored.
+consul_agent_data_dir: "{{ (consul_agent_state_dir, 'data') | ansible.builtin.path_join }}"
 
-# The path to the file where Consul Agent configuration stored.
-consul_agent_config_path: "{{ (consul_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
+# The path to the file where configuration stored.
+consul_agent_config_path: "{{ (consul_agent_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
 
-# The path to the file where Consul Agent ACL tokens stored.
-consul_agent_acl_path: "{{ (consul_config_dir, 'acl.hcl') | ansible.builtin.path_join }}"
+# The path to the file where ACL tokens stored.
+consul_agent_acl_path: "{{ (consul_agent_config_dir, 'acl.hcl') | ansible.builtin.path_join }}"
 
-# The path to the file where Consul Agent ACL template stored.
-consul_agent_acl_template_path: "{{ (consul_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
+# The path to the file where ACL template stored.
+consul_agent_acl_template_path: "{{ (consul_agent_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
 
-# The user to run Consul Agent as.
+# The user to run as.
 consul_agent_user: "{{ consul_user }}"
 
-# The group to use running Consul Agent.
+# The group to use running.
 consul_agent_group: "{{ consul_group }}"
 
-# The path to the file where Consul ACL bootstrap result stored.
-consul_agent_secrets_acl_bootstrap_result_path: "{{ (consul_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
+# The path to the file where ACL bootstrap result stored.
+consul_agent_secrets_acl_bootstrap_result_path: "{{ (consul_controller_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
 
-# The path to the directory where Consul logs stored.
+# The path to the directory where logs stored.
 consul_agent_log_dir: /var/log/consul-agent
 
-# The path to the directory where Consul state data stored.
+# The path to the directory where state data stored.
 consul_agent_state_dir: /var/lib/consul-agent
 
-# The path to the directory where Consul runtime data stored.
+# The path to the directory where runtime data stored.
 consul_agent_runtime_dir: /run/consul-agent
 
-# The path to the file where Consul Agent log stored.
+# The path to the directory where configuration stored.
+consul_agent_config_dir: /etc/consul-agent
+
+# The path to the file where log stored.
 consul_agent_log_path: "{{ (consul_agent_log_dir, 'agent.log') | ansible.builtin.path_join }}"
 
-# The path to the file where Consul Agent process id stored.
+# The path to the file where process id stored.
 consul_agent_pid_path: "{{ (consul_agent_runtime_dir, 'agent.pid') | ansible.builtin.path_join }}"
 
-# The path to the Monit Consul init script.
+# The path to the Monit init script.
 consul_agent_monit_init_path: "{{ (monit_init_dir, 'consul-agent.sh') | ansible.builtin.path_join }}"
 
-# The name of the Consul Monit service.
+# The name of the Monit service.
 consul_agent_monit_service_name: consul-agent
 
 # Specifies the service stop signal.

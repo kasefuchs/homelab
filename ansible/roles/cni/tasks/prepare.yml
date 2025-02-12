@@ -13,4 +13,4 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ cni_download_cache_dir }}"
+    - "{{ cni_controller_source_cache_dir }}"

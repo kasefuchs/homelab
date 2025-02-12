@@ -13,7 +13,7 @@
     - Restart Vault Envoy
   ansible.builtin.template:
     src: vault-envoy.cfg.j2
-    dest: "{{ (monit_include_dir, 'vault-envoy.cfg') | ansible.builtin.path_join }}"
+    dest: "{{ (monit_check_dir, 'vault-envoy.cfg') | ansible.builtin.path_join }}"
     mode: "0644"
 
 - name: Flush handlers

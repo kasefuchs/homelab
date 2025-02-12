@@ -4,7 +4,7 @@
   notify:
     - Daemon Reload
     - Start Monit
-    - Reload Monit
+    - Restart Monit
     - Enable Monit
   ansible.builtin.template:
     src: monit.service.j2

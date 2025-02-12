@@ -8,6 +8,7 @@
     group: "{{ nebula_group }}"
   loop:
     - "{{ nebula_pki_dir }}"
+    - "{{ nebula_state_dir }}"
     - "{{ nebula_config_dir }}"
 
 - name: Copy Nebula certificates

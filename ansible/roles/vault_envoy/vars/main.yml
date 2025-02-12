@@ -1,26 +1,29 @@
 ---
-# The path to the directory where Vault logs stored.
+# The path to the directory where logs stored.
 vault_envoy_log_dir: /var/log/vault-envoy
 
-# The path to the directory where Vault state data stored.
+# The path to the directory where state data stored.
 vault_envoy_state_dir: /var/lib/vault-envoy
 
-# The path to the directory where Vault runtime data stored.
+# The path to the directory where runtime data stored.
 vault_envoy_runtime_dir: /run/vault-envoy
 
-# The path to the file where Vault Envoy log stored.
+# The path to the directory where configuration stored.
+vault_envoy_config_dir: /etc/vault-envoy
+
+# The path to the file where log stored.
 vault_envoy_log_path: "{{ (vault_envoy_log_dir, 'envoy.log') | ansible.builtin.path_join }}"
 
-# The path to the file where Vault Envoy process id stored.
+# The path to the file where process id stored.
 vault_envoy_pid_path: "{{ (vault_envoy_runtime_dir, 'envoy.pid') | ansible.builtin.path_join }}"
 
-# The path to the file where Vault Envoy configuration stored.
-vault_envoy_config_path: "{{ (vault_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
+# The path to the file where configuration stored.
+vault_envoy_config_path: "{{ (vault_envoy_config_dir, 'envoy.yml') | ansible.builtin.path_join }}"
 
-# The path to the Monit Vault Envoy init script.
+# The path to the Monit init script.
 vault_envoy_monit_init_path: "{{ (monit_init_dir, 'vault-envoy.sh') | ansible.builtin.path_join }}"
 
-# The name of the Vault Envoy Monit service.
+# The name of the Monit service.
 vault_envoy_monit_service_name: vault-envoy
 
 # Specifies the service stop signal.
@@ -29,8 +32,14 @@ vault_envoy_stop_signal: 15
 # Specifies the service reload signal.
 vault_envoy_reload_signal: 0
 
-# Writes the Vault Envoy base ID to the given path.
+# Writes the base ID to the given path.
 vault_envoy_base_id_path: "{{ (vault_envoy_state_dir, 'envoy-base-id') | ansible.builtin.path_join }}"
 
 # Specifies the environment variables of program.
 vault_envoy_environment: {}
+
+# The user to run as.
+vault_envoy_user: "{{ vault_user }}"
+
+# The group to use.
+vault_envoy_group: "{{ vault_group }}"

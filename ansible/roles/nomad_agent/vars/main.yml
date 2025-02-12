@@ -1,56 +1,59 @@
 ---
-# The path to the directory where Nomad Agent data stored.
-nomad_agent_data_dir: /opt/nomad/data
+# The path to the directory where data stored.
+nomad_agent_data_dir: "{{ (nomad_agent_state_dir, 'data') | ansible.builtin.path_join }}"
 
 # Specifies the directory to use for allocation data.
-nomad_agent_alloc_dir: /opt/nomad/alloc
+nomad_agent_alloc_dir: "{{ (nomad_agent_state_dir, 'alloc') | ansible.builtin.path_join }}"
 
 # Specifies the directory to use for binding mounts for the unveil file isolation mode.
-nomad_agent_alloc_mounts_dir: /opt/nomad/mounts
+nomad_agent_alloc_mounts_dir: "{{ (nomad_agent_state_dir, 'alloc-mounts') | ansible.builtin.path_join }}"
 
-# The path to the file where Nomad Agent configuration stored.
-nomad_agent_config_path: "{{ (nomad_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
+# The path to the directory where configuration stored.
+nomad_agent_config_dir: /etc/nomad-agent
 
-# The path to the directory where current version of Nomad Agent stored.
+# The path to the file where configuration stored.
+nomad_agent_config_path: "{{ (nomad_agent_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
+
+# The path to the directory where current version of stored.
 nomad_agent_current_dir: "{{ (nomad_package_dir, 'current') | ansible.builtin.path_join }}"
 
-# The path to the binary of Nomad Agent.
+# The path to the binary of Agent.
 nomad_agent_binary_path: "{{ (nomad_current_dir, 'nomad') | ansible.builtin.path_join }}"
 
-# The user to run Nomad Agent as.
+# The user to run as.
 nomad_agent_user: "{{ 'root' if (nomad_agent_client | default(true)) else nomad_user }}"
 
-# The group to use running Nomad Agent.
+# The group to use running Agent.
 nomad_agent_group: "{{ nomad_group }}"
 
-# The path to the directory where Nomad logs stored.
+# The path to the directory where logs stored.
 nomad_agent_log_dir: /var/log/nomad-agent
 
-# The path to the directory where Nomad state data stored.
+# The path to the directory where state data stored.
 nomad_agent_state_dir: /var/lib/nomad-agent
 
-# The path to the directory where Nomad runtime data stored.
+# The path to the directory where runtime data stored.
 nomad_agent_runtime_dir: /run/nomad-agent
 
-# The path to the file where Nomad Agent ACL bootstrap result stored.
-nomad_agent_secrets_acl_bootstrap_result_path: "{{ (nomad_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
+# The path to the file where ACL bootstrap result stored.
+nomad_agent_secrets_acl_bootstrap_result_path: "{{ (nomad_controller_secrets_dir, 'acl.json') | ansible.builtin.path_join }}"
 
-# The path to the file where Nomad Agent ACL tokens stored.
-nomad_agent_acl_path: "{{ (nomad_config_dir, 'acl.hcl') | ansible.builtin.path_join }}"
+# The path to the file where ACL tokens stored.
+nomad_agent_acl_path: "{{ (nomad_agent_config_dir, 'acl.hcl') | ansible.builtin.path_join }}"
 
-# The path to the file where Nomad Agent ACL template stored.
-nomad_agent_acl_template_path: "{{ (nomad_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
+# The path to the file where ACL template stored.
+nomad_agent_acl_template_path: "{{ (nomad_agent_config_dir, 'acl.hcl.ctmpl') | ansible.builtin.path_join }}"
 
-# The path to the file where Nomad Agent log stored.
+# The path to the file where log stored.
 nomad_agent_log_path: "{{ (nomad_agent_log_dir, 'agent.log') | ansible.builtin.path_join }}"
 
-# The path to the file where Nomad Agent process id stored.
+# The path to the file where process id stored.
 nomad_agent_pid_path: "{{ (nomad_agent_runtime_dir, 'agent.pid') | ansible.builtin.path_join }}"
 
-# The path to the Monit Nomad Agent init script.
+# The path to the Monit init script.
 nomad_agent_monit_init_path: "{{ (monit_init_dir, 'nomad-agent.sh') | ansible.builtin.path_join }}"
 
-# The name of the Nomad Agent Monit service.
+# The name of the Monit service.
 nomad_agent_monit_service_name: nomad-agent
 
 # Specifies the service stop signal.
@@ -58,12 +61,6 @@ nomad_agent_stop_signal: 15
 
 # Specifies the service reload signal.
 nomad_agent_reload_signal: 1
-
-# Services user by Docker driver.
-nomad_agent_driver_docker_services:
-  - docker
-  - containerd
-
 
 # Specifies the environment variables of program.
 nomad_agent_environment:

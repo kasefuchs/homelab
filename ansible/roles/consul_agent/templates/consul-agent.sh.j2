@@ -1,7 +1,7 @@
 #!/bin/sh
 
 RUNAS="{{ consul_agent_user }}"
-SCRIPT="{{ consul_binary_path }} agent -config-dir={{ consul_config_dir }}"
+SCRIPT="{{ consul_binary_path }} agent -config-dir={{ consul_agent_config_dir }}"
 
 LOGDIR="{{ consul_agent_log_dir }}"
 STATEDIR="{{ consul_agent_state_dir }}"
@@ -43,7 +43,7 @@ start() {
   fi
 
   echo "Starting service…" >&2
-  CMD="env $ENVIRONMENT $SCRIPT &> \"$LOGFILE\" & echo \$!"
+  CMD="env $ENVIRONMENT $SCRIPT > "$LOGFILE" 2>&1 & echo \$!"
   su -c "$CMD" "$RUNAS" > "$PIDFILE"
 
   echo "Service started" >&2

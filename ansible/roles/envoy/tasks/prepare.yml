@@ -8,4 +8,4 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ envoy_download_cache_dir }}"
+    - "{{ envoy_controller_source_cache_dir }}"

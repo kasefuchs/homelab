@@ -14,5 +14,5 @@
     mode: "0755"
     state: directory
   loop:
-    - "{{ vault_secrets_dir }}"
-    - "{{ vault_download_cache_dir }}"
+    - "{{ vault_controller_secrets_dir }}"
+    - "{{ vault_controller_source_cache_dir }}"

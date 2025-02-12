@@ -10,19 +10,19 @@ vault_architectures:
   aarch64: arm64
   x86_64: amd64
 
-# The path to the directory where extracted Vault package stored.
-vault_package_dir: /usr/local/src/vault
+# The path to the directory where extracted package stored.
+vault_source_dir: /usr/local/src/vault
 
-# The path to the directory where Vault configuration stored.
-vault_config_dir: /etc/vault
+# The path to the directory where packed sources stored.
+vault_source_cache_dir: /var/cache/ansible/vault
 
-# The path to the directory where current version of Vault stored.
-vault_current_dir: "{{ (vault_package_dir, 'current') | ansible.builtin.path_join }}"
+# The path to the directory where current version stored.
+vault_application_dir: /usr/local/vault
 
-# The path to the binary of Vault.
-vault_current_binary_path: "{{ (vault_current_dir, 'vault') | ansible.builtin.path_join }}"
+# The path to the binary.
+vault_application_binary_path: "{{ (vault_application_dir, 'vault') | ansible.builtin.path_join }}"
 
-# The path to the binary of Vault.
+# The path to the binary.
 vault_binary_path: /usr/local/bin/vault
 
 # The path to the directory where Vault certificates stored.
@@ -35,7 +35,10 @@ vault_user: vault
 vault_group: vault
 
 # The path to the directory where secrets stored.
-vault_secrets_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'vault') | ansible.builtin.path_join }}"
+vault_controller_secrets_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'vault') | ansible.builtin.path_join }}"
+
+# The path to the directory where cache stored.
+vault_controller_cache_dir: "{{ playbook_dir }}/../cache/vault"
 
 # The path to the directory where download cache stored.
-vault_download_cache_dir: "{{ (playbook_dir, '../cache/download/vault') | ansible.builtin.path_join }}"
+vault_controller_source_cache_dir: "{{ (vault_controller_cache_dir, 'source') | ansible.builtin.path_join }}"

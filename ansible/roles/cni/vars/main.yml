@@ -10,11 +10,17 @@ cni_architectures:
   aarch64: arm64
   x86_64: amd64
 
-# The path to the directory where extracted CNI package stored.
-cni_package_dir: /usr/local/src/cni
+# The path to the directory where extracted package stored.
+cni_source_dir: /usr/local/src/cni
 
-# The path to the directory where current version of CNI stored.
-cni_current_dir: "{{ (cni_package_dir, 'current') | ansible.builtin.path_join }}"
+# The path to the directory where packed sources stored.
+cni_source_cache_dir: /var/cache/ansible/cni
+
+# The path to the directory where current version stored.
+cni_application_dir: /usr/local/cni
+
+# The path to the directory where cache stored.
+cni_controller_cache_dir: "{{ playbook_dir }}/../cache/cni"
 
 # The path to the directory where download cache stored.
-cni_download_cache_dir: "{{ playbook_dir }}/../cache/download/cni"
+cni_controller_source_cache_dir: "{{ (cni_controller_cache_dir, 'source') | ansible.builtin.path_join }}"

@@ -7,6 +7,8 @@
     owner: "{{ nomad_agent_user }}"
     group: "{{ nomad_agent_group }}"
   loop:
+    - "{{ nomad_agent_config_dir }}"
+    - "{{ nomad_agent_state_dir }}"
     - "{{ nomad_agent_data_dir }}"
     - "{{ nomad_agent_alloc_dir }}"
     - "{{ nomad_agent_alloc_mounts_dir }}"

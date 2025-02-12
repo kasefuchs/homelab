@@ -8,7 +8,6 @@
     group: "{{ nomad_group }}"
   loop:
     - "{{ nomad_pki_dir }}"
-    - "{{ nomad_config_dir }}"
 
 - name: Copy Nomad certificates
   ansible.builtin.copy:

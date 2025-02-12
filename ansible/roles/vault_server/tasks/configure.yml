@@ -4,10 +4,12 @@
     path: "{{ item }}"
     mode: "0755"
     state: directory
-    owner: "{{ vault_user }}"
-    group: "{{ vault_group }}"
+    owner: "{{ vault_server_user }}"
+    group: "{{ vault_server_group }}"
   loop:
     - "{{ vault_server_raft_dir }}"
+    - "{{ vault_server_state_dir }}"
+    - "{{ vault_server_config_dir }}"
 
 - name: Copy Vault server certificates
   ansible.builtin.copy:
