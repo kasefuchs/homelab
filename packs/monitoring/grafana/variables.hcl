@@ -127,12 +127,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "grafana/grafana-oss:latest"
     entrypoint = null
     args       = null
     volumes    = []
+    privileged = false
   }
 }
 

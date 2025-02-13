@@ -129,12 +129,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "traefik:latest"
     entrypoint = null
     args       = ["--configFile", "$${NOMAD_TASK_DIR}/static.yml"]
     volumes    = []
+    privileged = false
   }
 }
 
