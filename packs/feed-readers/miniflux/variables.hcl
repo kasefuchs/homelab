@@ -127,12 +127,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "ghcr.io/miniflux/miniflux:latest"
     entrypoint = ["/usr/bin/miniflux"]
     args       = ["-config-file=$${NOMAD_TASK_DIR}/miniflux.conf"]
     volumes    = []
+    privileged = false
   }
 }
 

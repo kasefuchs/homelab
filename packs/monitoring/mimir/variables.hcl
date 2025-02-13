@@ -127,12 +127,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "grafana/mimir:latest"
     entrypoint = null
     args       = ["--config.file=$${NOMAD_TASK_DIR}/mimir.yml"]
     volumes    = []
+    privileged = false
   }
 }
 

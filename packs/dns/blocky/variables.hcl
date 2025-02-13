@@ -134,12 +134,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "spx01/blocky:latest"
     entrypoint = null
     args       = ["--config=$${NOMAD_TASK_DIR}/blocky.yml"]
     volumes    = []
+    privileged = false
   }
 }
 

@@ -112,12 +112,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "tazihad/byedpi:latest"
     entrypoint = null
     args       = ["--ip=0.0.0.0", "--port=1080"]
     volumes    = []
+    privileged = false
   }
 }
 

@@ -127,12 +127,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "gcr.io/cadvisor/cadvisor:latest"
     entrypoint = null
     args       = null
     volumes    = ["/:/rootfs:ro", "/var/run:/var/run:ro", "/sys:/sys:ro", "/var/lib/docker/:/var/lib/docker:ro"]
+    privileged = false
   }
 }
 

@@ -128,12 +128,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "ghcr.io/lavalink-devs/lavalink:latest"
     entrypoint = null
     args       = ["--spring.config.location=$${NOMAD_TASK_DIR}/lavalink.yml"]
     volumes    = []
+    privileged = false
   }
 }
 

@@ -181,5 +181,6 @@
         [[ if $docker_config.volumes -]]
         volumes     = [[ $docker_config.volumes | toStringList ]]
         [[ end -]]
+        privileged  = [[ $docker_config.privileged ]]
       }
 [[- end -]]

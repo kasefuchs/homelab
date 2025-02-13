@@ -127,12 +127,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "filebrowser/filebrowser:latest"
     entrypoint = null
     args       = ["--config=$${NOMAD_TASK_DIR}/config.json"]
     volumes    = []
+    privileged = false
   }
 }
 

@@ -127,12 +127,14 @@ variable "docker_config" {
     entrypoint = list(string)
     args       = list(string)
     volumes    = list(string)
+    privileged = bool
   })
   default = {
     image      = "ghcr.io/v2fly/v2ray:v5.24"
     entrypoint = null
     args       = ["run", "-config", "$${NOMAD_TASK_DIR}/config.json", "-format", "jsonv5"]
     volumes    = []
+    privileged = false
   }
 }
 
