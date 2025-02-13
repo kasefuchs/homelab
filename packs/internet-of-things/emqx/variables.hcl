@@ -59,12 +59,13 @@ variable "ports" {
 }
 
 variable "services" {
-  description = "Specifies integrations with Consul for service discovery."
+  description = "Specifies integrations for service discovery."
   type = list(
     object({
-      name = string
-      port = string
-      tags = list(string)
+      name     = string
+      port     = string
+      tags     = list(string)
+      provider = string
       connect = object({
         native = bool
         sidecar = object({
@@ -87,9 +88,10 @@ variable "services" {
   )
   default = [
     {
-      name = "emqx-dashboard"
-      port = "18083"
-      tags = []
+      name     = "emqx-dashboard"
+      port     = "18083"
+      tags     = []
+      provider = "consul"
       connect = {
         native = false
         sidecar = {
@@ -102,9 +104,10 @@ variable "services" {
       }
     },
     {
-      name = "emqx-mqtt-tcp"
-      port = "1883"
-      tags = []
+      name     = "emqx-mqtt-tcp"
+      port     = "1883"
+      tags     = []
+      provider = "consul"
       connect = {
         native = false
         sidecar = {
@@ -125,6 +128,12 @@ variable "vault" {
     role = string
   })
   default = null
+}
+
+variable "consul" {
+  description = "Specifies Consul configuration options specific to a task."
+  type        = object({})
+  default     = null
 }
 
 variable "docker_config" {

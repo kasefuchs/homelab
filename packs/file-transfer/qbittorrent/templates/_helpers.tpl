@@ -40,9 +40,10 @@
 [[ define "service" -]]
 [[- $service := . -]]
     service {
-      name = [[ $service.name | quote ]]
-      port = [[ $service.port | quote ]]
-      tags = [[ $service.tags | toStringList ]]
+      name     = [[ $service.name | quote ]]
+      port     = [[ $service.port | quote ]]
+      tags     = [[ $service.tags | toStringList ]]
+      provider = [[ $service.provider | quote ]]
       [[ if $service.connect -]]
       connect {
         [[ if $service.connect.native -]]
@@ -106,6 +107,12 @@
     }
 [[- end -]]
 
+[[ define "consul" -]]
+[[- $consul := . -]]
+    consul {
+    }
+[[- end -]]
+
 [[ define "template" -]]
 [[- $template := . -]]
       template {
@@ -144,10 +151,12 @@
       }
 [[- end -]]
 
-[[ define "env" -]]
+[[ define "environment" -]]
+      env {
         [[- range $key, $var := . ]]
         [[ $key ]] = "[[ $var ]]"
         [[- end ]]
+      }
 [[- end ]]
 
 [[ define "artifact" -]]

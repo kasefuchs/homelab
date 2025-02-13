@@ -33,9 +33,15 @@ job [[ template "job_name" . ]] {
     [[- end ]]
 
     [[- $vault := var "vault" . -]]
-    [[- if $vault ]]
+    [[- if ne $vault nil ]]
 
     [[ template "vault" $vault ]]
+    [[- end ]]
+
+    [[- $consul := var "consul" . -]]
+    [[- if ne $consul nil ]]
+
+    [[ template "consul" $consul ]]
     [[- end ]]
 
     task [[ template "job_name" . ]] {
@@ -43,9 +49,11 @@ job [[ template "job_name" . ]] {
 
       [[ template "docker_config" var "docker_config" . ]]
 
-      env {
-        [[- template "env" var "environment" . ]]
-      }
+      [[- $environment := var "environment" . -]]
+      [[- if $environment ]]
+
+      [[ template "environment" $environment ]]
+      [[- end ]]
 
       [[- range $idx, $artifact := var "artifacts" . ]]
 
