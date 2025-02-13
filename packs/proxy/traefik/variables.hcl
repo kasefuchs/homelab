@@ -47,12 +47,13 @@ variable "constraints" {
 }
 
 variable "services" {
-  description = "Specifies integrations with Consul for service discovery."
+  description = "Specifies integrations for service discovery."
   type = list(
     object({
-      name = string
-      port = string
-      tags = list(string)
+      name     = string
+      port     = string
+      tags     = list(string)
+      provider = string
       connect = object({
         native = bool
         sidecar = object({
@@ -75,9 +76,10 @@ variable "services" {
   )
   default = [
     {
-      name = "traefik"
-      port = "http"
-      tags = []
+      name     = "traefik"
+      port     = "http"
+      tags     = []
+      provider = "consul"
       connect = {
         native  = true
         sidecar = null
@@ -92,6 +94,12 @@ variable "vault" {
     role = string
   })
   default = null
+}
+
+variable "consul" {
+  description = "Specifies Consul configuration options specific to a task."
+  type        = object({})
+  default     = null
 }
 
 variable "ports" {

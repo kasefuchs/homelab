@@ -60,12 +60,13 @@ variable "ports" {
 }
 
 variable "services" {
-  description = "Specifies integrations with Consul for service discovery."
+  description = "Specifies integrations for service discovery."
   type = list(
     object({
-      name = string
-      port = string
-      tags = list(string)
+      name     = string
+      port     = string
+      tags     = list(string)
+      provider = string
       connect = object({
         native = bool
         sidecar = object({
@@ -88,9 +89,10 @@ variable "services" {
   )
   default = [
     {
-      name = "lavalink"
-      port = "2333"
-      tags = []
+      name     = "lavalink"
+      port     = "2333"
+      tags     = []
+      provider = "consul"
       connect = {
         native = false
         sidecar = {
@@ -111,6 +113,12 @@ variable "vault" {
     role = string
   })
   default = null
+}
+
+variable "consul" {
+  description = "Specifies Consul configuration options specific to a task."
+  type        = object({})
+  default     = null
 }
 
 variable "docker_config" {
