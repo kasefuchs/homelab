@@ -6,6 +6,7 @@ bootstrap_package_update_cache: true
 bootstrap_package_distribution_install:
   default:
     - tar
+    - htop
     - unzip
     - dmidecode
     - libnsl2
@@ -14,6 +15,7 @@ bootstrap_package_distribution_install:
 
   centos:
     - tar
+    - htop
     - unzip
     - dmidecode
     - libnsl
@@ -22,6 +24,7 @@ bootstrap_package_distribution_install:
 
   rocky:
     - tar
+    - htop
     - unzip
     - dmidecode
     - libnsl
@@ -30,6 +33,7 @@ bootstrap_package_distribution_install:
 
   fedora:
     - tar
+    - htop
     - unzip
     - dmidecode
     - libnsl
@@ -44,11 +48,27 @@ bootstrap_package_yum_distribution_repositories:
       url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
       key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
 
+  centos:
+    docker-ce-stable:
+      description: Docker CE Stable
+      url: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+      key: "https://download.docker.com/linux/centos/gpg"
+
+    epel:
+      description: Extra Packages for Enterprise Linux
+      url: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
+      key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+
   rocky:
     docker-ce-stable:
       description: Docker CE Stable
       url: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
       key: "https://download.docker.com/linux/centos/gpg"
+
+    epel:
+      description: Extra Packages for Enterprise Linux
+      url: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
+      key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
 
 # APT package repositories to add.
 bootstrap_package_apt_distribution_repositories:
