@@ -5,6 +5,5 @@ app {
 pack {
   name        = "traefik"
   description = "The Cloud Native Application Proxy."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }

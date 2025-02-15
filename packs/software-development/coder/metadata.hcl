@@ -5,6 +5,5 @@ app {
 pack {
   name        = "coder"
   description = "Provision remote development environments via Terraform."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }

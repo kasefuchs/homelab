@@ -5,6 +5,5 @@ app {
 pack {
   name        = "grafana"
   description = "The open and composable observability and data visualization platform."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }

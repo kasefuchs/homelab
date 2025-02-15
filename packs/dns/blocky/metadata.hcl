@@ -5,6 +5,5 @@ app {
 pack {
   name        = "blocky"
   description = "Fast and lightweight DNS proxy as ad-blocker for local network with many features."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }

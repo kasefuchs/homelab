@@ -5,6 +5,5 @@ app {
 pack {
   name        = "miniflux"
   description = "Miniflux is a minimalist and opinionated feed reader."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }
