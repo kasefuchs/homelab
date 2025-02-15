@@ -5,6 +5,5 @@ app {
 pack {
   name        = "filebrowser"
   description = "Web File Browser with a Material Design web interface."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }

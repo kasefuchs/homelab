@@ -5,6 +5,5 @@ app {
 pack {
   name        = "jellyfin"
   description = "The Free Software Media System - Server Backend & API."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }

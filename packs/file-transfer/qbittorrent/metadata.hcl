@@ -5,6 +5,5 @@ app {
 pack {
   name        = "qbittorrent"
   description = "Free cross-platform bittorrent client with a feature rich Web UI for remote access."
-
-  version = "0.1.0"
+  version     = "0.1.0"
 }
