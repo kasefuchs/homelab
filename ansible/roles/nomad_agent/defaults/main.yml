@@ -65,3 +65,9 @@ nomad_agent_docker_allow_privileged: true
 
 # Allows tasks to bind host paths inside their container.
 nomad_agent_docker_volumes_enabled: true
+
+# Specifies the amount of CPU to reserve, in MHz.
+nomad_agent_reserved_cpu: 0
+
+# Specifies the amount of memory to reserve, in MB.
+nomad_agent_reserved_memory: 0
