@@ -80,6 +80,11 @@ client {
 
   network_interface = "{{ nomad_agent_network_interface }}"
 
+  reserved {
+    cpu    = {{ nomad_agent_reserved_cpu }}
+    memory = {{ nomad_agent_reserved_memory }}
+  }
+
   server_join {
     retry_join = {{ nomad_agent_join_peers | ansible.builtin.to_json }}
   }
