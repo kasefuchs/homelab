@@ -95,6 +95,9 @@ variable "services" {
       connect = {
         native = false
         sidecar = {
+          config = {
+            protocol = "http"
+          }
           upstreams = []
           resources = null
         }
