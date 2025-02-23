@@ -20,7 +20,7 @@ variable "docker_result_image_repository" {
 
 variable "docker_result_image_tags" {
   type    = list(string)
-  default = ["base"]
+  default = ["minimal"]
 }
 
 variable "docker_login" {
