@@ -1,9 +1,9 @@
 build {
-  sources = ["docker.base"]
+  sources = ["docker.minimal"]
 
   # Install sudo in non-sudo environments.
   provisioner "shell" {
-    only = ["docker.base"]
+    only = ["docker.minimal"]
 
     inline = [
       # Update already installed packages.
@@ -20,7 +20,7 @@ build {
   # Update already installed packages.
   provisioner "shell" {
     # This is not necessary as we have already updated everything above.
-    except = ["docker.base"]
+    except = ["docker.minimal"]
 
     inline = [
       "sudo --preserve-env apt --yes update",
@@ -61,14 +61,14 @@ build {
 
   post-processors {
     post-processor "docker-tag" {
-      only = ["docker.base"]
+      only = ["docker.minimal"]
 
       repository = var.docker_result_image_repository
       tags       = var.docker_result_image_tags
     }
 
     post-processor "docker-push" {
-      only = ["docker.base"]
+      only = ["docker.minimal"]
 
       login          = var.docker_login
       login_server   = var.docker_login_server
