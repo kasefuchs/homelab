@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - packer/software-development/coder-workspace/**
-      - publish-coder-workspace-image.yml
+      - .github/workflows/publish-coder-workspace-image.yml
     branches:
       - main
 
