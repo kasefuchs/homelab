@@ -25,3 +25,7 @@ diagrams/
 
 # ---> Python
 .venv/
+
+# ---> MKDocs
+.cache/
+build/
