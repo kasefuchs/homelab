@@ -2,7 +2,7 @@
 site_url: https://kasefuchs.github.io/homelab/ru/
 site_name: Muttias Homelab
 
-repo_url: https://git.kasefuchs.su/kasefuchs/homelab
+repo_url: https://github.com/kasefuchs/homelab
 repo_name: kasefuchs/homelab
 
 docs_dir: ../pages/ru
