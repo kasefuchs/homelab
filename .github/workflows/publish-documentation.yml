@@ -17,7 +17,7 @@ permissions:
   pages: write
 
 concurrency:
-  group: documentation
+  group: "${{ github.workflow }}"
   cancel-in-progress: false
 
 jobs:
