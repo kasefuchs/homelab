@@ -1,0 +1,18 @@
+---
+# Nebula
+nebula_lighthouse_enable: true
+
+# Consul Agent
+consul_agent_server: true
+consul_agent_bootstrap_expect: 3
+
+# Nomad Agent
+nomad_agent_server: true
+nomad_agent_bootstrap_expect: 3
+
+# Vault Server
+vault_server: true
+vault_server_raft_peers:
+  node-01: https://192.168.100.1:8200
+  node-02: https://192.168.100.2:8200
+  node-03: https://192.168.100.3:8200

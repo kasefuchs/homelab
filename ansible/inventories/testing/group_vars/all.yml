@@ -1,0 +1,43 @@
+---
+# Ansible
+ansible_host: 127.0.0.1
+ansible_user: vagrant
+ansible_ssh_common_args: -o StrictHostKeyChecking=no
+
+# Nebula
+nebula_netmask: 24
+nebula_static_host_map:
+  192.168.100.1:
+    - 192.168.56.31:4646
+  192.168.100.2:
+    - 192.168.56.32:4646
+  192.168.100.3:
+    - 192.168.56.33:4646
+nebula_lighthouse_hosts:
+  - 192.168.100.1
+  - 192.168.100.2
+  - 192.168.100.3
+
+# Nomad Envoy
+nomad_envoy_https_endpoints:
+  - 192.168.100.1:4646
+  - 192.168.100.2:4646
+  - 192.168.100.3:4646
+
+# Vault Envoy
+vault_envoy_https_endpoints:
+  - 192.168.100.1:8200
+  - 192.168.100.2:8200
+  - 192.168.100.3:8200
+
+# Consul Agent
+consul_agent_join_peers:
+  - 192.168.100.1
+  - 192.168.100.2
+  - 192.168.100.3
+
+# Nomad Agent
+nomad_agent_join_peers:
+  - 192.168.100.1
+  - 192.168.100.2
+  - 192.168.100.3
