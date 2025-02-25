@@ -1,15 +1,7 @@
-source "vagrant" "centos" {
+source "vagrant" "box" {
   communicator = "ssh"
 
-  source_path = var.centos_source_path
-  provider    = var.centos_provider
-  skip_add    = var.centos_skip_add
-}
-
-source "vagrant" "ubuntu" {
-  communicator = "ssh"
-
-  source_path = var.ubuntu_source_path
-  provider    = var.ubuntu_provider
-  skip_add    = var.ubuntu_skip_add
+  source_path = var.source_path
+  provider    = var.provider
+  skip_add    = var.skip_add
 }
