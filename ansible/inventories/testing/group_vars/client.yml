@@ -1,0 +1,12 @@
+---
+# Nebula
+nebula_lighthouse_enable: false
+
+# Consul Agent
+consul_agent_server: false
+
+# Nomad Agent
+nomad_agent_server: false
+
+# Vault Server
+vault_server: false
