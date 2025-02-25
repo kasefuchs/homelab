@@ -10,6 +10,9 @@ site_dir: ../build/ru
 
 nav:
   - Главная: index.md
+  - Развёртывание:
+      - Необходимое: deployment/prerequisites.md
+      - Подготовка: deployment/preparation.md
 
 extra:
   alternate:
@@ -51,6 +54,7 @@ theme:
     - header.autohide
     - navigation.expand
     - navigation.indexes
+    - navigation.instant
     - navigation.sections
     - navigation.tabs
     - navigation.tracking
