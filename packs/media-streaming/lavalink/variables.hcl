@@ -46,17 +46,29 @@ variable "constraints" {
   default = []
 }
 
-variable "ports" {
-  description = "Nomad port to use."
-  type = list(
-    object({
-      name         = string
-      to           = number
-      static       = number
-      host_network = string
+variable "network" {
+  description = "Networking requirements."
+  type = object({
+    mode = string
+    ports = list(
+      object({
+        name         = string
+        to           = number
+        static       = number
+        host_network = string
+      })
+    )
+    dns = object({
+      servers  = list(string)
+      searches = list(string)
+      options  = list(string)
     })
-  )
-  default = []
+  })
+  default = {
+    mode  = "bridge"
+    ports = []
+    dns   = null
+  }
 }
 
 variable "services" {

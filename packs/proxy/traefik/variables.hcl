@@ -102,24 +102,36 @@ variable "consul" {
   default     = null
 }
 
-variable "ports" {
-  description = "Nomad ports to use."
-  type = list(
-    object({
-      name         = string
-      to           = number
-      static       = number
-      host_network = string
+variable "network" {
+  description = "Networking requirements."
+  type = object({
+    mode = string
+    ports = list(
+      object({
+        name         = string
+        to           = number
+        static       = number
+        host_network = string
+      })
+    )
+    dns = object({
+      servers  = list(string)
+      searches = list(string)
+      options  = list(string)
     })
-  )
-  default = [
-    {
-      name         = "http"
-      to           = 80
-      static       = 80
-      host_network = "public"
-    }
-  ]
+  })
+  default = {
+    mode = "bridge"
+    ports = [
+      {
+        name         = "http"
+        to           = 80
+        static       = 80
+        host_network = "public"
+      }
+    ]
+    dns = null
+  }
 }
 
 variable "docker_config" {

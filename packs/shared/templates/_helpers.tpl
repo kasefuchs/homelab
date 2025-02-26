@@ -6,22 +6,6 @@
 [[ coalesce ( var "ui_description" .) ( meta "pack.description" . ) | quote ]]
 [[- end -]]
 
-[[ define "job_type" -]]
-  type = [[ var "job_type" . | quote ]]
-[[- end -]]
-
-[[ define "region" -]]
-  region = [[ var "region" . | quote ]]
-[[- end -]]
-
-[[ define "namespace" -]]
-  namespace = [[ var "namespace" . | quote ]]
-[[- end -]]
-
-[[ define "datacenters" -]]
-  datacenters = [[ var "datacenters" . | toStringList ]]
-[[- end -]]
-
 [[ define "port" -]]
 [[- $port := . -]]
       port [[ $port.name | quote ]] {
@@ -35,6 +19,34 @@
         host_network = [[ $port.host_network | quote ]]
         [[ end -]]
       }
+[[- end -]]
+
+[[ define "dns" -]]
+[[- $dns := . -]]
+      dns {
+        [[ if ne $dns.servers nil -]]
+        servers  = [[ $dns.servers  | toStringList ]]
+        [[ end -]]
+        [[ if ne $dns.searches nil -]]
+        searches = [[ $dns.searches | toStringList ]]
+        [[ end -]]
+        [[ if ne $dns.options nil -]]
+        options  = [[ $dns.options  | toStringList ]]
+        [[ end -]]
+      }
+[[- end -]]
+
+[[ define "network" -]]
+[[- $network := . -]]
+    network {
+      mode = [[ $network.mode | quote ]]
+      [[- range $idx, $port := $network.ports ]]
+      [[ template "port" $port ]]
+      [[- end ]]
+      [[ if $network.dns -]]
+      [[ template "dns" $network.dns ]]
+      [[ end -]]
+    }
 [[- end -]]
 
 [[ define "connect" -]]
