@@ -243,3 +243,18 @@ variable "volume_mounts" {
   ]
 }
 
+variable "restart" {
+  description = "Configures a task behavior on failure."
+  type = object({
+    attempts = number
+    delay    = string
+    interval = string
+    mode     = string
+  })
+  default = {
+    mode     = "fail"
+    delay    = "15s"
+    interval = "10m"
+    attempts = 3
+  }
+}

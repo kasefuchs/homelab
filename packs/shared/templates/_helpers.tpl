@@ -37,34 +37,26 @@
       }
 [[- end -]]
 
-[[ define "service" -]]
-[[- $service := . -]]
-    service {
-      name     = [[ $service.name | quote ]]
-      port     = [[ $service.port | quote ]]
-      tags     = [[ $service.tags | toStringList ]]
-      provider = [[ $service.provider | quote ]]
-      [[ if $service.connect -]]
+[[ define "connect" -]]
+[[- $connect := . -]]
       connect {
-        [[ if $service.connect.native -]]
-        native = [[ $service.connect.native ]]
-        [[ end -]]
-        [[ if $service.connect.sidecar -]]
-        [[ if $service.connect.sidecar.resources -]]
+        native = [[ $connect.native ]]
+        [[ if $connect.sidecar -]]
+        [[ if $connect.sidecar.resources -]]
         sidecar_task {
-          [[ template "resources" $service.connect.sidecar.resources ]]
+          [[ template "resources" $connect.sidecar.resources ]]
         }
         [[ end -]]
         sidecar_service {
           proxy {
-            [[ if $service.connect.sidecar.config -]]
+            [[ if $connect.sidecar.config -]]
             config {
-              protocol = [[ $service.connect.sidecar.config.protocol | quote ]]
+              protocol = [[ $connect.sidecar.config.protocol | quote ]]
             }
             [[ end -]]
 
-            [[ if $service.connect.sidecar.upstreams -]]
-            [[- range $idx, $upstream := $service.connect.sidecar.upstreams ]]
+            [[ if $connect.sidecar.upstreams -]]
+            [[- range $idx, $upstream := $connect.sidecar.upstreams ]]
             upstreams {
               destination_name = [[ $upstream.name | quote ]]
               local_bind_port  = [[ $upstream.port ]]
@@ -75,6 +67,17 @@
         }
         [[ end -]]
       }
+[[- end -]]
+
+[[ define "service" -]]
+[[- $service := . -]]
+    service {
+      name     = [[ $service.name | quote ]]
+      port     = [[ $service.port | quote ]]
+      tags     = [[ $service.tags | toStringList ]]
+      provider = [[ $service.provider | quote ]]
+      [[ if $service.connect -]]
+      [[ template "connect" $service.connect ]]
       [[ end -]]
     }
 [[- end -]]
@@ -178,9 +181,17 @@
         [[ if ne $docker_config.args nil -]]
         args        = [[ $docker_config.args | toStringList ]]
         [[ end -]]
-        [[ if $docker_config.volumes -]]
         volumes     = [[ $docker_config.volumes | toStringList ]]
-        [[ end -]]
         privileged  = [[ $docker_config.privileged ]]
       }
+[[- end -]]
+
+[[ define "restart" -]]
+[[- $restart := . -]]
+    restart {
+      mode     = [[ $restart.mode | quote ]]
+      delay    = [[ $restart.delay | quote ]]
+      interval = [[ $restart.interval | quote ]]
+      attempts = [[ $restart.attempts ]]
+    }
 [[- end -]]

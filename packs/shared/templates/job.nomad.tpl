@@ -44,6 +44,12 @@ job [[ template "job_name" . ]] {
     [[ template "consul" $consul ]]
     [[- end ]]
 
+    [[- $restart := var "restart" . -]]
+    [[- if ne $restart nil ]]
+
+    [[ template "restart" $restart ]]
+    [[- end ]]
+
     task [[ template "job_name" . ]] {
       driver = "docker"
 
