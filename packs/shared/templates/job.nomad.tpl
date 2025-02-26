@@ -1,8 +1,8 @@
 job [[ template "job_name" . ]] {
-  [[ template "job_type" . ]]
-  [[ template "region" . ]]
-  [[ template "namespace" . ]]
-  [[ template "datacenters" . ]]
+  type        = [[ var "job_type" . | quote ]]
+  region      = [[ var "region" . | quote ]]
+  namespace   = [[ var "namespace" . | quote ]]
+  datacenters = [[ var "datacenters" . | toStringList ]]
 
   [[- range $idx, $constraint := var "constraints" . ]]
 
@@ -14,13 +14,7 @@ job [[ template "job_name" . ]] {
   }
 
   group "servers" {
-    network {
-      mode = "bridge"
-      [[- range $idx, $port := var "ports" . ]]
-
-      [[ template "port" $port ]]
-      [[- end ]]
-    }
+    [[ template "network" var "network" . ]]
 
     [[- range $idx, $service := var "services" . ]]
 
