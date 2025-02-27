@@ -10,10 +10,18 @@ variable "job_type" {
   default     = "service"
 }
 
-variable "ui_description" {
-  description = "The markdown-enabled description of the job."
-  type        = string
-  default     = ""
+variable "ui" {
+  description = "Options to modify the presentation of the Job index page in the Web UI."
+  type = object({
+    description = string
+    links = list(
+      object({
+        label = string
+        url   = string
+      })
+    )
+  })
+  default = null
 }
 
 variable "region" {
@@ -122,7 +130,10 @@ variable "services" {
 variable "vault" {
   description = "Allows a task to specify that it requires a token from a HashiCorp Vault server."
   type = object({
-    role = string
+    env           = bool
+    role          = string
+    change_mode   = string
+    change_signal = string
   })
   default = null
 }
@@ -155,14 +166,15 @@ variable "templates" {
   description = "List of templates to render."
   type = list(
     object({
-      data        = string
-      destination = string
-      change_mode = string
+      data          = string
+      destination   = string
+      change_mode   = string
+      change_signal = string
     })
   )
   default = [
     {
-      data        = <<EOH
+      data          = <<EOH
 {
   "inbounds": [
     {
@@ -178,8 +190,9 @@ variable "templates" {
   ]
 }
       EOH
-      destination = "$${NOMAD_TASK_DIR}/config.json"
-      change_mode = "restart"
+      destination   = "$${NOMAD_TASK_DIR}/config.json"
+      change_mode   = "restart"
+      change_signal = null
     }
   ]
 }
@@ -256,4 +269,19 @@ variable "restart" {
     interval = "10m"
     attempts = 3
   }
+}
+
+variable "identities" {
+  description = "Allows a task access to its Workload Identity via an environment variable or file."
+  type = list(
+    object({
+      name          = string
+      env           = bool
+      file          = bool
+      audience      = list(string)
+      change_mode   = string
+      change_signal = string
+    })
+  )
+  default = []
 }

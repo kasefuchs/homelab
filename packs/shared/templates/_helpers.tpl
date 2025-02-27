@@ -2,8 +2,19 @@
 [[ coalesce ( var "job_name" . ) ( meta "pack.name" . ) | quote ]]
 [[- end -]]
 
-[[ define "ui_description" -]]
-[[ coalesce ( var "ui_description" .) ( meta "pack.description" . ) | quote ]]
+[[ define "ui" -]]
+[[- $ui := . -]]
+  ui {
+    [[ if $ui.description -]]
+    description = [[ $ui.description | quote ]]
+    [[ end -]]
+    [[- range $idx, $link := $ui.links ]]
+    link {
+      label = [[ $link.label | quote ]]
+      url   = [[ $link.url | quote ]]
+    }
+    [[- end ]]
+  }
 [[- end -]]
 
 [[ define "port" -]]
@@ -25,13 +36,13 @@
 [[- $dns := . -]]
       dns {
         [[ if ne $dns.servers nil -]]
-        servers  = [[ $dns.servers  | toStringList ]]
+        servers  = [[ $dns.servers | toStringList ]]
         [[ end -]]
         [[ if ne $dns.searches nil -]]
         searches = [[ $dns.searches | toStringList ]]
         [[ end -]]
         [[ if ne $dns.options nil -]]
-        options  = [[ $dns.options  | toStringList ]]
+        options  = [[ $dns.options | toStringList ]]
         [[ end -]]
       }
 [[- end -]]
@@ -66,7 +77,6 @@
               protocol = [[ $connect.sidecar.config.protocol | quote ]]
             }
             [[ end -]]
-
             [[ if $connect.sidecar.upstreams -]]
             [[- range $idx, $upstream := $connect.sidecar.upstreams ]]
             upstreams {
@@ -116,10 +126,37 @@
 [[ define "vault" -]]
 [[- $vault := . -]]
     vault {
+      env           = [[ $vault.env ]]
       [[ if $vault.role -]]
-      role = [[ $vault.role | quote ]]
+      role          = [[ $vault.role | quote ]]
+      [[ end -]]
+      [[ if $vault.change_mode -]]
+      change_mode   = [[ $vault.change_mode | quote ]]
+      [[ end -]]
+      [[ if $vault.change_signal -]]
+      change_signal = [[ $vault.change_signal | quote ]]
       [[ end -]]
     }
+[[- end -]]
+
+[[ define "identity" -]]
+[[- $identity := . -]]
+      identity {
+        env  = [[ $identity.env ]]
+        file = [[ $identity.file ]]
+        [[ if $identity.name -]]
+        name = [[ $identity.name | quote ]]
+        [[ end -]]
+        [[ if ne $identity.audience nil -]]
+        aud = [[ $identity.audience | toStringList ]]
+        [[ end -]]
+        [[ if $identity.change_mode -]]
+        change_mode   = [[ $identity.change_mode | quote ]]
+        [[ end -]]
+        [[ if $identity.change_signal -]]
+        change_signal = [[ $identity.change_signal | quote ]]
+        [[ end -]]
+      }
 [[- end -]]
 
 [[ define "consul" -]]
@@ -131,12 +168,13 @@
 [[ define "template" -]]
 [[- $template := . -]]
       template {
-        data = <<EOH
-[[ $template.data ]]
-        EOH
-        destination = [[ $template.destination | quote ]]
+        data          = [[ $template.data | quote ]]
+        destination   = [[ $template.destination | quote ]]
         [[ if $template.change_mode -]]
-        change_mode = [[ $template.change_mode | quote ]]
+        change_mode   = [[ $template.change_mode | quote ]]
+        [[ end -]]
+        [[ if $template.change_signal -]]
+        change_signal = [[ $template.change_signal | quote ]]
         [[ end -]]
       }
 [[- end -]]
