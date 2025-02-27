@@ -4,14 +4,16 @@ job [[ template "job_name" . ]] {
   namespace   = [[ var "namespace" . | quote ]]
   datacenters = [[ var "datacenters" . | toStringList ]]
 
+  [[- $ui := var "ui" . -]]
+  [[- if ne $ui nil ]]
+
+  [[ template "ui" $ui ]]
+  [[- end ]]
+
   [[- range $idx, $constraint := var "constraints" . ]]
 
   [[ template "constraint" $constraint ]]
   [[- end ]]
-
-  ui {
-    description = [[ template "ui_description" . ]]
-  }
 
   group "servers" {
     [[ template "network" var "network" . ]]
@@ -53,6 +55,11 @@ job [[ template "job_name" . ]] {
       [[- if $environment ]]
 
       [[ template "environment" $environment ]]
+      [[- end ]]
+
+      [[- range $idx, $identity := var "identities" . ]]
+
+      [[ template "identity" $identity ]]
       [[- end ]]
 
       [[- range $idx, $artifact := var "artifacts" . ]]
