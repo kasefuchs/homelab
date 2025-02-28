@@ -87,6 +87,29 @@ variable "services" {
       port     = string
       tags     = list(string)
       provider = string
+      checks = list(
+        object({
+          address_mode = string
+          args         = list(string)
+          check_restart = object({
+            limit           = number
+            grace           = string
+            ignore_warnings = bool
+          })
+          command  = string
+          interval = string
+          method   = string
+          body     = string
+          name     = string
+          path     = string
+          expose   = bool
+          port     = string
+          protocol = string
+          task     = string
+          timeout  = string
+          type     = string
+        })
+      )
       connect = object({
         native = bool
         sidecar = object({
@@ -113,6 +136,25 @@ variable "services" {
       port     = "8080"
       tags     = []
       provider = "consul"
+      checks = [
+        {
+          address_mode  = null
+          args          = null
+          check_restart = null
+          command       = null
+          interval      = "30s"
+          method        = null
+          body          = null
+          name          = null
+          path          = "/healthcheck"
+          expose        = true
+          port          = null
+          protocol      = null
+          task          = null
+          timeout       = "5s"
+          type          = "http"
+        }
+      ]
       connect = {
         native = false
         sidecar = {

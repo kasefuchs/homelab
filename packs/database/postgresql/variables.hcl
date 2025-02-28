@@ -94,6 +94,29 @@ variable "services" {
       port     = string
       tags     = list(string)
       provider = string
+      checks = list(
+        object({
+          address_mode = string
+          args         = list(string)
+          check_restart = object({
+            limit           = number
+            grace           = string
+            ignore_warnings = bool
+          })
+          command  = string
+          interval = string
+          method   = string
+          body     = string
+          name     = string
+          path     = string
+          expose   = bool
+          port     = string
+          protocol = string
+          task     = string
+          timeout  = string
+          type     = string
+        })
+      )
       connect = object({
         native = bool
         sidecar = object({
@@ -120,6 +143,25 @@ variable "services" {
       port     = "5432"
       tags     = []
       provider = "consul"
+      checks = [
+        {
+          address_mode  = null
+          args          = ["-c", "pg_isready"]
+          check_restart = null
+          command       = "/bin/sh"
+          interval      = "30s"
+          method        = null
+          body          = null
+          name          = null
+          path          = null
+          expose        = null
+          port          = null
+          protocol      = null
+          task          = "postgresql"
+          timeout       = "5s"
+          type          = "script"
+        }
+      ]
       connect = {
         native = false
         sidecar = {
