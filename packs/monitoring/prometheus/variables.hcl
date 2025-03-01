@@ -136,7 +136,25 @@ variable "services" {
       port     = "9090"
       tags     = []
       provider = "consul"
-      checks   = []
+      checks = [
+        {
+          address_mode  = null
+          args          = null
+          check_restart = null
+          command       = null
+          interval      = "30s"
+          method        = null
+          body          = null
+          name          = null
+          path          = "/-/healthy"
+          expose        = true
+          port          = null
+          protocol      = null
+          task          = null
+          timeout       = "5s"
+          type          = "http"
+        }
+      ]
       connect = {
         native = false
         sidecar = {
@@ -194,7 +212,7 @@ variable "resources" {
   })
   default = {
     cpu    = 128,
-    memory = 256
+    memory = 368
   }
 }
 
@@ -293,7 +311,7 @@ variable "restart" {
     mode     = string
   })
   default = {
-    mode     = "fail"
+    mode     = "delay"
     delay    = "15s"
     interval = "10m"
     attempts = 3

@@ -4,3 +4,6 @@
 
 - name: Configure required services
   ansible.builtin.import_tasks: service.yml
+
+- name: Configure system
+  ansible.builtin.import_tasks: system.yml

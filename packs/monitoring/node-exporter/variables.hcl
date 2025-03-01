@@ -266,7 +266,7 @@ variable "restart" {
     mode     = string
   })
   default = {
-    mode     = "fail"
+    mode     = "delay"
     delay    = "15s"
     interval = "10m"
     attempts = 3
