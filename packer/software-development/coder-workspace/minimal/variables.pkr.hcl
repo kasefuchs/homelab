@@ -3,8 +3,13 @@ variable "install_packages" {
   type = list(list(string))
   default = [
     ["apt-transport-https", "ca-certificates", "software-properties-common", "supervisor"],
-    ["gpg", "curl", "wget", "nano", "git", "jq", "bash", "fish", "zsh"]
+    ["bash", "curl", "fish", "git", "gpg", "jq", "nano", "rsync", "wget", "zsh"]
   ]
+}
+
+variable "coder_access_url" {
+  type    = string
+  default = "https://dev.coder.com/"
 }
 
 # Docker
