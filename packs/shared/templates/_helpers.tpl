@@ -242,6 +242,9 @@
         [[ if $template.change_signal -]]
         change_signal = [[ $template.change_signal | quote ]]
         [[ end -]]
+        [[ if $template.env -]]
+        env = [[ $template.env ]]
+        [[ end -]]
       }
 [[- end -]]
 

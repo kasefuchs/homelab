@@ -55,7 +55,7 @@ build {
   }
 
   provisioner "file" {
-    source = "rootfs/"
+    source      = "rootfs/"
     destination = "/"
   }
 

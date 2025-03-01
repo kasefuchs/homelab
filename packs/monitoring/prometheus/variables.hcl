@@ -224,6 +224,7 @@ variable "templates" {
       destination   = string
       change_mode   = string
       change_signal = string
+      env           = bool
     })
   )
   default = [
@@ -236,6 +237,7 @@ global:
       destination   = "$${NOMAD_TASK_DIR}/prometheus.yml"
       change_mode   = "restart"
       change_signal = null
+      env           = false
     }
   ]
 }

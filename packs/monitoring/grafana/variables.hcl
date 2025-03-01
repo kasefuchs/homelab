@@ -212,6 +212,7 @@ variable "templates" {
       destination   = string
       change_mode   = string
       change_signal = string
+      env           = bool
     })
   )
   default = []
