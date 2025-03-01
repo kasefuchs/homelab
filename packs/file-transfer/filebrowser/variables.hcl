@@ -194,6 +194,7 @@ variable "templates" {
       destination   = string
       change_mode   = string
       change_signal = string
+      env           = bool
     })
   )
   default = [
@@ -209,6 +210,7 @@ variable "templates" {
       destination   = "$${NOMAD_TASK_DIR}/config.json"
       change_mode   = "restart"
       change_signal = null
+      env           = false
     }
   ]
 }
