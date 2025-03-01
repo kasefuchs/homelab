@@ -14,7 +14,9 @@ build {
       "apt --yes install sudo",
     ]
 
-    environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
+    env = {
+      DEBIAN_FRONTEND = "noninteractive"
+    }
   }
 
   # Update already installed packages.
@@ -27,7 +29,9 @@ build {
       "sudo --preserve-env apt --yes upgrade",
     ]
 
-    environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
+    env = {
+      DEBIAN_FRONTEND = "noninteractive"
+    }
   }
 
   # Install packages.
@@ -40,7 +44,9 @@ build {
         format("sudo --preserve-env apt install --yes %s", join(" ", provisioner.value))
       ]
 
-      environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
+      env = {
+        DEBIAN_FRONTEND = "noninteractive"
+      }
     }
   }
 
@@ -51,12 +57,33 @@ build {
       "sudo --preserve-env apt --yes clean"
     ]
 
-    environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
+    env = {
+      DEBIAN_FRONTEND = "noninteractive"
+    }
   }
 
+  # Install Coder binary.
+  provisioner "shell" {
+    script          = "scripts/install-coder.sh"
+    execute_command = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
+
+    env = {
+      ACCESS_URL = var.coder_access_url
+    }
+  }
+
+  # Copy rootfs.
   provisioner "file" {
     source      = "rootfs/"
-    destination = "/"
+    destination = "/tmp/rootfs"
+  }
+
+  # Merge rootfs.
+  provisioner "shell" {
+    inline = [
+      "sudo rsync -a /tmp/rootfs/ /",
+      "sudo rm -rf /tmp/rootfs/"
+    ]
   }
 
   post-processors {
