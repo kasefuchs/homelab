@@ -172,6 +172,9 @@
       resources {
         cpu    = [[ $resources.cpu ]]
         memory = [[ $resources.memory ]]
+        [[ if $resources.memory_max -]]
+        memory_max = [[ $resources.memory_max ]]
+        [[ end -]]
       }
 [[- end -]]
 

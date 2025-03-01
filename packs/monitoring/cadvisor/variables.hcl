@@ -182,7 +182,7 @@ variable "docker_config" {
     entrypoint = null
     args       = null
     volumes    = ["/:/rootfs:ro", "/var/run:/var/run:ro", "/sys:/sys:ro", "/var/lib/docker/:/var/lib/docker:ro"]
-    privileged = false
+    privileged = true
   }
 }
 
@@ -193,8 +193,9 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 96,
-    memory = 192
+    cpu        = 96
+    memory     = 512
+    memory_max = 512
   }
 }
 
@@ -266,7 +267,7 @@ variable "restart" {
     mode     = string
   })
   default = {
-    mode     = "fail"
+    mode     = "delay"
     delay    = "15s"
     interval = "10m"
     attempts = 3

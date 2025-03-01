@@ -40,6 +40,16 @@ bootstrap_package_distribution_install:
     - docker-ce
     - containerd.io
 
+  alpine:
+    - tar
+    - htop
+    - unzip
+    - dmidecode
+    - libc6-compat
+    - libnsl
+    - docker
+    - containerd
+
 # Yum package repositories to add.
 bootstrap_package_yum_distribution_repositories:
   default:
@@ -89,3 +99,13 @@ bootstrap_service_distribution_enable:
   default:
     - docker
     - containerd
+
+# Kernel attributes.
+bootstrap_system_kernel_attributes:
+  - file: /etc/sysctl.d/10-inotify.conf
+    name: fs.inotify.max_user_instances
+    value: 4096
+
+  - file: /etc/sysctl.d/10-inotify.conf
+    name: fs.inotify.max_user_watches
+    value: 1048576

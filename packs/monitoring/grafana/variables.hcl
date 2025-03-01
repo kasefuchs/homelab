@@ -136,7 +136,25 @@ variable "services" {
       port     = "3000"
       tags     = []
       provider = "consul"
-      checks   = []
+      checks = [
+        {
+          address_mode  = null
+          args          = null
+          check_restart = null
+          command       = null
+          interval      = "30s"
+          method        = null
+          body          = null
+          name          = null
+          path          = "/api/health"
+          expose        = true
+          port          = null
+          protocol      = null
+          task          = null
+          timeout       = "5s"
+          type          = "http"
+        }
+      ]
       connect = {
         native = false
         sidecar = {
