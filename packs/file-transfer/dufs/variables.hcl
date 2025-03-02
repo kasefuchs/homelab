@@ -132,11 +132,29 @@ variable "services" {
   )
   default = [
     {
-      name     = "filebrowser"
+      name     = "dufs"
       port     = "8080"
       tags     = []
       provider = "consul"
-      checks   = []
+      checks = [
+        {
+          address_mode  = null
+          args          = null
+          check_restart = null
+          command       = null
+          interval      = "30s"
+          method        = null
+          body          = null
+          name          = null
+          path          = "/__dufs__/health"
+          expose        = true
+          port          = null
+          protocol      = null
+          task          = null
+          timeout       = "5s"
+          type          = "http"
+        }
+      ]
       connect = {
         native = false
         sidecar = {
@@ -178,9 +196,9 @@ variable "docker_config" {
     privileged = bool
   })
   default = {
-    image      = "filebrowser/filebrowser:latest"
+    image      = "sigoden/dufs:latest"
     entrypoint = null
-    args       = ["--config=$${NOMAD_TASK_DIR}/config.json"]
+    args       = null
     volumes    = []
     privileged = false
   }
@@ -197,28 +215,15 @@ variable "templates" {
       env           = bool
     })
   )
-  default = [
-    {
-      data          = <<EOH
-{
-  "server": {
-    "address": "0.0.0.0",
-    "port": 8080
-  }
-}
-      EOH
-      destination   = "$${NOMAD_TASK_DIR}/config.json"
-      change_mode   = "restart"
-      change_signal = null
-      env           = false
-    }
-  ]
+  default = []
 }
 
 variable "environment" {
   description = "Environment variables to pass to task."
   type        = map(string)
-  default     = {}
+  default = {
+    HOST = "0.0.0.0:8080"
+  }
 }
 
 variable "artifacts" {
@@ -240,8 +245,8 @@ variable "resources" {
     memory = number
   })
   default = {
-    cpu    = 96,
-    memory = 128
+    cpu    = 16,
+    memory = 48
   }
 }
 
