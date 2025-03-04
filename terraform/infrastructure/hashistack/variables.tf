@@ -60,7 +60,7 @@ variable "nomad_remote_jwks_url" {
 
 variable "vault_kv_nomad_workload_path" {
   type    = string
-  default = "kvnw"
+  default = "nomad-workload"
 }
 
 variable "vault_database_path" {
