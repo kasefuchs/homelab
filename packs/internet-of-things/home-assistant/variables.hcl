@@ -73,9 +73,16 @@ variable "network" {
     })
   })
   default = {
-    mode  = "bridge"
-    ports = []
-    dns   = null
+    mode = "bridge"
+    ports = [
+      {
+        name         = "home-assistant"
+        to           = 8123
+        static       = 8123
+        host_network = "public"
+      }
+    ]
+    dns = null
   }
 }
 

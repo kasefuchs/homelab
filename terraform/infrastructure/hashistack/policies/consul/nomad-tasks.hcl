@@ -1,4 +1,4 @@
-key_prefix "" {
+key_prefix "nomad-workload/" {
   policy = "read"
 }
 
