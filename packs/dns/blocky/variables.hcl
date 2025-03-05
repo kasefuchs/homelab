@@ -120,19 +120,22 @@ variable "services" {
       connect = object({
         native = bool
         sidecar = object({
-          config = object({
-            protocol = string
-          })
-          resources = object({
-            cpu    = number
-            memory = number
-          })
-          upstreams = list(
-            object({
-              name = string
-              port = number
+          task = object({
+            resources = object({
+              cpu    = number
+              memory = number
             })
-          )
+          })
+          service = object({
+            proxy = object({
+              upstreams = list(
+                object({
+                  name = string
+                  port = number
+                })
+              )
+            })
+          })
         })
       })
     })
@@ -147,11 +150,12 @@ variable "services" {
       connect = {
         native = false
         sidecar = {
-          config = {
-            protocol = "http"
+          task = null
+          service = {
+            proxy = {
+              upstreams = []
+            }
           }
-          upstreams = []
-          resources = null
         }
       }
     }

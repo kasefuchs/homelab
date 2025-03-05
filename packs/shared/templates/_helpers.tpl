@@ -60,33 +60,48 @@
     }
 [[- end -]]
 
+[[ define "sidecar_task" -]]
+[[- $sidecar_task := . -]]
+        sidecar_task {
+          [[ if $sidecar_task.resources -]]
+          [[ template "resources" $sidecar_task.resources ]]
+          [[ end -]]
+        }
+[[- end -]]
+
+[[ define "sidecar_service" -]]
+[[- $sidecar_service := . -]]
+        sidecar_service {
+          [[ template "proxy" $sidecar_service.proxy ]]
+        }
+[[- end -]]
+
+[[ define "proxy" -]]
+[[- $proxy := . -]]
+          proxy {
+            [[- range $upstream := $proxy.upstreams ]]
+            [[ template "upstream" $upstream ]]
+            [[- end ]]
+          }
+[[- end -]]
+
+[[ define "upstream" -]]
+[[- $upstream := . -]]
+            upstreams {
+              local_bind_port  = [[ $upstream.port ]]
+              destination_name = [[ $upstream.name | quote ]]
+            }
+[[- end -]]
+
 [[ define "connect" -]]
 [[- $connect := . -]]
       connect {
         native = [[ $connect.native ]]
         [[ if $connect.sidecar -]]
-        [[ if $connect.sidecar.resources -]]
-        sidecar_task {
-          [[ template "resources" $connect.sidecar.resources ]]
-        }
+        [[ if $connect.sidecar.task -]]
+        [[ template "sidecar_task" $connect.sidecar.task ]]
         [[ end -]]
-        sidecar_service {
-          proxy {
-            [[ if $connect.sidecar.config -]]
-            config {
-              protocol = [[ $connect.sidecar.config.protocol | quote ]]
-            }
-            [[ end -]]
-            [[ if $connect.sidecar.upstreams -]]
-            [[- range $idx, $upstream := $connect.sidecar.upstreams ]]
-            upstreams {
-              destination_name = [[ $upstream.name | quote ]]
-              local_bind_port  = [[ $upstream.port ]]
-            }
-            [[- end ]]
-            [[- end ]]
-          }
-        }
+        [[ template "sidecar_service" $connect.sidecar.service ]]
         [[ end -]]
       }
 [[- end -]]
