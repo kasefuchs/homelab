@@ -73,9 +73,22 @@ variable "network" {
     })
   })
   default = {
-    mode  = "bridge"
-    ports = []
-    dns   = null
+    mode = "bridge"
+    ports = [
+      {
+        name         = "connect-proxy-gotify"
+        to           = -1
+        static       = 0
+        host_network = "connect"
+      },
+      {
+        name         = "service-check-gotify"
+        to           = -1
+        static       = 0
+        host_network = "private"
+      }
+    ]
+    dns = null
   }
 }
 
@@ -120,7 +133,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string
@@ -150,9 +172,9 @@ variable "services" {
           body          = null
           name          = null
           path          = "/health"
-          expose        = true
-          port          = null
-          protocol      = null
+          expose        = false
+          port          = "service-check-gotify"
+          protocol      = "http"
           task          = null
           timeout       = "5s"
           type          = "http"
@@ -163,7 +185,16 @@ variable "services" {
         sidecar = {
           task = null
           service = {
+            port = "connect-proxy-gotify"
             proxy = {
+              expose = [
+                {
+                  path          = "/health"
+                  protocol      = "http"
+                  local_port    = 80
+                  listener_port = "service-check-gotify"
+                }
+              ]
               upstreams = []
             }
           }

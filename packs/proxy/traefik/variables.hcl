@@ -95,7 +95,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string

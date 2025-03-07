@@ -78,8 +78,6 @@ client {
   alloc_dir        = "{{ nomad_agent_alloc_dir }}"
   alloc_mounts_dir = "{{ nomad_agent_alloc_mounts_dir }}"
 
-  network_interface = "{{ nomad_agent_network_interface }}"
-
   reserved {
     cpu    = {{ nomad_agent_reserved_cpu }}
     memory = {{ nomad_agent_reserved_memory }}

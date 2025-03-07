@@ -120,7 +120,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string
@@ -133,26 +142,7 @@ variable "services" {
       })
     })
   )
-  default = [
-    {
-      name     = "v2ray-http"
-      port     = "1080"
-      tags     = []
-      provider = "consul"
-      checks   = []
-      connect = {
-        native = false
-        sidecar = {
-          task = null
-          service = {
-            proxy = {
-              upstreams = []
-            }
-          }
-        }
-      }
-    }
-  ]
+  default = []
 }
 
 variable "vault" {

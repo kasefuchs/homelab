@@ -80,6 +80,18 @@ variable "network" {
         to           = 53
         static       = 53
         host_network = "public"
+      },
+      {
+        name         = "connect-proxy-blocky-http"
+        to           = -1
+        static       = 0
+        host_network = "connect"
+      },
+      {
+        name         = "connect-proxy-blocky-dns"
+        to           = -1
+        static       = 0
+        host_network = "connect"
       }
     ]
     dns = null
@@ -127,7 +139,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string
@@ -142,7 +163,7 @@ variable "services" {
   )
   default = [
     {
-      name     = "blocky"
+      name     = "blocky-http"
       port     = "4000"
       tags     = []
       provider = "consul"
@@ -152,7 +173,29 @@ variable "services" {
         sidecar = {
           task = null
           service = {
+            port = "connect-proxy-blocky-http"
             proxy = {
+              expose    = []
+              upstreams = []
+            }
+          }
+        }
+      }
+    },
+    {
+      name     = "blocky-dns"
+      port     = "53"
+      tags     = []
+      provider = "consul"
+      checks   = []
+      connect = {
+        native = false
+        sidecar = {
+          task = null
+          service = {
+            port = "connect-proxy-blocky-dns"
+            proxy = {
+              expose    = []
               upstreams = []
             }
           }

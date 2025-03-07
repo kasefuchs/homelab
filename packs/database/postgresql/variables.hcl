@@ -79,7 +79,13 @@ variable "network" {
         name         = "postgresql"
         to           = 5432
         static       = 5432
-        host_network = "private"
+        host_network = "connect"
+      },
+      {
+        name         = "connect-proxy-postgresql"
+        to           = -1
+        static       = 0
+        host_network = "connect"
       }
     ]
     dns = null
@@ -127,7 +133,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string
@@ -170,7 +185,9 @@ variable "services" {
         sidecar = {
           task = null
           service = {
+            port = "connect-proxy-postgresql"
             proxy = {
+              expose    = []
               upstreams = []
             }
           }
