@@ -72,6 +72,9 @@
 [[ define "sidecar_service" -]]
 [[- $sidecar_service := . -]]
         sidecar_service {
+          [[ if $sidecar_service.port -]]
+          port = [[ $sidecar_service.port | quote ]]
+          [[ end -]]
           [[ template "proxy" $sidecar_service.proxy ]]
         }
 [[- end -]]
@@ -79,10 +82,27 @@
 [[ define "proxy" -]]
 [[- $proxy := . -]]
           proxy {
+            [[ if $proxy.expose -]]
+            [[ template "expose" $proxy.expose ]]
+            [[ end -]]
             [[- range $upstream := $proxy.upstreams ]]
             [[ template "upstream" $upstream ]]
             [[- end ]]
           }
+[[- end -]]
+
+[[ define "expose" -]]
+[[- $expose := . -]]
+            expose {
+              [[- range $path := $expose ]]
+              path {
+                path            = [[ $path.path | quote ]]
+                protocol        = [[ $path.protocol | quote ]]
+                listener_port   = [[ $path.listener_port | quote ]]
+                local_path_port = [[ $path.local_port ]]
+              }
+              [[- end ]]
+            }
 [[- end -]]
 
 [[ define "upstream" -]]

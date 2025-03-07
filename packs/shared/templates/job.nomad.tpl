@@ -10,7 +10,7 @@ job [[ template "job_name" . ]] {
   [[ template "ui" $ui ]]
   [[- end ]]
 
-  [[- range $idx, $constraint := var "constraints" . ]]
+  [[- range $constraint := var "constraints" . ]]
 
   [[ template "constraint" $constraint ]]
   [[- end ]]
@@ -18,12 +18,12 @@ job [[ template "job_name" . ]] {
   group "servers" {
     [[ template "network" var "network" . ]]
 
-    [[- range $idx, $service := var "services" . ]]
+    [[- range $service := var "services" . ]]
 
     [[ template "service" $service ]]
     [[- end ]]
 
-    [[- range $idx, $volume := var "volumes" . ]]
+    [[- range $volume := var "volumes" . ]]
 
     [[ template "volume" $volume ]]
     [[- end ]]
@@ -57,22 +57,22 @@ job [[ template "job_name" . ]] {
       [[ template "environment" $environment ]]
       [[- end ]]
 
-      [[- range $idx, $identity := var "identities" . ]]
+      [[- range $identity := var "identities" . ]]
 
       [[ template "identity" $identity ]]
       [[- end ]]
 
-      [[- range $idx, $artifact := var "artifacts" . ]]
+      [[- range $artifact := var "artifacts" . ]]
 
       [[ template "artifact" $artifact ]]
       [[- end ]]
 
-      [[- range $idx, $template := var "templates" . ]]
+      [[- range $template := var "templates" . ]]
 
       [[ template "template" $template ]]
       [[- end ]]
 
-      [[- range $idx, $volume_mount := var "volume_mounts" . ]]
+      [[- range $volume_mount := var "volume_mounts" . ]]
 
       [[ template "volume_mount" $volume_mount ]]
       [[- end ]]

@@ -73,9 +73,22 @@ variable "network" {
     })
   })
   default = {
-    mode  = "bridge"
-    ports = []
-    dns   = null
+    mode = "bridge"
+    ports = [
+      {
+        name         = "connect-proxy-miniflux"
+        to           = -1
+        static       = 0
+        host_network = "connect"
+      },
+      {
+        name         = "service-check-miniflux"
+        to           = -1
+        static       = 0
+        host_network = "private"
+      }
+    ]
+    dns = null
   }
 }
 
@@ -120,7 +133,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string
@@ -150,9 +172,9 @@ variable "services" {
           body          = null
           name          = null
           path          = "/healthcheck"
-          expose        = true
-          port          = null
-          protocol      = null
+          expose        = false
+          port          = "service-check-miniflux"
+          protocol      = "http"
           task          = null
           timeout       = "5s"
           type          = "http"
@@ -163,7 +185,16 @@ variable "services" {
         sidecar = {
           task = null
           service = {
+            port = "connect-proxy-miniflux"
             proxy = {
+              expose = [
+                {
+                  path          = "/healthcheck"
+                  protocol      = "http"
+                  local_port    = 8080
+                  listener_port = "service-check-miniflux"
+                }
+              ]
               upstreams = []
             }
           }

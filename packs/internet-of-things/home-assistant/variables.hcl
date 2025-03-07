@@ -80,6 +80,12 @@ variable "network" {
         to           = 8123
         static       = 8123
         host_network = "public"
+      },
+      {
+        name         = "connect-proxy-home-assistant"
+        to           = -1
+        static       = 0
+        host_network = "connect"
       }
     ]
     dns = null
@@ -127,7 +133,16 @@ variable "services" {
             })
           })
           service = object({
+            port = string
             proxy = object({
+              expose = list(
+                object({
+                  path          = string
+                  protocol      = string
+                  local_port    = number
+                  listener_port = string
+                })
+              )
               upstreams = list(
                 object({
                   name = string
@@ -152,7 +167,9 @@ variable "services" {
         sidecar = {
           task = null
           service = {
+            port = "connect-proxy-home-assistant"
             proxy = {
+              expose    = []
               upstreams = []
             }
           }
