@@ -104,23 +104,26 @@ variable "services" {
         object({
           address_mode = string
           args         = list(string)
-          check_restart = object({
+          restart = object({
             limit           = number
             grace           = string
             ignore_warnings = bool
           })
-          command  = string
-          interval = string
-          method   = string
-          body     = string
-          name     = string
-          path     = string
-          expose   = bool
-          port     = string
-          protocol = string
-          task     = string
-          timeout  = string
-          type     = string
+          command         = string
+          interval        = string
+          method          = string
+          body            = string
+          name            = string
+          path            = string
+          expose          = bool
+          port            = string
+          protocol        = string
+          task            = string
+          timeout         = string
+          type            = string
+          tls_server_name = string
+          tls_skip_verify = bool
+          headers         = string
         })
       )
       connect = object({
@@ -323,16 +326,18 @@ variable "volume_mounts" {
 variable "restart" {
   description = "Configures a task behavior on failure."
   type = object({
-    attempts = number
-    delay    = string
-    interval = string
-    mode     = string
+    attempts         = number
+    delay            = string
+    interval         = string
+    mode             = string
+    render_templates = bool
   })
   default = {
-    mode     = "fail"
-    delay    = "15s"
-    interval = "10m"
-    attempts = 3
+    mode             = "fail"
+    delay            = "15s"
+    interval         = "10m"
+    attempts         = 3
+    render_templates = false
   }
 }
 

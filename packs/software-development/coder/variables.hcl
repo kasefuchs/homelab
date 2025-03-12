@@ -104,23 +104,26 @@ variable "services" {
         object({
           address_mode = string
           args         = list(string)
-          check_restart = object({
+          restart = object({
             limit           = number
             grace           = string
             ignore_warnings = bool
           })
-          command  = string
-          interval = string
-          method   = string
-          body     = string
-          name     = string
-          path     = string
-          expose   = bool
-          port     = string
-          protocol = string
-          task     = string
-          timeout  = string
-          type     = string
+          command         = string
+          interval        = string
+          method          = string
+          body            = string
+          name            = string
+          path            = string
+          expose          = bool
+          port            = string
+          protocol        = string
+          task            = string
+          timeout         = string
+          type            = string
+          tls_server_name = string
+          tls_skip_verify = bool
+          headers         = string
         })
       )
       connect = object({
@@ -163,21 +166,24 @@ variable "services" {
       provider = "consul"
       checks = [
         {
-          address_mode  = null
-          args          = null
-          check_restart = null
-          command       = null
-          interval      = "30s"
-          method        = null
-          body          = null
-          name          = null
-          path          = "/healthz"
-          expose        = false
-          port          = "service-check-coder"
-          protocol      = "http"
-          task          = null
-          timeout       = "5s"
-          type          = "http"
+          address_mode    = null
+          args            = null
+          restart         = null
+          command         = null
+          interval        = "30s"
+          method          = null
+          body            = null
+          name            = null
+          path            = "/healthz"
+          expose          = false
+          port            = "service-check-coder"
+          protocol        = "http"
+          task            = null
+          timeout         = "5s"
+          type            = "http"
+          tls_server_name = null
+          tls_skip_verify = false
+          headers         = null
         }
       ]
       connect = {
@@ -314,16 +320,18 @@ variable "volume_mounts" {
 variable "restart" {
   description = "Configures a task behavior on failure."
   type = object({
-    attempts = number
-    delay    = string
-    interval = string
-    mode     = string
+    attempts         = number
+    delay            = string
+    interval         = string
+    mode             = string
+    render_templates = bool
   })
   default = {
-    mode     = "fail"
-    delay    = "15s"
-    interval = "10m"
-    attempts = 3
+    mode             = "fail"
+    delay            = "15s"
+    interval         = "10m"
+    attempts         = 3
+    render_templates = false
   }
 }
 
