@@ -34,3 +34,6 @@ consul_agent_grpc_tls_addresses: "{{ consul_agent_client_addresses }}"
 
 # Specifies the default Consul ACL policy.
 consul_agent_acl_default_policy: deny
+
+#
+consul_agent_encrypt: ""
