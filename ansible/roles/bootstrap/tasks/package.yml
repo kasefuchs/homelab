@@ -9,15 +9,10 @@
             bootstrap_package_yum_repositories: "{{ bootstrap_package_yum_distribution_repositories[ansible_distribution | lower] | default(bootstrap_package_yum_distribution_repositories['default']) }}"
 
         - name: Add package repositories
-          loop: "{{ bootstrap_package_yum_repositories.items() }}"
+          loop: "{{ bootstrap_package_yum_repositories }}"
           loop_control:
-            label: "{{ item[0] }}"
-          ansible.builtin.yum_repository:
-            name: "{{ item[0] }}"
-            description: "{{ item[1].description }}"
-            baseurl: "{{ item[1].url }}"
-            gpgkey: "{{ item[1].key }}"
-            gpgcheck: true
+            label: "{{ item.name }}"
+          ansible.builtin.yum_repository: "{{ item }}"
 
     - name: Add package repositories (APT-like)
       when: ansible_pkg_mgr == "apt"

@@ -5,5 +5,8 @@
 - name: Configure required services
   ansible.builtin.import_tasks: service.yml
 
+- name: Configure firewall
+  ansible.builtin.import_tasks: firewall.yml
+
 - name: Configure system
   ansible.builtin.import_tasks: system.yml
