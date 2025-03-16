@@ -1,6 +1,8 @@
 node_name  = "{{ consul_agent_node_name }}"
 datacenter = "{{ consul_agent_datacenter }}"
 
+encrypt = "{{ consul_agent_encrypt }}"
+
 data_dir    = "{{ consul_agent_data_dir }}"
 bind_addr   = "{{ consul_agent_bind_address }}"
 client_addr = "{{ consul_agent_client_addresses | join(' ') }}"

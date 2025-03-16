@@ -72,3 +72,6 @@ nomad_agent_reserved_cpu: 0
 
 # Specifies the amount of memory to reserve, in MB.
 nomad_agent_reserved_memory: 0
+
+#
+nomad_agent_encrypt: ""
