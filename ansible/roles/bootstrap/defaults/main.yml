@@ -53,32 +53,37 @@ bootstrap_package_distribution_install:
 # Yum package repositories to add.
 bootstrap_package_yum_distribution_repositories:
   default:
-    docker-ce-stable:
+    - name: docker-ce-stable
       description: Docker CE Stable
-      url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
-      key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+      baseurl: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
+      gpgkey:  "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+      gpgcheck: true
 
   centos:
-    docker-ce-stable:
+    - name: docker-ce-stable
       description: Docker CE Stable
-      url: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
-      key: "https://download.docker.com/linux/centos/gpg"
+      baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+      gpgkey:  "https://download.docker.com/linux/centos/gpg"
+      gpgcheck: true
 
-    epel:
+    - name: epel
       description: Extra Packages for Enterprise Linux
-      url: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
-      key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+      baseurl: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
+      gpgkey:  "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+      gpgcheck: true
 
   rocky:
-    docker-ce-stable:
+    - name: docker-ce-stable
       description: Docker CE Stable
-      url: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
-      key: "https://download.docker.com/linux/centos/gpg"
+      baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+      gpgkey:  "https://download.docker.com/linux/centos/gpg"
+      gpgcheck: true
 
-    epel:
+    - name: epel
       description: Extra Packages for Enterprise Linux
-      url: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
-      key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+      baseurl: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
+      gpgkey:  "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+      gpgcheck: true
 
 # APT package repositories to add.
 bootstrap_package_apt_distribution_repositories:
@@ -86,7 +91,8 @@ bootstrap_package_apt_distribution_repositories:
     docker:
       url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
       key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-      components: [stable]
+      components:
+        - stable
 
 # Services to start.
 bootstrap_service_distribution_start:
@@ -100,12 +106,28 @@ bootstrap_service_distribution_enable:
     - docker
     - containerd
 
+# FirewallD rules to set.
+bootstrap_firewall_firewalld_state_rules:
+  - interface: nomad
+    permanent: true
+    state: enabled
+    zone: trusted
+
+  - port: 4646/udp
+    permanent: true
+    state: enabled
+    zone: public
+
 # Kernel attributes.
 bootstrap_system_kernel_attributes:
-  - file: /etc/sysctl.d/10-inotify.conf
-    name: fs.inotify.max_user_instances
+  - name: fs.inotify.max_user_instances
     value: 4096
+    reload: true
+    sysctl_set: true
+    sysctl_file: /etc/sysctl.d/10-inotify.conf
 
-  - file: /etc/sysctl.d/10-inotify.conf
-    name: fs.inotify.max_user_watches
+  - name: fs.inotify.max_user_watches
     value: 1048576
+    reload: true
+    sysctl_set: true
+    sysctl_file: /etc/sysctl.d/10-inotify.conf

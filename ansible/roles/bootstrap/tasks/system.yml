@@ -1,11 +1,7 @@
 ---
 - name: Modify kernel attributes
   loop: "{{ bootstrap_system_kernel_attributes }}"
+  loop_control:
+    label: "{{ item.name }}={{ item.value }}"
   ignore_errors: true
-
-  ansible.posix.sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-    reload: true
-    sysctl_set: true
-    sysctl_file: "{{ item.file }}"
+  ansible.posix.sysctl: "{{ item }}"
