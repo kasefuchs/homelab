@@ -10,9 +10,10 @@ listen:
 
 lighthouse:
   am_lighthouse: {{ nebula_lighthouse_enable | lower }}
-  {{ { "hosts": [] if nebula_lighthouse_enable else nebula_lighthouse_hosts } | ansible.builtin.to_yaml }}
+  {{ { "hosts": [] if nebula_lighthouse_enable else nebula_lighthouse_hosts } | ansible.builtin.to_yaml | trim }}
 
-{{ { "static_host_map": nebula_static_host_map } | ansible.builtin.to_yaml(indent=2) }}
+{{ { "static_host_map": nebula_static_host_map } | ansible.builtin.to_yaml(indent=2) | trim }}
 
-{{ { "tun": nebula_tun } | ansible.builtin.to_nice_yaml(indent=2) }}
-{{ { "firewall": nebula_firewall } | ansible.builtin.to_nice_yaml(indent=2) }}
+{{ { "tun": nebula_tun } | ansible.builtin.to_nice_yaml(indent=2) | trim }}
+
+{{ { "firewall": nebula_firewall } | ansible.builtin.to_nice_yaml(indent=2) | trim }}
