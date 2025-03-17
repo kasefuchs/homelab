@@ -1,0 +1,92 @@
+---
+- name: Get latest Terraform version
+  when: terraform_version == "latest"
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest Terraform release on GitHub
+      register: terraform_github_release
+      community.general.github_release:
+        user: "{{ terraform_github_user }}"
+        repo: "{{ terraform_github_repository }}"
+        action: latest_release
+
+    - name: Set Terraform version
+      ansible.builtin.set_fact:
+        terraform_version: "{{ terraform_github_release.tag | default(terraform_version) | regex_replace('^v', '') }}"
+
+- name: Download Terraform archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (terraform_controller_source_cache_dir, terraform_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Check if the Terraform archives already exists
+      loop: "{{ terraform_architectures.values() }}"
+      loop_control:
+        loop_var: terraform_architecture
+      register: terraform_files
+      ansible.builtin.stat:
+        path: "{{ (terraform_controller_source_cache_dir, terraform_version, terraform_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Terraform archives
+      loop: "{{ terraform_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: terraform_architecture
+      when: not terraform_files.results[ansible_loop.index0].stat.exists
+      ansible.builtin.get_url:
+        url: "{{ terraform_download_url }}"
+        dest: "{{ (terraform_controller_source_cache_dir, terraform_version, terraform_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Terraform filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    terraform_source_version_dir: "{{ (terraform_source_dir, terraform_version) | ansible.builtin.path_join }}"
+
+- name: Create Terraform directories
+  block:
+    - name: Create Terraform source cache directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ terraform_source_cache_dir }}"
+        state: directory
+
+    - name: Create Terraform source version directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ terraform_source_version_dir }}"
+        state: directory
+
+    - name: Link Terraform source version to application directory
+      ansible.builtin.file:
+        src: "{{ terraform_source_version_dir }}"
+        dest: "{{ terraform_application_dir }}"
+        state: link
+
+- name: Install Terraform binary
+  block:
+    - name: Copy Terraform archive
+      ansible.builtin.copy:
+        src: "{{ (terraform_controller_source_cache_dir, terraform_version, terraform_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ (terraform_source_cache_dir, terraform_version) | ansible.builtin.path_join }}"
+
+    - name: Extract Terraform archive
+      ansible.builtin.unarchive:
+        src: "{{ (terraform_source_cache_dir, terraform_version) | ansible.builtin.path_join }}"
+        dest: "{{ terraform_application_dir }}"
+        creates: "{{ terraform_application_binary_path }}"
+        extra_opts: "{{ terraform_unarchive_extra_opts }}"
+        remote_src: true
+
+    - name: Create Terraform binary symlink
+      ansible.builtin.file:
+        src: "{{ terraform_application_binary_path }}"
+        dest: "{{ terraform_binary_path }}"
+        state: link

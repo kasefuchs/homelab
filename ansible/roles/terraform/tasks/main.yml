@@ -1,0 +1,9 @@
+---
+- name: Prepare Terraform
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Download Terraform package
+  ansible.builtin.import_tasks: download.yml
+
+- name: Configure Terraform
+  ansible.builtin.import_tasks: configure.yml
