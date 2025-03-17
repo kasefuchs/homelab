@@ -1,0 +1,91 @@
+---
+- name: Get latest Envoy version
+  when: envoy_version == "latest"
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest Envoy release on GitHub
+      register: envoy_github_release
+      community.general.github_release:
+        user: "{{ envoy_github_user }}"
+        repo: "{{ envoy_github_repository }}"
+        action: latest_release
+
+    - name: Set Envoy version
+      ansible.builtin.set_fact:
+        envoy_version: "{{ envoy_github_release.tag | default(envoy_version) | regex_replace('^v', '') }}"
+
+- name: Download Envoy binaries
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (envoy_controller_source_cache_dir, envoy_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Check if the Envoy binaries already exists
+      loop: "{{ envoy_architectures.values() }}"
+      loop_control:
+        loop_var: envoy_architecture
+      register: envoy_files
+      ansible.builtin.stat:
+        path: "{{ (envoy_controller_source_cache_dir, envoy_version, envoy_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Envoy binaries
+      loop: "{{ envoy_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: envoy_architecture
+      when: not envoy_files.results[ansible_loop.index0].stat.exists
+      ansible.builtin.get_url:
+        url: "{{ envoy_download_url }}"
+        dest: "{{ (envoy_controller_source_cache_dir, envoy_version, envoy_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Envoy filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    envoy_source_version_dir: "{{ (envoy_source_dir, envoy_version) | ansible.builtin.path_join }}"
+
+- name: Create directories
+  block:
+    - name: Create Envoy source cache directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ envoy_source_cache_dir }}"
+        state: directory
+
+    - name: Create Envoy source version directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ envoy_source_version_dir }}"
+        state: directory
+
+    - name: Link Envoy source version to application directory
+      ansible.builtin.file:
+        src: "{{ envoy_source_version_dir }}"
+        dest: "{{ envoy_application_dir }}"
+        state: link
+
+- name: Install Envoy binary
+  block:
+    - name: Copy Envoy source binary
+      ansible.builtin.copy:
+        src: "{{ (envoy_controller_source_cache_dir, envoy_version, envoy_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ (envoy_source_cache_dir, envoy_version) | ansible.builtin.path_join }}"
+
+    - name: Copy Envoy binary
+      ansible.builtin.copy:
+        src: "{{ (envoy_source_cache_dir, envoy_version) | ansible.builtin.path_join }}"
+        dest: "{{ (envoy_application_dir, 'envoy') | ansible.builtin.path_join }}"
+        mode: "0755"
+        remote_src: true
+
+    - name: Create Envoy binary symlink
+      ansible.builtin.file:
+        src: "{{ envoy_application_binary_path }}"
+        dest: "{{ envoy_binary_path }}"
+        state: link

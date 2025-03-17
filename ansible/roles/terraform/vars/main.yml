@@ -36,4 +36,3 @@ terraform_controller_cache_dir: "{{ playbook_dir }}/../cache/terraform"
 
 # The path to the directory where download cache stored.
 terraform_controller_source_cache_dir: "{{ (terraform_controller_cache_dir, 'source') | ansible.builtin.path_join }}"
-

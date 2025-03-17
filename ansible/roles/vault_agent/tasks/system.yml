@@ -1,0 +1,11 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_agent_user }}"
+    group: "{{ vault_agent_group }}"
+  loop:
+    - "{{ vault_agent_state_dir }}"
+    - "{{ vault_agent_config_dir }}"

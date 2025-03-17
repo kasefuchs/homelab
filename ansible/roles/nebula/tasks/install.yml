@@ -1,0 +1,97 @@
+---
+- name: Get latest Nebula version
+  when: nebula_version == "latest"
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest Nebula release on GitHub
+      register: nebula_github_release
+      community.general.github_release:
+        user: "{{ nebula_github_user }}"
+        repo: "{{ nebula_github_repository }}"
+        action: latest_release
+
+    - name: Set Nebula version
+      ansible.builtin.set_fact:
+        nebula_version: "{{ nebula_github_release.tag | default(nebula_version) | regex_replace('^v', '') }}"
+
+- name: Download Nebula archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (nebula_controller_source_cache_dir, nebula_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Check if the Nebula archives already exists
+      loop: "{{ nebula_architectures.values() }}"
+      loop_control:
+        loop_var: nebula_architecture
+      register: nebula_files
+      ansible.builtin.stat:
+        path: "{{ (nebula_controller_source_cache_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download Nebula archives
+      loop: "{{ nebula_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: nebula_architecture
+      when: not nebula_files.results[ansible_loop.index0].stat.exists
+      ansible.builtin.get_url:
+        url: "{{ nebula_download_url }}"
+        dest: "{{ (nebula_controller_source_cache_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"
+
+- name: Set Nebula filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    nebula_source_version_dir: "{{ (nebula_source_dir, nebula_version) | ansible.builtin.path_join }}"
+
+- name: Create directories
+  block:
+    - name: Create Nebula source cache directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ nebula_source_cache_dir }}"
+        state: directory
+
+    - name: Create Nebula source version directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ nebula_source_version_dir }}"
+        state: directory
+
+    - name: Link Nebula source version to application directory
+      ansible.builtin.file:
+        src: "{{ nebula_source_version_dir }}"
+        dest: "{{ nebula_application_dir }}"
+        state: link
+
+- name: Install Nebula binary
+  block:
+    - name: Copy Nebula archive
+      ansible.builtin.copy:
+        src: "{{ (nebula_controller_source_cache_dir, nebula_version, nebula_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ (nebula_source_cache_dir, nebula_version) | ansible.builtin.path_join }}"
+
+    - name: Extract Nebula archive
+      ansible.builtin.unarchive:
+        src: "{{ (nebula_source_cache_dir, nebula_version) | ansible.builtin.path_join }}"
+        dest: "{{ nebula_application_dir }}"
+        creates: "{{ nebula_application_binary_path }}"
+        extra_opts: "{{ nebula_unarchive_extra_opts }}"
+        remote_src: true
+
+    - name: Set Nebula binary capabilities
+      community.general.capabilities:
+        path: "{{ nebula_application_binary_path }}"
+        capability: cap_net_admin=eip
+
+    - name: Create Nebula binary symlink
+      ansible.builtin.file:
+        src: "{{ nebula_application_binary_path }}"
+        dest: "{{ nebula_binary_path }}"
+        state: link

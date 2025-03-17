@@ -1,0 +1,19 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ consul_agent_user }}"
+    group: "{{ consul_agent_group }}"
+  loop:
+    - "{{ consul_agent_config_dir }}"
+    - "{{ consul_agent_state_dir }}"
+    - "{{ consul_agent_data_dir }}"
+
+- name: Copy Consul Agent ACL template
+  ansible.builtin.template:
+    src: acl.hcl.ctmpl.j2
+    dest: "{{ consul_agent_acl_template_path }}"
+    owner: "{{ consul_agent_user }}"
+    group: "{{ consul_agent_group }}"

@@ -1,9 +1,16 @@
 ---
-- name: Prepare Terraform
-  ansible.builtin.import_tasks: prepare.yml
+- name: Prepare controller for installation
+  tags: always
+  ansible.builtin.import_tasks: controller.yml
 
-- name: Download Terraform package
-  ansible.builtin.import_tasks: download.yml
+- name: Configure system-specific aspects
+  tags: system
+  ansible.builtin.import_tasks: system.yml
 
-- name: Configure Terraform
-  ansible.builtin.import_tasks: configure.yml
+- name: Install binaries
+  tags: install
+  ansible.builtin.import_tasks: install.yml
+
+- name: Configure node-specific aspects
+  tags: node
+  ansible.builtin.import_tasks: node.yml

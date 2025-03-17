@@ -1,10 +1,20 @@
 ---
-- name: Create Consul group
+- name: Create group
   ansible.builtin.group:
     name: "{{ consul_group }}"
 
-- name: Create Consul user
+- name: Create user
   ansible.builtin.user:
     name: "{{ consul_user }}"
     group: "{{ consul_group }}"
     system: true
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  loop:
+    - "{{ consul_pki_dir }}"

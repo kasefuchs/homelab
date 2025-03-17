@@ -1,12 +1,12 @@
 ---
-- name: Configure FirewallD
+- name: Configure node-specific aspects
   block:
     - name: Collect FirewallD information
       register: bootstrap_firewall_firewalld_info
       ignore_errors: true
       ansible.posix.firewalld_info:
 
-    - name: Configure FirewallD rules
+    - name: Configure node-specific aspects
       when: not bootstrap_firewall_firewalld_info.failed
       loop: "{{ bootstrap_firewall_firewalld_state_rules }}"
       notify: Reload FirewallD rules

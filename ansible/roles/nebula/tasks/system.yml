@@ -1,10 +1,22 @@
 ---
-- name: Create Nebula group
+- name: Create group
   ansible.builtin.group:
     name: "{{ nebula_group }}"
 
-- name: Create Nebula user
+- name: Create user
   ansible.builtin.user:
     name: "{{ nebula_user }}"
     group: "{{ nebula_group }}"
     system: true
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ nebula_user }}"
+    group: "{{ nebula_group }}"
+  loop:
+    - "{{ nebula_pki_dir }}"
+    - "{{ nebula_state_dir }}"
+    - "{{ nebula_config_dir }}"
