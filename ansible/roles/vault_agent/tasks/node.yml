@@ -1,0 +1,23 @@
+---
+- name: Copy AppRole credentials
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ vault_agent_user }}"
+    group: "{{ vault_agent_group }}"
+  loop:
+    - content: "{{ vault_agent_auto_auth_method_role_id }}"
+      dest: "{{ vault_agent_auto_auth_method_role_id_path }}"
+    - content: "{{ vault_agent_auto_auth_method_secret_id }}"
+      dest: "{{ vault_agent_auto_auth_method_secret_id_path }}"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Copy Vault Agent configuration
+  register: vault_agent_config_template
+  ansible.builtin.template:
+    src: agent.hcl.j2
+    dest: "{{ vault_agent_config_path }}"
+    mode: "0644"
+    owner: "{{ vault_agent_user }}"
+    group: "{{ vault_agent_group }}"

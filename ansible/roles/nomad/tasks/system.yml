@@ -1,10 +1,20 @@
 ---
-- name: Create Nomad group
+- name: Create group
   ansible.builtin.group:
     name: "{{ nomad_group }}"
 
-- name: Create Nomad user
+- name: Create user
   ansible.builtin.user:
     name: "{{ nomad_user }}"
     group: "{{ nomad_group }}"
     system: true
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - "{{ nomad_pki_dir }}"

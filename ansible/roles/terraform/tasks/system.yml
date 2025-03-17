@@ -1,0 +1,8 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ terraform_config_dir }}"

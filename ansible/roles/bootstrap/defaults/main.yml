@@ -56,33 +56,33 @@ bootstrap_package_yum_distribution_repositories:
     - name: docker-ce-stable
       description: Docker CE Stable
       baseurl: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
-      gpgkey:  "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+      gpgkey: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
       gpgcheck: true
 
   centos:
     - name: docker-ce-stable
       description: Docker CE Stable
       baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
-      gpgkey:  "https://download.docker.com/linux/centos/gpg"
+      gpgkey: "https://download.docker.com/linux/centos/gpg"
       gpgcheck: true
 
     - name: epel
       description: Extra Packages for Enterprise Linux
       baseurl: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
-      gpgkey:  "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+      gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
       gpgcheck: true
 
   rocky:
     - name: docker-ce-stable
       description: Docker CE Stable
       baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
-      gpgkey:  "https://download.docker.com/linux/centos/gpg"
+      gpgkey: "https://download.docker.com/linux/centos/gpg"
       gpgcheck: true
 
     - name: epel
       description: Extra Packages for Enterprise Linux
       baseurl: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
-      gpgkey:  "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+      gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
       gpgcheck: true
 
 # APT package repositories to add.

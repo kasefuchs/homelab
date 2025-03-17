@@ -1,0 +1,9 @@
+---
+- name: Copy Vault Envoy configuration
+  register: vault_envoy_config_template
+  ansible.builtin.template:
+    src: envoy.yml.j2
+    dest: "{{ vault_envoy_config_path }}"
+    mode: "0644"
+    owner: "{{ vault_envoy_user }}"
+    group: "{{ vault_envoy_group }}"

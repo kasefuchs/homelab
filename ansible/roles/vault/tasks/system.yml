@@ -1,10 +1,20 @@
 ---
-- name: Create Vault group
+- name: Create group
   ansible.builtin.group:
     name: "{{ vault_group }}"
 
-- name: Create Vault user
+- name: Create user
   ansible.builtin.user:
     name: "{{ vault_user }}"
     group: "{{ vault_group }}"
     system: true
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+  loop:
+    - "{{ vault_pki_dir }}"

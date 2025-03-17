@@ -1,0 +1,20 @@
+---
+- name: Include role vars
+  loop:
+    - pki
+    - monit
+    - nebula
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/../{{ item }}/vars/main.yml"
+
+- name: Create directories
+  become: false
+  run_once: true
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ consul_controller_secrets_dir }}"
+    - "{{ consul_controller_source_cache_dir }}"

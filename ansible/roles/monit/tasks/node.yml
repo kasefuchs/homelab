@@ -1,0 +1,7 @@
+---
+- name: Copy Monit configuration
+  register: monit_config_template
+  ansible.builtin.template:
+    src: monitrc.j2
+    dest: "{{ monit_config_path }}"
+    mode: "0600"
