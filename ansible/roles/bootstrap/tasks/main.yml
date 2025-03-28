@@ -1,16 +1,16 @@
 ---
 - name: Install required packages
-  tags: system
+  tags: common
   ansible.builtin.import_tasks: package.yml
 
 - name: Configure required services
-  tags: system
+  tags: common
   ansible.builtin.import_tasks: service.yml
 
 - name: Configure firewall
-  tags: system
+  tags: common
   ansible.builtin.import_tasks: firewall.yml
 
 - name: Configure system
-  tags: system
+  tags: common
   ansible.builtin.import_tasks: system.yml

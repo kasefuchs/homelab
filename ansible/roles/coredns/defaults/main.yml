@@ -1,0 +1,9 @@
+---
+# CoreDNS version to download.
+coredns_version: latest
+
+# URL to download CoreDNS archive from.
+coredns_download_url: https://github.com/{{ coredns_github_user }}/{{ coredns_github_repository }}/releases/download/v{{ coredns_version }}/coredns_{{ coredns_version }}_linux_{{ coredns_architecture }}.tgz
+
+# Extra options to pass to unarchive command.
+coredns_unarchive_extra_opts: []

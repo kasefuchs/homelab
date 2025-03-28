@@ -1,0 +1,16 @@
+[Unit]
+Description=Vault: Identity-based security solution
+Wants=network.target network-online.target nebula.service consul.service
+After=network.target network-online.target nebula.service consul.service
+
+[Service]
+Type=simple
+User={{ vault_user }}
+Group={{ vault_group }}
+ExecStart={{ vault_binary_path }} server -config={{ vault_config_path }}
+Restart=always
+KillMode=process
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

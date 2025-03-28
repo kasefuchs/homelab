@@ -26,7 +26,13 @@ vault_application_binary_path: "{{ (vault_application_dir, 'vault') | ansible.bu
 vault_binary_path: /usr/local/bin/vault
 
 # The path to the directory where Vault certificates stored.
-vault_pki_dir: /etc/pki/vault
+vault_pki_dir: "{{ (vault_config_dir, 'pki') | ansible.builtin.path_join }}"
+
+#
+vault_pki_ca_dir: "{{ (vault_pki_dir, 'ca') | ansible.builtin.path_join }}"
+
+#
+vault_pki_entity_dir: "{{ (vault_pki_dir, 'entity') | ansible.builtin.path_join }}"
 
 # The user to run Vault as.
 vault_user: vault
@@ -42,3 +48,42 @@ vault_controller_cache_dir: "{{ playbook_dir }}/../cache/vault"
 
 # The path to the directory where download cache stored.
 vault_controller_source_cache_dir: "{{ (vault_controller_cache_dir, 'source') | ansible.builtin.path_join }}"
+
+# The path to the directory where Vault state data stored.
+vault_state_dir: /var/lib/vault
+
+# The path in which configuration stored.
+vault_config_dir: /etc/vault
+
+# The path to the directory where Vault raft data stored.
+vault_raft_dir: "{{ (vault_state_dir, 'raft') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault configuration stored.
+vault_config_path: "{{ (vault_config_dir, 'server.hcl') | ansible.builtin.path_join }}"
+
+# The path to the file where Vault keys stored.
+vault_controller_secrets_keys_path: "{{ (vault_controller_secrets_dir, 'keys.yml') | ansible.builtin.path_join }}"
+
+#
+vault_controller_secrets_pki_dir: "{{ (vault_controller_secrets_dir, 'pki') | ansible.builtin.path_join }}"
+
+#
+vault_controller_secrets_pki_ca_dir: "{{ (vault_controller_secrets_pki_dir, 'ca') | ansible.builtin.path_join }}"
+
+#
+vault_controller_secrets_pki_entity_dir: "{{ (vault_controller_secrets_pki_dir, 'entity') | ansible.builtin.path_join }}"
+
+#
+vault_controller_secrets_terraform_dir: "{{ (vault_controller_secrets_dir, 'terraform') | ansible.builtin.path_join }}"
+
+#
+vault_controller_secrets_terraform_environment_path: "{{ (vault_controller_secrets_terraform_dir, 'environment.yml') | ansible.builtin.path_join }}"
+
+#
+vault_controller_terraform_project_dir: "{{ (terraform_controller_projects_dir, 'vault') | ansible.builtin.path_join }}/"
+
+#
+vault_terraform_project_dir: "{{ (terraform_state_dir, 'vault') | ansible.builtin.path_join }}"
+
+#
+vault_terraform_environment_project_dir: "{{ (vault_terraform_project_dir, 'environment') | ansible.builtin.path_join }}"

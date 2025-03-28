@@ -1,0 +1,32 @@
+---
+- name: Copy certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  loop:
+    - src: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, 'cli.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, 'cli.key') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, ('server' if consul_server else 'client') + '.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, ('server' if consul_server else 'client') + '.key') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_pki_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Copy configuration
+  register: consul_config_template
+  ansible.builtin.template:
+    src: etc/consul/agent.hcl.j2
+    dest: "{{ consul_config_path }}"
+    mode: "0644"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"

@@ -1,7 +1,9 @@
 ---
 - name: Include role vars
   loop:
-    - pki
+    - nebula
+    - consul
+    - terraform
   ansible.builtin.include_vars:
     file: "{{ role_path }}/../{{ item }}/vars/main.yml"
 
@@ -15,4 +17,8 @@
     state: directory
   loop:
     - "{{ vault_controller_secrets_dir }}"
+    - "{{ vault_controller_secrets_pki_dir }}"
+    - "{{ vault_controller_secrets_pki_ca_dir }}"
+    - "{{ vault_controller_secrets_pki_entity_dir }}"
+    - "{{ vault_controller_secrets_terraform_dir }}"
     - "{{ vault_controller_source_cache_dir }}"

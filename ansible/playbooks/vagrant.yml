@@ -1,20 +1,13 @@
 ---
-- name: Bootstrap
+- name: Vagrant
   hosts: all
   become: true
   roles:
     - role: bootstrap
-    - role: monit
     - role: cni
     - role: consul
-    - role: consul_agent
-    - role: envoy
+    - role: coredns
     - role: nebula
     - role: nomad
-    - role: nomad_agent
-    - role: nomad_envoy
     - role: terraform
     - role: vault
-    - role: vault_agent
-    - role: vault_envoy
-    - role: vault_server

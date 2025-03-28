@@ -1,9 +1,11 @@
 ---
 - name: Include role vars
   loop:
-    - pki
-    - monit
+    - terraform
     - nebula
+    - consul
+    - vault
+    - cni
   ansible.builtin.include_vars:
     file: "{{ role_path }}/../{{ item }}/vars/main.yml"
 
@@ -17,4 +19,8 @@
     state: directory
   loop:
     - "{{ nomad_controller_secrets_dir }}"
+    - "{{ nomad_controller_secrets_pki_dir }}"
+    - "{{ nomad_controller_secrets_pki_ca_dir }}"
+    - "{{ nomad_controller_secrets_pki_entity_dir }}"
+    - "{{ nomad_controller_secrets_terraform_dir }}"
     - "{{ nomad_controller_source_cache_dir }}"

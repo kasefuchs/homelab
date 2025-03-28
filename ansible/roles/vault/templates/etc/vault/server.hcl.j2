@@ -1,0 +1,39 @@
+api_addr     = "{{ vault_advertise_api_address }}"
+cluster_addr = "{{ vault_advertise_cluster_address }}"
+cluster_name = "{{ vault_cluster_name }}"
+
+ui            = true
+disable_mlock = true
+
+listener "tcp" {
+  address         = "{{ vault_api_address }}"
+  cluster_address = "{{ vault_cluster_address }}"
+
+  tls_key_file  = "{{ (vault_pki_dir, 'server.key') | ansible.builtin.path_join }}"
+  tls_cert_file = "{{ (vault_pki_dir, 'server.crt') | ansible.builtin.path_join }}"
+
+  tls_require_and_verify_client_cert = false
+}
+
+storage "raft" {
+  path    = "{{ vault_raft_dir }}"
+  node_id = "{{ vault_raft_node_id }}"
+
+{% for host, api_addr in vault_raft_peers.items() if host != inventory_hostname %}
+  retry_join {
+    leader_api_addr       = "{{ api_addr }}"
+    leader_tls_servername = "{{ host }}.server.vault"
+
+    leader_ca_cert_file     = "{{ (vault_pki_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+    leader_client_key_file  = "{{ (vault_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+    leader_client_cert_file = "{{ (vault_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+  }
+{% endfor %}
+}
+
+service_registration "consul" {
+  token       = "{{ vault_secrets_vault_service_consul_token }}"
+  scheme      = "https"
+  address     = "{{ vault_consul_https_endpoint }}"
+  tls_ca_file = "{{ (vault_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+}

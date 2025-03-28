@@ -1,0 +1,77 @@
+---
+- name: Disable external DNS management
+  block:
+    - name: Disable NetworkManager DNS management
+      block:
+        - name: Check if NetworkManager is running
+          register: coredns_bootstrap_network_manager_status
+          failed_when: false
+          changed_when: false
+          ansible.builtin.command:
+            cmd: nmcli -t -f RUNNING general
+
+        - name: Disable NetworkManager DNS management
+          when: coredns_bootstrap_network_manager_status.stdout == 'running'
+          notify: Restart NetworkManager
+          ansible.builtin.ini_file:
+            path: /etc/NetworkManager/NetworkManager.conf
+            section: main
+            option: dns
+            value: none
+
+    - name: Disable resolvconf DNS management
+      block:
+        - name: Check if resolvconf is running
+          register: coredns_bootstrap_resolvconf_status
+          failed_when: false
+          changed_when: false
+          ansible.builtin.command:
+            cmd: resolvconf --updates-are-enabled
+
+        - name: Disable resolvconf DNS management
+          when: coredns_bootstrap_resolvconf_status.rc == 0
+          ansible.builtin.systemd_service:
+            name: resolvconf
+            state: stopped
+            enabled: false
+
+    - name: Disable systemd-resolved DNS management
+      block:
+        - name: Check if systemd-resolved is running
+          register: coredns_bootstrap_systemd_resolved_status
+          failed_when: false
+          changed_when: false
+          ansible.builtin.systemd_service:
+            name: systemd-resolved
+
+        - name: Disable systemd-resolved DNS management
+          when: coredns_bootstrap_systemd_resolved_status.status.ActiveState == 'active'
+          ansible.builtin.systemd_service:
+            name: systemd-resolved
+            state: stopped
+            enabled: false
+
+- name: Copy configuration
+  register: coredns_config_template
+  ansible.builtin.template:
+    src: etc/coredns/Corefile.j2
+    mode: "0644"
+    dest: "{{ coredns_config_path }}"
+    owner: "{{ coredns_user }}"
+    group: "{{ coredns_group }}"
+
+- name: Copy server blocks
+  ansible.builtin.copy:
+    src: etc/coredns/block.d/
+    dest: "{{ coredns_block_dir }}"
+    owner: "{{ coredns_user }}"
+    group: "{{ coredns_group }}"
+
+- name: Copy resolv.conf
+  ansible.builtin.copy:
+    src: etc/resolv.conf
+    dest: /etc/resolv.conf
+    mode: "0644"
+    owner: root
+    group: root
+    attributes: +i

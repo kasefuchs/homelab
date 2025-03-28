@@ -1,0 +1,124 @@
+---
+- name: Create Consul CA certificate
+  run_once: true
+  block:
+    - name: Create Consul CA private key
+      register: consul_pki_ca_private_key
+      community.crypto.openssl_privatekey:
+        path: "{{ (consul_controller_secrets_pki_ca_dir, 'ca.key') | ansible.builtin.path_join }}"
+
+    - name: Create Consul CA certificate signing request
+      register: consul_pki_ca_csr
+      community.crypto.openssl_csr:
+        path: "{{ (consul_controller_secrets_pki_ca_dir, 'ca.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ consul_pki_ca_private_key.filename }}"
+        common_name: "{{ consul_pki_ca_cn }}"
+        use_common_name_for_san: false
+        basic_constraints: [CA:TRUE]
+        basic_constraints_critical: true
+        key_usage: [keyCertSign]
+        key_usage_critical: true
+
+    - name: Create self-signed Consul CA certificate from CSR
+      register: consul_pki_ca_certificate
+      community.crypto.x509_certificate:
+        path: "{{ (consul_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+        csr_path: "{{ consul_pki_ca_csr.filename }}"
+        privatekey_path: "{{ consul_pki_ca_private_key.filename }}"
+        provider: selfsigned
+        ownca_not_after: "+{{ consul_pki_ca_duration }}"
+        ownca_not_before: "-1d"
+
+- name: Create Consul entity certificates
+  block:
+    - name: Create Consul datacenter certificate directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter) | ansible.builtin.path_join }}"
+        state: directory
+
+    - name: Create Consul CLI certificate
+      block:
+        - name: Create Consul CLI private key
+          community.crypto.openssl_privatekey:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, 'cli.key') | ansible.builtin.path_join }}"
+          register: consul_pki_entity_cli_private_key
+
+        - name: Create Consul CLI certificate signing request
+          community.crypto.openssl_csr:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, 'cli.csr') | ansible.builtin.path_join }}"
+            privatekey_path: "{{ consul_pki_entity_cli_private_key.filename }}"
+            common_name: "{{ consul_pki_entity_cli_cn }}"
+            subject_alt_name: "{{ consul_pki_entity_cli_san }}"
+            extended_key_usage: [serverAuth, clientAuth]
+          register: consul_pki_entity_cli_csr
+
+        - name: Sign Consul CLI certificate
+          community.crypto.x509_certificate:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, 'cli.crt') | ansible.builtin.path_join }}"
+            provider: ownca
+            csr_path: "{{ consul_pki_entity_cli_csr.filename }}"
+            ownca_path: "{{ consul_pki_ca_certificate.filename }}"
+            ownca_privatekey_path: "{{ consul_pki_ca_private_key.filename }}"
+            ownca_not_after: "+{{ consul_pki_entity_cli_duration }}"
+            ownca_not_before: "-1d"
+
+    - name: Create Consul host certificate directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname) | ansible.builtin.path_join }}"
+        state: directory
+
+    - name: Create Consul server certificates
+      when: consul_server
+      block:
+        - name: Create Consul server private key
+          community.crypto.openssl_privatekey:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, 'server.key') | ansible.builtin.path_join }}"
+          register: consul_pki_entity_server_private_key
+
+        - name: Create Consul server certificate signing request
+          community.crypto.openssl_csr:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, 'server.csr') | ansible.builtin.path_join }}"
+            privatekey_path: "{{ consul_pki_entity_server_private_key.filename }}"
+            common_name: "{{ consul_pki_entity_server_cn }}"
+            subject_alt_name: "{{ consul_pki_entity_server_san }}"
+            extended_key_usage: [serverAuth, clientAuth]
+          register: consul_pki_entity_server_csr
+
+        - name: Sign Consul server certificate
+          community.crypto.x509_certificate:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, 'server.crt') | ansible.builtin.path_join }}"
+            provider: ownca
+            csr_path: "{{ consul_pki_entity_server_csr.filename }}"
+            ownca_path: "{{ consul_pki_ca_certificate.filename }}"
+            ownca_privatekey_path: "{{ consul_pki_ca_private_key.filename }}"
+            ownca_not_after: "+{{ consul_pki_entity_server_duration }}"
+            ownca_not_before: "-1d"
+
+    - name: Create Consul client certificates
+      when: not consul_server
+      block:
+        - name: Create Consul client private key
+          community.crypto.openssl_privatekey:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, 'client.key') | ansible.builtin.path_join }}"
+          register: consul_pki_entity_client_private_key
+
+        - name: Create Consul client certificate signing request
+          community.crypto.openssl_csr:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, 'client.csr') | ansible.builtin.path_join }}"
+            privatekey_path: "{{ consul_pki_entity_client_private_key.filename }}"
+            common_name: "{{ consul_pki_entity_client_cn }}"
+            subject_alt_name: "{{ consul_pki_entity_client_san }}"
+            extended_key_usage: [serverAuth, clientAuth]
+          register: consul_pki_entity_client_csr
+
+        - name: Sign Consul client certificate
+          community.crypto.x509_certificate:
+            path: "{{ (consul_controller_secrets_pki_entity_dir, consul_datacenter, inventory_hostname, 'client.crt') | ansible.builtin.path_join }}"
+            provider: ownca
+            csr_path: "{{ consul_pki_entity_client_csr.filename }}"
+            ownca_path: "{{ consul_pki_ca_certificate.filename }}"
+            ownca_privatekey_path: "{{ consul_pki_ca_private_key.filename }}"
+            ownca_not_after: "+{{ consul_pki_entity_client_duration }}"
+            ownca_not_before: "-1d"

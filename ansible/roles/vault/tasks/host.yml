@@ -1,0 +1,36 @@
+---
+- name: Copy certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+  loop:
+    - src: "{{ (vault_controller_secrets_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (vault_controller_secrets_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (vault_controller_secrets_pki_entity_dir, inventory_hostname, 'server.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (vault_controller_secrets_pki_entity_dir, inventory_hostname, 'server.key') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_pki_entity_dir, 'server.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Include environment Terraform project result
+  ansible.builtin.include_vars:
+    file: "{{ vault_controller_secrets_terraform_environment_path }}"
+
+- name: Copy configuration
+  register: vault_config_template
+  ansible.builtin.template:
+    src: etc/vault/server.hcl.j2
+    dest: "{{ vault_config_path }}"
+    mode: "0644"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"

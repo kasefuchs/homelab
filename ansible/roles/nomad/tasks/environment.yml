@@ -1,0 +1,47 @@
+---
+- name: Copy CA certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - src: "{{ (vault_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+    - src: "{{ (consul_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+    - src: "{{ (nomad_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_ca_dir, 'nomad.crt') | ansible.builtin.path_join }}"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Apply Terraform project
+  run_once: true
+  block:
+    - name: Include Consul ACL bootstrap result
+      ansible.builtin.include_vars:
+        file: "{{ consul_controller_secrets_acl_path }}"
+
+    - name: Apply Terraform project
+      register: nomad_environment_terraform_result
+      community.general.terraform:
+        project_path: "{{ nomad_terraform_environment_project_dir }}"
+        binary_path: "{{ terraform_binary_path }}"
+        force_init: true
+        variables:
+          consul_token: "{{ consul_secrets_acl.SecretID }}"
+          consul_ca_file: "{{ (consul_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+          consul_endpoint: "{{ nomad_consul_https_endpoint }}"
+      environment:
+        TF_CLI_CONFIG_FILE: "{{ terraform_config_path }}"
+
+    - name: Write Terraform project result to file
+      become: false
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ nomad_controller_secrets_terraform_environment_path }}"
+        content: |-
+          ---
+          nomad_secrets_nomad_client_consul_token: {{ nomad_environment_terraform_result.outputs.nomad_client_consul_token.value }}
+          nomad_secrets_nomad_server_consul_token: {{ nomad_environment_terraform_result.outputs.nomad_server_consul_token.value }}

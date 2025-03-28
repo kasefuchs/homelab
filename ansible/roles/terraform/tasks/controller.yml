@@ -8,4 +8,5 @@
     mode: "0755"
     state: directory
   loop:
+    - "{{ terraform_controller_projects_dir }}"
     - "{{ terraform_controller_source_cache_dir }}"

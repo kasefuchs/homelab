@@ -1,0 +1,90 @@
+---
+- name: Create Vault CA certificate
+  run_once: true
+  block:
+    - name: Create Vault CA private key
+      register: vault_pki_ca_private_key
+      community.crypto.openssl_privatekey:
+        path: "{{ (vault_controller_secrets_pki_ca_dir, 'ca.key') | ansible.builtin.path_join }}"
+
+    - name: Create Vault CA certificate signing request
+      register: vault_pki_ca_csr
+      community.crypto.openssl_csr:
+        path: "{{ (vault_controller_secrets_pki_ca_dir, 'ca.csr') | ansible.builtin.path_join }}"
+        privatekey_path: "{{ vault_pki_ca_private_key.filename }}"
+        common_name: "{{ vault_pki_ca_cn }}"
+        use_common_name_for_san: false
+        basic_constraints: [CA:TRUE]
+        basic_constraints_critical: true
+        key_usage: [keyCertSign]
+        key_usage_critical: true
+
+    - name: Create self-signed Vault CA certificate from CSR
+      register: vault_pki_ca_certificate
+      community.crypto.x509_certificate:
+        path: "{{ (vault_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+        csr_path: "{{ vault_pki_ca_csr.filename }}"
+        privatekey_path: "{{ vault_pki_ca_private_key.filename }}"
+        provider: selfsigned
+        ownca_not_after: "+{{ vault_pki_ca_duration }}"
+        ownca_not_before: "-1d"
+
+- name: Create Vault entity certificates
+  block:
+    - name: Create Vault CLI certificate
+      block:
+        - name: Create Vault CLI private key
+          community.crypto.openssl_privatekey:
+            path: "{{ (vault_controller_secrets_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+          register: vault_pki_entity_cli_private_key
+
+        - name: Create Vault CLI certificate signing request
+          community.crypto.openssl_csr:
+            path: "{{ (vault_controller_secrets_pki_entity_dir, 'cli.csr') | ansible.builtin.path_join }}"
+            privatekey_path: "{{ vault_pki_entity_cli_private_key.filename }}"
+            common_name: "{{ vault_pki_entity_cli_cn }}"
+            subject_alt_name: "{{ vault_pki_entity_cli_san }}"
+            extended_key_usage: [serverAuth, clientAuth]
+          register: vault_pki_entity_cli_csr
+
+        - name: Sign Vault CLI certificate
+          community.crypto.x509_certificate:
+            path: "{{ (vault_controller_secrets_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+            provider: ownca
+            csr_path: "{{ vault_pki_entity_cli_csr.filename }}"
+            ownca_path: "{{ vault_pki_ca_certificate.filename }}"
+            ownca_privatekey_path: "{{ vault_pki_ca_private_key.filename }}"
+            ownca_not_after: "+{{ vault_pki_entity_cli_duration }}"
+            ownca_not_before: "-1d"
+
+    - name: Create Vault host certificate directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ (vault_controller_secrets_pki_entity_dir, inventory_hostname) | ansible.builtin.path_join }}"
+        state: directory
+
+    - name: Create Vault server certificates
+      block:
+        - name: Create Vault server private key
+          community.crypto.openssl_privatekey:
+            path: "{{ (vault_controller_secrets_pki_entity_dir, inventory_hostname, 'server.key') | ansible.builtin.path_join }}"
+          register: vault_pki_entity_server_private_key
+
+        - name: Create Vault server certificate signing request
+          community.crypto.openssl_csr:
+            path: "{{ (vault_controller_secrets_pki_entity_dir, inventory_hostname, 'server.csr') | ansible.builtin.path_join }}"
+            privatekey_path: "{{ vault_pki_entity_server_private_key.filename }}"
+            common_name: "{{ vault_pki_entity_server_cn }}"
+            subject_alt_name: "{{ vault_pki_entity_server_san }}"
+            extended_key_usage: [serverAuth, clientAuth]
+          register: vault_pki_entity_server_csr
+
+        - name: Sign Vault server certificate
+          community.crypto.x509_certificate:
+            path: "{{ (vault_controller_secrets_pki_entity_dir, inventory_hostname, 'server.crt') | ansible.builtin.path_join }}"
+            provider: ownca
+            csr_path: "{{ vault_pki_entity_server_csr.filename }}"
+            ownca_path: "{{ vault_pki_ca_certificate.filename }}"
+            ownca_privatekey_path: "{{ vault_pki_ca_private_key.filename }}"
+            ownca_not_after: "+{{ vault_pki_entity_server_duration }}"
+            ownca_not_before: "-1d"

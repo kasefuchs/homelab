@@ -16,6 +16,9 @@ terraform_source_dir: /usr/local/src/terraform
 # The path to the directory where packed sources stored.
 terraform_source_cache_dir: /var/cache/ansible/terraform
 
+# The path to the directory where state data stored.
+terraform_state_dir: /var/lib/terraform
+
 # The path to the directory where configuration stored.
 terraform_config_dir: /etc/terraform
 
@@ -33,6 +36,9 @@ terraform_binary_path: /usr/local/bin/terraform
 
 # The path to the directory where cache stored.
 terraform_controller_cache_dir: "{{ playbook_dir }}/../cache/terraform"
+
+# The path to the directory where projects stored.
+terraform_controller_projects_dir: "{{ playbook_dir }}/../../terraform"
 
 # The path to the directory where download cache stored.
 terraform_controller_source_cache_dir: "{{ (terraform_controller_cache_dir, 'source') | ansible.builtin.path_join }}"

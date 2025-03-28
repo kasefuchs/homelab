@@ -1,9 +1,0 @@
----
-- name: Include role vars
-  loop:
-    - pki
-    - monit
-    - nebula
-    - consul
-  ansible.builtin.include_vars:
-    file: "{{ role_path }}/../{{ item }}/vars/main.yml"

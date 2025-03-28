@@ -1,0 +1,132 @@
+name       = "{{ nomad_node_name }}"
+region     = "{{ nomad_region }}"
+datacenter = "{{ nomad_datacenter }}"
+
+data_dir  = "{{ nomad_data_dir }}"
+bind_addr = "{{ nomad_bind_address }}"
+
+acl {
+  enabled = true
+}
+
+tls {
+  rpc  = true
+  http = true
+
+  ca_file   = "{{ (nomad_pki_ca_dir, 'nomad.crt') | ansible.builtin.path_join }}"
+  key_file  = "{{ (nomad_pki_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
+  cert_file = "{{ (nomad_pki_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
+
+  verify_https_client    = false
+  verify_server_hostname = true
+}
+
+vault {
+  enabled = true
+
+  address   = "https://{{ nomad_vault_https_endpoint }}"
+  ca_file   = "{{ (nomad_pki_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+
+  jwt_auth_backend_path = "jwt-nomad"
+
+  default_identity {
+    aud = ["vault.io"]
+    ttl = "1h"
+  }
+}
+
+consul {
+  token = "{{ nomad_secrets_nomad_server_consul_token if nomad_server else nomad_secrets_nomad_client_consul_token }}"
+
+  address = "{{ nomad_consul_https_endpoint }}"
+  ca_file = "{{ (nomad_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+
+  grpc_address = "{{ nomad_consul_grpc_tls_endpoint }}"
+  grpc_ca_file = "{{ (nomad_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+
+  ssl            = true
+  share_ssl      = true
+
+  server_auto_join = false
+  client_auto_join = false
+
+  service_identity {
+    aud = ["consul.io"]
+    ttl = "1h"
+  }
+
+  task_identity {
+    aud = ["consul.io"]
+    ttl = "1h"
+  }
+}
+
+server {
+  enabled = {{ nomad_server | lower }}
+
+  encrypt = "{{ nomad_encrypt }}"
+
+  bootstrap_expect = {{ nomad_bootstrap_expect if nomad_server else 0 }}
+
+  server_join {
+    retry_join = {{ nomad_join_peers | ansible.builtin.to_json }}
+  }
+}
+
+client {
+  enabled = {{ nomad_client | lower }}
+
+  cni_path         = "{{ cni_application_dir }}"
+  alloc_dir        = "{{ nomad_alloc_dir }}"
+  alloc_mounts_dir = "{{ nomad_alloc_mounts_dir }}"
+
+  reserved {
+    cpu    = {{ nomad_reserved_cpu }}
+    memory = {{ nomad_reserved_memory }}
+  }
+
+  options = {
+    "fingerprint.denylist" = "env_aws,env_gce,env_azure,env_digitalocean"
+  }
+
+  server_join {
+    retry_join = {{ nomad_join_peers | ansible.builtin.to_json }}
+  }
+
+{% for name, config in nomad_host_networks.items() %}
+  host_network "{{ name }}" {
+    cidr           = "{{ config.cidr | default('') }}"
+    interface      = "{{ config.interface | default('') }}"
+    reserved_ports = "{{ config.reserved_ports | default([]) | join(',') }}"
+  }
+{% endfor %}
+
+{% for name, config in nomad_host_volumes.items() %}
+  host_volume "{{ name }}" {
+    path      = "{{ config.path }}"
+    read_only = "{{ config.read_only | default(False) | lower }}"
+  }
+{% endfor %}
+}
+
+ports {
+  http = {{ nomad_https_port }}
+  rpc  = {{ nomad_rpc_port }}
+  serf = {{ nomad_serf_port }}
+}
+
+addresses {
+  http = "{{ nomad_https_addresses | join(' ') }}"
+  rpc  = "{{ nomad_rpc_address }}"
+  serf = "{{ nomad_serf_address }}"
+}
+
+plugin "docker" {
+  config {
+    allow_privileged = {{ nomad_docker_allow_privileged | lower }}
+
+    volumes {
+      enabled = {{ nomad_docker_volumes_enabled | lower }}
+    }
+  }
+}

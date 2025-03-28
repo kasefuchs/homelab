@@ -1,25 +1,14 @@
 ---
-- name: Reload Nebula Monit
-  ansible.builtin.command:
-    argv:
-      - "{{ monit_binary_path }}"
-      - -c{{ monit_config_path }}
-      - reload
+- name: Reload SystemD daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
 
-- name: Monitor Nebula
-  retries: 3
-  delay: 3
-  register: nebula_monit_monitor_result
-  until: nebula_monit_monitor_result.rc == 0
-  ansible.builtin.command:
-    argv:
-      - "{{ monit_binary_path }}"
-      - -c{{ monit_config_path }}
-      - monitor
-      - "{{ nebula_monit_service_name }}"
+- name: Enable Nebula service
+  ansible.builtin.systemd_service:
+    name: nebula
+    enabled: true
 
-- name: Restart Nebula
-  ansible.builtin.command:
-    argv:
-      - "{{ nebula_monit_init_path }}"
-      - restart
+- name: Restart Nebula service
+  ansible.builtin.systemd_service:
+    name: nebula
+    state: restarted

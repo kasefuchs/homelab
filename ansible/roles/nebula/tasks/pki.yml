@@ -1,0 +1,35 @@
+---
+- name: Create CA certificate
+  run_once: true
+  ansible.builtin.command:
+    argv:
+      - nebula-cert
+      - ca
+      - -ips={{ nebula_pki_ca_ips | join(',') }}
+      - -name={{ nebula_pki_ca_cn }}
+      - -groups={{ nebula_pki_ca_groups | join(',') }}
+      - -duration={{ nebula_pki_ca_duration }}
+      - -out-crt={{ (nebula_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}
+      - -out-key={{ (nebula_controller_secrets_pki_ca_dir, 'ca.key') | ansible.builtin.path_join }}
+    creates: "{{ nebula_controller_secrets_pki_ca_dir }}/ca.*"
+
+- name: Create entity certificates
+  block:
+    - name: Create host certificate directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ (nebula_controller_secrets_pki_entity_dir, inventory_hostname) | ansible.builtin.path_join }}"
+        state: directory
+
+    - name: Create host certificate
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - sign
+          - -ip={{ nebula_ip }}/{{ nebula_netmask }}
+          - -name={{ nebula_pki_entity_host_cn }}
+          - -ca-crt={{ (nebula_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}
+          - -ca-key={{ (nebula_controller_secrets_pki_ca_dir, 'ca.key') | ansible.builtin.path_join }}
+          - -out-crt={{ (nebula_controller_secrets_pki_entity_dir, inventory_hostname, 'host.crt') | ansible.builtin.path_join }}
+          - -out-key={{ (nebula_controller_secrets_pki_entity_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}
+        creates: "{{ (nebula_controller_secrets_pki_entity_dir, inventory_hostname, 'host.*') | ansible.builtin.path_join }}"

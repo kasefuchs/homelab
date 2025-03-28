@@ -1,0 +1,16 @@
+[Unit]
+Description=Consul: Identity-based networking solution
+Wants=network.target network-online.target nebula.service
+After=network.target network-online.target nebula.service
+
+[Service]
+Type=simple
+User={{ consul_user }}
+Group={{ consul_group }}
+ExecStart={{ consul_binary_path }} agent -config-dir={{ consul_config_dir }}
+Restart=always
+KillMode=process
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

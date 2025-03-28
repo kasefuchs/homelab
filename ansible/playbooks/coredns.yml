@@ -1,0 +1,6 @@
+---
+- name: CoreDNS
+  hosts: all
+  become: true
+  roles:
+    - role: coredns

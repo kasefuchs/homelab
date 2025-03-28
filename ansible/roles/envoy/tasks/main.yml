@@ -1,8 +1,0 @@
----
-- name: Prepare controller for installation
-  tags: always
-  ansible.builtin.import_tasks: controller.yml
-
-- name: Install binaries
-  tags: install
-  ansible.builtin.import_tasks: install.yml

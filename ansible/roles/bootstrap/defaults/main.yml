@@ -1,132 +1,134 @@
 ---
-# Whether to update the package cache or not.
+# Defines whether to update the package cache before installing packages.
 bootstrap_package_update_cache: true
 
-# Map of packages for installation, broken down by distribution.
+# List of packages to install, categorized by Linux distribution.
 bootstrap_package_distribution_install:
-  default:
-    - tar
-    - htop
-    - unzip
+  default: # Default packages applicable to all distributions.
+    - bind-utils
+    - containerd.io
     - dmidecode
+    - docker-ce
+    - htop
     - libnsl2
-    - docker-ce
-    - containerd.io
-
-  centos:
     - tar
-    - htop
     - unzip
-    - dmidecode
-    - libnsl
-    - docker-ce
+
+  debian: # Packages specific to Debian-based distributions.
+    - bind9-utils
     - containerd.io
-
-  rocky:
-    - tar
-    - htop
-    - unzip
     - dmidecode
-    - libnsl
     - docker-ce
-    - containerd.io
-
-  fedora:
-    - tar
     - htop
+    - libnsl2
+    - tar
     - unzip
+
+  centos: # Packages specific to CentOS.
+    - bind-utils
+    - containerd.io
     - dmidecode
-    - libnsl
     - docker-ce
-    - containerd.io
-
-  alpine:
-    - tar
     - htop
-    - unzip
-    - dmidecode
-    - libc6-compat
     - libnsl
-    - docker
-    - containerd
+    - tar
+    - unzip
 
-# Yum package repositories to add.
+  rocky: # Packages specific to Rocky Linux.
+    - bind-utils
+    - containerd.io
+    - dmidecode
+    - docker-ce
+    - htop
+    - libnsl
+    - tar
+    - unzip
+
+  fedora: # Packages specific to Fedora.
+    - bind-utils
+    - containerd.io
+    - dmidecode
+    - docker-ce
+    - htop
+    - libnsl
+    - tar
+    - unzip
+
+# Additional YUM repositories to enable for package installations.
 bootstrap_package_yum_distribution_repositories:
-  default:
+  default: # Default YUM repository configuration.
     - name: docker-ce-stable
-      description: Docker CE Stable
+      description: Docker CE Stable Repository
       baseurl: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
       gpgkey: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
       gpgcheck: true
 
-  centos:
+  centos: # Repositories specific to CentOS.
     - name: docker-ce-stable
-      description: Docker CE Stable
+      description: Docker CE Stable Repository
       baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
       gpgkey: "https://download.docker.com/linux/centos/gpg"
       gpgcheck: true
 
     - name: epel
-      description: Extra Packages for Enterprise Linux
+      description: Extra Packages for Enterprise Linux (EPEL)
       baseurl: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
       gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
       gpgcheck: true
 
-  rocky:
+  rocky: # Repositories specific to Rocky Linux.
     - name: docker-ce-stable
-      description: Docker CE Stable
+      description: Docker CE Stable Repository
       baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
       gpgkey: "https://download.docker.com/linux/centos/gpg"
       gpgcheck: true
 
     - name: epel
-      description: Extra Packages for Enterprise Linux
+      description: Extra Packages for Enterprise Linux (EPEL)
       baseurl: "https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch"
       gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
       gpgcheck: true
 
-# APT package repositories to add.
+# Additional APT repositories for package installations.
 bootstrap_package_apt_distribution_repositories:
-  default:
+  default: # Default APT repository configuration.
     docker:
       url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
       key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
       components:
         - stable
 
-# Services to start.
-bootstrap_service_distribution_start:
+# List of system services to enable and start after installation.
+bootstrap_service_distribution:
   default:
-    - docker
-    - containerd
+    - name: docker
+      state: started # Ensure the Docker service is running.
+      enabled: true # Enable Docker to start on boot.
+    - name: containerd
+      state: started # Ensure the Containerd service is running.
+      enabled: true # Enable Containerd to start on boot.
 
-# Services to enable.
-bootstrap_service_distribution_enable:
-  default:
-    - docker
-    - containerd
-
-# FirewallD rules to set.
-bootstrap_firewall_firewalld_state_rules:
-  - interface: nomad
+# FirewallD rules to configure network security settings.
+bootstrap_firewall_firewalld_rules:
+  - interface: nomad # Allow traffic on the 'nomad' network interface.
     permanent: true
     state: enabled
     zone: trusted
 
-  - port: 4646/udp
+  - port: 4646/udp # Open UDP port 4646 for public access.
     permanent: true
     state: enabled
     zone: public
 
-# Kernel attributes.
+# Kernel parameters to optimize system performance.
 bootstrap_system_kernel_attributes:
-  - name: fs.inotify.max_user_instances
+  - name: fs.inotify.max_user_instances # Increase the maximum number of inotify instances per user.
     value: 4096
     reload: true
     sysctl_set: true
     sysctl_file: /etc/sysctl.d/10-inotify.conf
 
-  - name: fs.inotify.max_user_watches
+  - name: fs.inotify.max_user_watches # Increase the maximum number of inotify watches per user.
     value: 1048576
     reload: true
     sysctl_set: true

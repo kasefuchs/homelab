@@ -1,0 +1,100 @@
+---
+- name: Bootstrap ACL
+  run_once: true
+  block:
+    - name: Bootstrap ACL
+      register: consul_bootstrap_acl_result
+      failed_when: false
+      changed_when: consul_bootstrap_acl_result.rc == 0
+      ansible.builtin.command:
+        argv:
+          - "{{ consul_binary_path }}"
+          - acl
+          - bootstrap
+          - -format=json
+      environment:
+        CONSUL_HTTP_ADDR: "https://{{ consul_https_endpoint }}"
+        CONSUL_CACERT: "{{ (consul_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+        CONSUL_CLIENT_KEY: "{{ (consul_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+        CONSUL_CLIENT_CERT: "{{ (consul_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+
+    - name: Write ACL bootstrap result to file
+      when: consul_bootstrap_acl_result.rc == 0
+      become: false
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ consul_controller_secrets_acl_path }}"
+        content: |-
+          ---
+          {{
+            {"consul_secrets_acl": consul_bootstrap_acl_result.stdout | ansible.builtin.from_json}
+            | ansible.builtin.to_nice_yaml(indent=2)
+          }}
+
+- name: Apply Terraform project
+  run_once: true
+  block:
+    - name: Include ACL bootstrap result
+      ansible.builtin.include_vars:
+        file: "{{ consul_controller_secrets_acl_path }}"
+
+    - name: Apply Terraform project
+      register: consul_bootstrap_terraform_result
+      community.general.terraform:
+        project_path: "{{ consul_terraform_bootstrap_project_dir }}"
+        binary_path: "{{ terraform_binary_path }}"
+        force_init: true
+        variables:
+          consul_token: "{{ consul_secrets_acl.SecretID }}"
+          consul_ca_file: "{{ (consul_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+          consul_endpoint: "{{ consul_https_endpoint }}"
+      environment:
+        TF_CLI_CONFIG_FILE: "{{ terraform_config_path }}"
+
+    - name: Write Terraform project result to file
+      become: false
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ consul_controller_secrets_terraform_bootstrap_path }}"
+        content: |-
+          ---
+          consul_secrets_consul_agent_consul_token: {{ consul_bootstrap_terraform_result.outputs.consul_agent_consul_token.value }}
+          consul_secrets_consul_dns_consul_token: {{ consul_bootstrap_terraform_result.outputs.consul_dns_consul_token.value }}
+
+- block:
+    - name: Include Terraform project result
+      ansible.builtin.include_vars:
+        file: "{{ consul_controller_secrets_terraform_bootstrap_path }}"
+
+    - name: Set Agent tokens
+      loop:
+        - type: dns
+          token: "{{ consul_secrets_consul_dns_consul_token }}"
+        - type: agent
+          token: "{{ consul_secrets_consul_agent_consul_token }}"
+      loop_control:
+        label: "{{ item.type }}"
+      ansible.builtin.command:
+        argv:
+          - "{{ consul_binary_path }}"
+          - acl
+          - set-agent-token
+          - "{{ item.type }}"
+          - "{{ item.token }}"
+      environment:
+        CONSUL_HTTP_ADDR: "https://{{ consul_https_endpoint }}"
+        CONSUL_HTTP_TOKEN: "{{ consul_secrets_acl.SecretID }}"
+        CONSUL_CACERT: "{{ (consul_pki_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+        CONSUL_CLIENT_KEY: "{{ (consul_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+        CONSUL_CLIENT_CERT: "{{ (consul_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+
+- name: Copy CoreDNS server block
+  notify: Restart CoreDNS service
+  ansible.builtin.template:
+    src: etc/coredns/block.d/consul.cfg.j2
+    dest: "{{ (coredns_block_dir, 'consul.cfg') | ansible.builtin.path_join }}"
+    owner: "{{ coredns_user }}"
+    group: "{{ coredns_group }}"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
