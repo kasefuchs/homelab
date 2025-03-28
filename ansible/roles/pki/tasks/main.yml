@@ -1,7 +1,0 @@
----
-- name: Create certification authorities
-  run_once: true
-  ansible.builtin.import_tasks: ca/main.yml
-
-- name: Create entity certificates
-  ansible.builtin.import_tasks: entity/main.yml

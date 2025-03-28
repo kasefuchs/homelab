@@ -1,0 +1,14 @@
+---
+- name: Reload SystemD daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Enable Vault service
+  ansible.builtin.systemd_service:
+    name: vault
+    enabled: true
+
+- name: Restart Vault service
+  ansible.builtin.systemd_service:
+    name: vault
+    state: restarted

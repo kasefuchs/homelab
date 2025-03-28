@@ -19,17 +19,11 @@ nebula_source_cache_dir: /var/cache/ansible/nebula
 # The path to the directory where configuration stored.
 nebula_config_dir: /etc/nebula
 
-# The path to the directory where logs stored.
-nebula_log_dir: /var/log/nebula
-
 # The path to the directory where state data stored.
 nebula_state_dir: /var/lib/nebula
 
-# The path to the directory where runtime data stored.
-nebula_runtime_dir: /run/nebula
-
 # The path to the directory where certificates stored.
-nebula_pki_dir: /etc/pki/nebula
+nebula_pki_dir: "{{ (nebula_config_dir, 'pki') | ansible.builtin.path_join }}"
 
 # The path to the directory where current version stored.
 nebula_application_dir: /usr/local/nebula
@@ -49,29 +43,20 @@ nebula_user: nebula
 # The group to use running Nebula.
 nebula_group: nebula
 
-# The path to the file where log stored.
-nebula_log_path: "{{ (nebula_log_dir, 'nebula.log') | ansible.builtin.path_join }}"
-
-# The path to the file where process id stored.
-nebula_pid_path: "{{ (nebula_runtime_dir, 'nebula.pid') | ansible.builtin.path_join }}"
-
 # The path to the directory where cache stored.
 nebula_controller_cache_dir: "{{ playbook_dir }}/../cache/nebula"
 
 # The path to the directory where download cache stored.
 nebula_controller_source_cache_dir: "{{ (nebula_controller_cache_dir, 'source') | ansible.builtin.path_join }}"
 
-# The path to the Monit init script.
-nebula_monit_init_path: "{{ (monit_init_dir, 'nebula.sh') | ansible.builtin.path_join }}"
+# The path to the directory where secrets stored.
+nebula_controller_secrets_dir: "{{ (playbook_dir, '../secrets', (inventory_dir | ansible.builtin.basename), 'nebula') | ansible.builtin.path_join }}"
 
-# The name of the Monit service.
-nebula_monit_service_name: nebula
+#
+nebula_controller_secrets_pki_dir: "{{ (nebula_controller_secrets_dir, 'pki') | ansible.builtin.path_join }}"
 
-# Specifies the service stop signal.
-nebula_stop_signal: 15
+#
+nebula_controller_secrets_pki_ca_dir: "{{ (nebula_controller_secrets_pki_dir, 'ca') | ansible.builtin.path_join }}"
 
-# Specifies the service reload signal.
-nebula_reload_signal: 0
-
-# Specifies the environment variables of program.
-nebula_environment: {}
+#
+nebula_controller_secrets_pki_entity_dir: "{{ (nebula_controller_secrets_pki_dir, 'entity') | ansible.builtin.path_join }}"

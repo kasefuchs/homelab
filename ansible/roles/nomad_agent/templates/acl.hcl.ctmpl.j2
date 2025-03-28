@@ -1,3 +1,0 @@
-consul {
-  token = "[[ with secret "consul/creds/{{ 'nomad-server' if nomad_agent_server else 'nomad-client' }}" ]][[ .Data.token ]][[ end ]]"
-}

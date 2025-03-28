@@ -1,0 +1,54 @@
+---
+- name: Get Vault status
+  run_once: true
+  block:
+    - name: Get Vault status
+      until: vault_unseal_status_result.rc != 1
+      delay: 3
+      retries: 5
+      register: vault_unseal_status_result
+      failed_when: vault_unseal_status_result.rc == 1
+      changed_when: false
+      ansible.builtin.command:
+        argv:
+          - "{{ vault_binary_path }}"
+          - status
+          - -format=json
+      environment:
+        VAULT_ADDR: "{{ vault_advertise_api_address }}"
+        VAULT_CACERT: "{{ (vault_pki_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+        VAULT_CLIENT_KEY: "{{ (vault_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+        VAULT_CLIENT_CERT: "{{ (vault_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+
+    - name: Parse Vault status
+      when: vault_unseal_status_result.stdout is defined
+      ansible.builtin.set_fact:
+        vault_unseal_status_json: "{{ vault_unseal_status_result.stdout | ansible.builtin.from_json }}"
+
+- name: Unseal Vault
+  when: vault_unseal_status_json.sealed
+  block:
+    - name: Include keys bootstrap result
+      ansible.builtin.include_vars:
+        file: "{{ vault_controller_secrets_keys_path }}"
+
+    - name: Unseal Vault
+      loop: "{{ vault_secrets_keys.unseal_keys_b64[: (vault_secrets_keys.unseal_threshold)] }}"
+      throttle: 1
+      loop_control:
+        label: REDACTED
+      register: vault_unseal_result
+      failed_when: vault_unseal_result.rc == 1
+      changed_when: false
+      ansible.builtin.command:
+        argv:
+          - "{{ vault_binary_path }}"
+          - operator
+          - unseal
+          - -format=json
+          - "{{ item }}"
+      environment:
+        VAULT_ADDR: "{{ vault_advertise_api_address }}"
+        VAULT_CACERT: "{{ (vault_pki_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+        VAULT_CLIENT_KEY: "{{ (vault_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+        VAULT_CLIENT_CERT: "{{ (vault_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"

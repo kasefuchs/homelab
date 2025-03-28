@@ -1,8 +1,0 @@
-# init file checksum: {{ nomad_envoy_init_template.checksum }}
-# config file checksum: {{ nomad_envoy_config_template.checksum }}
-
-check process {{ nomad_envoy_monit_service_name }} with pidfile {{ nomad_envoy_pid_path }}
-  start program = "{{ nomad_envoy_monit_init_path }} start"
-  stop program = "{{ nomad_envoy_monit_init_path }} stop"
-  if not exist then restart
-  depends on {{ nebula_monit_service_name }}

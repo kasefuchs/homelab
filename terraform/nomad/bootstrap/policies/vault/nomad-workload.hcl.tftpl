@@ -1,0 +1,15 @@
+path "${kv_mount_path}/data/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_namespace}}/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_job_id}}/*" {
+  capabilities = ["read"]
+}
+
+path "${kv_mount_path}/data/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_namespace}}/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_job_id}}" {
+  capabilities = ["read"]
+}
+
+path "${kv_mount_path}/metadata/{{identity.entity.aliases.${auth_method_accessor}.metadata.nomad_namespace}}/*" {
+  capabilities = ["list"]
+}
+
+path "${kv_mount_path}/metadata/*" {
+  capabilities = ["list"]
+}

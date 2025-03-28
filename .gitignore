@@ -4,6 +4,7 @@
 # ---> Ansible
 inventories/
 secrets/
+archive/
 cache/
 
 # ---> Packer

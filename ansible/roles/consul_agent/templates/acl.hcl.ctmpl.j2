@@ -1,6 +1,0 @@
-acl {
-  tokens {
-    dns   = "[[ with secret "consul/creds/consul-dns" ]][[ .Data.token ]][[ end ]]"
-    agent = "[[ with secret "consul/creds/consul-agent" ]][[ .Data.token ]][[ end ]]"
-  }
-}

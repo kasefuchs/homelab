@@ -35,7 +35,13 @@ nomad_controller_cache_dir: "{{ playbook_dir }}/../cache/nomad"
 nomad_controller_source_cache_dir: "{{ (nomad_controller_cache_dir, 'source') | ansible.builtin.path_join }}"
 
 # The path to the directory where certificates stored.
-nomad_pki_dir: /etc/pki/nomad
+nomad_pki_dir: "{{ (nomad_config_dir, 'pki') | ansible.builtin.path_join }}"
+
+#
+nomad_pki_ca_dir: "{{ (nomad_pki_dir, 'ca') | ansible.builtin.path_join }}"
+
+#
+nomad_pki_entity_dir: "{{ (nomad_pki_dir, 'entity') | ansible.builtin.path_join }}"
 
 # The user to run as.
 nomad_user: nomad
@@ -43,8 +49,53 @@ nomad_user: nomad
 # The group to use running Nomad.
 nomad_group: nomad
 
-# Specifies the service stop signal.
-nomad_stop_signal: 15
+# The path to the directory where data stored.
+nomad_data_dir: "{{ (nomad_state_dir, 'data') | ansible.builtin.path_join }}"
 
-# Specifies the service reload signal.
-nomad_reload_signal: 1
+# Specifies the directory to use for allocation data.
+nomad_alloc_dir: "{{ (nomad_state_dir, 'alloc') | ansible.builtin.path_join }}"
+
+# Specifies the directory to use for binding mounts for the unveil file isolation mode.
+nomad_alloc_mounts_dir: "{{ (nomad_state_dir, 'alloc-mounts') | ansible.builtin.path_join }}"
+
+# The path to the directory where configuration stored.
+nomad_config_dir: /etc/nomad
+
+# The path to the file where configuration stored.
+nomad_config_path: "{{ (nomad_config_dir, 'agent.hcl') | ansible.builtin.path_join }}"
+
+# The path to the directory where current version of stored.
+nomad_current_dir: "{{ (nomad_package_dir, 'current') | ansible.builtin.path_join }}"
+
+# The path to the directory where state data stored.
+nomad_state_dir: /var/lib/nomad
+
+# The path to the file where ACL bootstrap result stored.
+nomad_controller_secrets_acl_path: "{{ (nomad_controller_secrets_dir, 'acl.yml') | ansible.builtin.path_join }}"
+
+#
+nomad_controller_secrets_pki_dir: "{{ (nomad_controller_secrets_dir, 'pki') | ansible.builtin.path_join }}"
+
+#
+nomad_controller_secrets_pki_ca_dir: "{{ (nomad_controller_secrets_pki_dir, 'ca') | ansible.builtin.path_join }}"
+
+#
+nomad_controller_secrets_pki_entity_dir: "{{ (nomad_controller_secrets_pki_dir, 'entity') | ansible.builtin.path_join }}"
+
+#
+nomad_controller_secrets_terraform_dir: "{{ (nomad_controller_secrets_dir, 'terraform') | ansible.builtin.path_join }}"
+
+#
+nomad_controller_secrets_terraform_environment_path: "{{ (nomad_controller_secrets_terraform_dir, 'environment.yml') | ansible.builtin.path_join }}"
+
+#
+nomad_controller_terraform_project_dir: "{{ (terraform_controller_projects_dir, 'nomad') | ansible.builtin.path_join }}/"
+
+#
+nomad_terraform_project_dir: "{{ (terraform_state_dir, 'nomad') | ansible.builtin.path_join }}"
+
+#
+nomad_terraform_environment_project_dir: "{{ (nomad_terraform_project_dir, 'environment') | ansible.builtin.path_join }}"
+
+#
+nomad_terraform_bootstrap_project_dir: "{{ (nomad_terraform_project_dir, 'bootstrap') | ansible.builtin.path_join }}"

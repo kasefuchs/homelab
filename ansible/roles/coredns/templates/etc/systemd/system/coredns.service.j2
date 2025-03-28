@@ -1,0 +1,17 @@
+[Unit]
+Description=CoreDNS: DNS server
+Wants=network.target
+After=network.target
+
+[Service]
+Type=simple
+User={{ coredns_user }}
+Group={{ coredns_group }}
+ExecStart={{ coredns_application_binary_path }} -conf={{ coredns_config_path }}
+Restart=always
+KillMode=process
+KillSignal=SIGTERM
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,0 @@
----
-- name: PKI
-  hosts: all
-  roles:
-    - role: pki
-      delegate_to: localhost

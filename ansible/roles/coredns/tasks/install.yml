@@ -1,0 +1,97 @@
+---
+- name: Get latest CoreDNS version
+  when: coredns_version == "latest"
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Fetch latest CoreDNS release on GitHub
+      register: coredns_github_release
+      community.general.github_release:
+        user: "{{ coredns_github_user }}"
+        repo: "{{ coredns_github_repository }}"
+        action: latest_release
+
+    - name: Set CoreDNS version
+      ansible.builtin.set_fact:
+        coredns_version: "{{ coredns_github_release.tag | default(coredns_version) | regex_replace('^v', '') }}"
+
+- name: Download CoreDNS archives
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (coredns_controller_source_cache_dir, coredns_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Check if the CoreDNS archives already exists
+      loop: "{{ coredns_architectures.values() }}"
+      loop_control:
+        loop_var: coredns_architecture
+      register: coredns_files
+      ansible.builtin.stat:
+        path: "{{ (coredns_controller_source_cache_dir, coredns_version, coredns_architecture) | ansible.builtin.path_join }}"
+
+    - name: Download CoreDNS archives
+      loop: "{{ coredns_architectures.values() }}"
+      loop_control:
+        extended: true
+        loop_var: coredns_architecture
+      when: not coredns_files.results[ansible_loop.index0].stat.exists
+      ansible.builtin.get_url:
+        url: "{{ coredns_download_url }}"
+        dest: "{{ (coredns_controller_source_cache_dir, coredns_version, coredns_architecture) | ansible.builtin.path_join }}"
+
+- name: Set CoreDNS filesystem facts
+  run_once: true
+  ansible.builtin.set_fact:
+    coredns_source_version_dir: "{{ (coredns_source_dir, coredns_version) | ansible.builtin.path_join }}"
+
+- name: Create directories
+  block:
+    - name: Create CoreDNS source cache directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ coredns_source_cache_dir }}"
+        state: directory
+
+    - name: Create CoreDNS source version directory
+      ansible.builtin.file:
+        mode: "0755"
+        path: "{{ coredns_source_version_dir }}"
+        state: directory
+
+    - name: Link CoreDNS source version to application directory
+      ansible.builtin.file:
+        src: "{{ coredns_source_version_dir }}"
+        dest: "{{ coredns_application_dir }}"
+        state: link
+
+- name: Install CoreDNS binary
+  block:
+    - name: Copy CoreDNS archive
+      ansible.builtin.copy:
+        src: "{{ (coredns_controller_source_cache_dir, coredns_version, coredns_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
+        dest: "{{ (coredns_source_cache_dir, coredns_version) | ansible.builtin.path_join }}"
+
+    - name: Extract CoreDNS archive
+      ansible.builtin.unarchive:
+        src: "{{ (coredns_source_cache_dir, coredns_version) | ansible.builtin.path_join }}"
+        dest: "{{ coredns_application_dir }}"
+        creates: "{{ coredns_application_binary_path }}"
+        extra_opts: "{{ coredns_unarchive_extra_opts }}"
+        remote_src: true
+
+    - name: Set CoreDNS binary capabilities
+      community.general.capabilities:
+        path: "{{ coredns_application_binary_path }}"
+        capability: cap_net_bind_service=eip
+
+    - name: Create CoreDNS binary symlink
+      ansible.builtin.file:
+        src: "{{ coredns_application_binary_path }}"
+        dest: "{{ coredns_binary_path }}"
+        state: link

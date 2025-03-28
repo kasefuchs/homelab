@@ -1,8 +1,0 @@
-# init file checksum: {{ consul_agent_init_template.checksum }}
-# config file checksum: {{ consul_agent_config_template.checksum }}
-
-check process {{ consul_agent_monit_service_name }} with pidfile {{ consul_agent_pid_path }}
-  start program = "{{ consul_agent_monit_init_path }} start"
-  stop program = "{{ consul_agent_monit_init_path }} stop"
-  if not exist then restart
-  depends on {{ nebula_monit_service_name }}

@@ -1,0 +1,13 @@
+---
+- name: Install service
+  notify:
+    - Reload SystemD daemon
+    - Enable Vault service
+    - Restart Vault service
+  ansible.builtin.template:
+    src: etc/systemd/system/vault.service.j2
+    dest: /etc/systemd/system/vault.service
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

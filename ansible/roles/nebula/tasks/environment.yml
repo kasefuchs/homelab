@@ -1,0 +1,8 @@
+---
+- name: Copy CA certificate
+  ansible.builtin.copy:
+    src: "{{ (nebula_controller_secrets_pki_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    dest: "{{ (nebula_pki_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    mode: "0644"
+    owner: "{{ nebula_user }}"
+    group: "{{ nebula_group }}"

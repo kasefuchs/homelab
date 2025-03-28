@@ -1,0 +1,47 @@
+---
+- name: Copy certificates
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    mode: "{{ item.mode }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - src: "{{ (nomad_controller_secrets_pki_entity_dir, nomad_region, 'cli.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_entity_dir, 'cli.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (nomad_controller_secrets_pki_entity_dir, nomad_region, 'cli.key') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_entity_dir, 'cli.key') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (nomad_controller_secrets_pki_entity_dir, nomad_region, inventory_hostname, ('server' if nomad_server else 'client') + '.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - src: "{{ (nomad_controller_secrets_pki_entity_dir, nomad_region, inventory_hostname, ('server' if nomad_server else 'client') + '.key') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_pki_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: Create host volumes
+  loop: "{{ nomad_host_volumes.values() }}"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode | default('0755') }}"
+    owner: "{{ item.owner | default(nomad_user) }}"
+    group: "{{ item.group | default(nomad_group) }}"
+    state: directory
+
+- name: Include environment Terraform project result
+  ansible.builtin.include_vars:
+    file: "{{ nomad_controller_secrets_terraform_environment_path }}"
+
+- name: Copy configuration
+  register: nomad_config_template
+  ansible.builtin.template:
+    src: etc/nomad/agent.hcl.j2
+    dest: "{{ nomad_config_path }}"
+    mode: "0644"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"

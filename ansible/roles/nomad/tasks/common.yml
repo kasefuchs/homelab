@@ -1,0 +1,33 @@
+---
+- name: Create group
+  ansible.builtin.group:
+    name: "{{ nomad_group }}"
+
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    system: true
+    create_home: false
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+  loop:
+    - "{{ nomad_pki_dir }}"
+    - "{{ nomad_pki_ca_dir }}"
+    - "{{ nomad_pki_entity_dir }}"
+    - "{{ nomad_config_dir }}"
+    - "{{ nomad_state_dir }}"
+    - "{{ nomad_data_dir }}"
+    - "{{ nomad_alloc_dir }}"
+    - "{{ nomad_alloc_mounts_dir }}"
+
+- name: Copy Terraform project
+  ansible.builtin.copy:
+    src: "{{ nomad_controller_terraform_project_dir }}"
+    dest: "{{ nomad_terraform_project_dir }}"

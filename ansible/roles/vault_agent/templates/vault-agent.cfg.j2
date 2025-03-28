@@ -1,8 +1,0 @@
-# init file checksum: {{ vault_agent_init_template.checksum }}
-# config file checksum: {{ vault_agent_config_template.checksum }}
-
-check process {{ vault_agent_monit_service_name }} with pidfile {{ vault_agent_pid_path }}
-  start program = "{{ vault_agent_monit_init_path }} start"
-  stop program = "{{ vault_agent_monit_init_path }} stop"
-  if not exist then restart
-  depends on {{ vault_envoy_monit_service_name }}

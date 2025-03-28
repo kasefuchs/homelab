@@ -1,0 +1,13 @@
+---
+- name: Install service
+  notify:
+    - Reload SystemD daemon
+    - Enable CoreDNS service
+    - Restart CoreDNS service
+  ansible.builtin.template:
+    src: etc/systemd/system/coredns.service.j2
+    dest: /etc/systemd/system/coredns.service
+    mode: "0644"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
