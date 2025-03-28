@@ -4,7 +4,7 @@ name: Publish documentation
 on:
   push:
     paths:
-      - docs/**
+      - documentation/**
       - .github/workflows/publish-documentation.yml
     branches:
       - main
@@ -34,13 +34,13 @@ jobs:
 
       - name: Install Python modules
         run: pip install -r requirements.txt
-        working-directory: docs
+        working-directory: documentation
 
       - name: Build documentation
         run: |
           mkdocs build -f config/en.yml
           mkdocs build -f config/ru.yml
-        working-directory: docs
+        working-directory: documentation
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -48,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/build
+          path: documentation/build
 
       - name: Deploy to GitHub Pages
         id: deployment

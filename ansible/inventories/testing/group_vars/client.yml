@@ -1,9 +1,0 @@
----
-# Nebula
-nebula_lighthouse_enable: false
-
-# Consul
-consul_server: false
-
-# Nomad
-nomad_server: false

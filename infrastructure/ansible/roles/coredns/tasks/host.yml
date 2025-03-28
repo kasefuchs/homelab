@@ -1,0 +1,16 @@
+---
+- name: Copy configuration
+  register: coredns_config_template
+  ansible.builtin.template:
+    src: etc/coredns/Corefile.j2
+    mode: "0644"
+    dest: "{{ coredns_config_path }}"
+    owner: "{{ coredns_user }}"
+    group: "{{ coredns_group }}"
+
+- name: Copy server blocks
+  ansible.builtin.copy:
+    src: etc/coredns/block.d/
+    dest: "{{ coredns_block_dir }}"
+    owner: "{{ coredns_user }}"
+    group: "{{ coredns_group }}"
