@@ -1,0 +1,44 @@
+---
+# The GitHub account that owns the repository.
+terraform_github_user: hashicorp
+
+# Repository name.
+terraform_github_repository: terraform
+
+# Map of Ansible architectures to correspondent architectures.
+terraform_architectures:
+  aarch64: arm64
+  x86_64: amd64
+
+# The path to the directory where extracted package stored.
+terraform_source_dir: /usr/local/src/terraform
+
+# The path to the directory where packed sources stored.
+terraform_source_cache_dir: /var/cache/ansible/terraform
+
+# The path to the directory where state data stored.
+terraform_state_dir: /var/lib/terraform
+
+# The path to the directory where configuration stored.
+terraform_config_dir: /etc/terraform
+
+# The path to the directory where current version stored.
+terraform_application_dir: /usr/local/terraform
+
+# The path to the binary.
+terraform_application_binary_path: "{{ (terraform_application_dir, 'terraform') | ansible.builtin.path_join }}"
+
+# The path to the file where configuration stored.
+terraform_config_path: "{{ (terraform_config_dir, 'terraform.rc') | ansible.builtin.path_join }}"
+
+# The path to the binary.
+terraform_binary_path: /usr/local/bin/terraform
+
+# The path to the directory where cache stored.
+terraform_controller_cache_dir: "{{ playbook_dir }}/../.cache/terraform"
+
+# The path to the directory where projects stored.
+terraform_controller_projects_dir: "{{ playbook_dir }}/../../terraform"
+
+# The path to the directory where download cache stored.
+terraform_controller_source_cache_dir: "{{ (terraform_controller_cache_dir, 'source') | ansible.builtin.path_join }}"

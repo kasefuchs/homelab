@@ -2,10 +2,10 @@
 .vagrant/
 
 # ---> Ansible
-inventories/
-secrets/
+.cache/
+.secrets/
 archive/
-cache/
+inventories/
 
 # ---> Packer
 output-*/
