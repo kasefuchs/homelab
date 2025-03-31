@@ -31,3 +31,4 @@
   ansible.builtin.copy:
     src: "{{ nomad_controller_terraform_project_dir }}"
     dest: "{{ nomad_terraform_project_dir }}"
+    mode: "0644"

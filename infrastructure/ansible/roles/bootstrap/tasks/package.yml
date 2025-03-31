@@ -6,7 +6,7 @@
       block:
         - name: Get repositories items
           ansible.builtin.set_fact:
-            bootstrap_package_yum_repositories: "{{ bootstrap_package_yum_distribution_repositories[ansible_distribution | lower] | default(bootstrap_package_yum_distribution_repositories['default']) }}"
+            bootstrap_package_yum_repositories: "{{ bootstrap_package_yum_distribution_repositories[ansible_distribution | lower | replace(' ', '')] | default(bootstrap_package_yum_distribution_repositories['default']) }}"
 
         - name: Add package repositories
           loop: "{{ bootstrap_package_yum_repositories }}"
@@ -25,7 +25,7 @@
 
         - name: Get repositories items
           ansible.builtin.set_fact:
-            bootstrap_package_apt_repositories: "{{ bootstrap_package_apt_distribution_repositories[ansible_distribution | lower] | default(bootstrap_package_apt_distribution_repositories['default']) }}"
+            bootstrap_package_apt_repositories: "{{ bootstrap_package_apt_distribution_repositories[ansible_distribution | lower | replace(' ', '')] | default(bootstrap_package_apt_distribution_repositories['default']) }}"
 
         - name: Add repositories signing keys
           loop: "{{ bootstrap_package_apt_repositories.items() }}"
@@ -53,4 +53,4 @@
 
 - name: Install packages
   ansible.builtin.package:
-    name: "{{ bootstrap_package_distribution_install[ansible_distribution | lower] | default(bootstrap_package_distribution_install['default']) }}"
+    name: "{{ bootstrap_package_distribution_install[ansible_distribution | lower | replace(' ', '')] | default(bootstrap_package_distribution_install['default']) }}"

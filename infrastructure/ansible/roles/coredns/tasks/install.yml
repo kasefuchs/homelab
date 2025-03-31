@@ -44,6 +44,7 @@
       ansible.builtin.get_url:
         url: "{{ coredns_download_url }}"
         dest: "{{ (coredns_controller_source_cache_dir, coredns_version, coredns_architecture) | ansible.builtin.path_join }}"
+        mode: "0644"
 
 - name: Set CoreDNS filesystem facts
   run_once: true
@@ -76,6 +77,7 @@
       ansible.builtin.copy:
         src: "{{ (coredns_controller_source_cache_dir, coredns_version, coredns_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ (coredns_source_cache_dir, coredns_version) | ansible.builtin.path_join }}"
+        mode: "0644"
 
     - name: Extract CoreDNS archive
       ansible.builtin.unarchive:

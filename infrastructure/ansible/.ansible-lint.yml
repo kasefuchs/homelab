@@ -1,0 +1,9 @@
+---
+skip_list:
+  - args
+  - yaml[line-length]
+
+exclude_paths:
+  - .cache/
+  - .secrets/
+  - inventories/

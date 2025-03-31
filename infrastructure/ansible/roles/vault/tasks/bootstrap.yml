@@ -51,10 +51,11 @@
       become: false
       delegate_to: localhost
       ansible.builtin.copy:
+        mode: "0600"
         dest: "{{ vault_controller_secrets_keys_path }}"
         content: |-
           ---
-          {{ 
+          {{
             {"vault_secrets_keys": vault_bootstrap_keys_result.stdout | ansible.builtin.from_json}
             | ansible.builtin.to_nice_yaml(indent=2)
           }}

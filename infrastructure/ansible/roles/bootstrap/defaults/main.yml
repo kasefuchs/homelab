@@ -10,17 +10,15 @@ bootstrap_package_distribution_install:
     - dmidecode
     - docker-ce
     - htop
-    - libnsl2
     - tar
     - unzip
 
-  debian: # Packages specific to Debian-based distributions.
+  debian: # Packages specific to Debian.
     - bind9-utils
     - containerd.io
     - dmidecode
     - docker-ce
     - htop
-    - libnsl2
     - tar
     - unzip
 
@@ -30,7 +28,6 @@ bootstrap_package_distribution_install:
     - dmidecode
     - docker-ce
     - htop
-    - libnsl
     - tar
     - unzip
 
@@ -40,7 +37,6 @@ bootstrap_package_distribution_install:
     - dmidecode
     - docker-ce
     - htop
-    - libnsl
     - tar
     - unzip
 
@@ -50,7 +46,15 @@ bootstrap_package_distribution_install:
     - dmidecode
     - docker-ce
     - htop
-    - libnsl
+    - tar
+    - unzip
+
+  archlinux: # Packages specific to Arch Linux.
+    - bind-tools
+    - containerd
+    - dmidecode
+    - docker
+    - htop
     - tar
     - unzip
 
@@ -59,8 +63,8 @@ bootstrap_package_yum_distribution_repositories:
   default: # Default YUM repository configuration.
     - name: docker-ce-stable
       description: Docker CE Stable Repository
-      baseurl: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
-      gpgkey: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+      baseurl: "https://download.docker.com/linux/{{ ansible_distribution | lower | replace(' ', '') }}/$releasever/$basearch/stable"
+      gpgkey: "https://download.docker.com/linux/{{ ansible_distribution | lower | replace(' ', '') }}/gpg"
       gpgcheck: true
 
   centos: # Repositories specific to CentOS.
@@ -93,8 +97,8 @@ bootstrap_package_yum_distribution_repositories:
 bootstrap_package_apt_distribution_repositories:
   default: # Default APT repository configuration.
     docker:
-      url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
-      key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+      url: "https://download.docker.com/linux/{{ ansible_distribution | lower | replace(' ', '') }}"
+      key: "https://download.docker.com/linux/{{ ansible_distribution | lower | replace(' ', '') }}/gpg"
       components:
         - stable
 

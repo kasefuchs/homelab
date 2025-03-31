@@ -3,5 +3,5 @@
   loop: "{{ bootstrap_system_kernel_attributes }}"
   loop_control:
     label: "{{ item.name }}={{ item.value }}"
-  ignore_errors: true
+  failed_when: false
   ansible.posix.sysctl: "{{ item }}"

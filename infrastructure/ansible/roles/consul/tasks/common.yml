@@ -29,3 +29,4 @@
   ansible.builtin.copy:
     src: "{{ consul_controller_terraform_project_dir }}"
     dest: "{{ consul_terraform_project_dir }}"
+    mode: "0644"

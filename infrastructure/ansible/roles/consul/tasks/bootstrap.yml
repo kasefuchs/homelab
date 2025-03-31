@@ -23,6 +23,7 @@
       become: false
       delegate_to: localhost
       ansible.builtin.copy:
+        mode: "0600"
         dest: "{{ consul_controller_secrets_acl_path }}"
         content: |-
           ---
@@ -55,13 +56,15 @@
       become: false
       delegate_to: localhost
       ansible.builtin.copy:
+        mode: "0600"
         dest: "{{ consul_controller_secrets_terraform_bootstrap_path }}"
         content: |-
           ---
           consul_secrets_consul_agent_consul_token: {{ consul_bootstrap_terraform_result.outputs.consul_agent_consul_token.value }}
           consul_secrets_consul_dns_consul_token: {{ consul_bootstrap_terraform_result.outputs.consul_dns_consul_token.value }}
 
-- block:
+- name: Set Agent tokens
+  block:
     - name: Include Terraform project result
       ansible.builtin.include_vars:
         file: "{{ consul_controller_secrets_terraform_bootstrap_path }}"
@@ -74,6 +77,7 @@
           token: "{{ consul_secrets_consul_agent_consul_token }}"
       loop_control:
         label: "{{ item.type }}"
+      changed_when: false
       ansible.builtin.command:
         argv:
           - "{{ consul_binary_path }}"
@@ -93,6 +97,7 @@
   ansible.builtin.template:
     src: etc/coredns/block.d/consul.cfg.j2
     dest: "{{ (coredns_block_dir, 'consul.cfg') | ansible.builtin.path_join }}"
+    mode: "0644"
     owner: "{{ coredns_user }}"
     group: "{{ coredns_group }}"
 
