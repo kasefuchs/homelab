@@ -44,6 +44,7 @@
       ansible.builtin.get_url:
         url: "{{ consul_download_url }}"
         dest: "{{ (consul_controller_source_cache_dir, consul_version, consul_architecture) | ansible.builtin.path_join }}"
+        mode: "0644"
 
 - name: Set Consul filesystem facts
   run_once: true
@@ -76,6 +77,7 @@
       ansible.builtin.copy:
         src: "{{ (consul_controller_source_cache_dir, consul_version, consul_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ (consul_source_cache_dir, consul_version) | ansible.builtin.path_join }}"
+        mode: "0644"
 
     - name: Extract Consul archive
       ansible.builtin.unarchive:

@@ -36,8 +36,9 @@
         - name: Disable NetworkManager DNS management
           when: coredns_bootstrap_network_manager_status.stdout == 'running'
           notify: Restart NetworkManager
-          ansible.builtin.ini_file:
+          community.general.ini_file:
             path: /etc/NetworkManager/NetworkManager.conf
+            mode: "0644"
             section: main
             option: dns
             value: none

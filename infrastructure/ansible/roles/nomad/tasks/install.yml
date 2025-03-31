@@ -44,6 +44,7 @@
       ansible.builtin.get_url:
         url: "{{ nomad_download_url }}"
         dest: "{{ (nomad_controller_source_cache_dir, nomad_version, nomad_architecture) | ansible.builtin.path_join }}"
+        mode: "0644"
 
 - name: Set Nomad filesystem facts
   run_once: true
@@ -76,6 +77,7 @@
       ansible.builtin.copy:
         src: "{{ (nomad_controller_source_cache_dir, nomad_version, nomad_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ (nomad_source_cache_dir, nomad_version) | ansible.builtin.path_join }}"
+        mode: "0644"
 
     - name: Extract Nomad archive
       ansible.builtin.unarchive:

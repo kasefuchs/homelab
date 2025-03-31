@@ -1,6 +1,6 @@
 ---
 - name: Enable services
-  loop: "{{ bootstrap_service_distribution[ansible_distribution | lower] | default(bootstrap_service_distribution['default']) }}"
+  loop: "{{ bootstrap_service_distribution[ansible_distribution | lower | replace(' ', '')] | default(bootstrap_service_distribution['default']) }}"
   loop_control:
     label: "{{ item.name }}"
   ansible.builtin.systemd_service: "{{ item }}"

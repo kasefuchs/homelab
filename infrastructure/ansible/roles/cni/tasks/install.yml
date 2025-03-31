@@ -44,6 +44,7 @@
       ansible.builtin.get_url:
         url: "{{ cni_download_url }}"
         dest: "{{ (cni_controller_source_cache_dir, cni_version, cni_architecture) | ansible.builtin.path_join }}"
+        mode: "0644"
 
 - name: Set CNI filesystem facts
   run_once: true
@@ -76,6 +77,7 @@
       ansible.builtin.copy:
         src: "{{ (cni_controller_source_cache_dir, cni_version, cni_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ (cni_source_cache_dir, cni_version) | ansible.builtin.path_join }}"
+        mode: "0644"
 
     - name: Extract CNI archive
       ansible.builtin.unarchive:

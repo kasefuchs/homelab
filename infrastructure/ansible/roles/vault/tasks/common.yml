@@ -29,3 +29,4 @@
   ansible.builtin.copy:
     src: "{{ vault_controller_terraform_project_dir }}"
     dest: "{{ vault_terraform_project_dir }}"
+    mode: "0644"

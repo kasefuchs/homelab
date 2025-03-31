@@ -44,6 +44,7 @@
       ansible.builtin.get_url:
         url: "{{ nebula_download_url }}"
         dest: "{{ (nebula_controller_source_cache_dir, nebula_version, nebula_architecture) | ansible.builtin.path_join }}"
+        mode: "0644"
 
 - name: Set Nebula filesystem facts
   run_once: true
@@ -76,6 +77,7 @@
       ansible.builtin.copy:
         src: "{{ (nebula_controller_source_cache_dir, nebula_version, nebula_architectures[ansible_architecture]) | ansible.builtin.path_join }}"
         dest: "{{ (nebula_source_cache_dir, nebula_version) | ansible.builtin.path_join }}"
+        mode: "0644"
 
     - name: Extract Nebula archive
       ansible.builtin.unarchive:

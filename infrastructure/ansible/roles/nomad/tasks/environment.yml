@@ -40,6 +40,7 @@
       become: false
       delegate_to: localhost
       ansible.builtin.copy:
+        mode: "0600"
         dest: "{{ nomad_controller_secrets_terraform_environment_path }}"
         content: |-
           ---

@@ -12,5 +12,6 @@
   ansible.builtin.copy:
     src: etc/coredns/block.d/
     dest: "{{ coredns_block_dir }}"
+    mode: "0644"
     owner: "{{ coredns_user }}"
     group: "{{ coredns_group }}"

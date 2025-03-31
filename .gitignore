@@ -4,6 +4,7 @@
 # ---> Ansible
 .cache/
 .secrets/
+.ansible/
 archive/
 inventories/
 
