@@ -27,7 +27,7 @@ vault {
   address   = "https://{{ nomad_vault_https_endpoint }}"
   ca_file   = "{{ (nomad_pki_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
 
-  jwt_auth_backend_path = "jwt-nomad"
+  jwt_auth_backend_path = "{{ nomad_vault_jwt_auth_backend }}"
 
   default_identity {
     aud = ["vault.io"]
@@ -49,6 +49,9 @@ consul {
 
   server_auto_join = false
   client_auto_join = false
+
+  task_auth_method    = "{{ nomad_consul_jwt_auth_method }}"
+  service_auth_method = "{{ nomad_consul_jwt_auth_method }}"
 
   service_identity {
     aud = ["consul.io"]
