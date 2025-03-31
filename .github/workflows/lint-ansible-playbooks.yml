@@ -25,9 +25,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Python interpreter
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install Python modules
+        run: pip install -r requirements.txt
+        working-directory: infrastructure/ansible
+
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
         with:
-          setup_python: true
+          setup_python: false
           working_directory: infrastructure/ansible
-          requirements_file: requirements.txt
