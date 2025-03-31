@@ -63,8 +63,13 @@ nomad_balancer_https_endpoint: nomad.service.consul:4646
 nomad_vault_balancer_https_endpoint: active.vault.service.consul:8200
 
 #
-nomad_options:
-  fingerprint.denylist: "env_aws,env_gce,env_azure,env_digitalocean"
+nomad_consul_jwt_auth_method: "nomad-workloads"
+
+#
+nomad_vault_jwt_auth_backend: "jwt-nomad"
+
+#
+nomad_options: {}
 
 # Registers additional host networks with the node that can be selected when port mapping.
 nomad_host_networks:

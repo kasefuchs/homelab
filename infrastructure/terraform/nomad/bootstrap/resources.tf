@@ -1,12 +1,14 @@
-resource "vault_mount" "nomad_workload" {
+resource "vault_mount" "nomad_kv" {
   type = "kv"
-  path = var.vault_kv_nomad_workload_path
-
-  description = "KV storage for Nomad Workloads"
-
+  path = "nomad-kv"
   options = {
     version = 2
   }
+}
+
+resource "vault_mount" "nomad_database" {
+  type = "database"
+  path = "nomad-database"
 }
 
 resource "consul_acl_policy" "nomad_tasks" {
@@ -16,7 +18,7 @@ resource "consul_acl_policy" "nomad_tasks" {
 
 resource "consul_acl_auth_method" "nomad" {
   type = "jwt"
-  name = "nomad-workloads"
+  name = var.consul_nomad_jwt_auth_method
   config_json = jsonencode({
     JWKSURL          = var.nomad_jwks_url
     JWKSCACert       = file(var.nomad_ca_file)
@@ -53,13 +55,14 @@ resource "consul_acl_role" "nomad_tasks_default" {
 resource "vault_policy" "nomad_workload" {
   name = "nomad-workload"
   policy = templatefile("${path.module}/policies/vault/nomad-workload.hcl.tftpl", {
-    kv_mount_path        = vault_mount.nomad_workload.path
-    auth_method_accessor = vault_jwt_auth_backend.nomad.accessor
+    kv_mount_path         = vault_mount.nomad_kv.path
+    database_mount_path   = vault_mount.nomad_database.path
+    auth_backend_accessor = vault_jwt_auth_backend.nomad.accessor
   })
 }
 
 resource "vault_jwt_auth_backend" "nomad" {
-  path               = "jwt-nomad"
+  path               = var.vault_nomad_jwt_auth_backend
   jwks_url           = var.nomad_jwks_url
   jwks_ca_pem        = file(var.nomad_ca_file)
   jwt_supported_algs = ["RS256", "EdDSA"]

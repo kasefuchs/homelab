@@ -1,11 +1,9 @@
 variable "consul_endpoint" {
-  type    = string
-  default = "172.16.1.1:8501"
+  type = string
 }
 
 variable "consul_ca_file" {
-  type    = string
-  default = "/etc/consul/pki/ca.crt"
+  type = string
 }
 
 variable "consul_token" {
