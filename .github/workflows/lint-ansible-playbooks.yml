@@ -1,0 +1,33 @@
+---
+name: Lint Ansible playbooks
+
+on:
+  push:
+    paths:
+      - infrastructure/ansible/**
+      - .github/workflows/lint-ansible-playbooks.yml
+    branches:
+      - main
+
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "${{ github.workflow }}"
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main
+        with:
+          setup_python: true
+          working_directory: infrastructure/ansible
+          requirements_file: requirements.txt
