@@ -1,14 +1,14 @@
 resource "vault_mount" "nomad_kv" {
   type = "kv"
-  path = "nomad-kv"
+  path = var.vault_nomad_kv_mount
   options = {
     version = 2
   }
 }
 
-resource "vault_mount" "nomad_database" {
+resource "vault_mount" "nomad_db" {
   type = "database"
-  path = "nomad-database"
+  path = var.vault_nomad_db_mount
 }
 
 resource "consul_acl_policy" "nomad_tasks" {
@@ -56,7 +56,7 @@ resource "vault_policy" "nomad_workload" {
   name = "nomad-workload"
   policy = templatefile("${path.module}/policies/vault/nomad-workload.hcl.tftpl", {
     kv_mount_path         = vault_mount.nomad_kv.path
-    database_mount_path   = vault_mount.nomad_database.path
+    db_mount_path         = vault_mount.nomad_db.path
     auth_backend_accessor = vault_jwt_auth_backend.nomad.accessor
   })
 }

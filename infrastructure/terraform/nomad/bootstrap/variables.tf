@@ -48,3 +48,13 @@ variable "consul_nomad_jwt_auth_method" {
 variable "vault_nomad_jwt_auth_backend" {
   type = string
 }
+
+variable "vault_nomad_kv_mount" {
+  type    = string
+  default = "nomad-kv"
+}
+
+variable "vault_nomad_db_mount" {
+  type    = string
+  default = "nomad-db"
+}
