@@ -166,21 +166,24 @@ variable "services" {
       provider = "consul"
       checks = [
         {
-          address_mode  = null
-          args          = ["-c", "pg_isready"]
-          check_restart = null
-          command       = "/bin/sh"
-          interval      = "30s"
-          method        = null
-          body          = null
-          name          = null
-          path          = null
-          expose        = null
-          port          = null
-          protocol      = null
-          task          = "postgresql"
-          timeout       = "5s"
-          type          = "script"
+          address_mode    = null
+          args            = ["-c", "pg_isready"]
+          restart         = null
+          command         = "/bin/sh"
+          interval        = "30s"
+          method          = null
+          body            = null
+          name            = null
+          path            = null
+          expose          = null
+          port            = null
+          protocol        = null
+          task            = "postgresql"
+          timeout         = "5s"
+          type            = "script"
+          tls_server_name = null
+          tls_skip_verify = null
+          headers         = null
         }
       ]
       connect = {
