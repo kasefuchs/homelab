@@ -1,9 +1,9 @@
 ---
-site_url: https://kasefuchs.github.io/homelab/en/
+site_url: https://kasefuchs.github.io/muttias-homelab/en/
 site_name: Muttias Homelab
 
-repo_url: https://github.com/kasefuchs/homelab
-repo_name: kasefuchs/homelab
+repo_url: https://github.com/kasefuchs/muttias-homelab
+repo_name: kasefuchs/muttias-homelab
 
 docs_dir: ../pages/en
 site_dir: ../build/en
@@ -14,11 +14,11 @@ nav:
 extra:
   alternate:
     - name: English
-      link: /homelab/en/
+      link: /muttias-homelab/en/
       lang: en
 
     - name: Русский
-      link: /homelab/ru/
+      link: /muttias-homelab/ru/
       lang: ru
 
 theme:
