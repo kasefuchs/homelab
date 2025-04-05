@@ -24,7 +24,7 @@
 This repository provides infrastructure-as-code for automating the deployment, configuration, and management of my homelab cluster.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
-Refer to the [documentation](https://kasefuchs.github.io/homelab/en/) for detailed instructions on configuring and provisioning the cluster.
+Refer to the [documentation](https://kasefuchs.github.io/muttias-homelab/en/) for detailed instructions on configuring and provisioning the cluster.
 
 ## 🎉 Acknowledgements <a name="acknowledgement"></a>
 
