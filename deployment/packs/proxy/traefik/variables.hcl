@@ -326,3 +326,9 @@ variable "identities" {
   )
   default = []
 }
+
+variable "count" {
+  description = "Specifies the number of instances that should be running under for this group."
+  type        = number
+  default     = 1
+}

@@ -16,6 +16,8 @@ job [[ template "job_name" . ]] {
   [[- end ]]
 
   group "servers" {
+    count = [[ var "count" . ]]
+
     [[ template "network" var "network" . ]]
 
     [[- range $service := var "services" . ]]
