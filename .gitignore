@@ -1,3 +1,11 @@
 # IDE
 .idea/
 .vscode/
+
+# Python
+.venv/
+__pycache__/
+
+# Ansible
+.ansible/
+inventories/
