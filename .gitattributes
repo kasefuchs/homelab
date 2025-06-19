@@ -1,6 +1,0 @@
-# General
-* text=auto eol=lf
-
-# Linguist
-*.md  linguist-detectable=true
-*.yml linguist-detectable=true

@@ -1,7 +1,0 @@
----
-- name: Nomad
-  hosts: all
-  become: true
-  roles:
-    - role: cni
-    - role: nomad

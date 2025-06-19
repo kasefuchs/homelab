@@ -1,7 +1,0 @@
----
-- name: Reload FirewallD rules
-  changed_when: false
-  ansible.builtin.command:
-    argv:
-      - firewall-cmd
-      - --reload

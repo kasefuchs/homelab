@@ -1,6 +1,0 @@
----
-- name: Consul
-  hosts: all
-  become: true
-  roles:
-    - role: consul
