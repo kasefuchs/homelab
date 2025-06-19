@@ -1,6 +1,0 @@
----
-- name: Terraform
-  hosts: all
-  become: true
-  roles:
-    - role: terraform

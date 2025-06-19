@@ -1,3 +1,0 @@
----
-# Defines the directory where APT repository keyrings are stored.
-bootstrap_package_apt_keyring_dir: /etc/apt/keyrings

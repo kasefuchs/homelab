@@ -1,3 +1,0 @@
-service "vault" {
-  policy = "write"
-}
