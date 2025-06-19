@@ -1,0 +1,5 @@
+---
+profile: production
+
+skip_list:
+  - yaml[line-length]
