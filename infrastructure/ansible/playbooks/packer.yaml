@@ -1,0 +1,5 @@
+---
+- name: Prepare base image with Packer
+  hosts: all
+  become: true
+  tasks: []
