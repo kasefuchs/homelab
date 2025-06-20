@@ -5,9 +5,12 @@ on:
   push:
     paths:
       - ansible/**
-      - .github/workflows/run-ansible-lint.yaml
+      - .github/workflows/ansible-lint.yaml
 
   workflow_dispatch: {}
+
+env:
+  PYTHON_VERSION: "3.13.3"
 
 permissions:
   contents: read
@@ -24,8 +27,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Python interpreter
+      - name: Set up Python interpreter
         uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
 
       - name: Install Python modules
         run: pip install -r requirements.txt
