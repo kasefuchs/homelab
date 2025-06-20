@@ -3,6 +3,7 @@ build {
 
   provisioner "ansible" {
     playbook_file    = "${local.ansible_directory}/playbooks/packer.yaml"
-    ansible_env_vars = ["ANSIBLE_CONFIG=${local.ansible_directory}/ansible.cfg"]
+    extra_arguments  = concat(var.ansible.extra_arguments, ["--scp-extra-args", "'-O'"])
+    ansible_env_vars = concat(var.ansible.env_vars, ["ANSIBLE_CONFIG=${local.ansible_directory}/ansible.cfg"])
   }
 }

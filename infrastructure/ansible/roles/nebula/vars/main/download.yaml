@@ -1,0 +1,17 @@
+---
+# GitHub user or organization that maintains the Nebula repository.
+nebula_download_github_user: slackhq
+
+# GitHub repository name for Nebula.
+nebula_download_github_repository: nebula
+
+# Mapping from system architecture to Nebula release architecture naming.
+nebula_download_architecture_map:
+  x86_64: amd64
+  aarch64: arm64
+
+# Directory path where specific versions of Nebula will be downloaded.
+nebula_download_local_dir: "{{ role_path }}/../nebula/files/download/"
+
+# Symlink path pointing to the currently used Nebula version.
+nebula_download_current_local_dir_link: "{{ (nebula_download_local_dir, 'current') | ansible.builtin.path_join }}"
