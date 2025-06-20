@@ -1,0 +1,6 @@
+---
+# Version of Nebula to download. Can be a specific version (e.g., "1.1.12") or "latest".
+nebula_download_version: latest
+
+# URL to download the Nebula binary, constructed from GitHub user, repository, version, and architecture.
+nebula_download_url: "https://github.com/{{ nebula_download_github_user }}/{{ nebula_download_github_repository }}/releases/download/v{{ nebula_download_version }}/nebula-linux-{{ nebula_download_architecture[1] }}.tar.gz"

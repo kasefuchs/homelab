@@ -11,3 +11,15 @@ variable "vagrant" {
     source_skip_add = true
   }
 }
+
+variable "ansible" {
+  type = object({
+    env_vars        = list(string)
+    extra_arguments = list(string)
+  })
+
+  default = {
+    env_vars        = []
+    extra_arguments = ["--tags", "download,install"]
+  }
+}
