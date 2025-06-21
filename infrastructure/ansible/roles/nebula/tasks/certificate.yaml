@@ -1,0 +1,49 @@
+---
+- name: Create directories
+  loop:
+    - "{{ nebula_certificate_ca_local_dir }}"
+    - "{{ nebula_certificate_entity_local_dir }}"
+  run_once: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0700"
+    state: directory
+
+- name: Create CA certificate
+  run_once: true
+  block:
+    - name: Create CA certificate
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - ca
+          - -ips={{ nebula_certificate_ca_ips | join(',') }}
+          - -name={{ nebula_certificate_ca_cn }}
+          - -groups={{ nebula_certificate_ca_groups | join(',') }}
+          - -subnets={{ nebula_certificate_ca_subnets | join(',') }}
+          - -duration={{ nebula_certificate_ca_duration }}
+          - -out-crt={{ (nebula_certificate_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}
+          - -out-key={{ (nebula_certificate_ca_local_dir, 'ca.key') | ansible.builtin.path_join }}
+        creates: "{{ nebula_certificate_ca_local_dir }}/ca.*"
+
+- name: Create entity certificates
+  block:
+    - name: Create host certificate directory
+      ansible.builtin.file:
+        path: "{{ (nebula_certificate_entity_local_dir, inventory_hostname) | ansible.builtin.path_join }}"
+        mode: "0700"
+        state: directory
+
+    - name: Create host certificate
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - sign
+          - -ip={{ nebula_certificate_entity_host_ip }}
+          - -name={{ nebula_certificate_entity_host_cn }}
+          - -subnets={{ nebula_certificate_entity_host_subnets | join(',') }}
+          - -ca-crt={{ (nebula_certificate_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}
+          - -ca-key={{ (nebula_certificate_ca_local_dir, 'ca.key') | ansible.builtin.path_join }}
+          - -out-crt={{ (nebula_certificate_entity_local_dir, inventory_hostname, 'host.crt') | ansible.builtin.path_join }}
+          - -out-key={{ (nebula_certificate_entity_local_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}
+        creates: "{{ (nebula_certificate_entity_local_dir, inventory_hostname, 'host.*') | ansible.builtin.path_join }}"

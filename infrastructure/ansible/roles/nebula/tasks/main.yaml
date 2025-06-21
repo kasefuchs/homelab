@@ -15,3 +15,29 @@
     file: install.yaml
     apply:
       tags: install
+
+- name: Create Nebula certificates
+  tags: certificate
+  ansible.builtin.include_tasks:
+    file: certificate.yaml
+    apply:
+      tags: certificate
+      become: false
+      delegate_to: localhost
+
+- name: Configure Nebula
+  tags: config
+  ansible.builtin.include_tasks:
+    file: config.yaml
+    apply:
+      tags: config
+      notify:
+        - Enable Nebula service
+        - Restart Nebula service
+
+- name: Reload SystemD daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

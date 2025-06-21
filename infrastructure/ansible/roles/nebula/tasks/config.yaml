@@ -1,0 +1,56 @@
+---
+- name: Create Nebula directories
+  loop:
+    - path: "{{ nebula_config_dir }}"
+      mode: "0755"
+    - path: "{{ nebula_config_certificate_dir }}"
+      mode: "0755"
+    - path: "{{ nebula_config_certificate_ca_dir }}"
+      mode: "0755"
+    - path: "{{ nebula_config_certificate_entity_dir }}"
+      mode: "0700"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy Nebula certificates
+  loop:
+    - label: Nebula CA certificate
+      src: "{{ (nebula_certificate_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_config_certificate_ca_dir, 'nebula.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - label: Nebula host certificate
+      src: "{{ (nebula_certificate_entity_local_dir, inventory_hostname, 'host.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_config_certificate_entity_dir, 'host.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - label: Nebula host private key
+      src: "{{ (nebula_certificate_entity_local_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_config_certificate_entity_dir, 'host.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.label }}"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+
+- name: Render Nebula configuration template
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ nebula_config_file }}"
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Install Nebula service
+  ansible.builtin.template:
+    src: nebula.service.j2
+    dest: /etc/systemd/system/nebula.service
+    mode: "0644"
