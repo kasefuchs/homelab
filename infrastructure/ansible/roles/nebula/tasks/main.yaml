@@ -32,12 +32,9 @@
     apply:
       tags: config
       notify:
+        - Reload SystemD daemon
         - Enable Nebula service
         - Restart Nebula service
-
-- name: Reload SystemD daemon
-  ansible.builtin.systemd_service:
-    daemon_reload: true
 
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
