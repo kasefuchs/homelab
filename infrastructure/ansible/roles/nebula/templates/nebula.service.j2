@@ -1,0 +1,19 @@
+{{ ansible_managed | ansible.builtin.comment }}
+
+[Unit]
+Description=Nebula: Overlay networking
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+ExecStart={{ nebula_config_service_binary_file }} -config={{ nebula_config_file }}
+ExecReload=/bin/kill -HUP $MAINPID
+
+KillMode=process
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

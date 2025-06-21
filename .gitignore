@@ -16,5 +16,8 @@ infrastructure/packer/outputs/
 # Cache
 infrastructure/ansible/roles/*/files/download/
 
+# Secrets
+infrastructure/ansible/roles/*/files/certificate/
+
 # Vagrant
 .vagrant/

@@ -1,0 +1,51 @@
+---
+# Nebula configuration.
+nebula_config:
+  firewall: "{{ nebula_config_firewall }}"
+  lighthouse: "{{ nebula_config_lighthouse }}"
+  listen: "{{ nebula_config_listen }}"
+  pki: "{{ nebula_config_pki }}"
+  punchy: "{{ nebula_config_punchy }}"
+  relay: "{{ nebula_config_relay }}"
+  static_host_map: "{{ nebula_config_static_host_map }}"
+  tun: "{{ nebula_config_tun }}"
+
+# Host and port where the Nebula service listens for incoming traffic.
+nebula_config_listen:
+  host: 0.0.0.0
+  port: 4646
+
+# Configuration related to Nebula lighthouse functionality.
+nebula_config_lighthouse:
+  am_lighthouse: true
+  hosts: []
+
+# Name of the TUN interface created by Nebula.
+nebula_config_tun:
+  dev: nebula0
+
+# Default firewall actions and rules for Nebula traffic.
+nebula_config_firewall:
+  inbound_action: drop
+  outbound_action: drop
+  inbound:
+    - host: any
+      port: any
+      proto: any
+  outbound:
+    - host: any
+      port: any
+      proto: any
+
+# Configuration for UDP hole punching support.
+nebula_config_punchy:
+  punch: true
+  respond: true
+
+# Settings for enabling or using relay nodes in Nebula.
+nebula_config_relay:
+  am_relay: false
+  use_relays: true
+
+# The static host map defines a set of hosts with fixed IP addresses on the internet (or any network).
+nebula_config_static_host_map: {}

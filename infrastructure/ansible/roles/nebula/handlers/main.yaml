@@ -1,0 +1,10 @@
+---
+- name: Enable Nebula service
+  ansible.builtin.systemd_service:
+    name: nebula
+    enabled: true
+
+- name: Restart Nebula service
+  ansible.builtin.systemd_service:
+    name: nebula
+    state: restarted
