@@ -1,7 +1,6 @@
 ---
-- name: Prepare base image with Packer
+- name: Set up CoreDNS
   hosts: all
   become: true
   roles:
-    - nebula
     - coredns

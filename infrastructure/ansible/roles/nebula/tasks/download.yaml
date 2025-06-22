@@ -31,22 +31,22 @@
 - name: Download Nebula binaries
   block:
     - name: Check if the Nebula archives already downloaded
-      loop: "{{ nebula_download_architecture_map.items() }}"
+      loop: "{{ nebula_download_architecture_map | ansible.builtin.dict2items }}"
       register: nebula_download_files
       loop_control:
-        label: "{{ nebula_download_architecture[0] }}"
+        label: "{{ nebula_download_architecture.key }}"
         loop_var: nebula_download_architecture
       ansible.builtin.stat:
-        path: "{{ (nebula_download_current_local_dir_link, nebula_download_architecture[0]) | ansible.builtin.path_join }}"
+        path: "{{ (nebula_download_current_local_dir_link, nebula_download_architecture.key) | ansible.builtin.path_join }}"
 
     - name: Download Nebula archives
       when: not nebula_download_files.results[ansible_loop.index0].stat.exists
-      loop: "{{ nebula_download_architecture_map.items() }}"
+      loop: "{{ nebula_download_architecture_map | ansible.builtin.dict2items }}"
       loop_control:
-        label: "{{ nebula_download_architecture[0] }}"
+        label: "{{ nebula_download_architecture.key }}"
         loop_var: nebula_download_architecture
         extended: true
       ansible.builtin.get_url:
         url: "{{ nebula_download_url }}"
-        dest: "{{ (nebula_download_current_local_dir_link, nebula_download_architecture[0]) | ansible.builtin.path_join }}"
+        dest: "{{ (nebula_download_current_local_dir_link, nebula_download_architecture.key) | ansible.builtin.path_join }}"
         mode: "0644"

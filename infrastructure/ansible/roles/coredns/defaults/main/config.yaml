@@ -1,0 +1,4 @@
+---
+# Map of CoreDNS configuration files.
+coredns_config:
+  root: "{{ lookup('ansible.builtin.file', 'config/root.conf') }}"

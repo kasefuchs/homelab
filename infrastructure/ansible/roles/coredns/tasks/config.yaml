@@ -1,0 +1,61 @@
+---
+- name: Create CoreDNS group
+  ansible.builtin.group:
+    name: "{{ coredns_config_group }}"
+
+- name: Create CoreDNS user
+  ansible.builtin.user:
+    name: "{{ coredns_config_user }}"
+    group: "{{ coredns_config_group }}"
+    system: true
+    create_home: false
+
+- name: Create CoreDNS directories
+  loop:
+    - path: "{{ coredns_config_dir }}"
+      mode: "0755"
+    - path: "{{ coredns_config_include_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    owner: "{{ coredns_config_user }}"
+    group: "{{ coredns_config_group }}"
+
+- name: Render CoreDNS configuration template
+  ansible.builtin.template:
+    src: Corefile.j2
+    dest: "{{ coredns_config_file }}"
+    mode: "0644"
+    owner: "{{ coredns_config_user }}"
+    group: "{{ coredns_config_group }}"
+
+- name: Copy CoreDNS configuration fragments
+  loop: "{{ coredns_config | ansible.builtin.dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  ansible.builtin.template:
+    src: include.conf.j2
+    dest: "{{ (coredns_config_include_dir, item.key ~ '.conf') | ansible.builtin.path_join }}"
+    mode: "0644"
+    owner: "{{ coredns_config_user }}"
+    group: "{{ coredns_config_group }}"
+
+- name: Render resolv.conf template
+  changed_when: false
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    mode: "0644"
+    owner: root
+    group: root
+    attributes: +i
+
+- name: Install CoreDNS service
+  ansible.builtin.template:
+    src: coredns.service.j2
+    dest: /etc/systemd/system/coredns.service
+    mode: "0644"
