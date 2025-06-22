@@ -8,8 +8,13 @@ After=network.target network-online.target
 [Service]
 Type=notify
 NotifyAccess=main
+
+User={{ nebula_config_user }}
+Group={{ nebula_config_group }}
+
 ExecStart={{ nebula_config_service_binary_file }} -config={{ nebula_config_file }}
 ExecReload=/bin/kill -HUP $MAINPID
+AmbientCapabilities=CAP_NET_ADMIN
 
 KillMode=process
 Restart=always
