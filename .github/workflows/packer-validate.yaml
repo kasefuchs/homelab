@@ -4,7 +4,7 @@ name: Run Packer validate
 on:
   push:
     paths:
-      - ansible/**
+      - infrastructure/packer/**
       - .github/workflows/packer-validate.yaml
 
   workflow_dispatch: {}

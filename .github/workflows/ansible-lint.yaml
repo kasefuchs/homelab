@@ -4,7 +4,7 @@ name: Run Ansible Lint
 on:
   push:
     paths:
-      - ansible/**
+      - infrastructure/ansible/**
       - .github/workflows/ansible-lint.yaml
 
   workflow_dispatch: {}
