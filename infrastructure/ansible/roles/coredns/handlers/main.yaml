@@ -1,0 +1,10 @@
+---
+- name: Enable CoreDNS service
+  ansible.builtin.systemd_service:
+    name: coredns
+    enabled: true
+
+- name: Restart CoreDNS service
+  ansible.builtin.systemd_service:
+    name: coredns
+    state: restarted

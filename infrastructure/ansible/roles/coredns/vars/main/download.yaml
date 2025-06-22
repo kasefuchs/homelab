@@ -1,0 +1,17 @@
+---
+# GitHub user or organization that maintains the CoreDNS repository.
+coredns_download_github_user: coredns
+
+# GitHub repository name for CoreDNS.
+coredns_download_github_repository: coredns
+
+# Mapping from system architecture to CoreDNS release architecture naming.
+coredns_download_architecture_map:
+  x86_64: amd64
+  aarch64: arm64
+
+# Directory path where specific versions of CoreDNS will be downloaded.
+coredns_download_local_dir: "{{ role_path }}/../coredns/files/download/"
+
+# Symlink path pointing to the currently used CoreDNS version.
+coredns_download_current_local_dir_link: "{{ (coredns_download_local_dir, 'current') | ansible.builtin.path_join }}"
