@@ -1,4 +1,10 @@
 ---
+# The user to run Nebula as.
+nebula_config_user: nebula
+
+# The group to run Nebula as.
+nebula_config_group: nebula
+
 # Directory where Nebula configuration files will be stored.
 nebula_config_dir: /etc/nebula/
 

@@ -1,4 +1,15 @@
 ---
+- name: Create Nebula group
+  ansible.builtin.group:
+    name: "{{ nebula_config_group }}"
+
+- name: Create Nebula user
+  ansible.builtin.user:
+    name: "{{ nebula_config_user }}"
+    group: "{{ nebula_config_group }}"
+    system: true
+    create_home: false
+
 - name: Create Nebula directories
   loop:
     - path: "{{ nebula_config_dir }}"
@@ -15,8 +26,8 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ nebula_config_user }}"
+    group: "{{ nebula_config_group }}"
 
 - name: Copy Nebula certificates
   loop:
@@ -38,16 +49,16 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: root
-    group: root
+    owner: "{{ nebula_config_user }}"
+    group: "{{ nebula_config_group }}"
 
 - name: Render Nebula configuration template
   ansible.builtin.template:
     src: config.yaml.j2
     dest: "{{ nebula_config_file }}"
     mode: "0644"
-    owner: root
-    group: root
+    owner: "{{ nebula_config_user }}"
+    group: "{{ nebula_config_group }}"
 
 - name: Install Nebula service
   ansible.builtin.template:
