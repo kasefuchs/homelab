@@ -8,3 +8,7 @@
   ansible.builtin.systemd_service:
     name: coredns
     state: restarted
+
+- name: Wait for CoreDNS
+  ansible.builtin.wait_for:
+    port: "{{ coredns_config_port }}"
