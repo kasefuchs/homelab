@@ -26,6 +26,7 @@
         - Reload SystemD daemon
         - Enable CoreDNS service
         - Restart CoreDNS service
+        - Wait for CoreDNS
 
 - name: Flush handlers
   run_once: true
