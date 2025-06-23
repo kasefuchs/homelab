@@ -3,5 +3,6 @@
   hosts: all
   become: true
   roles:
-    - nebula
+    - bootstrap
     - coredns
+    - nebula

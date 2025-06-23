@@ -1,0 +1,16 @@
+---
+- name: Update package cache
+  ansible.builtin.package:
+    update_cache: "{{ bootstrap_package_update_cache }}"
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ bootstrap_package_install }}"
+
+- name: Remove package cache
+  when: bootstrap_package_remove_cache
+  block:
+    - name: Remove APT package cache
+      when: ansible_pkg_mgr == "apt"
+      ansible.builtin.apt:
+        clean: true
