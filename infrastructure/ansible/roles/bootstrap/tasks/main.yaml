@@ -1,0 +1,7 @@
+---
+- name: Bootstrap packages
+  tags: always
+  ansible.builtin.include_tasks:
+    file: package.yaml
+    apply:
+      tags: always

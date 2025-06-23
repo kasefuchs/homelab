@@ -1,0 +1,6 @@
+---
+- name: Bootstrap node
+  hosts: all
+  become: true
+  roles:
+    - bootstrap
