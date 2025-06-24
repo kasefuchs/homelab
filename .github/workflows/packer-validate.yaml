@@ -34,6 +34,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
+          cache-dependency-path: infrastructure/ansible/requirements.txt
 
       - name: Set up Packer
         uses: hashicorp/setup-packer@main

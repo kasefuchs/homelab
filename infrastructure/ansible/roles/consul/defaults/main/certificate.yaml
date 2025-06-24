@@ -1,0 +1,61 @@
+---
+# Subject details for the Consul CA certificate.
+consul_certificate_ca_subject:
+  CN: Muttias Consul CA
+
+# Duration of Consul CA certificate validity.
+consul_certificate_ca_duration: 3650d
+
+# Subject details for the Consul Client certificate.
+consul_certificate_entity_client_subject:
+  CN: "client.{{ consul_config_datacenter }}.consul"
+
+# Subject Alternative Names for the Consul Client certificate.
+consul_certificate_entity_client_san:
+  # Local
+  - IP:127.0.0.1
+  - DNS:localhost
+
+  # Node
+  - "IP:{{ ansible_default_ipv4.address }}"
+  - "IP:{{ nebula_certificate_entity_host_ip | ansible.utils.ipaddr('address') }}"
+  - "DNS:client.{{ consul_config_datacenter }}.consul"
+  - "DNS:{{ consul_config_node_name }}.client.{{ consul_config_datacenter }}.consul"
+
+# Duration of Consul Client certificate validity.
+consul_certificate_entity_client_duration: 1825d
+
+# Subject details for the Consul Server certificate.
+consul_certificate_entity_server_subject:
+  CN: "server.{{ consul_config_datacenter }}.consul"
+
+# Subject Alternative Names for the Consul Server certificate.
+consul_certificate_entity_server_san:
+  # Local
+  - IP:127.0.0.1
+  - DNS:localhost
+
+  # Node
+  - "IP:{{ ansible_default_ipv4.address }}"
+  - "IP:{{ nebula_certificate_entity_host_ip | ansible.utils.ipaddr('address') }}"
+  - "DNS:server.{{ consul_config_datacenter }}.consul"
+  - "DNS:{{ consul_config_node_name }}.server.{{ consul_config_datacenter }}.consul"
+
+  # Consul
+  - "DNS:consul.service.consul"
+
+# Duration of Consul Server certificate validity.
+consul_certificate_entity_server_duration: 1825d
+
+# Subject details for the Consul CLI certificate.
+consul_certificate_entity_cli_subject:
+  CN: "cli.{{ consul_config_datacenter }}.consul"
+
+# Subject Alternative Names for the Consul CLI certificate.
+consul_certificate_entity_cli_san:
+  # Local
+  - IP:127.0.0.1
+  - DNS:localhost
+
+# Duration of Consul CLI certificate validity.
+consul_certificate_entity_cli_duration: 1825d

@@ -1,5 +1,5 @@
 ---
-- name: Download Nebula
+- name: Download Consul
   tags: download
   ansible.builtin.include_tasks:
     file: download.yaml
@@ -9,14 +9,14 @@
       run_once: true
       delegate_to: localhost
 
-- name: Install Nebula
+- name: Install Consul
   tags: install
   ansible.builtin.include_tasks:
     file: install.yaml
     apply:
       tags: install
 
-- name: Create Nebula certificates
+- name: Create Consul certificates
   tags: certificate
   ansible.builtin.include_tasks:
     file: certificate.yaml
@@ -25,7 +25,7 @@
       become: false
       delegate_to: localhost
 
-- name: Configure Nebula
+- name: Configure Consul
   tags: config
   ansible.builtin.include_tasks:
     file: config.yaml
@@ -33,5 +33,6 @@
       tags: config
       notify:
         - Reload SystemD daemon
-        - Enable Nebula service
-        - Restart Nebula service
+        - Enable Consul service
+        - Restart Consul service
+        - Wait for Consul

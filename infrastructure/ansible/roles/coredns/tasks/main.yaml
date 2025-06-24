@@ -27,7 +27,3 @@
         - Enable CoreDNS service
         - Restart CoreDNS service
         - Wait for CoreDNS
-
-- name: Flush handlers
-  run_once: true
-  ansible.builtin.meta: flush_handlers

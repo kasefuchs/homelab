@@ -32,6 +32,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
+          cache-dependency-path: infrastructure/ansible/requirements.txt
 
       - name: Install Python modules
         run: pip install -r requirements.txt
