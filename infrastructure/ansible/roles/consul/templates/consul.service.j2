@@ -1,0 +1,20 @@
+{{ ansible_managed | ansible.builtin.comment }}
+
+[Unit]
+Description=Consul: Identity-based networking solution
+Wants=network.target network-online.target nebula.service
+After=network.target network-online.target nebula.service
+
+[Service]
+User={{ consul_config_user }}
+Group={{ consul_config_group }}
+
+ExecStart={{ consul_config_service_binary_file }} agent -config-file={{ consul_config_file }}
+ExecReload=/bin/kill -HUP $MAINPID
+
+KillMode=process
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

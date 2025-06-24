@@ -1,0 +1,73 @@
+---
+- name: Create Consul group
+  ansible.builtin.group:
+    name: "{{ consul_config_group }}"
+
+- name: Create Consul user
+  ansible.builtin.user:
+    name: "{{ consul_config_user }}"
+    group: "{{ consul_config_group }}"
+    system: true
+    create_home: false
+
+- name: Create Consul directories
+  loop:
+    - path: "{{ consul_config_dir }}"
+      mode: "0755"
+    - path: "{{ consul_config_data_dir }}"
+      mode: "0755"
+    - path: "{{ consul_config_certificate_dir }}"
+      mode: "0755"
+    - path: "{{ consul_config_certificate_ca_dir }}"
+      mode: "0755"
+    - path: "{{ consul_config_certificate_entity_dir }}"
+      mode: "0700"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    owner: "{{ consul_config_user }}"
+    group: "{{ consul_config_group }}"
+
+- name: Copy Consul certificates
+  loop:
+    - label: Consul CA certificate
+      src: "{{ (consul_certificate_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_config_certificate_ca_dir, 'consul.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - label: Consul agent certificate
+      src: "{{ (consul_certificate_entity_host_local_dir, (consul_config_server | ansible.builtin.ternary('server', 'client')) ~ '.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_config_certificate_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+    - label: Consul agent private key
+      src: "{{ (consul_certificate_entity_host_local_dir, (consul_config_server | ansible.builtin.ternary('server', 'client')) ~ '.key') | ansible.builtin.path_join }}"
+      dest: "{{ (consul_config_certificate_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.label }}"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ consul_config_user }}"
+    group: "{{ consul_config_group }}"
+
+- name: Render Consul configuration template
+  ansible.builtin.template:
+    src: agent.hcl.j2
+    dest: "{{ consul_config_file }}"
+    mode: "0644"
+    owner: "{{ consul_config_user }}"
+    group: "{{ consul_config_group }}"
+
+- name: Install Consul service
+  ansible.builtin.template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
+    mode: "0644"
+
+- name: Flush handlers
+  run_once: true
+  ansible.builtin.meta: flush_handlers

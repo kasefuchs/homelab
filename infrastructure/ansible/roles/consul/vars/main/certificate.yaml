@@ -1,0 +1,12 @@
+---
+# Base local directory for storing Consul certificates.
+consul_certificate_local_dir: "{{ role_path }}/../consul/files/certificate/{{ inventory_dir | ansible.builtin.basename }}"
+
+# Directory for storing Consul CA files.
+consul_certificate_ca_local_dir: "{{ (consul_certificate_local_dir, 'ca') | ansible.builtin.path_join }}"
+
+# Directory for storing Consul entity (host) certificate and key files.
+consul_certificate_entity_local_dir: "{{ (consul_certificate_local_dir, 'entity') | ansible.builtin.path_join }}"
+
+# Directory for storing certificate and key files for this specific Consul node (per datacenter and hostname).
+consul_certificate_entity_host_local_dir: "{{ (consul_certificate_entity_local_dir, consul_config_datacenter, inventory_hostname) | ansible.builtin.path_join }}"

@@ -1,0 +1,16 @@
+---
+- name: Enable Consul service
+  ansible.builtin.systemd_service:
+    name: consul
+    enabled: true
+
+- name: Restart Consul service
+  ansible.builtin.systemd_service:
+    name: consul
+    state: restarted
+
+- name: Wait for Consul
+  loop: "{{ consul_config_https_addresses }}"
+  ansible.builtin.wait_for:
+    host: "{{ item }}"
+    port: "{{ consul_config_https_port }}"
