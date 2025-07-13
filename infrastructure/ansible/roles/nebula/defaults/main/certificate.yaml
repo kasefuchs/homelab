@@ -1,6 +1,6 @@
 ---
 # Common Name for the Nebula Certificate Authority.
-nebula_certificate_ca_cn: Waverly Nebula CA
+nebula_certificate_ca_cn: Muttias Nebula CA
 
 # List of IP ranges included in the CA certificate.
 nebula_certificate_ca_ips:
