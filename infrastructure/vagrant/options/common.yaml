@@ -6,7 +6,7 @@ box: homelab/debian12
 provider: libvirt
 
 # Total number of virtual machines (nodes) to create.
-nodes: 3
+nodes: 5
 
 # Default hardware configuration for each VM.
 domain:

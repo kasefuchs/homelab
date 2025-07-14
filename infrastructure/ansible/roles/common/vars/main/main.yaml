@@ -1,0 +1,12 @@
+---
+# Path to the common role.
+common_role_local_dir: "{{ (role_path, '../common') | ansible.builtin.path_join | ansible.builtin.realpath }}"
+
+# Path to its vars' directory.
+common_variable_local_dir: "{{ (common_role_local_dir, 'vars/main') | ansible.builtin.path_join }}"
+
+# Path to its templates' directory.
+common_template_local_dir: "{{ (common_role_local_dir, 'templates') | ansible.builtin.path_join }}"
+
+# Path to managed.j2 template.
+common_template_managed_local_path: "{{ (common_template_local_dir, 'managed.j2') | ansible.builtin.path_join }}"
