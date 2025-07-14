@@ -1,0 +1,4 @@
+---
+- name: Load common variables
+  ansible.builtin.include_vars:
+    dir: "{{ common_variable_local_dir }}"
