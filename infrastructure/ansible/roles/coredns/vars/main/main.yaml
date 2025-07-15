@@ -1,0 +1,6 @@
+---
+# Path to the CoreDNS role.
+coredns_role_local_dir: "{{ (role_path, '../coredns') | ansible.builtin.path_join | ansible.builtin.realpath }}"
+
+# Path to its files' directory.
+coredns_file_local_dir: "{{ (coredns_role_local_dir, 'files') | ansible.builtin.path_join }}"

@@ -11,7 +11,7 @@ nebula_download_architecture_map:
   aarch64: arm64
 
 # Directory path where specific versions of Nebula will be downloaded.
-nebula_download_local_dir: "{{ role_path }}/../nebula/files/download/"
+nebula_download_local_dir: "{{ (nebula_file_local_dir, 'download') | ansible.builtin.path_join }}"
 
 # Symlink path pointing to the currently used Nebula version.
 nebula_download_current_local_dir_link: "{{ (nebula_download_local_dir, 'current') | ansible.builtin.path_join }}"
