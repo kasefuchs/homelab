@@ -1,0 +1,13 @@
+---
+# Local path to the downloaded Vault binaries archive for the current architecture.
+vault_install_archive_local_file: "{{ (vault_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
+
+# Destination path on the target system where the Vault will be installed.
+vault_install_archive_extract_dir: /usr/local/bin/
+
+# Additional options for extracting the Vault archive.
+vault_install_unarchive_options: []
+
+# List of file or directory patterns to include when extracting the archive.
+vault_install_unarchive_include:
+  - vault
