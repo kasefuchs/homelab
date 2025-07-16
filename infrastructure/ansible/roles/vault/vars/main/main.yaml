@@ -4,3 +4,6 @@ vault_role_local_dir: "{{ (role_path, '../vault') | ansible.builtin.path_join | 
 
 # Path to its files' directory.
 vault_file_local_dir: "{{ (vault_role_local_dir, 'files') | ansible.builtin.path_join }}"
+
+# Path to the main files' directory.
+vault_main_file_local_dir: "{{ (vault_file_local_dir, 'main') | ansible.builtin.path_join }}"

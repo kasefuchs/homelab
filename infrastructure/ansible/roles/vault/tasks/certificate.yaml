@@ -1,0 +1,17 @@
+---
+- name: Create directories
+  loop:
+    - "{{ vault_certificate_ca_local_dir }}"
+  run_once: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0700"
+    state: directory
+
+- name: Create CA certificate
+  vars:
+    common_certificate_ca_subject: "{{ vault_certificate_ca_subject }}"
+    common_certificate_ca_duration: "{{ vault_certificate_ca_duration }}"
+    common_certificate_ca_local_dir: "{{ vault_certificate_ca_local_dir }}"
+  run_once: true
+  ansible.builtin.include_tasks: "{{ (common_task_local_dir, 'certificate/ca.yaml') | ansible.builtin.path_join }}"

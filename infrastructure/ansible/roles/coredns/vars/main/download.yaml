@@ -11,7 +11,7 @@ coredns_download_architecture_map:
   aarch64: arm64
 
 # Directory path where specific versions of CoreDNS will be downloaded.
-coredns_download_local_dir: "{{ (coredns_file_local_dir, 'download') | ansible.builtin.path_join }}"
+coredns_download_local_dir: "{{ (coredns_main_file_local_dir, 'download') | ansible.builtin.path_join }}"
 
 # Symlink path pointing to the currently used CoreDNS version.
 coredns_download_current_local_dir_link: "{{ (coredns_download_local_dir, 'current') | ansible.builtin.path_join }}"

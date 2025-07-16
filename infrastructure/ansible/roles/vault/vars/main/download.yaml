@@ -11,7 +11,7 @@ vault_download_architecture_map:
   aarch64: arm64
 
 # Directory path where specific versions of Vault will be downloaded.
-vault_download_local_dir: "{{ (vault_file_local_dir, 'download') | ansible.builtin.path_join }}"
+vault_download_local_dir: "{{ (vault_main_file_local_dir, 'download') | ansible.builtin.path_join }}"
 
 # Symlink path pointing to the currently used Vault version.
 vault_download_current_local_dir_link: "{{ (vault_download_local_dir, 'current') | ansible.builtin.path_join }}"
