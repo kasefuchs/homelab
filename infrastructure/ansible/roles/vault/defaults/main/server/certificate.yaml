@@ -1,0 +1,16 @@
+---
+# Subject details for the Kubernetes API server certificate.
+vault_server_certificate_entity_subject:
+  CN: server.vault
+
+# Subject Alternative Names for the Kubernetes API server certificate.
+vault_server_certificate_entity_san:
+  # Local
+  - IP:127.0.0.1
+  - DNS:localhost
+
+  # DNS
+  - DNS:{{ common_internal_fqdn }}
+
+# Duration of Kubernetes API server certificate validity.
+vault_server_certificate_entity_duration: 1825d

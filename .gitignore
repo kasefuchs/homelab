@@ -14,10 +14,10 @@ inventories/
 infrastructure/packer/outputs/
 
 # Cache
-infrastructure/ansible/roles/*/files/download/
+infrastructure/ansible/roles/*/files/*/download/
 
 # Secrets
-infrastructure/ansible/roles/*/files/certificate/
+infrastructure/ansible/roles/*/files/*/certificate/
 
 # Vagrant
 .vagrant/

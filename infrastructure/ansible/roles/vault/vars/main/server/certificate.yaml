@@ -1,0 +1,6 @@
+---
+# Base local directory for storing Vault server certificates.
+vault_server_certificate_local_dir: "{{ (vault_file_local_dir, 'server/certificate', (inventory_dir | ansible.builtin.basename)) | ansible.builtin.path_join }}"
+
+# Directory for storing Vault server entity (host) certificate and key files.
+vault_server_certificate_entity_local_dir: "{{ (vault_server_certificate_local_dir, 'entity') | ansible.builtin.path_join }}"
