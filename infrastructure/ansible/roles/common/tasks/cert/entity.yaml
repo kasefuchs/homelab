@@ -1,0 +1,24 @@
+---
+- name: Create certificate private key
+  register: common_cert_entity_private_key
+  community.crypto.openssl_privatekey:
+    path: "{{ (common_cert_entity_dir, common_cert_entity_name ~ '.key') | ansible.builtin.path_join }}"
+
+- name: Create certificate signing request
+  register: common_cert_entity_csr
+  community.crypto.openssl_csr:
+    path: "{{ (common_cert_entity_dir, common_cert_entity_name ~ '.csr') | ansible.builtin.path_join }}"
+    privatekey_path: "{{ common_cert_entity_private_key.filename }}"
+    subject: "{{ common_cert_entity_subject }}"
+    subject_alt_name: "{{ common_cert_entity_san }}"
+    extended_key_usage: "{{ common_cert_entity_eku | default(['serverAuth', 'clientAuth']) }}"
+
+- name: Create certificate from CSR
+  community.crypto.x509_certificate:
+    path: "{{ (common_cert_entity_dir, common_cert_entity_name ~ '.crt') | ansible.builtin.path_join }}"
+    provider: ownca
+    csr_path: "{{ common_cert_entity_csr.filename }}"
+    ownca_path: "{{ (common_cert_entity_ca_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    ownca_privatekey_path: "{{ (common_cert_entity_ca_dir, 'ca.key') | ansible.builtin.path_join }}"
+    ownca_not_after: "+{{ common_cert_entity_duration }}"
+    ownca_not_before: "-1d"

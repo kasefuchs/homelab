@@ -1,0 +1,16 @@
+---
+# Subject details for the Vault server certificate.
+vault_server_cert_entity_subject:
+  CN: server.vault
+
+# Subject Alternative Names for the Vault server certificate.
+vault_server_cert_entity_san:
+  # Local
+  - IP:127.0.0.1
+  - DNS:localhost
+
+  # DNS
+  - DNS:{{ common_internal_fqdn }}
+
+# Duration of Vault server certificate validity.
+vault_server_cert_entity_duration: 1825d

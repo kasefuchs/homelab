@@ -1,9 +1,0 @@
----
-- name: Create directories
-  loop:
-    - "{{ vault_server_certificate_entity_local_dir }}"
-  run_once: true
-  ansible.builtin.file:
-    path: "{{ item }}"
-    mode: "0700"
-    state: directory

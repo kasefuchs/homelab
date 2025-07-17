@@ -1,0 +1,30 @@
+---
+# The API address this Vault node advertises to clients and other nodes.
+vault_server_config_advertise_api_address: https://{{ inventory_hostname }}.node.internal:{{ vault_server_config_listen_api_port }}
+
+# The cluster address this Vault node advertises for internal cluster communication (Raft).
+vault_server_config_advertise_cluster_address: https://{{ inventory_hostname }}.node.internal:{{ vault_server_config_listen_cluster_port }}
+
+# Enables the Vault web UI.
+vault_server_config_enable_ui: true
+
+# Disables mlock, which normally prevents Vault from being swapped to disk. Useful for development or when mlock is not available.
+vault_server_config_disable_mlock: true
+
+# The port on which the Vault API will listen.
+vault_server_config_listen_api_port: 8200
+
+# The IP and port Vault will listen on for client API requests.
+vault_server_config_listen_api_address: 0.0.0.0:{{ vault_server_config_listen_api_port }}
+
+# The port used for internal cluster (Raft) communication.
+vault_server_config_listen_cluster_port: 8201
+
+# The IP and port Vault will listen on for cluster traffic (used in Raft).
+vault_server_config_listen_cluster_address: 0.0.0.0:{{ vault_server_config_listen_cluster_port }}
+
+# Sets the unique node ID for the Raft cluster, typically the hostname.
+vault_server_config_raft_node_id: "{{ inventory_hostname }}"
+
+# List of peer nodes to attempt to join during Raft initialization (excluding the current node).
+vault_server_config_raft_retry_join: "{{ vault_server_hosts | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.node.internal:8200') }}"

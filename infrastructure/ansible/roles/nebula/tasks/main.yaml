@@ -19,7 +19,7 @@
 - name: Create Nebula certificates
   tags: certificate
   ansible.builtin.include_tasks:
-    file: certificate.yaml
+    file: cert.yaml
     apply:
       tags: certificate
       become: false

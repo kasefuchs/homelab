@@ -1,9 +1,0 @@
----
-# Base local directory for storing Nebula certificates.
-nebula_certificate_local_dir: "{{ (nebula_main_file_local_dir, 'certificate', (inventory_dir | ansible.builtin.basename)) | ansible.builtin.path_join }}"
-
-# Directory for storing Nebula CA files.
-nebula_certificate_ca_local_dir: "{{ (nebula_certificate_local_dir, 'ca') | ansible.builtin.path_join }}"
-
-# Directory for storing Nebula entity (host) certificate and key files.
-nebula_certificate_entity_local_dir: "{{ (nebula_certificate_local_dir, 'entity') | ansible.builtin.path_join }}"

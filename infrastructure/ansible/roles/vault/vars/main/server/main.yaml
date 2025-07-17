@@ -1,0 +1,3 @@
+---
+# Enable Vault server deployment on this host if it's in the list
+vault_server_deploy: "{{ inventory_hostname in vault_server_hosts }}"

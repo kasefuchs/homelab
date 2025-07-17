@@ -17,24 +17,48 @@
       tags: install
 
 - name: Create Vault certificates
-  tags: certificate
+  tags: cert
   ansible.builtin.include_tasks:
-    file: certificate.yaml
+    file: cert.yaml
     apply:
-      tags: certificate
+      tags: cert
       become: false
       delegate_to: localhost
 
 - name: Setup Vault server
   tags: server
+  when: vault_server_deploy
   block:
     - name: Create Vault server certificates
-      tags: certificate
+      tags: cert
       ansible.builtin.include_tasks:
-        file: server/certificate.yaml
+        file: server/cert.yaml
+        apply:
+          tags:
+            - cert
+            - server
+          become: false
+          delegate_to: localhost
+
+    - name: Configure Vault server
+      tags: config
+      ansible.builtin.include_tasks:
+        file: server/config.yaml
         apply:
           tags:
             - server
-            - certificate
-          become: false
-          delegate_to: localhost
+            - config
+          notify:
+            - Reload SystemD daemon
+            - Enable Vault server service
+            - Restart Vault server service
+
+    - name: Initialize Vault server
+      tags: init
+      run_once: true
+      ansible.builtin.include_tasks:
+        file: server/init.yaml
+        apply:
+          tags:
+            - init
+            - server

@@ -1,0 +1,24 @@
+---
+# The user to run Vault server as.
+vault_server_config_user: vault
+
+# The group to run Vault server as.
+vault_server_config_group: vault
+
+# Directory where Vault server configuration files will be stored.
+vault_server_config_dir: /etc/vault/
+
+# Directory where Vault server data will be stored.
+vault_server_config_data_dir: /var/lib/vault/
+
+# Full path to the main Vault server configuration file.
+vault_server_config_file: "{{ (vault_server_config_dir, 'config.hcl') | ansible.builtin.path_join }}"
+
+# Directory where Vault server certificate files will be stored in the config path.
+vault_server_config_cert_dir: "{{ (vault_server_config_dir, 'certs') | ansible.builtin.path_join }}"
+
+# Directory where Vault server CA certificate files will be stored in the config path.
+vault_server_config_cert_ca_dir: "{{ (vault_server_config_cert_dir, 'ca') | ansible.builtin.path_join }}"
+
+# Directory where Vault server entity certificate files will be stored in the config path.
+vault_server_config_cert_entity_dir: "{{ (vault_server_config_cert_dir, 'entity') | ansible.builtin.path_join }}"

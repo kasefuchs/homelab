@@ -1,0 +1,16 @@
+---
+- name: Create host certificate directory
+  ansible.builtin.file:
+    path: "{{ vault_server_cert_entity_host_local_dir }}"
+    mode: "0700"
+    state: directory
+
+- name: Create Vault server certificate
+  vars:
+    common_cert_entity_san: "{{ vault_server_cert_entity_san }}"
+    common_cert_entity_name: server
+    common_cert_entity_subject: "{{ vault_server_cert_entity_subject }}"
+    common_cert_entity_duration: "{{ vault_server_cert_entity_duration }}"
+    common_cert_entity_dir: "{{ vault_server_cert_entity_host_local_dir }}"
+    common_cert_entity_ca_dir: "{{ vault_cert_ca_local_dir }}"
+  ansible.builtin.include_tasks: "{{ (common_task_local_dir, 'cert/entity.yaml') | ansible.builtin.path_join }}"
