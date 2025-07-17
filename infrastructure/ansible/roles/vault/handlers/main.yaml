@@ -1,0 +1,14 @@
+---
+- name: Enable Vault server service
+  ansible.builtin.systemd_service:
+    name: vault
+    enabled: true
+
+- name: Restart Vault server service
+  ansible.builtin.systemd_service:
+    name: vault
+    state: restarted
+
+- name: Wait for Vault server
+  ansible.builtin.wait_for:
+    port: "{{ vault_server_config_listen_api_port }}"

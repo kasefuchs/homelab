@@ -1,7 +1,7 @@
 ---
 # Subject details for the Vault CA certificate.
-vault_certificate_ca_subject:
+vault_cert_ca_subject:
   CN: Muttias Vault CA
 
 # Duration of Vault CA certificate validity.
-vault_certificate_ca_duration: 3650d
+vault_cert_ca_duration: 3650d

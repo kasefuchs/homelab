@@ -27,6 +27,12 @@ network:
       guest: 22
       protocol: tcp
 
+    # Vault port forwarding configuration.
+    vault:
+      host: 8210
+      guest: 8200
+      protocol: tcp
+
 # Provisioner configuration shared across all VMs.
 provision:
   # Shell commands to run on provision.

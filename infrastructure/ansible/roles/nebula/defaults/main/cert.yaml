@@ -1,22 +1,22 @@
 ---
 # Common Name for the Nebula Certificate Authority.
-nebula_certificate_ca_cn: Muttias Nebula CA
+nebula_cert_ca_cn: Muttias Nebula CA
 
 # List of IP ranges included in the CA certificate.
-nebula_certificate_ca_ips:
+nebula_cert_ca_ips:
   - 10.250.0.0/16
 
 # List of group names assigned to the CA certificate.
-nebula_certificate_ca_groups: []
+nebula_cert_ca_groups: []
 
 # List of subnet ranges included in the CA certificate.
-nebula_certificate_ca_subnets: []
+nebula_cert_ca_subnets: []
 
 # Duration of CA certificate validity.
-nebula_certificate_ca_duration: 87600h
+nebula_cert_ca_duration: 87600h
 
 # Common Name for the host's certificate entity.
-nebula_certificate_entity_host_cn: "{{ inventory_hostname }}"
+nebula_cert_entity_host_cn: "{{ inventory_hostname }}"
 
 # List of subnet ranges assigned to the host certificate.
-nebula_certificate_entity_host_subnets: []
+nebula_cert_entity_host_subnets: []

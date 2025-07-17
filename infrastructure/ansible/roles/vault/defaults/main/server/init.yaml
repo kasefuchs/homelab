@@ -1,0 +1,12 @@
+---
+# Host where Vault will be initialized.
+vault_server_init_host: "{{ undef(hint='You must specify Vault server initialization host') }}"
+
+# API address used to initialize Vault.
+vault_server_init_api_address: "{{ vault_server_config_advertise_api_address }}"
+
+# Number of unseal key shares to generate during initialization.
+vault_server_init_key_shares: 5
+
+# Number of key shares required to unseal Vault.
+vault_server_init_key_threshold: 3
