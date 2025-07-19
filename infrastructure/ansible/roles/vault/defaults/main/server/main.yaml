@@ -1,3 +1,0 @@
----
-# List of hosts where the Vault server should be deployed.
-vault_server_hosts: "{{ undef(hint='You must specify vault server hosts') }}"

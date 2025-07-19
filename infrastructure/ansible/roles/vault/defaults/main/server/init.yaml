@@ -1,6 +1,6 @@
 ---
 # Host where Vault will be initialized.
-vault_server_init_host: "{{ undef(hint='You must specify Vault server initialization host') }}"
+vault_server_init_host: "{{ groups['vault-servers'][0] }}"
 
 # API address used to initialize Vault.
 vault_server_init_api_address: "{{ vault_server_config_advertise_api_address }}"

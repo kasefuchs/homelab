@@ -5,7 +5,23 @@ coredns_config:
   node: "{{ lookup('ansible.builtin.template', 'zone.conf.j2', template_vars={'coredns_config_zone': 'node.internal'}) }}"
   vault: "{{ lookup('ansible.builtin.template', 'zone.conf.j2', template_vars={'coredns_config_zone': 'vault.internal'}) }}"
 
+# Serial number for SOA records.
+coredns_config_serial: "{{ ansible_date_time.epoch }}"
+
 # Map of CoreDNS zone files.
 coredns_config_zones:
-  node.internal: "{{ undef(hint='You must specify nodes DNS zone') }}"
-  vault.internal: "{{ undef(hint='You must specify vault DNS zone') }}"
+  # language="text"
+  node.internal: |
+    $TTL 300
+    @                IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
+    {% for host in ansible_play_hosts_all | sort %}
+    {{ host.ljust(16) }} IN A     {{ hostvars[host]['ansible_default_ipv4']['address'] }}
+    {% endfor %}
+
+  # language="text"
+  vault.internal: |
+    $TTL 300
+    @                IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
+    {% for host in groups['vault-servers'] | sort %}
+    {{ host.ljust(16) }} IN A     {{ hostvars[host]['ansible_default_ipv4']['address'] }}
+    {% endfor %}

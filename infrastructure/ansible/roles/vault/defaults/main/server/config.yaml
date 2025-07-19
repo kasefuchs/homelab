@@ -27,4 +27,4 @@ vault_server_config_listen_cluster_address: 0.0.0.0:{{ vault_server_config_liste
 vault_server_config_raft_node_id: "{{ inventory_hostname }}"
 
 # List of peer nodes to attempt to join during Raft initialization (excluding the current node).
-vault_server_config_raft_retry_join: "{{ vault_server_hosts | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.node.internal:8200') }}"
+vault_server_config_raft_retry_join: "{{ groups['vault-servers'] | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.node.internal:8200') }}"
