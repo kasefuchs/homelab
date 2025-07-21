@@ -4,7 +4,7 @@ name: Run Packer validate
 on:
   push:
     paths:
-      - infrastructure/packer/**
+      - packer/**
       - .github/workflows/packer-validate.yaml
 
   workflow_dispatch: {}
@@ -34,7 +34,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
-          cache-dependency-path: infrastructure/ansible/requirements.txt
+          cache-dependency-path: ansible/requirements.txt
 
       - name: Set up Packer
         uses: hashicorp/setup-packer@main
@@ -43,12 +43,12 @@ jobs:
 
       - name: Install Python modules
         run: pip install -r requirements.txt
-        working-directory: infrastructure/ansible/
+        working-directory: ansible/
 
       - name: Install Packer plugins
         run: packer init .
-        working-directory: infrastructure/packer/
+        working-directory: packer/
 
       - name: Run Packer validate
         run: packer validate .
-        working-directory: infrastructure/packer/
+        working-directory: packer/

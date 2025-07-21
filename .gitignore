@@ -1,24 +1,25 @@
-# IDE
+# --- IDE / Editor ---
 .idea/
 .vscode/
 
-# Python
+# --- Packer ---
+packer/outputs/
+
+# --- Vagrant ---
+.vagrant/
+
+# --- Python ---
 .venv/
 __pycache__/
 
-# Ansible
+# --- Ansible ---
+# Configuration
 .ansible/
 inventories/
 
-# Packer
-infrastructure/packer/outputs/
-
-# Cache
-infrastructure/ansible/roles/*/files/*/download/
+# Downloaded files
+ansible/roles/*/files/*/download/
 
 # Secrets
-infrastructure/ansible/roles/*/files/*/cert/
-infrastructure/ansible/roles/*/files/*/init/
-
-# Vagrant
-.vagrant/
+ansible/roles/*/files/*/cert/
+ansible/roles/*/files/*/init/
