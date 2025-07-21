@@ -55,10 +55,23 @@
 
     - name: Initialize Vault server
       tags: init
-      run_once: true
+      when: vault_server_init_host == inventory_hostname
       ansible.builtin.include_tasks:
         file: server/init.yaml
         apply:
           tags:
             - init
             - server
+          become: false
+          delegate_to: localhost
+
+    - name: Unseal Vault server
+      tags: unseal
+      ansible.builtin.include_tasks:
+        file: server/unseal.yaml
+        apply:
+          tags:
+            - unseal
+            - server
+          become: false
+          delegate_to: localhost

@@ -1,0 +1,36 @@
+---
+- name: Get and parse Vault server status
+  block:
+    - name: Get Vault server status (JSON output)
+      register: vault_server_unseal_status_result
+      failed_when: vault_server_unseal_status_result.rc == 1
+      changed_when: false
+      environment:
+        VAULT_ADDR: "{{ vault_server_unseal_api_address }}"
+        VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      ansible.builtin.command:
+        cmd: vault status -format=json
+
+    - name: Parse Vault server status JSON
+      when: vault_server_unseal_status_result.stdout is defined
+      ansible.builtin.set_fact:
+        vault_server_unseal_status_json: "{{ vault_server_unseal_status_result.stdout | ansible.builtin.from_json }}"
+
+- name: Include Vault initialization result
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_init_local_file }}"
+
+- name: Unseal Vault server if sealed
+  when: vault_server_unseal_status_json.sealed
+  loop: "{{ vault_server_init_data.unseal_keys_b64[: (vault_server_init_data.unseal_threshold)] }}"
+  loop_control:
+    label: REDACTED
+  throttle: 1
+  register: vault_server_unseal_result
+  failed_when: vault_server_unseal_result.rc == 1
+  changed_when: false
+  environment:
+    VAULT_ADDR: "{{ vault_server_unseal_api_address }}"
+    VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+  ansible.builtin.command:
+    cmd: "vault operator unseal -format=json {{ item }}"
