@@ -23,3 +23,10 @@ ansible/roles/*/files/*/download/
 # Secrets
 ansible/roles/*/files/*/cert/
 ansible/roles/*/files/*/init/
+
+# --- Terraform ---
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+

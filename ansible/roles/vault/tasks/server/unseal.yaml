@@ -1,4 +1,8 @@
 ---
+- name: Include Vault initialization result
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_init_local_file }}"
+
 - name: Get and parse Vault server status
   block:
     - name: Get Vault server status (JSON output)
@@ -15,10 +19,6 @@
       when: vault_server_unseal_status_result.stdout is defined
       ansible.builtin.set_fact:
         vault_server_unseal_status_json: "{{ vault_server_unseal_status_result.stdout | ansible.builtin.from_json }}"
-
-- name: Include Vault initialization result
-  ansible.builtin.include_vars:
-    file: "{{ vault_server_init_local_file }}"
 
 - name: Unseal Vault server if sealed
   when: vault_server_unseal_status_json.sealed

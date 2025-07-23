@@ -75,3 +75,15 @@
             - server
           become: false
           delegate_to: localhost
+
+    - name: Provision Vault server
+      tags: provision
+      when: vault_server_provision_host == inventory_hostname
+      ansible.builtin.include_tasks:
+        file: server/provision.yaml
+        apply:
+          tags:
+            - server
+            - provision
+          become: false
+          delegate_to: localhost

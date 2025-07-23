@@ -1,6 +1,6 @@
 ---
 # Base local directory for storing Vault certificates.
-vault_cert_local_dir: "{{ (vault_main_file_local_dir, 'cert', (inventory_dir | ansible.builtin.basename)) | ansible.builtin.path_join }}"
+vault_cert_local_dir: "{{ (vault_main_file_local_dir, 'cert', common_inventory_name) | ansible.builtin.path_join }}"
 
 # Directory for storing Vault CA files.
 vault_cert_ca_local_dir: "{{ (vault_cert_local_dir, 'ca') | ansible.builtin.path_join }}"
