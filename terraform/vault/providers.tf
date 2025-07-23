@@ -1,0 +1,2 @@
+# noinspection MissingProperty
+provider "vault" {}

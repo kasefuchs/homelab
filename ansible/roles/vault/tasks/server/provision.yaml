@@ -1,0 +1,13 @@
+---
+- name: Include Vault initialization result
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_init_local_file }}"
+
+- name: Provision Vault server
+  environment:
+    VAULT_ADDR: "{{ vault_server_provision_api_address }}"
+    VAULT_TOKEN: "{{ vault_server_init_data.root_token }}"
+    VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+  community.general.terraform:
+    project_path: "{{ vault_server_provision_terraform_local_dir }}"
+    workspace: "{{ common_inventory_name }}"

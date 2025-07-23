@@ -1,4 +1,10 @@
 ---
+- name: Ensure Vault initialization directory exists
+  ansible.builtin.file:
+    path: "{{ vault_server_init_local_dir }}"
+    state: directory
+    mode: "0700"
+
 - name: Get and parse Vault server status
   block:
     - name: Get Vault server status (JSON output)
@@ -35,25 +41,16 @@
           - -key-shares={{ vault_server_init_key_shares }}
           - -key-threshold={{ vault_server_init_key_threshold }}
 
-    - name: Save Vault initialization output to local file
+    - name: Render Vault init output to local YAML file
       when: vault_server_init_result.stdout is defined
-      become: false
-      block:
-        - name: Ensure Vault initialization directory exists
-          ansible.builtin.file:
-            path: "{{ vault_server_init_local_dir }}"
-            state: directory
-            mode: "0700"
-
-        - name: Render Vault init output to local YAML file
-          vars:
-            common_managed_content: |
-              ---
-              {{
-                {"vault_server_init_data": vault_server_init_result.stdout | ansible.builtin.from_json}
-                | ansible.builtin.to_nice_yaml(indent=2)
-              }}
-          ansible.builtin.template:
-            src: "{{ common_template_managed_local_path }}"
-            dest: "{{ vault_server_init_local_file }}"
-            mode: "0600"
+      vars:
+        common_managed_content: |
+          ---
+          {{
+            {"vault_server_init_data": vault_server_init_result.stdout | ansible.builtin.from_json}
+            | ansible.builtin.to_nice_yaml(indent=2)
+          }}
+      ansible.builtin.template:
+        src: "{{ common_template_managed_local_path }}"
+        dest: "{{ vault_server_init_local_file }}"
+        mode: "0600"
