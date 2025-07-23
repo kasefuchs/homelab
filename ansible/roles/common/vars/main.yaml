@@ -19,3 +19,11 @@ common_internal_fqdn: "{{ ansible_hostname }}.internal"
 
 # Name of the currently used inventory.
 common_inventory_name: "{{ inventory_dir | ansible.builtin.basename }}"
+
+# Header of managed templates.
+common_managed_header: >-
+  {% if template_path != common_template_managed_local_path %}
+  Managed by Ansible | Template: {{ template_path }} (last modified: {{ template_mtime.strftime('%Y-%m-%d %H:%M:%S') }})
+  {% else %}
+  Managed by Ansible
+  {% endif %}

@@ -1,4 +1,4 @@
-{{ ansible_managed | ansible.builtin.comment }}
+{{ common_managed_header | ansible.builtin.comment }}
 {{ coredns_config_zone }} {
   file {{ (coredns_config_zone_dir, coredns_config_zone ~ '.zone') | ansible.builtin.path_join }}
   cache
