@@ -7,3 +7,12 @@ source "vagrant" "image" {
   output_dir  = "${local.output_directory}/vagrant/${var.vagrant.provider}"
   source_path = var.vagrant.source_path
 }
+
+source "docker" "image" {
+  commit = true
+
+  build {
+    path      = var.docker.source_image_build.path
+    arguments = var.docker.source_image_build.arguments
+  }
+}
