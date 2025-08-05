@@ -1,6 +1,6 @@
 {{ common_managed_header | ansible.builtin.comment }}
 ---
-{{ 
+{{
   nebula_config
   | ansible.builtin.to_nice_yaml(indent=2)
   | trim
