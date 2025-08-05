@@ -12,6 +12,26 @@ variable "vagrant" {
   }
 }
 
+variable "docker" {
+  type = object({
+    source_image_build = object({
+      path      = string
+      arguments = map(string)
+    })
+    result_image_tags       = list(string)
+    result_image_repository = string
+  })
+
+  default = {
+    source_image_build = {
+      path      = "../docker/Dockerfile.debian"
+      arguments = { "DISTRO_TAG" : "bookworm-slim" }
+    }
+    result_image_tags       = ["bookworm-slim"]
+    result_image_repository = "ghcr.io/kasefuchs/homelab-debian"
+  }
+}
+
 variable "ansible" {
   type = object({
     env_vars        = list(string)
