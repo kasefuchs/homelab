@@ -64,7 +64,6 @@
 
 - name: Render resolv.conf template
   failed_when: false
-  changed_when: false
   ansible.builtin.template:
     src: resolv.conf.j2
     dest: /etc/resolv.conf
@@ -73,11 +72,16 @@
     group: root
     attributes: +i
 
-- name: Install CoreDNS service
+- name: Update CoreDNS Pebble layer
+  vars:
+    pebble_layer: "{{ coredns_config_pebble_layer }}"
+  notify: Add CoreDNS Pebble layer
   ansible.builtin.template:
-    src: coredns.service.j2
-    dest: /etc/systemd/system/coredns.service
+    src: "{{ pebble_template_layer_local_path }}"
+    dest: "{{ coredns_config_pebble_layer_file }}"
     mode: "0644"
+    owner: root
+    group: root
 
 - name: Flush handlers
   run_once: true

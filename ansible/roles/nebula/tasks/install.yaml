@@ -16,3 +16,9 @@
     group: root
     include: "{{ nebula_install_unarchive_include }}"
     extra_opts: "{{ nebula_install_unarchive_options }}"
+
+- name: Set Nebula binary capabilities
+  loop: "{{ nebula_install_binary_capabilities }}"
+  community.general.capabilities:
+    path: "{{ nebula_install_binary_file }}"
+    capability: "{{ item }}"

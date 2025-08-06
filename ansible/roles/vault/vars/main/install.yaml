@@ -9,5 +9,10 @@ vault_install_archive_extract_dir: /usr/local/bin/
 vault_install_unarchive_options: []
 
 # List of file or directory patterns to include when extracting the archive.
-vault_install_unarchive_include:
-  - vault
+vault_install_unarchive_include: [vault]
+
+# Path to the Vault binary.
+vault_install_binary_file: "{{ (vault_install_archive_extract_dir, 'vault') | ansible.builtin.path_join }}"
+
+# Capablities of the Vault binary.
+vault_install_binary_capabilities: [CAP_IPC_LOCK+ep, CAP_SYSLOG+ep]

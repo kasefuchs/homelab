@@ -14,6 +14,7 @@ variable "vagrant" {
 
 variable "docker" {
   type = object({
+    changes = list(string)
     source_image_build = object({
       path      = string
       arguments = map(string)
@@ -23,6 +24,7 @@ variable "docker" {
   })
 
   default = {
+    changes = ["ENV PEBBLE /var/lib/pebble/", "ENTRYPOINT [\"/usr/local/bin/entrypoint.sh\"]", "CMD []"]
     source_image_build = {
       path      = "../docker/Dockerfile.debian"
       arguments = { "DISTRO_TAG" : "bookworm-slim" }
@@ -40,6 +42,6 @@ variable "ansible" {
 
   default = {
     env_vars        = []
-    extra_arguments = ["--tags", "download,install"]
+    extra_arguments = ["--tags", "packer"]
   }
 }

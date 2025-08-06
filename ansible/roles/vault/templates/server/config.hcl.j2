@@ -5,15 +5,15 @@ api_addr     = "{{ vault_server_config_advertise_api_address }}"
 cluster_addr = "{{ vault_server_config_advertise_cluster_address }}"
 
 listener "tcp" {
-  address         = "{{ vault_server_config_listen_api_address }}"
-  cluster_address = "{{ vault_server_config_listen_cluster_address }}"
+  address         = "{{ vault_server_config_api_listen_address }}"
+  cluster_address = "{{ vault_server_config_cluster_listen_address }}"
 
   tls_key_file  = "{{ (vault_server_config_cert_entity_dir, 'server.key') | ansible.builtin.path_join }}"
   tls_cert_file = "{{ (vault_server_config_cert_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
 }
 
 storage "raft" {
-  path    = "{{ vault_server_config_data_dir }}"
+  path    = "{{ vault_server_config_state_dir }}"
   node_id = "{{ vault_server_config_raft_node_id }}"
 
 {% for api_address in vault_server_config_raft_retry_join %}

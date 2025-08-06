@@ -1,3 +1,0 @@
----
-# Path to the Vault service binary.
-vault_config_service_binary_file: "{{ (vault_install_archive_extract_dir, 'vault') | ansible.builtin.path_join }}"

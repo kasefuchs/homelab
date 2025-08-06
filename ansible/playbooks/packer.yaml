@@ -4,6 +4,7 @@
   become: true
   roles:
     - bootstrap
+    - pebble
     - coredns
     - nebula
     - vault

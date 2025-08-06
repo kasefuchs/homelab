@@ -1,43 +1,23 @@
 ---
-# The Vagrant box image to use for all virtual machines.
-box: homelab/debian12
-
 # The provider defines which virtualization backend Vagrant will use.
-provider: libvirt
+provider: docker
 
 # Total number of virtual machines (nodes) to create.
 nodes: 5
-
-# Default hardware configuration for each VM.
-domain:
-  # Number of virtual CPU cores assigned to each VM.
-  cores: 2
-
-  # Amount of memory (in megabytes) assigned to each VM.
-  memory: 2048
 
 # Network configuration shared across all VMs.
 network:
   # Port forwarding rules from host to guest.
   # Host ports will increment based on the VM index (e.g., 2231, 2232, 2233...).
   ports:
-    # SSH port forwarding configuration.
-    ssh:
-      host: 2230
-      guest: 22
-      protocol: tcp
-
     # Vault port forwarding configuration.
     vault:
       host: 8210
       guest: 8200
       protocol: tcp
 
-# Provisioner configuration shared across all VMs.
-provision:
-  # Shell commands to run on provision.
-  shell:
-    # Disable swap: turn it off and comment out fstab entries.
-    - |
-      sudo swapoff -a
-      sudo sed -i -r '/^[^#].+\s+swap\s+/ s/^/# /' /etc/fstab
+    # Pebble port forwarding configuration.
+    pebble:
+      host: 9010
+      guest: 9001
+      protocol: tcp

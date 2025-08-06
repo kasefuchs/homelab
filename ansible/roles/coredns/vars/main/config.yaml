@@ -23,5 +23,15 @@ coredns_config_zone_dir: "{{ (coredns_config_dir, 'zone.d') | ansible.builtin.pa
 # The glob of the included zone configuration files.
 coredns_config_include_glob: "{{ (coredns_config_include_dir, '*.conf') | ansible.builtin.path_join }}"
 
-# Path to the CoreDNS service binary.
-coredns_config_service_binary_file: "{{ (coredns_install_archive_extract_dir, 'coredns') | ansible.builtin.path_join }}"
+# Pebble service layer definition for the CoreDNS service.
+coredns_config_pebble_layer:
+  services:
+    coredns:
+      override: replace
+      startup: enabled
+      command: "{{ coredns_install_binary_file }} -conf={{ coredns_config_file }} -dns.port={{ coredns_config_port }}"
+      user: "{{ coredns_config_user }}"
+      group: "{{ coredns_config_group }}"
+
+# Path to the Pebble layer file that contains the CoreDNS service configuration.
+coredns_config_pebble_layer_file: "{{ (pebble_config_layer_dir, 'coredns.yaml') | ansible.builtin.path_join }}"

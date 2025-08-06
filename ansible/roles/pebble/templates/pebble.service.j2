@@ -1,6 +1,6 @@
 {{ common_managed_header | ansible.builtin.comment }}
 [Unit]
-Description=Nebula: Overlay networking
+Description=Pebble: Service manager
 Wants=network.target network-online.target
 After=network.target network-online.target
 
@@ -8,12 +8,13 @@ After=network.target network-online.target
 Type=notify
 NotifyAccess=main
 
-User={{ nebula_config_user }}
-Group={{ nebula_config_group }}
+User=root
+Group=root
 
-ExecStart={{ nebula_config_service_binary_file }} -config={{ nebula_config_file }}
+ExecStart={{ pebble_install_binary_file }} run --http={{ pebble_config_http_listen_address }}
 ExecReload=/bin/kill -HUP $MAINPID
-AmbientCapabilities=CAP_NET_ADMIN
+
+Environment=PEBBLE={{ pebble_config_state_dir }}
 
 KillMode=process
 Restart=always

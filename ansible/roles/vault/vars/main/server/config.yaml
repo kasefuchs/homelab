@@ -9,7 +9,7 @@ vault_server_config_group: vault
 vault_server_config_dir: /etc/vault/
 
 # Directory where Vault server data will be stored.
-vault_server_config_data_dir: /var/lib/vault/
+vault_server_config_state_dir: /var/lib/vault/
 
 # Full path to the main Vault server configuration file.
 vault_server_config_file: "{{ (vault_server_config_dir, 'config.hcl') | ansible.builtin.path_join }}"
@@ -22,3 +22,16 @@ vault_server_config_cert_ca_dir: "{{ (vault_server_config_cert_dir, 'ca') | ansi
 
 # Directory where Vault server entity certificate files will be stored in the config path.
 vault_server_config_cert_entity_dir: "{{ (vault_server_config_cert_dir, 'entity') | ansible.builtin.path_join }}"
+
+# Pebble service layer definition for the Vault server service.
+vault_server_config_pebble_layer:
+  services:
+    vault-server:
+      override: replace
+      startup: enabled
+      command: "{{ vault_install_binary_file }} server -config={{ vault_server_config_file }}"
+      user: "{{ vault_server_config_user }}"
+      group: "{{ vault_server_config_group }}"
+
+# Path to the Pebble layer file that contains the Vault server service configuration.
+vault_server_config_pebble_layer_file: "{{ (pebble_config_layer_dir, 'vault-server.yaml') | ansible.builtin.path_join }}"
