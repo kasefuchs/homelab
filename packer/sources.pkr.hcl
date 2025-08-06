@@ -9,7 +9,8 @@ source "vagrant" "image" {
 }
 
 source "docker" "image" {
-  commit = true
+  commit  = true
+  changes = var.docker.changes
 
   build {
     path      = var.docker.source_image_build.path

@@ -1,0 +1,35 @@
+---
+- name: Download Pebble
+  tags: [download, packer]
+  ansible.builtin.include_tasks:
+    file: download.yaml
+    apply:
+      tags: [download, packer]
+      become: false
+      run_once: true
+      delegate_to: localhost
+
+- name: Install Pebble
+  tags: [install, packer]
+  ansible.builtin.include_tasks:
+    file: install.yaml
+    apply:
+      tags: [install, packer]
+
+- name: Configure Pebble
+  tags: [config, packer]
+  ansible.builtin.include_tasks:
+    file: config.yaml
+    apply:
+      tags: [config, packer]
+      notify:
+        - Enable Pebble service
+        - Restart Pebble service
+
+- name: Configure Pebble
+  tags: identity
+  when: pebble_identity | length != 0
+  ansible.builtin.include_tasks:
+    file: identity.yaml
+    apply:
+      tags: identity

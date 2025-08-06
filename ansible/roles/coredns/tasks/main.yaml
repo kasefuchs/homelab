@@ -1,20 +1,20 @@
 ---
 - name: Download CoreDNS
-  tags: download
+  tags: [download, packer]
   ansible.builtin.include_tasks:
     file: download.yaml
     apply:
-      tags: download
+      tags: [download, packer]
       become: false
       run_once: true
       delegate_to: localhost
 
 - name: Install CoreDNS
-  tags: install
+  tags: [install, packer]
   ansible.builtin.include_tasks:
     file: install.yaml
     apply:
-      tags: install
+      tags: [install, packer]
 
 - name: Configure CoreDNS
   tags: config
@@ -23,7 +23,5 @@
     apply:
       tags: config
       notify:
-        - Reload SystemD daemon
-        - Enable CoreDNS service
         - Restart CoreDNS service
         - Wait for CoreDNS

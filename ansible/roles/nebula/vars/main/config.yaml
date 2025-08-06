@@ -20,11 +20,21 @@ nebula_config_cert_ca_dir: "{{ (nebula_config_cert_dir, 'ca') | ansible.builtin.
 # Directory where Nebula entity certificate files will be stored in the config path.
 nebula_config_cert_entity_dir: "{{ (nebula_config_cert_dir, 'entity') | ansible.builtin.path_join }}"
 
-# Path to the Nebula service binary.
-nebula_config_service_binary_file: "{{ (nebula_install_archive_extract_dir, 'nebula') | ansible.builtin.path_join }}"
-
 # Paths to Nebula's certificate files (CA, certificate, and key).
 nebula_config_pki:
   ca: "{{ (nebula_config_cert_ca_dir, 'nebula.crt') | ansible.builtin.path_join }}"
   key: "{{ (nebula_config_cert_entity_dir, 'host.key') | ansible.builtin.path_join }}"
   cert: "{{ (nebula_config_cert_entity_dir, 'host.crt') | ansible.builtin.path_join }}"
+
+# Pebble service layer definition for the Nebula service.
+nebula_config_pebble_layer:
+  services:
+    nebula:
+      override: replace
+      startup: enabled
+      command: "{{ nebula_install_binary_file }} -config={{ nebula_config_file }}"
+      user: "{{ nebula_config_user }}"
+      group: "{{ nebula_config_group }}"
+
+# Path to the Pebble layer file that contains the Nebula service configuration.
+nebula_config_pebble_layer_file: "{{ (pebble_config_layer_dir, 'nebula.yaml') | ansible.builtin.path_join }}"

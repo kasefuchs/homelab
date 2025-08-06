@@ -1,20 +1,20 @@
 ---
 - name: Download Vault
-  tags: download
+  tags: [download, packer]
   ansible.builtin.include_tasks:
     file: download.yaml
     apply:
-      tags: download
+      tags: [download, packer]
       become: false
       run_once: true
       delegate_to: localhost
 
 - name: Install Vault
-  tags: install
+  tags: [install, packer]
   ansible.builtin.include_tasks:
     file: install.yaml
     apply:
-      tags: install
+      tags: [install, packer]
 
 - name: Create Vault certificates
   tags: cert
@@ -30,60 +30,49 @@
   when: vault_server_deploy
   block:
     - name: Create Vault server certificates
-      tags: cert
+      tags: [server, cert]
       ansible.builtin.include_tasks:
         file: server/cert.yaml
         apply:
-          tags:
-            - cert
-            - server
+          tags: [server, cert]
           become: false
           delegate_to: localhost
 
     - name: Configure Vault server
-      tags: config
+      tags: [server, config]
       ansible.builtin.include_tasks:
         file: server/config.yaml
         apply:
-          tags:
-            - server
-            - config
+          tags: [server, config]
           notify:
-            - Reload SystemD daemon
-            - Enable Vault server service
             - Restart Vault server service
+            - Wait for Vault server
 
     - name: Initialize Vault server
-      tags: init
+      tags: [server, init]
       when: vault_server_init_host == inventory_hostname
       ansible.builtin.include_tasks:
         file: server/init.yaml
         apply:
-          tags:
-            - init
-            - server
+          tags: [server, init]
           become: false
           delegate_to: localhost
 
     - name: Unseal Vault server
-      tags: unseal
+      tags: [server, unseal]
       ansible.builtin.include_tasks:
         file: server/unseal.yaml
         apply:
-          tags:
-            - unseal
-            - server
+          tags: [server, unseal]
           become: false
           delegate_to: localhost
 
     - name: Provision Vault server
-      tags: provision
+      tags: [server, provision]
       when: vault_server_provision_host == inventory_hostname
       ansible.builtin.include_tasks:
         file: server/provision.yaml
         apply:
-          tags:
-            - server
-            - provision
+          tags: [server, provision]
           become: false
           delegate_to: localhost

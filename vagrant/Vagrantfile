@@ -16,7 +16,7 @@ require_relative "providers/#{provider_name}"
 Vagrant.configure("2") do |config|
   Provider.configure(config, options)
 
-  config.vm.box = options.fetch("box")
+  config.vm.box = provider_name != "docker" ? options.fetch("box") : nil
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   (options.dig("provision", "shell") || []).each do |command|

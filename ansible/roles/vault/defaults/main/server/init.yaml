@@ -3,7 +3,7 @@
 vault_server_init_host: "{{ groups['vault-servers'][0] }}"
 
 # API address used to initialize Vault.
-vault_server_init_api_address: "https://{{ ansible_default_ipv4.address }}:{{ vault_server_config_listen_api_port }}"
+vault_server_init_api_address: "https://{{ ansible_default_ipv4.address }}:{{ vault_server_config_api_listen_port }}"
 
 # Number of unseal key shares to generate during initialization.
 vault_server_init_key_shares: 5

@@ -1,27 +1,27 @@
 ---
 - name: Download Nebula
-  tags: download
+  tags: [download, packer]
   ansible.builtin.include_tasks:
     file: download.yaml
     apply:
-      tags: download
+      tags: [download, packer]
       become: false
       run_once: true
       delegate_to: localhost
 
 - name: Install Nebula
-  tags: install
+  tags: [install, packer]
   ansible.builtin.include_tasks:
     file: install.yaml
     apply:
-      tags: install
+      tags: [install, packer]
 
 - name: Create Nebula certificates
-  tags: certificate
+  tags: cert
   ansible.builtin.include_tasks:
     file: cert.yaml
     apply:
-      tags: certificate
+      tags: cert
       become: false
       delegate_to: localhost
 
@@ -32,6 +32,4 @@
     apply:
       tags: config
       notify:
-        - Reload SystemD daemon
-        - Enable Nebula service
         - Restart Nebula service

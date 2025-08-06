@@ -60,11 +60,16 @@
     owner: "{{ nebula_config_user }}"
     group: "{{ nebula_config_group }}"
 
-- name: Install Nebula service
+- name: Update Nebula Pebble layer
+  vars:
+    pebble_layer: "{{ nebula_config_pebble_layer }}"
+  notify: Add Nebula Pebble layer
   ansible.builtin.template:
-    src: nebula.service.j2
-    dest: /etc/systemd/system/nebula.service
+    src: "{{ pebble_template_layer_local_path }}"
+    dest: "{{ nebula_config_pebble_layer_file }}"
     mode: "0644"
+    owner: root
+    group: root
 
 - name: Flush handlers
   run_once: true

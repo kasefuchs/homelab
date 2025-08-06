@@ -1,0 +1,17 @@
+---
+# GitHub user or organization that maintains the Pebble repository.
+pebble_download_github_user: canonical
+
+# GitHub repository name for Pebble.
+pebble_download_github_repository: pebble
+
+# Mapping from system architecture to Pebble release architecture naming.
+pebble_download_architecture_map:
+  x86_64: amd64
+  aarch64: arm64
+
+# Directory path where specific versions of Pebble will be downloaded.
+pebble_download_local_dir: "{{ (pebble_main_file_local_dir, 'download') | ansible.builtin.path_join }}"
+
+# Symlink path pointing to the currently used Pebble version.
+pebble_download_current_local_dir_link: "{{ (pebble_download_local_dir, 'current') | ansible.builtin.path_join }}"

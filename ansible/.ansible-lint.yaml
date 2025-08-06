@@ -3,3 +3,7 @@ profile: production
 
 skip_list:
   - yaml[line-length]
+
+exclude_paths:
+  - roles/*/files/*/cert/*
+  - roles/*/files/*/init/*

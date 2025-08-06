@@ -14,7 +14,7 @@
   loop:
     - path: "{{ vault_server_config_dir }}"
       mode: "0755"
-    - path: "{{ vault_server_config_data_dir }}"
+    - path: "{{ vault_server_config_state_dir }}"
       mode: "0755"
     - path: "{{ vault_server_config_cert_dir }}"
       mode: "0755"
@@ -62,11 +62,16 @@
     owner: "{{ vault_server_config_user }}"
     group: "{{ vault_server_config_group }}"
 
-- name: Install Vault server service
+- name: Update Vault server Pebble layer
+  vars:
+    pebble_layer: "{{ vault_server_config_pebble_layer }}"
+  notify: Add Vault server Pebble layer
   ansible.builtin.template:
-    src: server/vault.service.j2
-    dest: /etc/systemd/system/vault.service
+    src: "{{ pebble_template_layer_local_path }}"
+    dest: "{{ vault_server_config_pebble_layer_file }}"
     mode: "0644"
+    owner: root
+    group: root
 
 - name: Flush handlers
   run_once: true
