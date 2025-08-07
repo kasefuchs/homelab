@@ -37,4 +37,4 @@ nebula_config_pebble_layer:
       group: "{{ nebula_config_group }}"
 
 # Path to the Pebble layer file that contains the Nebula service configuration.
-nebula_config_pebble_layer_file: "{{ (pebble_config_layer_dir, 'nebula.yaml') | ansible.builtin.path_join }}"
+nebula_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '001-nebula.yaml') | ansible.builtin.path_join }}"

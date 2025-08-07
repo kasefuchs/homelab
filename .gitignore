@@ -6,7 +6,11 @@
 packer/outputs/
 
 # --- Vagrant ---
+# Machine states
 .vagrant/
+
+# Mounts
+.mounts/
 
 # --- Python ---
 .venv/

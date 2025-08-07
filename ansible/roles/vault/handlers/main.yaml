@@ -11,7 +11,7 @@
   environment:
     PEBBLE: "{{ pebble_config_state_dir }}"
   changed_when: false
-  ansible.builtin.command: "{{ pebble_install_binary_file }} restart vault-server"
+  ansible.builtin.command: "{{ pebble_install_binary_file }} restart vault"
 
 - name: Wait for Vault server
   ansible.builtin.wait_for:

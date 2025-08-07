@@ -34,4 +34,4 @@ coredns_config_pebble_layer:
       group: "{{ coredns_config_group }}"
 
 # Path to the Pebble layer file that contains the CoreDNS service configuration.
-coredns_config_pebble_layer_file: "{{ (pebble_config_layer_dir, 'coredns.yaml') | ansible.builtin.path_join }}"
+coredns_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '002-coredns.yaml') | ansible.builtin.path_join }}"

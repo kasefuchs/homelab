@@ -29,6 +29,14 @@ Vagrant.configure("2") do |config|
     config.vm.define node_name do |node|
       node.vm.hostname = node_name
 
+      options.fetch("mounts", {}).each do |folder_id, mount_options|
+        base_host_path = mount_options.fetch("host", File.join(".mounts/", folder_id))
+        full_host_path = File.join(base_host_path, node_name)
+        FileUtils.mkdir_p(full_host_path) unless Dir.exist?(full_host_path)
+
+        node.vm.synced_folder full_host_path, mount_options.fetch("guest"), id: folder_id
+      end
+
       (options.dig("network", "ports") || {}).each do |port_id, port_options|
         node.vm.network "forwarded_port",
           id:       port_id,

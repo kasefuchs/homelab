@@ -1,6 +1,6 @@
 ---
 # Host where Vault will be provisioned.
-vault_server_provision_host: "{{ groups['vault-servers'][0] }}"
+vault_server_provision_host: "{{ groups['vault_servers'][0] }}"
 
 # API address used to provision Vault.
 vault_server_provision_api_address: "https://{{ ansible_default_ipv4.address }}:{{ vault_server_config_api_listen_port }}"
