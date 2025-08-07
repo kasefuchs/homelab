@@ -2,9 +2,27 @@
 # The Vagrant Docker image to use for all virtual machines.
 image: ghcr.io/kasefuchs/homelab-debian:bookworm-slim
 
-# Default hardware configuration for each Container.
+# Default Docker configuration for each container.
 domain:
-  # Additional arguments to pass to docker run when the container is started.
+  # Arguments passed to 'docker run' for each container.
   create_arguments:
     - --privileged
     - --dns=127.0.0.1
+
+# Bind mounts for container data and configuration.
+mounts:
+  # Persistent state for Pebble.
+  pebble-state:
+    guest: /var/lib/pebble/
+
+  # Configuration files for CoreDNS.
+  coredns-config:
+    guest: /etc/coredns/
+
+  # Vault server configuration.
+  vault-server-config:
+    guest: /etc/vault/
+
+  # Vault server persistent state.
+  vault-server-state:
+    guest: /var/lib/vault/

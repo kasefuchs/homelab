@@ -26,7 +26,7 @@ vault_server_config_cert_entity_dir: "{{ (vault_server_config_cert_dir, 'entity'
 # Pebble service layer definition for the Vault server service.
 vault_server_config_pebble_layer:
   services:
-    vault-server:
+    vault:
       override: replace
       startup: enabled
       command: "{{ vault_install_binary_file }} server -config={{ vault_server_config_file }}"
@@ -34,4 +34,4 @@ vault_server_config_pebble_layer:
       group: "{{ vault_server_config_group }}"
 
 # Path to the Pebble layer file that contains the Vault server service configuration.
-vault_server_config_pebble_layer_file: "{{ (pebble_config_layer_dir, 'vault-server.yaml') | ansible.builtin.path_join }}"
+vault_server_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '003-vault.yaml') | ansible.builtin.path_join }}"

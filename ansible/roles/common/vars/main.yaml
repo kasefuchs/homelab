@@ -15,7 +15,7 @@ common_template_local_dir: "{{ (common_role_local_dir, 'templates') | ansible.bu
 common_template_managed_local_path: "{{ (common_template_local_dir, 'managed.j2') | ansible.builtin.path_join }}"
 
 # Internal FQDN of the current node.
-common_internal_fqdn: "{{ ansible_hostname }}.internal"
+common_internal_fqdn: "{{ inventory_hostname }}.internal"
 
 # Name of the currently used inventory.
 common_inventory_name: "{{ inventory_dir | ansible.builtin.basename }}"

@@ -1,9 +1,9 @@
 ---
 # The API address this Vault node advertises to clients and other nodes.
-vault_server_config_advertise_api_address: https://{{ inventory_hostname }}.internal:{{ vault_server_config_api_listen_port }}
+vault_server_config_advertise_api_address: https://{{ common_internal_fqdn }}:{{ vault_server_config_api_listen_port }}
 
 # The cluster address this Vault node advertises for internal cluster communication (Raft).
-vault_server_config_advertise_cluster_address: https://{{ inventory_hostname }}.internal:{{ vault_server_config_cluster_listen_port }}
+vault_server_config_advertise_cluster_address: https://{{ common_internal_fqdn }}:{{ vault_server_config_cluster_listen_port }}
 
 # Enables the Vault web UI.
 vault_server_config_enable_ui: true
@@ -27,4 +27,4 @@ vault_server_config_cluster_listen_address: 0.0.0.0:{{ vault_server_config_clust
 vault_server_config_raft_node_id: "{{ inventory_hostname }}"
 
 # List of peer nodes to attempt to join during Raft initialization (excluding the current node).
-vault_server_config_raft_retry_join: "{{ groups['vault-servers'] | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.internal:8200') }}"
+vault_server_config_raft_retry_join: "{{ groups['vault_servers'] | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.internal:8200') }}"

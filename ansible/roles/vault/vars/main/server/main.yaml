@@ -1,3 +1,3 @@
 ---
 # Enable Vault server deployment on this host if it's in the list
-vault_server_deploy: "{{ 'vault-servers' in group_names }}"
+vault_server_deploy: "{{ 'vault_servers' in group_names }}"

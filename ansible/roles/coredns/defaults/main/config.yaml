@@ -14,7 +14,7 @@ coredns_config_zones:
   vault: |
     $TTL 300
     @          IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
-    {% for host in groups['vault-servers'] | sort %}
+    {% for host in groups['vault_servers'] | sort %}
     server     IN A     {{ hostvars[host]['ansible_default_ipv4']['address'] }}
     {% endfor %}
 

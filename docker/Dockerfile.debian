@@ -7,3 +7,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --assume-yes && \
     apt-get install --assume-yes --no-install-recommends python3 python3-pip sudo iproute2 unzip && \
     apt-get clean --assume-yes
+
+RUN addgroup coredns && adduser --ingroup coredns --shell /bin/sh --no-create-home --disabled-password --gecos "" coredns && \
+    addgroup vault && adduser --ingroup vault --shell /bin/sh --no-create-home --disabled-password --gecos "" vault
