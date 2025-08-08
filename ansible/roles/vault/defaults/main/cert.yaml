@@ -1,7 +1,9 @@
 ---
 # Subject details for the Vault CA certificate.
 vault_cert_ca_subject:
-  CN: Muttias Vault CA
+  CN: "{{ common_inventory_name | capitalize }} Vault CA"
+  O: Muttias
+  OU: Homelab
 
 # Duration of Vault CA certificate validity.
 vault_cert_ca_duration: 3650d

@@ -7,6 +7,7 @@ domain:
   # Arguments passed to 'docker run' for each container.
   create_arguments:
     - --privileged
+    - --network=homelab
     - --dns=127.0.0.1
 
 # Bind mounts for container data and configuration.
