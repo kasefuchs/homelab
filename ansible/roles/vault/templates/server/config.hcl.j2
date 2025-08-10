@@ -1,3 +1,4 @@
+{{ common_managed_header | ansible.builtin.comment }}
 ui            = {{ vault_server_config_enable_ui | lower }}
 disable_mlock = {{ vault_server_config_disable_mlock | lower }}
 

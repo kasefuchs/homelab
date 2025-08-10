@@ -63,6 +63,7 @@
     group: "{{ coredns_config_group }}"
 
 - name: Render resolv.conf template
+  when: ansible_virtualization_type != "docker"
   failed_when: false
   ansible.builtin.template:
     src: resolv.conf.j2

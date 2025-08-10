@@ -9,6 +9,9 @@ vault_server_cert_entity_san:
   - IP:127.0.0.1
   - DNS:localhost
 
+  # DNS
+  - DNS:server.vault
+
   # Host
   - IP:{{ ansible_default_ipv4.address }}
   - DNS:{{ common_internal_fqdn }}

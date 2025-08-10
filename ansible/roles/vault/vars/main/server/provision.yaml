@@ -1,6 +1,9 @@
 ---
 # Base local directory for storing Vault provision data.
-vault_server_provision_local_dir: "{{ (vault_file_local_dir, 'server/provision', common_inventory_name) | ansible.builtin.path_join }}"
+vault_server_provision_local_dir: "{{ (vault_file_local_dir, 'server/provision') | ansible.builtin.path_join }}"
+
+# Full path to the local file where Vault provision data will be saved.
+vault_server_provision_local_file: "{{ (vault_server_provision_local_dir, common_inventory_name ~ '.yaml') | ansible.builtin.path_join }}"
 
 # Local directory with Terraform project for Vault provisioning.
 vault_server_provision_terraform_local_dir: "{{ (role_path, '../../../terraform/vault') | ansible.builtin.path_join }}"

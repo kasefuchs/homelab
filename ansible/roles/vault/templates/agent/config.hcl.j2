@@ -1,0 +1,20 @@
+{{ common_managed_header | ansible.builtin.comment }}
+vault {
+  address = "{{ vault_agent_config_api_address }}"
+  ca_cert = "{{ (vault_agent_config_cert_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+}
+
+auto_auth {
+  method "approle" {
+    config = {
+      role_id_file_path   = "{{ vault_agent_config_auth_role_id_file }}"
+      secret_id_file_path = "{{ vault_agent_config_auth_role_secret_id_file }}"
+    }
+  }
+
+  sink "file" {
+    config = {
+      path = "{{ vault_agent_config_token_sink_file }}"
+    }
+  }
+}
