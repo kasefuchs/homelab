@@ -76,3 +76,15 @@
           tags: [server, provision]
           become: false
           delegate_to: localhost
+
+- name: Setup Vault agent
+  tags: agent
+  block:
+    - name: Configure Vault agent
+      tags: [agent, config]
+      ansible.builtin.include_tasks:
+        file: agent/config.yaml
+        apply:
+          tags: [agent, config]
+          notify:
+            - Restart Vault agent service

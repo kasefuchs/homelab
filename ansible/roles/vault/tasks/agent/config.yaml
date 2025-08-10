@@ -1,0 +1,93 @@
+---
+- name: Create Vault agent group
+  ansible.builtin.group:
+    name: "{{ vault_agent_config_group }}"
+
+- name: Create Vault agent user
+  ansible.builtin.user:
+    name: "{{ vault_agent_config_user }}"
+    group: "{{ vault_agent_config_group }}"
+    system: true
+    create_home: false
+
+- name: Create Vault agent directories
+  loop:
+    - path: "{{ vault_agent_config_dir }}"
+      mode: "0755"
+    - path: "{{ vault_agent_config_state_dir }}"
+      mode: "0755"
+    - path: "{{ vault_agent_config_cert_dir }}"
+      mode: "0755"
+    - path: "{{ vault_agent_config_cert_ca_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    owner: "{{ vault_agent_config_user }}"
+    group: "{{ vault_agent_config_group }}"
+
+- name: Copy Vault agent certificates
+  loop:
+    - label: Vault CA certificate
+      src: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_agent_config_cert_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+      mode: "0644"
+  loop_control:
+    label: "{{ item.label }}"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ vault_agent_config_user }}"
+    group: "{{ vault_agent_config_group }}"
+
+- name: Include Vault server provision result
+  run_once: true
+  failed_when: false
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_provision_local_file }}"
+
+- name: Copy Vault agent AppRole auth credentials
+  loop:
+    - label: Role ID
+      content: "{{ vault_agent_config_auth_role_id }}"
+      dest: "{{ vault_agent_config_auth_role_id_file }}"
+      mode: "0644"
+    - label: Secret ID
+      content: "{{ vault_agent_config_auth_role_secret_id }}"
+      dest: "{{ vault_agent_config_auth_role_secret_id_file }}"
+      mode: "0600"
+  loop_control:
+    label: "{{ item.label }}"
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ vault_agent_config_user }}"
+    group: "{{ vault_agent_config_group }}"
+
+- name: Render Vault agent configuration template
+  ansible.builtin.template:
+    src: agent/config.hcl.j2
+    dest: "{{ vault_agent_config_file }}"
+    mode: "0644"
+    owner: "{{ vault_agent_config_user }}"
+    group: "{{ vault_agent_config_group }}"
+
+- name: Update Vault agent Pebble layer
+  vars:
+    pebble_layer: "{{ vault_agent_config_pebble_layer }}"
+  notify: Add Vault agent Pebble layer
+  ansible.builtin.template:
+    src: "{{ pebble_template_layer_local_path }}"
+    dest: "{{ vault_agent_config_pebble_layer_file }}"
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Flush handlers
+  run_once: true
+  ansible.builtin.meta: flush_handlers
