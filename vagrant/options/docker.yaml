@@ -6,9 +6,10 @@ image: ghcr.io/kasefuchs/homelab-debian:bookworm-slim
 domain:
   # Arguments passed to 'docker run' for each container.
   create_arguments:
-    - --privileged
-    - --network=homelab
     - --dns=127.0.0.1
+    - --network=homelab
+    - --privileged
+    - --security-opt=seccomp=unconfined
 
 # Bind mounts for container data and configuration.
 mounts:
@@ -27,3 +28,11 @@ mounts:
   # Vault server persistent state.
   vault-server-state:
     guest: /var/lib/vault/
+
+  # Vault agent configuration.
+  vault-agent-config:
+    guest: /etc/vault-agent/
+
+  # Vault agent persistent state.
+  vault-agent-state:
+    guest: /var/lib/vault-agent/
