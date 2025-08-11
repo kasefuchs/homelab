@@ -69,6 +69,24 @@
     owner: "{{ vault_agent_config_user }}"
     group: "{{ vault_agent_config_group }}"
 
+- name: Ensure Vault agent template config exists
+  block:
+    - name: Stat Vault agent template config
+      register: vault_agent_config_template_stat_result
+      ansible.builtin.stat:
+        path: "{{ vault_agent_config_template_file }}"
+
+    - name: Render Vault agent template config
+      when: not vault_agent_config_template_stat_result.stat.exists
+      vars:
+        common_managed_content: ""
+      ansible.builtin.template:
+        src: "{{ common_template_managed_local_path }}"
+        dest: "{{ vault_agent_config_template_file }}"
+        mode: "0644"
+        owner: "{{ vault_agent_config_user }}"
+        group: "{{ vault_agent_config_group }}"
+
 - name: Render Vault agent configuration template
   ansible.builtin.template:
     src: agent/config.hcl.j2

@@ -23,6 +23,9 @@ vault_agent_config_auth_role_secret_id_file: "{{ (vault_agent_config_dir, '.role
 # Full path to the main Vault agent configuration file.
 vault_agent_config_file: "{{ (vault_agent_config_dir, 'config.hcl') | ansible.builtin.path_join }}"
 
+# Full path to the Vault agent template configuration file.
+vault_agent_config_template_file: "{{ (vault_agent_config_dir, 'template.hcl') | ansible.builtin.path_join }}"
+
 # Directory where Vault agent certificate files will be stored in the config path.
 vault_agent_config_cert_dir: "{{ (vault_agent_config_dir, 'certs') | ansible.builtin.path_join }}"
 
@@ -38,7 +41,7 @@ vault_agent_config_pebble_layer:
     vault-agent:
       override: replace
       startup: enabled
-      command: "{{ vault_install_binary_file }} agent -config={{ vault_agent_config_file }}"
+      command: "{{ vault_install_binary_file }} agent -config={{ vault_agent_config_file }} -config={{ vault_agent_config_template_file }}"
       user: "{{ vault_agent_config_user }}"
       group: "{{ vault_agent_config_group }}"
 
