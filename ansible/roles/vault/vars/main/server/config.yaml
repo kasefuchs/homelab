@@ -6,10 +6,10 @@ vault_server_config_user: vault
 vault_server_config_group: vault
 
 # Directory where Vault server configuration files will be stored.
-vault_server_config_dir: /etc/vault/
+vault_server_config_dir: /etc/vault
 
 # Directory where Vault server data will be stored.
-vault_server_config_state_dir: /var/lib/vault/
+vault_server_config_state_dir: /var/lib/vault
 
 # Full path to the main Vault server configuration file.
 vault_server_config_file: "{{ (vault_server_config_dir, 'config.hcl') | ansible.builtin.path_join }}"

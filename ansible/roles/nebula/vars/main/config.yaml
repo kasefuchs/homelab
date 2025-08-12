@@ -6,7 +6,7 @@ nebula_config_user: nebula
 nebula_config_group: nebula
 
 # Directory where Nebula configuration files will be stored.
-nebula_config_dir: /etc/nebula/
+nebula_config_dir: /etc/nebula
 
 # Full path to the main Nebula configuration file.
 nebula_config_file: "{{ (nebula_config_dir, 'config.yaml') | ansible.builtin.path_join }}"

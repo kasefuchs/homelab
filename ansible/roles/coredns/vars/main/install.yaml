@@ -3,7 +3,7 @@
 coredns_install_archive_local_file: "{{ (coredns_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
 
 # Destination path on the target system where the CoreDNS will be installed.
-coredns_install_archive_extract_dir: /usr/local/bin/
+coredns_install_archive_extract_dir: /usr/local/bin
 
 # Additional options for extracting the CoreDNS archive.
 coredns_install_unarchive_options: []
@@ -14,5 +14,5 @@ coredns_install_unarchive_include: [coredns]
 # Path to the CoreDNS binary.
 coredns_install_binary_file: "{{ (coredns_install_archive_extract_dir, 'coredns') | ansible.builtin.path_join }}"
 
-# Capablities of the CoreDNS binary.
+# Capabilities of the CoreDNS binary.
 coredns_install_binary_capabilities: [CAP_NET_BIND_SERVICE+ep]

@@ -1,3 +1,20 @@
+resource "vault_mount" "kv_cluster" {
+  type        = "kv"
+  path        = "kv-cluster"
+  options     = { version = "2" }
+  description = "Cluster KV"
+}
+
+resource "random_bytes" "consul_encrypt" {
+  length = 32
+}
+
+resource "vault_kv_secret_v2" "consul" {
+  name      = "consul"
+  mount     = vault_mount.kv_cluster.path
+  data_json = jsonencode({ encrypt = random_bytes.consul_encrypt.base64 })
+}
+
 resource "vault_mount" "pki_root" {
   type                  = "pki"
   path                  = "pki-root"

@@ -4,7 +4,7 @@
   delay: 2
   retries: 30
   register: vault_server_provision_status_result
-  failed_when: vault_server_unseal_status_result.rc == 1
+  failed_when: vault_server_provision_status_result.rc == 1
   changed_when: false
   environment:
     VAULT_ADDR: "{{ vault_server_local_api_address }}"
