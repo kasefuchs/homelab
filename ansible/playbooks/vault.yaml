@@ -2,5 +2,4 @@
 - name: Set up Vault
   hosts: all
   become: true
-  roles:
-    - vault
+  roles: [vault]

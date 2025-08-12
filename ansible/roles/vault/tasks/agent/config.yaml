@@ -14,6 +14,10 @@
   loop:
     - path: "{{ vault_agent_config_dir }}"
       mode: "0755"
+    - path: "{{ vault_agent_config_include_dir }}"
+      mode: "0755"
+    - path: "{{ vault_agent_config_auth_dir }}"
+      mode: "0700"
     - path: "{{ vault_agent_config_state_dir }}"
       mode: "0755"
     - path: "{{ vault_agent_config_cert_dir }}"
@@ -50,24 +54,33 @@
   ansible.builtin.include_vars:
     file: "{{ vault_server_provision_local_file }}"
 
-- name: Copy Vault agent AppRole auth credentials
-  loop:
-    - label: Role ID
-      content: "{{ vault_agent_config_auth_role_id }}"
-      dest: "{{ vault_agent_config_auth_role_id_file }}"
-      mode: "0644"
-    - label: Secret ID
-      content: "{{ vault_agent_config_auth_role_secret_id }}"
-      dest: "{{ vault_agent_config_auth_role_secret_id_file }}"
-      mode: "0600"
-  loop_control:
-    label: "{{ item.label }}"
-  ansible.builtin.copy:
-    content: "{{ item.content }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode }}"
-    owner: "{{ vault_agent_config_user }}"
-    group: "{{ vault_agent_config_group }}"
+- name: Ensure Vault agent auth credentials present
+  block:
+    - name: Stat Vault agent token sink file
+      register: vault_agent_config_token_sink_stat_result
+      ansible.builtin.stat:
+        path: "{{ vault_agent_config_token_sink_file }}"
+
+    - name: Copy Vault agent auth credentials
+      when: item.when | default(true)
+      loop:
+        - label: Role ID
+          content: "{{ vault_agent_config_auth_role_id }}"
+          dest: "{{ vault_agent_config_auth_role_id_file }}"
+          mode: "0600"
+        - label: Role Secret ID
+          content: "{{ vault_agent_config_auth_role_secret_id }}"
+          dest: "{{ vault_agent_config_auth_role_secret_id_file }}"
+          mode: "0600"
+          when: "{{ not vault_agent_config_token_sink_stat_result.stat.exists }}"
+      loop_control:
+        label: "{{ item.label }}"
+      ansible.builtin.copy:
+        content: "{{ item.content }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: "{{ vault_agent_config_user }}"
+        group: "{{ vault_agent_config_group }}"
 
 - name: Ensure Vault agent template config exists
   block:
