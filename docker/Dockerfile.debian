@@ -10,4 +10,5 @@ RUN apt-get update --assume-yes && \
 
 RUN addgroup coredns && adduser --ingroup coredns --shell /bin/sh --no-create-home --disabled-password --gecos "" coredns && \
     addgroup vault && adduser --ingroup vault --shell /bin/sh --no-create-home --disabled-password --gecos "" vault && \
-    addgroup vault-agent && adduser --ingroup vault-agent --shell /bin/sh --no-create-home --disabled-password --gecos "" vault-agent
+    addgroup vault-agent && adduser --ingroup vault-agent --shell /bin/sh --no-create-home --disabled-password --gecos "" vault-agent && \
+    addgroup consul && adduser --ingroup consul --shell /bin/sh --no-create-home --disabled-password --gecos "" consul

@@ -6,7 +6,7 @@ vault_agent_config_user: vault-agent
 vault_agent_config_group: vault-agent
 
 # Directory where Vault agent configuration files will be stored.
-vault_agent_config_dir: /etc/vault-agent/
+vault_agent_config_dir: /etc/vault-agent
 
 # Directory for additional Vault agent config.
 vault_agent_config_include_dir: "{{ (vault_agent_config_dir, 'conf.d') | ansible.builtin.path_join }}"
@@ -15,7 +15,7 @@ vault_agent_config_include_dir: "{{ (vault_agent_config_dir, 'conf.d') | ansible
 vault_agent_config_auth_dir: "{{ (vault_agent_config_dir, '.auth') | ansible.builtin.path_join }}"
 
 # Directory where Vault agent data will be stored.
-vault_agent_config_state_dir: /var/lib/vault-agent/
+vault_agent_config_state_dir: /var/lib/vault-agent
 
 # Path where the Vault Agent writes the Vault token.
 vault_agent_config_token_sink_file: "{{ (vault_agent_config_state_dir, '.token') | ansible.builtin.path_join }}"

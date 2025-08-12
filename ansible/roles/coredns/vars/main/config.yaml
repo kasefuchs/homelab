@@ -9,7 +9,7 @@ coredns_config_user: coredns
 coredns_config_group: coredns
 
 # Directory where CoreDNS configuration files will be stored.
-coredns_config_dir: /etc/coredns/
+coredns_config_dir: /etc/coredns
 
 # Full path to the main CoreDNS configuration file.
 coredns_config_file: "{{ (coredns_config_dir, 'Corefile') | ansible.builtin.path_join }}"

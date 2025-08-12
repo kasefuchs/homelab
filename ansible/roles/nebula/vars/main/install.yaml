@@ -3,7 +3,7 @@
 nebula_install_archive_local_file: "{{ (nebula_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
 
 # Destination path on the target system where the Nebula will be installed.
-nebula_install_archive_extract_dir: /usr/local/bin/
+nebula_install_archive_extract_dir: /usr/local/bin
 
 # Additional options for extracting the Nebula archive.
 nebula_install_unarchive_options: []
@@ -14,5 +14,5 @@ nebula_install_unarchive_include: [nebula]
 # Path to the Nebula binary.
 nebula_install_binary_file: "{{ (nebula_install_archive_extract_dir, 'nebula') | ansible.builtin.path_join }}"
 
-# Capablities of the Nebula binary.
+# Capabilities of the Nebula binary.
 nebula_install_binary_capabilities: [CAP_NET_ADMIN+ep]

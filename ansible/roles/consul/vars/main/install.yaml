@@ -1,0 +1,15 @@
+---
+# Local path to the downloaded Consul binaries archive for the current architecture.
+consul_install_archive_local_file: "{{ (consul_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
+
+# Destination path on the target system where the Consul will be installed.
+consul_install_archive_extract_dir: /usr/local/bin
+
+# Additional options for extracting the Consul archive.
+consul_install_unarchive_options: []
+
+# List of file or directory patterns to include when extracting the archive.
+consul_install_unarchive_include: [consul]
+
+# Path to the Consul binary.
+consul_install_binary_file: "{{ (consul_install_archive_extract_dir, 'consul') | ansible.builtin.path_join }}"

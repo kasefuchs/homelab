@@ -3,7 +3,7 @@
 vault_install_archive_local_file: "{{ (vault_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
 
 # Destination path on the target system where the Vault will be installed.
-vault_install_archive_extract_dir: /usr/local/bin/
+vault_install_archive_extract_dir: /usr/local/bin
 
 # Additional options for extracting the Vault archive.
 vault_install_unarchive_options: []
@@ -14,5 +14,5 @@ vault_install_unarchive_include: [vault]
 # Path to the Vault binary.
 vault_install_binary_file: "{{ (vault_install_archive_extract_dir, 'vault') | ansible.builtin.path_join }}"
 
-# Capablities of the Vault binary.
+# Capabilities of the Vault binary.
 vault_install_binary_capabilities: [CAP_IPC_LOCK+ep, CAP_SYSLOG+ep]
