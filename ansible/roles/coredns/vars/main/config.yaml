@@ -14,11 +14,11 @@ coredns_config_dir: /etc/coredns/
 # Full path to the main CoreDNS configuration file.
 coredns_config_file: "{{ (coredns_config_dir, 'Corefile') | ansible.builtin.path_join }}"
 
+# The directory where individual zone files are stored.
+coredns_config_zone_dir: "{{ (coredns_config_dir, 'zones') | ansible.builtin.path_join }}"
+
 # The directory where individual configuration files are stored.
 coredns_config_include_dir: "{{ (coredns_config_dir, 'conf.d') | ansible.builtin.path_join }}"
-
-# The directory where individual zone files are stored.
-coredns_config_zone_dir: "{{ (coredns_config_dir, 'zone.d') | ansible.builtin.path_join }}"
 
 # The glob of the included zone configuration files.
 coredns_config_include_glob: "{{ (coredns_config_include_dir, '*.conf') | ansible.builtin.path_join }}"

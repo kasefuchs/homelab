@@ -2,5 +2,4 @@
 - name: Set up Pebble
   hosts: all
   become: true
-  roles:
-    - pebble
+  roles: [pebble]

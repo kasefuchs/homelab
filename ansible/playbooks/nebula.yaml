@@ -2,5 +2,4 @@
 - name: Set up Nebula
   hosts: all
   become: true
-  roles:
-    - nebula
+  roles: [nebula]
