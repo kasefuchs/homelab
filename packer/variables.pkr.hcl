@@ -27,9 +27,9 @@ variable "docker" {
     changes = ["ENV PEBBLE /var/lib/pebble/", "ENTRYPOINT [\"/usr/local/bin/entrypoint.sh\"]", "CMD []"]
     source_image_build = {
       path      = "../docker/Dockerfile.debian"
-      arguments = { "DISTRO_TAG" : "bookworm-slim" }
+      arguments = { "DISTRO_TAG" : "trixie-slim" }
     }
-    result_image_tags       = ["bookworm-slim"]
+    result_image_tags       = ["trixie-slim"]
     result_image_repository = "ghcr.io/kasefuchs/homelab-debian"
   }
 }

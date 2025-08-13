@@ -1,6 +1,6 @@
 ---
 # The Vagrant Docker image to use for all virtual machines.
-image: ghcr.io/kasefuchs/homelab-debian:bookworm-slim
+image: ghcr.io/kasefuchs/homelab-debian:trixie-slim
 
 # Default Docker configuration for each container.
 domain:
@@ -15,24 +15,24 @@ domain:
 mounts:
   # Persistent state for Pebble.
   pebble-state:
-    guest: /var/lib/pebble/
+    guest: /var/lib/pebble
 
   # Configuration files for CoreDNS.
   coredns-config:
-    guest: /etc/coredns/
+    guest: /etc/coredns
 
   # Vault server configuration.
   vault-server-config:
-    guest: /etc/vault/
+    guest: /etc/vault
 
   # Vault server persistent state.
   vault-server-state:
-    guest: /var/lib/vault/
+    guest: /var/lib/vault
 
   # Vault agent configuration.
   vault-agent-config:
-    guest: /etc/vault-agent/
+    guest: /etc/vault-agent
 
   # Vault agent persistent state.
   vault-agent-state:
-    guest: /var/lib/vault-agent/
+    guest: /var/lib/vault-agent
