@@ -1,1 +1,7 @@
-# Empty
+path "${kv_cluster_mount_path}/data/*" {
+  capabilities = ["read"]
+}
+
+path "${pki_intermediate_mount_path}/issue/*" {
+  capabilities = ["create", "update"]
+}

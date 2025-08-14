@@ -22,15 +22,15 @@ resource "vault_mount" "pki_root" {
   max_lease_ttl_seconds = local.root_certificate_ttl
 }
 
-resource "vault_pki_secret_backend_config_urls" "pki_root" {
+resource "vault_pki_secret_backend_config_urls" "root" {
   backend                 = vault_mount.pki_root.path
   issuing_certificates    = [format("https://server.vault:8200/v1/%s/ca", vault_mount.pki_root.path)]
   crl_distribution_points = [format("https://server.vault:8200/v1/%s/crl", vault_mount.pki_root.path)]
 }
 
 resource "vault_pki_secret_backend_root_cert" "root" {
-  backend     = vault_mount.pki_root.path
   type        = "internal"
+  backend     = vault_mount.pki_root.path
   common_name = "Vault PKI Root CA"
   ttl         = local.root_certificate_ttl
 }
@@ -41,15 +41,22 @@ resource "vault_mount" "pki_intermediate" {
   description = "Intermediate PKI"
 }
 
+resource "vault_pki_secret_backend_config_urls" "intermediate" {
+  backend                 = vault_mount.pki_intermediate.path
+  issuing_certificates    = [format("https://server.vault:8200/v1/%s/ca", vault_mount.pki_intermediate.path)]
+  crl_distribution_points = [format("https://server.vault:8200/v1/%s/crl", vault_mount.pki_intermediate.path)]
+}
+
 resource "vault_pki_secret_backend_intermediate_cert_request" "intermediate" {
-  backend     = vault_mount.pki_intermediate.path
   type        = "internal"
+  backend     = vault_mount.pki_intermediate.path
   common_name = "Vault PKI Intermediate CA"
 }
 
 resource "vault_pki_secret_backend_root_sign_intermediate" "intermediate" {
   backend     = vault_mount.pki_root.path
   csr         = vault_pki_secret_backend_intermediate_cert_request.intermediate.csr
+  ttl         = local.intermediate_certificate_ttl
   common_name = "Vault PKI Intermediate CA"
 }
 
@@ -58,9 +65,19 @@ resource "vault_pki_secret_backend_intermediate_set_signed" "intermediate" {
   certificate = vault_pki_secret_backend_root_sign_intermediate.intermediate.certificate
 }
 
+resource "vault_pki_secret_backend_role" "consul" {
+  backend          = vault_mount.pki_intermediate.path
+  name             = "consul"
+  allowed_domains  = ["consul"]
+  allow_subdomains = true
+}
+
 resource "vault_policy" "vault_agent" {
-  name   = "vault-agent"
-  policy = templatefile("${path.module}/policies/vault-agent.hcl.tftpl", {})
+  name = "vault-agent"
+  policy = templatefile("${path.module}/policies/vault-agent.hcl.tftpl", {
+    kv_cluster_mount_path       = vault_mount.kv_cluster.path,
+    pki_intermediate_mount_path = vault_mount.pki_intermediate.path,
+  })
 }
 
 resource "vault_auth_backend" "approle" {
@@ -69,8 +86,9 @@ resource "vault_auth_backend" "approle" {
 }
 
 resource "vault_approle_auth_backend_role" "vault_agent" {
-  backend   = vault_auth_backend.approle.path
-  role_name = "vault-agent"
+  backend        = vault_auth_backend.approle.path
+  role_name      = "vault-agent"
+  token_policies = [vault_policy.vault_agent.name]
 }
 
 resource "vault_approle_auth_backend_role_secret_id" "vault_agent" {
