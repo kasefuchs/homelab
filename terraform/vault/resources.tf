@@ -68,7 +68,7 @@ resource "vault_pki_secret_backend_intermediate_set_signed" "intermediate" {
 resource "vault_pki_secret_backend_role" "consul" {
   backend          = vault_mount.pki_intermediate.path
   name             = "consul"
-  allowed_domains  = ["consul"]
+  allowed_domains  = ["consul", "internal"]
   allow_subdomains = true
 }
 

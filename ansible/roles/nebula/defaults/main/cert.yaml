@@ -16,7 +16,7 @@ nebula_cert_ca_subnets: []
 nebula_cert_ca_duration: 87600h
 
 # Common Name for the host's certificate entity.
-nebula_cert_entity_host_cn: "{{ inventory_hostname }}"
+nebula_cert_host_cn: "{{ inventory_hostname }}"
 
 # List of subnet ranges assigned to the host certificate.
-nebula_cert_entity_host_subnets: []
+nebula_cert_host_subnets: []

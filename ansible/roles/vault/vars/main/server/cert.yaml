@@ -6,4 +6,4 @@ vault_server_cert_local_dir: "{{ (vault_file_local_dir, 'server/cert', common_in
 vault_server_cert_entity_local_dir: "{{ (vault_server_cert_local_dir, 'entity') | ansible.builtin.path_join }}"
 
 # Directory for storing certificate and key files for this specific Vault node (per hostname).
-vault_server_cert_entity_host_local_dir: "{{ (vault_server_cert_entity_local_dir, inventory_hostname) | ansible.builtin.path_join }}"
+vault_server_cert_host_local_dir: "{{ (vault_server_cert_entity_local_dir, inventory_hostname) | ansible.builtin.path_join }}"

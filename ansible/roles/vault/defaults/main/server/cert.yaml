@@ -3,18 +3,16 @@
 vault_server_cert_entity_subject:
   CN: server.vault
 
-# Subject Alternative Names for the Vault server certificate.
-vault_server_cert_entity_san:
-  # Local
-  - IP:127.0.0.1
-  - DNS:localhost
+# IP addresses included in the certificate.
+vault_server_cert_entity_ip_sans:
+  - 127.0.0.1
+  - "{{ ansible_default_ipv4.address }}"
 
-  # DNS
-  - DNS:server.vault
-
-  # Host
-  - IP:{{ ansible_default_ipv4.address }}
-  - DNS:{{ common_internal_fqdn }}
+# DNS names included in the certificate.
+vault_server_cert_entity_dns_sans:
+  - localhost
+  - server.vault
+  - "{{ common_internal_fqdn }}"
 
 # Duration of Vault server certificate validity.
 vault_server_cert_entity_duration: 1825d

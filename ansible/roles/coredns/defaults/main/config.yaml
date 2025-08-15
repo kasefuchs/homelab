@@ -1,7 +1,7 @@
 ---
 # Map of CoreDNS configuration files.
 coredns_config:
-  root: "{{ lookup('ansible.builtin.file', 'main/config/root.conf') }}"
+  root: "{{ lookup('ansible.builtin.file', (coredns_main_file_local_dir, 'config/root.conf') | ansible.builtin.path_join) }}"
   vault: "{{ lookup('ansible.builtin.template', 'zone.conf.j2', template_vars={'coredns_config_zone': 'vault'}) }}"
   internal: "{{ lookup('ansible.builtin.template', 'zone.conf.j2', template_vars={'coredns_config_zone': 'internal'}) }}"
 

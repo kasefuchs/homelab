@@ -1,0 +1,6 @@
+---
+# Path to its templates' directory.
+vault_agent_template_local_dir: "{{ (vault_template_local_dir, 'agent') | ansible.builtin.path_join }}"
+
+# Path to template.block.hcl.j2 template.
+vault_agent_template_block_local_path: "{{ (vault_agent_template_local_dir, 'template.block.hcl.j2') | ansible.builtin.path_join }}"
