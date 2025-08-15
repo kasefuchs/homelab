@@ -15,4 +15,4 @@ vault_install_unarchive_include: [vault]
 vault_install_binary_file: "{{ (vault_install_archive_extract_dir, 'vault') | ansible.builtin.path_join }}"
 
 # Capabilities of the Vault binary.
-vault_install_binary_capabilities: [CAP_IPC_LOCK+ep, CAP_SYSLOG+ep]
+vault_install_binary_capabilities: [CAP_IPC_LOCK+ep, CAP_SYSLOG+ep, CAP_CHOWN+ep, CAP_DAC_OVERRIDE+ep, CAP_DAC_READ_SEARCH+ep, CAP_FOWNER+ep]

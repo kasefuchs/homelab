@@ -39,9 +39,9 @@
         argv:
           - nebula-cert
           - sign
-          - -ip={{ nebula_cert_entity_host_ip }}
-          - -name={{ nebula_cert_entity_host_cn }}
-          - -subnets={{ nebula_cert_entity_host_subnets | join(',') }}
+          - -ip={{ nebula_cert_host_ip }}
+          - -name={{ nebula_cert_host_cn }}
+          - -subnets={{ nebula_cert_host_subnets | join(',') }}
           - -ca-crt={{ (nebula_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}
           - -ca-key={{ (nebula_cert_ca_local_dir, 'ca.key') | ansible.builtin.path_join }}
           - -out-crt={{ (nebula_cert_entity_local_dir, inventory_hostname, 'host.crt') | ansible.builtin.path_join }}

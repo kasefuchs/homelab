@@ -38,11 +38,11 @@
       dest: "{{ (vault_server_config_cert_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - label: Vault server certificate
-      src: "{{ (vault_server_cert_entity_host_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+      src: "{{ (vault_server_cert_host_local_dir, 'server.crt') | ansible.builtin.path_join }}"
       dest: "{{ (vault_server_config_cert_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - label: Vault server private key
-      src: "{{ (vault_server_cert_entity_host_local_dir, 'server.key') | ansible.builtin.path_join }}"
+      src: "{{ (vault_server_cert_host_local_dir, 'server.key') | ansible.builtin.path_join }}"
       dest: "{{ (vault_server_config_cert_entity_dir, 'server.key') | ansible.builtin.path_join }}"
       mode: "0600"
   loop_control:
