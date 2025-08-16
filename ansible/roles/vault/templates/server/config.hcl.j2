@@ -15,13 +15,13 @@ listener "tcp" {
 
 storage "raft" {
   path    = "{{ vault_server_config_state_dir }}"
-  node_id = "{{ vault_server_config_raft_node_id }}"
+  node_id = "{{ vault_server_config_node_id }}"
 
-{% for api_address in vault_server_config_raft_retry_join %}
+{% for api_address in vault_server_config_retry_join %}
   retry_join {
     leader_api_addr = "{{ api_address }}"
 
-    leader_ca_cert_file     = "{{ (vault_server_config_cert_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+    leader_ca_cert_file     = "{{ (vault_server_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
     leader_client_key_file  = "{{ (vault_server_config_cert_entity_dir, 'server.key') | ansible.builtin.path_join }}"
     leader_client_cert_file = "{{ (vault_server_config_cert_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
   }

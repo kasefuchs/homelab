@@ -1,4 +1,10 @@
 ---
+# The user to run Consul as.
+consul_install_user: consul
+
+# The group to run Consul as.
+consul_install_group: consul
+
 # Local path to the downloaded Consul binaries archive for the current architecture.
 consul_install_archive_local_file: "{{ (consul_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
 

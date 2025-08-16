@@ -15,3 +15,23 @@
     file: install.yaml
     apply:
       tags: [install, packer]
+
+- name: Configure Consul agent
+  tags: config
+  ansible.builtin.include_tasks:
+    file: config.yaml
+    apply:
+      tags: config
+      notify:
+        - Restart Consul agent service
+        - Wait for Consul agent
+
+- name: Bootstrap Consul ACL
+  tags: bootstrap
+  when: consul_bootstrap_host == inventory_hostname
+  ansible.builtin.include_tasks:
+    file: bootstrap.yaml
+    apply:
+      tags: bootstrap
+      become: false
+      delegate_to: localhost

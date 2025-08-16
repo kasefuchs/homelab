@@ -1,0 +1,31 @@
+---
+- name: Ensure Consul bootstrap directory exists
+  ansible.builtin.file:
+    path: "{{ consul_bootstrap_local_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: Bootstrap Consul ACL
+  run_once: true
+  block:
+    - name: Run Consul ACL bootstrap command
+      register: consul_bootstrap_result
+      changed_when: consul_bootstrap_result.rc == 0
+      environment:
+        CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"
+        CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+      ansible.builtin.command: consul acl bootstrap -format=json
+
+    - name: Render Consul ACL bootstrap output to local YAML file
+      when: consul_bootstrap_result.rc == 0
+      vars:
+        common_managed_content: |
+          ---
+          {{
+            {"consul_bootstrap_data": consul_bootstrap_result.stdout | ansible.builtin.from_json}
+            | ansible.builtin.to_nice_yaml(indent=2)
+          }}
+      ansible.builtin.template:
+        src: "{{ common_template_managed_local_path }}"
+        dest: "{{ consul_bootstrap_local_file }}"
+        mode: "0600"

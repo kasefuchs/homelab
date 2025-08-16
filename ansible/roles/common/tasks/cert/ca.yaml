@@ -2,12 +2,12 @@
 - name: Create CA certificate private key
   register: common_cert_ca_private_key
   community.crypto.openssl_privatekey:
-    path: "{{ (common_cert_ca_local_dir, 'ca.key') | ansible.builtin.path_join }}"
+    path: "{{ (common_cert_ca_local_dir, common_cert_ca_name ~ '.key') | ansible.builtin.path_join }}"
 
 - name: Create CA certificate signing request
   register: common_cert_ca_csr
   community.crypto.openssl_csr:
-    path: "{{ (common_cert_ca_local_dir, 'ca.csr') | ansible.builtin.path_join }}"
+    path: "{{ (common_cert_ca_local_dir, common_cert_ca_name ~ '.csr') | ansible.builtin.path_join }}"
     privatekey_path: "{{ common_cert_ca_private_key.filename }}"
     subject: "{{ common_cert_ca_subject }}"
     use_common_name_for_san: false
@@ -18,7 +18,7 @@
 
 - name: Create CA certificate from CSR
   community.crypto.x509_certificate:
-    path: "{{ (common_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    path: "{{ (common_cert_ca_local_dir, common_cert_ca_name ~ '.crt') | ansible.builtin.path_join }}"
     csr_path: "{{ common_cert_ca_csr.filename }}"
     privatekey_path: "{{ common_cert_ca_private_key.filename }}"
     provider: selfsigned

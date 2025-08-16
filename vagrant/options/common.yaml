@@ -21,3 +21,9 @@ network:
       host: 9010
       guest: 9001
       protocol: tcp
+
+    # Consul port forwarding configuration.
+    consul:
+      host: 8510
+      guest: 8501
+      protocol: tcp

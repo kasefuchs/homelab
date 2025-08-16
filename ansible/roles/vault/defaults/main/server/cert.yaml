@@ -1,4 +1,11 @@
 ---
+# Subject details for the Vault server CA certificate.
+vault_server_cert_ca_subject:
+  CN: Vault server CA
+
+# Duration of Vault server CA certificate validity.
+vault_server_cert_ca_duration: 3650d
+
 # Subject details for the Vault server certificate.
 vault_server_cert_entity_subject:
   CN: server.vault

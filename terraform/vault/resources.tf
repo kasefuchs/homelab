@@ -2,7 +2,7 @@ resource "vault_mount" "kv_cluster" {
   type        = "kv"
   path        = "kv-cluster"
   options     = { version = "2" }
-  description = "Cluster KV"
+  description = "kv engine for cluster secrets and configuration"
 }
 
 resource "random_bytes" "consul_encrypt" {
@@ -18,7 +18,7 @@ resource "vault_kv_secret_v2" "consul" {
 resource "vault_mount" "pki_root" {
   type                  = "pki"
   path                  = "pki-root"
-  description           = "Root PKI"
+  description           = "root pki ca for signing intermediate authorities"
   max_lease_ttl_seconds = local.root_certificate_ttl
 }
 
@@ -38,7 +38,7 @@ resource "vault_pki_secret_backend_root_cert" "root" {
 resource "vault_mount" "pki_intermediate" {
   type        = "pki"
   path        = "pki-intermediate"
-  description = "Intermediate PKI"
+  description = "intermediate pki ca for issuing service certificates"
 }
 
 resource "vault_pki_secret_backend_config_urls" "intermediate" {

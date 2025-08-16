@@ -16,15 +16,6 @@
     apply:
       tags: [install, packer]
 
-- name: Create Vault certificates
-  tags: cert
-  ansible.builtin.include_tasks:
-    file: cert.yaml
-    apply:
-      tags: cert
-      become: false
-      delegate_to: localhost
-
 - name: Setup Vault server
   tags: server
   when: vault_server_deploy
@@ -86,5 +77,4 @@
         file: agent/config.yaml
         apply:
           tags: [agent, config]
-          notify:
-            - Restart Vault agent service
+          notify: Restart Vault agent service

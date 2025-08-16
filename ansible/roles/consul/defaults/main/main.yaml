@@ -1,0 +1,3 @@
+---
+# Address used to communicate from local host.
+consul_local_api_address: "https://{{ ansible_default_ipv4.address }}:{{ consul_config_ports.https }}"

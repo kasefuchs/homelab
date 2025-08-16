@@ -1,4 +1,10 @@
 ---
+# The user to run Nebula as.
+nebula_install_user: nebula
+
+# The group to run Nebula as.
+nebula_install_group: nebula
+
 # Local path to the downloaded Nebula binaries archive for the current architecture.
 nebula_install_archive_local_file: "{{ (nebula_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
 

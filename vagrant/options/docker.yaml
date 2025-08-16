@@ -4,6 +4,9 @@ image: ghcr.io/kasefuchs/homelab-debian:trixie-slim
 
 # Default Docker configuration for each container.
 domain:
+  # Format string for container names.
+  name_format: homelab-%s
+
   # Arguments passed to 'docker run' for each container.
   create_arguments:
     - --dns=127.0.0.1

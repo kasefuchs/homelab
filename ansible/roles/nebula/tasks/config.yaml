@@ -1,15 +1,4 @@
 ---
-- name: Create Nebula group
-  ansible.builtin.group:
-    name: "{{ nebula_config_group }}"
-
-- name: Create Nebula user
-  ansible.builtin.user:
-    name: "{{ nebula_config_user }}"
-    group: "{{ nebula_config_group }}"
-    system: true
-    create_home: false
-
 - name: Create Nebula directories
   loop:
     - path: "{{ nebula_config_dir }}"
@@ -26,13 +15,13 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: "{{ nebula_config_user }}"
-    group: "{{ nebula_config_group }}"
+    owner: "{{ nebula_install_user }}"
+    group: "{{ nebula_install_group }}"
 
 - name: Copy Nebula certificates
   loop:
     - label: Nebula CA certificate
-      src: "{{ (nebula_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      src: "{{ (nebula_cert_ca_local_dir, 'nebula.crt') | ansible.builtin.path_join }}"
       dest: "{{ (nebula_config_cert_ca_dir, 'nebula.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - label: Nebula host certificate
@@ -49,16 +38,16 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ nebula_config_user }}"
-    group: "{{ nebula_config_group }}"
+    owner: "{{ nebula_install_user }}"
+    group: "{{ nebula_install_group }}"
 
 - name: Render Nebula configuration template
   ansible.builtin.template:
     src: config.yaml.j2
     dest: "{{ nebula_config_file }}"
     mode: "0644"
-    owner: "{{ nebula_config_user }}"
-    group: "{{ nebula_config_group }}"
+    owner: "{{ nebula_install_user }}"
+    group: "{{ nebula_install_group }}"
 
 - name: Update Nebula Pebble layer
   vars:

@@ -14,8 +14,6 @@ options = common_options.merge(provider_options)
 require_relative "providers/#{provider_name}"
 
 Vagrant.configure("2") do |config|
-  Provider.configure(config, options)
-
   config.vm.box = provider_name != "docker" ? options.fetch("box") : nil
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -27,6 +25,8 @@ Vagrant.configure("2") do |config|
     node_name = format("node-%02d", node_index)
 
     config.vm.define node_name do |node|
+      Provider.configure(node, node_name, options)
+
       node.vm.hostname = node_name
 
       options.fetch("mounts", {}).each do |folder_id, mount_options|
