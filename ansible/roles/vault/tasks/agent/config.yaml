@@ -1,15 +1,4 @@
 ---
-- name: Create Vault agent group
-  ansible.builtin.group:
-    name: "{{ vault_agent_config_group }}"
-
-- name: Create Vault agent user
-  ansible.builtin.user:
-    name: "{{ vault_agent_config_user }}"
-    group: "{{ vault_agent_config_group }}"
-    system: true
-    create_home: false
-
 - name: Create Vault agent directories
   loop:
     - path: "{{ vault_agent_config_dir }}"
@@ -30,14 +19,14 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: "{{ vault_agent_config_user }}"
-    group: "{{ vault_agent_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Copy Vault agent certificates
   loop:
-    - label: Vault CA certificate
-      src: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
-      dest: "{{ (vault_agent_config_cert_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+    - label: Vault server CA certificate
+      src: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_agent_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
   loop_control:
     label: "{{ item.label }}"
@@ -45,8 +34,8 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ vault_agent_config_user }}"
-    group: "{{ vault_agent_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Include Vault server provision result
   run_once: true
@@ -70,8 +59,8 @@
     content: "{{ item.content }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ vault_agent_config_user }}"
-    group: "{{ vault_agent_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Ensure Vault agent block config exists
   block:
@@ -87,16 +76,16 @@
         src: "{{ common_template_managed_local_path }}"
         dest: "{{ vault_agent_config_block_file }}"
         mode: "0644"
-        owner: "{{ vault_agent_config_user }}"
-        group: "{{ vault_agent_config_group }}"
+        owner: "{{ vault_install_user }}"
+        group: "{{ vault_install_group }}"
 
 - name: Render Vault agent configuration template
   ansible.builtin.template:
     src: agent/config.hcl.j2
     dest: "{{ vault_agent_config_file }}"
     mode: "0644"
-    owner: "{{ vault_agent_config_user }}"
-    group: "{{ vault_agent_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Update Vault agent Pebble layer
   vars:

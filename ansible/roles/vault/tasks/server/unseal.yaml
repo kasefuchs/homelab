@@ -11,7 +11,7 @@
       changed_when: false
       environment:
         VAULT_ADDR: "{{ vault_server_local_api_address }}"
-        VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+        VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command:
         cmd: vault status -format=json
 
@@ -31,6 +31,6 @@
   changed_when: false
   environment:
     VAULT_ADDR: "{{ vault_server_local_api_address }}"
-    VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
   ansible.builtin.command:
     cmd: "vault operator unseal -format=json {{ item }}"

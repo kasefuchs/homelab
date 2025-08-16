@@ -1,4 +1,15 @@
 ---
+- name: Create Consul group
+  ansible.builtin.group:
+    name: "{{ consul_install_group }}"
+
+- name: Create Consul user
+  ansible.builtin.user:
+    name: "{{ consul_install_user }}"
+    group: "{{ consul_install_group }}"
+    system: true
+    create_home: false
+
 - name: Create Consul binaries directory
   ansible.builtin.file:
     path: "{{ consul_install_archive_extract_dir }}"

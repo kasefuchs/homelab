@@ -1,6 +1,6 @@
 ---
 # Common Name for the Nebula Certificate Authority.
-nebula_cert_ca_cn: "Muttias {{ common_inventory_name | capitalize }}  Nebula CA"
+nebula_cert_ca_cn: Nebula CA
 
 # List of IP ranges included in the CA certificate.
 nebula_cert_ca_ips:

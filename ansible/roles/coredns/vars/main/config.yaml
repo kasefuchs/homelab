@@ -2,12 +2,6 @@
 # Port on which CoreDNS will listen for incoming DNS queries.
 coredns_config_port: 53
 
-# The user to run CoreDNS as.
-coredns_config_user: coredns
-
-# The group to run CoreDNS as.
-coredns_config_group: coredns
-
 # Directory where CoreDNS configuration files will be stored.
 coredns_config_dir: /etc/coredns
 
@@ -30,8 +24,8 @@ coredns_config_pebble_layer:
       override: replace
       startup: enabled
       command: "{{ coredns_install_binary_file }} -conf={{ coredns_config_file }} -dns.port={{ coredns_config_port }}"
-      user: "{{ coredns_config_user }}"
-      group: "{{ coredns_config_group }}"
+      user: "{{ coredns_install_user }}"
+      group: "{{ coredns_install_group }}"
 
 # Path to the Pebble layer file that contains the CoreDNS service configuration.
 coredns_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '002-coredns.yaml') | ansible.builtin.path_join }}"

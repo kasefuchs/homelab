@@ -1,15 +1,4 @@
 ---
-- name: Create CoreDNS group
-  ansible.builtin.group:
-    name: "{{ coredns_config_group }}"
-
-- name: Create CoreDNS user
-  ansible.builtin.user:
-    name: "{{ coredns_config_user }}"
-    group: "{{ coredns_config_group }}"
-    system: true
-    create_home: false
-
 - name: Create CoreDNS directories
   loop:
     - path: "{{ coredns_config_dir }}"
@@ -24,16 +13,16 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: "{{ coredns_config_user }}"
-    group: "{{ coredns_config_group }}"
+    owner: "{{ coredns_install_user }}"
+    group: "{{ coredns_install_group }}"
 
 - name: Render CoreDNS configuration template
   ansible.builtin.template:
     src: Corefile.j2
     dest: "{{ coredns_config_file }}"
     mode: "0644"
-    owner: "{{ coredns_config_user }}"
-    group: "{{ coredns_config_group }}"
+    owner: "{{ coredns_install_user }}"
+    group: "{{ coredns_install_group }}"
 
 - name: Copy CoreDNS configuration fragments
   loop: "{{ coredns_config | ansible.builtin.dict2items }}"
@@ -45,8 +34,8 @@
     src: "{{ common_template_managed_local_path }}"
     dest: "{{ (coredns_config_include_dir, item.key ~ '.conf') | ansible.builtin.path_join }}"
     mode: "0644"
-    owner: "{{ coredns_config_user }}"
-    group: "{{ coredns_config_group }}"
+    owner: "{{ coredns_install_user }}"
+    group: "{{ coredns_install_group }}"
 
 - name: Copy CoreDNS zone databases
   loop: "{{ coredns_config_zones | ansible.builtin.dict2items }}"
@@ -59,8 +48,8 @@
     src: "{{ common_template_managed_local_path }}"
     dest: "{{ (coredns_config_zone_dir, item.key ~ '.zone') | ansible.builtin.path_join }}"
     mode: "0644"
-    owner: "{{ coredns_config_user }}"
-    group: "{{ coredns_config_group }}"
+    owner: "{{ coredns_install_user }}"
+    group: "{{ coredns_install_group }}"
 
 - name: Render resolv.conf template
   when: ansible_virtualization_type != "docker"

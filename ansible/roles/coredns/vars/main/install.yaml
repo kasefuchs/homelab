@@ -1,4 +1,10 @@
 ---
+# The user to run CoreDNS as.
+coredns_install_user: coredns
+
+# The group to run CoreDNS as.
+coredns_install_group: coredns
+
 # Local path to the downloaded CoreDNS binaries archive for the current architecture.
 coredns_install_archive_local_file: "{{ (coredns_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
 

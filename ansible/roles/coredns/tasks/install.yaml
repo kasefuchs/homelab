@@ -1,4 +1,15 @@
 ---
+- name: Create CoreDNS group
+  ansible.builtin.group:
+    name: "{{ coredns_install_group }}"
+
+- name: Create CoreDNS user
+  ansible.builtin.user:
+    name: "{{ coredns_install_user }}"
+    group: "{{ coredns_install_group }}"
+    system: true
+    create_home: false
+
 - name: Create CoreDNS binaries directory
   ansible.builtin.file:
     path: "{{ coredns_install_archive_extract_dir }}"

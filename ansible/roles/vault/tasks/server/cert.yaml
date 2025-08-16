@@ -1,17 +1,30 @@
 ---
-- name: Create host certificate directory
+- name: Create directories
+  loop:
+    - "{{ vault_server_cert_ca_local_dir }}"
+    - "{{ vault_server_cert_entity_host_local_dir }}"
   ansible.builtin.file:
-    path: "{{ vault_server_cert_host_local_dir }}"
+    path: "{{ item }}"
     mode: "0700"
     state: directory
+
+- name: Create Vault server CA certificate
+  vars:
+    common_cert_ca_name: server
+    common_cert_ca_subject: "{{ vault_server_cert_ca_subject }}"
+    common_cert_ca_duration: "{{ vault_server_cert_ca_duration }}"
+    common_cert_ca_local_dir: "{{ vault_server_cert_ca_local_dir }}"
+  run_once: true
+  ansible.builtin.include_tasks: "{{ (common_task_local_dir, 'cert/ca.yaml') | ansible.builtin.path_join }}"
 
 - name: Create Vault server certificate
   vars:
     common_cert_entity_name: server
-    common_cert_entity_ip_sans: "{{ vault_server_cert_entity_ip_san }}"
-    common_cert_entity_dns_sans: "{{ vault_server_cert_entity_dns_san }}"
+    common_cert_entity_ca_name: server
+    common_cert_entity_ip_sans: "{{ vault_server_cert_entity_ip_sans }}"
+    common_cert_entity_dns_sans: "{{ vault_server_cert_entity_dns_sans }}"
     common_cert_entity_subject: "{{ vault_server_cert_entity_subject }}"
     common_cert_entity_duration: "{{ vault_server_cert_entity_duration }}"
-    common_cert_entity_dir: "{{ vault_server_cert_host_local_dir }}"
-    common_cert_entity_ca_dir: "{{ vault_cert_ca_local_dir }}"
+    common_cert_entity_dir: "{{ vault_server_cert_entity_host_local_dir }}"
+    common_cert_entity_ca_dir: "{{ vault_server_cert_ca_local_dir }}"
   ansible.builtin.include_tasks: "{{ (common_task_local_dir, 'cert/entity.yaml') | ansible.builtin.path_join }}"

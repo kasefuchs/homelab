@@ -1,0 +1,43 @@
+---
+# Consul ACL configuration.
+consul_config_acl:
+  enabled: true
+  default_policy: "deny"
+  enable_token_persistence: true
+
+# Directory where Consul configuration files will be stored.
+consul_config_dir: /etc/consul
+
+# Directory for additional Consul config.
+consul_config_include_dir: "{{ (consul_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# Directory where Consul data will be stored.
+consul_config_state_dir: /var/lib/consul
+
+# Full path to the main Consul configuration file.
+consul_config_file: "{{ (consul_config_include_dir, 'config.hcl') | ansible.builtin.path_join }}"
+
+# Full path to the secrets Consul configuration file.
+consul_config_secrets_file: "{{ (consul_config_include_dir, 'secrets.hcl') | ansible.builtin.path_join }}"
+
+# Directory where Consul certificate files will be stored in the config path.
+consul_config_cert_dir: "{{ (consul_config_dir, 'certs') | ansible.builtin.path_join }}"
+
+# Directory where Consul CA certificate files will be stored in the config path.
+consul_config_cert_ca_dir: "{{ (consul_config_cert_dir, 'ca') | ansible.builtin.path_join }}"
+
+# Directory where Consul entity certificate files will be stored in the config path.
+consul_config_cert_entity_dir: "{{ (consul_config_cert_dir, 'entity') | ansible.builtin.path_join }}"
+
+# Pebble service layer definition for the Consul service.
+consul_config_pebble_layer:
+  services:
+    consul:
+      override: replace
+      startup: enabled
+      command: "{{ consul_install_binary_file }} agent -config-dir={{ consul_config_include_dir }}"
+      user: "{{ consul_install_user }}"
+      group: "{{ consul_install_group }}"
+
+# Path to the Pebble layer file that contains the Consul service configuration.
+consul_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '005-consul.yaml') | ansible.builtin.path_join }}"

@@ -1,4 +1,15 @@
 ---
+- name: Create Vault group
+  ansible.builtin.group:
+    name: "{{ vault_install_group }}"
+
+- name: Create Vault user
+  ansible.builtin.user:
+    name: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
+    system: true
+    create_home: false
+
 - name: Create Vault binaries directory
   ansible.builtin.file:
     path: "{{ vault_install_archive_extract_dir }}"

@@ -1,4 +1,15 @@
 ---
+- name: Create Nebula group
+  ansible.builtin.group:
+    name: "{{ nebula_install_group }}"
+
+- name: Create Nebula user
+  ansible.builtin.user:
+    name: "{{ nebula_install_user }}"
+    group: "{{ nebula_install_group }}"
+    system: true
+    create_home: false
+
 - name: Create Nebula binaries directory
   ansible.builtin.file:
     path: "{{ nebula_install_archive_extract_dir }}"

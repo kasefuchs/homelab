@@ -7,4 +7,5 @@ skip_list:
 exclude_paths:
   - roles/*/files/*/cert/*
   - roles/*/files/*/init/*
+  - roles/*/files/*/bootstrap/*
   - roles/*/files/*/provision/*

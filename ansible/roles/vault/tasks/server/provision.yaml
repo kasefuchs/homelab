@@ -8,7 +8,7 @@
   changed_when: false
   environment:
     VAULT_ADDR: "{{ vault_server_local_api_address }}"
-    VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
   ansible.builtin.command:
     cmd: vault status -format=json
 
@@ -27,7 +27,7 @@
   environment:
     VAULT_ADDR: "{{ vault_server_local_api_address }}"
     VAULT_TOKEN: "{{ vault_server_init_data.root_token }}"
-    VAULT_CACERT: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
   community.general.terraform:
     project_path: "{{ vault_server_provision_terraform_local_dir }}"
     workspace: "{{ common_inventory_name }}"
@@ -44,3 +44,18 @@
     src: "{{ common_template_managed_local_path }}"
     dest: "{{ vault_server_provision_local_file }}"
     mode: "0600"
+
+- name: Copy Vault PKI CA certificates
+  loop:
+    - name: root
+      value: "{{ vault_server_provision_result.outputs.vault_pki_root_ca_certificate.value }}"
+    - name: intermediate
+      value: "{{ vault_server_provision_result.outputs.vault_pki_intermediate_ca_certificate.value }}"
+  loop_control:
+    label: "{{ item.name }}"
+  vars:
+    common_managed_content: "{{ item.value }}"
+  ansible.builtin.template:
+    src: "{{ common_template_managed_local_path }}"
+    dest: "{{ (vault_server_cert_ca_local_dir, item.name ~ '.crt') | ansible.builtin.path_join }}"
+    mode: "0644"

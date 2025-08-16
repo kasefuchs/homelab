@@ -1,15 +1,4 @@
 ---
-- name: Create Vault server group
-  ansible.builtin.group:
-    name: "{{ vault_server_config_group }}"
-
-- name: Create Vault server user
-  ansible.builtin.user:
-    name: "{{ vault_server_config_user }}"
-    group: "{{ vault_server_config_group }}"
-    system: true
-    create_home: false
-
 - name: Create Vault server directories
   loop:
     - path: "{{ vault_server_config_dir }}"
@@ -28,21 +17,21 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: "{{ vault_server_config_user }}"
-    group: "{{ vault_server_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Copy Vault server certificates
   loop:
-    - label: Vault CA certificate
-      src: "{{ (vault_cert_ca_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
-      dest: "{{ (vault_server_config_cert_ca_dir, 'vault.crt') | ansible.builtin.path_join }}"
+    - label: Vault server CA certificate
+      src: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_server_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - label: Vault server certificate
-      src: "{{ (vault_server_cert_host_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+      src: "{{ (vault_server_cert_entity_host_local_dir, 'server.crt') | ansible.builtin.path_join }}"
       dest: "{{ (vault_server_config_cert_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - label: Vault server private key
-      src: "{{ (vault_server_cert_host_local_dir, 'server.key') | ansible.builtin.path_join }}"
+      src: "{{ (vault_server_cert_entity_host_local_dir, 'server.key') | ansible.builtin.path_join }}"
       dest: "{{ (vault_server_config_cert_entity_dir, 'server.key') | ansible.builtin.path_join }}"
       mode: "0600"
   loop_control:
@@ -51,16 +40,16 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ vault_server_config_user }}"
-    group: "{{ vault_server_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Render Vault server configuration template
   ansible.builtin.template:
     src: server/config.hcl.j2
     dest: "{{ vault_server_config_file }}"
     mode: "0644"
-    owner: "{{ vault_server_config_user }}"
-    group: "{{ vault_server_config_group }}"
+    owner: "{{ vault_install_user }}"
+    group: "{{ vault_install_group }}"
 
 - name: Update Vault server Pebble layer
   vars:

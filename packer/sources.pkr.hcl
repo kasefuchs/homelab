@@ -14,6 +14,7 @@ source "docker" "image" {
 
   build {
     path      = var.docker.source_image_build.path
+    pull      = var.docker.source_image_build.pull
     arguments = var.docker.source_image_build.arguments
   }
 }

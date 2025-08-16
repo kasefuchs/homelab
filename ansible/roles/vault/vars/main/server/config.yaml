@@ -1,10 +1,4 @@
 ---
-# The user to run Vault server as.
-vault_server_config_user: vault
-
-# The group to run Vault server as.
-vault_server_config_group: vault
-
 # Directory where Vault server configuration files will be stored.
 vault_server_config_dir: /etc/vault
 
@@ -30,8 +24,8 @@ vault_server_config_pebble_layer:
       override: replace
       startup: enabled
       command: "{{ vault_install_binary_file }} server -config={{ vault_server_config_file }}"
-      user: "{{ vault_server_config_user }}"
-      group: "{{ vault_server_config_group }}"
+      user: "{{ vault_install_user }}"
+      group: "{{ vault_install_group }}"
 
 # Path to the Pebble layer file that contains the Vault server service configuration.
 vault_server_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '003-vault.yaml') | ansible.builtin.path_join }}"

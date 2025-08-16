@@ -1,10 +1,4 @@
 ---
-# The user to run Vault agent as.
-vault_agent_config_user: vault-agent
-
-# The group to run Vault agent as.
-vault_agent_config_group: vault-agent
-
 # Directory where Vault agent configuration files will be stored.
 vault_agent_config_dir: /etc/vault-agent
 
@@ -48,8 +42,8 @@ vault_agent_config_pebble_layer:
       override: replace
       startup: enabled
       command: "{{ vault_install_binary_file }} agent -config={{ vault_agent_config_include_dir }}"
-      user: "{{ vault_agent_config_user }}"
-      group: "{{ vault_agent_config_group }}"
+      user: root
+      group: root
 
 # Path to the Pebble layer file that contains the Vault agent service configuration.
 vault_agent_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '004-vault-agent.yaml') | ansible.builtin.path_join }}"

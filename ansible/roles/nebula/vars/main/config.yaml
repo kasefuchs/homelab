@@ -1,10 +1,4 @@
 ---
-# The user to run Nebula as.
-nebula_config_user: nebula
-
-# The group to run Nebula as.
-nebula_config_group: nebula
-
 # Directory where Nebula configuration files will be stored.
 nebula_config_dir: /etc/nebula
 
@@ -33,8 +27,8 @@ nebula_config_pebble_layer:
       override: replace
       startup: enabled
       command: "{{ nebula_install_binary_file }} -config={{ nebula_config_file }}"
-      user: "{{ nebula_config_user }}"
-      group: "{{ nebula_config_group }}"
+      user: "{{ nebula_install_user }}"
+      group: "{{ nebula_install_group }}"
 
 # Path to the Pebble layer file that contains the Nebula service configuration.
 nebula_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '001-nebula.yaml') | ansible.builtin.path_join }}"

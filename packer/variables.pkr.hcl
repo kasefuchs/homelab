@@ -17,6 +17,7 @@ variable "docker" {
     changes = list(string)
     source_image_build = object({
       path      = string
+      pull      = bool
       arguments = map(string)
     })
     result_image_tags       = list(string)
@@ -27,6 +28,7 @@ variable "docker" {
     changes = ["ENV PEBBLE /var/lib/pebble/", "ENTRYPOINT [\"/usr/local/bin/entrypoint.sh\"]", "CMD []"]
     source_image_build = {
       path      = "../docker/Dockerfile.debian"
+      pull      = true
       arguments = { "DISTRO_TAG" : "trixie-slim" }
     }
     result_image_tags       = ["trixie-slim"]
@@ -42,6 +44,6 @@ variable "ansible" {
 
   default = {
     env_vars        = []
-    extra_arguments = ["--tags", "packer"]
+    extra_arguments = ["--tags=packer"]
   }
 }
