@@ -1,0 +1,24 @@
+---
+- name: Include Consul bootstrap result
+  ansible.builtin.include_vars:
+    file: "{{ consul_bootstrap_local_file }}"
+
+- name: Include Consul provision result
+  ansible.builtin.include_vars:
+    file: "{{ consul_provision_local_file }}"
+
+- name: Set Consul Agent ACL tokens
+  register: consul_acl_set_token_result
+  changed_when: consul_acl_set_token_result.rc == 0
+  loop:
+    - type: agent
+      value: "{{ consul_acl_agent_token }}"
+    - type: dns
+      value: "{{ consul_acl_dns_token }}"
+  loop_control:
+    label: "{{ item.type }}"
+  environment:
+    CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"
+    CONSUL_HTTP_TOKEN: "{{ consul_acl_bootstrap_token }}"
+    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  ansible.builtin.command: "consul acl set-agent-token {{ item.type }} {{ item.value }}"

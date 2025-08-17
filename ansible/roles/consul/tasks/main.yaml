@@ -35,3 +35,22 @@
       tags: bootstrap
       become: false
       delegate_to: localhost
+
+- name: Provision Consul
+  tags: provision
+  when: consul_provision_host == inventory_hostname
+  ansible.builtin.include_tasks:
+    file: provision.yaml
+    apply:
+      tags: provision
+      become: false
+      delegate_to: localhost
+
+- name: Configure Consul ACl
+  tags: acl
+  ansible.builtin.include_tasks:
+    file: acl.yaml
+    apply:
+      tags: acl
+      become: false
+      delegate_to: localhost

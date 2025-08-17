@@ -1,0 +1,33 @@
+---
+- name: Include Consul bootstrap result
+  ansible.builtin.include_vars:
+    file: "{{ consul_bootstrap_local_file }}"
+
+- name: Ensure Consul provision directory exists
+  ansible.builtin.file:
+    path: "{{ consul_provision_local_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: Provision Consul
+  register: consul_provision_result
+  environment:
+    CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"
+    CONSUL_HTTP_TOKEN: "{{ consul_provision_bootstrap_token }}"
+    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  community.general.terraform:
+    project_path: "{{ consul_provision_terraform_local_dir }}"
+    workspace: "{{ common_inventory_name }}"
+
+- name: Render Consul provision result to local YAML file
+  vars:
+    common_managed_content: |
+      ---
+      {{
+        {"consul_provision_data": consul_provision_result.outputs}
+        | ansible.builtin.to_nice_yaml(indent=2)
+      }}
+  ansible.builtin.template:
+    src: "{{ common_template_managed_local_path }}"
+    dest: "{{ consul_provision_local_file }}"
+    mode: "0600"

@@ -1,0 +1,6 @@
+---
+# Host where Consul will be provisioned.
+consul_provision_host: "{{ groups['consul_servers'][0] }}"
+
+# Authorization token to use when provisioning.
+consul_provision_bootstrap_token: "{{ consul_bootstrap_data.SecretID }}"

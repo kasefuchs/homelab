@@ -26,7 +26,7 @@
   register: vault_server_provision_result
   environment:
     VAULT_ADDR: "{{ vault_server_local_api_address }}"
-    VAULT_TOKEN: "{{ vault_server_init_data.root_token }}"
+    VAULT_TOKEN: "{{ vault_server_provision_token }}"
     VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
   community.general.terraform:
     project_path: "{{ vault_server_provision_terraform_local_dir }}"
