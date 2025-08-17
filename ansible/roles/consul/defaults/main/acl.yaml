@@ -1,0 +1,9 @@
+---
+# Authorization token to use when setting other agent ACL tokens.
+consul_acl_bootstrap_token: "{{ consul_bootstrap_data.SecretID }}"
+
+# Authorization token for Consul agents.
+consul_acl_agent_token: "{{ consul_provision_data.consul_acl_agent_token_secret_id.value }}"
+
+# Authorization token for Consul DNS service.
+consul_acl_dns_token: "{{ consul_provision_data.consul_acl_dns_token_secret_id.value }}"

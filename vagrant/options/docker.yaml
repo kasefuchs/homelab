@@ -39,3 +39,11 @@ mounts:
   # Vault agent persistent state.
   vault-agent-state:
     guest: /var/lib/vault-agent
+
+  # Vault agent configuration.
+  consul-agent-config:
+    guest: /etc/consul
+
+  # Vault agent persistent state.
+  consul-agent-state:
+    guest: /var/lib/consul

@@ -1,3 +1,6 @@
 ---
 # Host where Vault will be provisioned.
 vault_server_provision_host: "{{ groups['vault_servers'][0] }}"
+
+# Authorization token to use when provisioning.
+vault_server_provision_token: "{{ vault_server_init_data.root_token }}"
