@@ -1,0 +1,52 @@
+---
+- name: Get latest Nomad version
+  when: nomad_download_version == "latest"
+  block:
+    - name: Fetch latest Nomad release on GitHub
+      register: nomad_download_github_release
+      community.general.github_release:
+        user: "{{ nomad_download_github_user }}"
+        repo: "{{ nomad_download_github_repository }}"
+        token: "{{ lookup('ansible.builtin.env', 'ANSIBLE_GITHUB_API_TOKEN') }}"
+        action: latest_release
+
+    - name: Set Nomad version fact
+      ansible.builtin.set_fact:
+        nomad_download_version: "{{ nomad_download_github_release.tag | ansible.builtin.regex_replace('^v', '') }}"
+
+- name: Link current version directory
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (nomad_download_local_dir, nomad_download_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Link current version directory
+      ansible.builtin.file:
+        src: "{{ (nomad_download_local_dir, nomad_download_version) | ansible.builtin.path_join }}"
+        dest: "{{ nomad_download_current_local_dir_link }}"
+        state: link
+
+- name: Download Nomad binaries
+  block:
+    - name: Check if the Nomad archives already downloaded
+      loop: "{{ nomad_download_architecture_map | ansible.builtin.dict2items }}"
+      register: nomad_download_files
+      loop_control:
+        label: "{{ nomad_download_architecture.key }}"
+        loop_var: nomad_download_architecture
+      ansible.builtin.stat:
+        path: "{{ (nomad_download_current_local_dir_link, nomad_download_architecture.key) | ansible.builtin.path_join }}"
+
+    - name: Download Nomad archives
+      when: not nomad_download_files.results[ansible_loop.index0].stat.exists
+      loop: "{{ nomad_download_architecture_map | ansible.builtin.dict2items }}"
+      loop_control:
+        label: "{{ nomad_download_architecture.key }}"
+        loop_var: nomad_download_architecture
+        extended: true
+      ansible.builtin.get_url:
+        url: "{{ nomad_download_url }}"
+        dest: "{{ (nomad_download_current_local_dir_link, nomad_download_architecture.key) | ansible.builtin.path_join }}"
+        mode: "0644"
