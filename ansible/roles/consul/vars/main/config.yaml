@@ -5,6 +5,13 @@ consul_config_acl:
   default_policy: "deny"
   enable_token_persistence: true
 
+# Consul TLS configuration.
+consul_config_tls:
+  defaults:
+    ca_file: "{{ (consul_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    key_file: "{{ (consul_config_cert_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
+    cert_file: "{{ (consul_config_cert_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
+
 # Directory where Consul configuration files will be stored.
 consul_config_dir: /etc/consul
 
@@ -17,8 +24,8 @@ consul_config_state_dir: /var/lib/consul
 # Full path to the main Consul configuration file.
 consul_config_file: "{{ (consul_config_include_dir, 'config.hcl') | ansible.builtin.path_join }}"
 
-# Full path to the secrets Consul configuration file.
-consul_config_secrets_file: "{{ (consul_config_include_dir, 'secrets.hcl') | ansible.builtin.path_join }}"
+# Full path to the Vault secrets Consul configuration file.
+consul_config_vault_file: "{{ (consul_config_include_dir, 'vault.hcl') | ansible.builtin.path_join }}"
 
 # Directory where Consul certificate files will be stored in the config path.
 consul_config_cert_dir: "{{ (consul_config_dir, 'certs') | ansible.builtin.path_join }}"

@@ -6,7 +6,7 @@
     - path: "{{ consul_config_include_dir }}"
       mode: "0755"
     - path: "{{ consul_config_state_dir }}"
-      mode: "0755"
+      mode: "0700"
     - path: "{{ consul_config_cert_dir }}"
       mode: "0755"
     - path: "{{ consul_config_cert_ca_dir }}"
