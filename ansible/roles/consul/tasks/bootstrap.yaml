@@ -5,6 +5,16 @@
     state: directory
     mode: "0700"
 
+- name: Wait until Consul cluster leader elected
+  until: consul_bootstrap_leader_result.status == 200
+  delay: 2
+  retries: 30
+  register: consul_bootstrap_leader_result
+  changed_when: false
+  ansible.builtin.uri:
+    url: "{{ consul_local_api_address }}/v1/status/leader"
+    ca_path: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+
 - name: Bootstrap Consul ACL
   run_once: true
   block:

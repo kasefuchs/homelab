@@ -15,7 +15,7 @@ listener "tcp" {
 
 storage "raft" {
   path    = "{{ vault_server_config_state_dir }}"
-  node_id = "{{ vault_server_config_node_id }}"
+  node_id = "{{ vault_server_config_node_name }}"
 
 {% for api_address in vault_server_config_retry_join %}
   retry_join {

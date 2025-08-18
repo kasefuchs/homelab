@@ -35,13 +35,6 @@ consul_config_ports:
   grpc: -1
   grpc_tls: 8503
 
-# Consul TLS config.
-consul_config_tls:
-  defaults:
-    ca_file: "{{ (consul_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
-    key_file: "{{ (consul_config_cert_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
-    cert_file: "{{ (consul_config_cert_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
-
 # Consul Telemetry config.
 consul_config_telemetry: {}
 
@@ -56,9 +49,9 @@ consul_config_vault_agent_templates:
     left_delimiter: "[["
     right_delimiter: "]]"
 
-  consul-agent-secrets:
+  consul-agent-vault-secrets:
     contents: "{{ lookup('ansible.builtin.template', 'secrets.hcl.ctmpl.j2') }}"
-    destination: "{{ consul_config_secrets_file }}"
+    destination: "{{ consul_config_vault_file }}"
     user: "{{ consul_install_user }}"
     group: "{{ consul_install_group }}"
     perms: 384
