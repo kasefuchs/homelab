@@ -1,0 +1,9 @@
+---
+# Path to the Nomad role.
+nomad_role_local_dir: "{{ (role_path, '../nomad') | ansible.builtin.path_join | ansible.builtin.realpath }}"
+
+# Path to its files' directory.
+nomad_file_local_dir: "{{ (nomad_role_local_dir, 'files') | ansible.builtin.path_join }}"
+
+# Path to the main files' directory.
+nomad_main_file_local_dir: "{{ (nomad_file_local_dir, 'main') | ansible.builtin.path_join }}"
