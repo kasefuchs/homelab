@@ -28,8 +28,7 @@ network:
 # Storage configuration for nodes.
 storage:
   # Bind mounts.
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+  volumes: []
 
   # Persistent per-node mounts.
   persistent:
@@ -72,6 +71,10 @@ storage:
     # Vault agent persistent state.
     nomad-agent-state:
       guest: /var/lib/nomad
+
+    # Docker state.
+    docker-state:
+      guest: /var/lib/docker
 
     # Root user home directory.
     root-home:

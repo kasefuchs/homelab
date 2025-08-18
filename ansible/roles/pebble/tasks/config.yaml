@@ -43,8 +43,8 @@
 - name: Install Pebble entrypoint
   when: ansible_virtualization_type == "docker"
   ansible.builtin.template:
-    src: entrypoint.sh.j2
-    dest: /usr/local/bin/entrypoint.sh
+    src: pebble-entrypoint.sh.j2
+    dest: /usr/local/bin/pebble-entrypoint.sh
     mode: "0755"
     owner: root
     group: root

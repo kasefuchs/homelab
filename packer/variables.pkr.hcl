@@ -25,7 +25,11 @@ variable "docker" {
   })
 
   default = {
-    changes = ["ENV PEBBLE /var/lib/pebble/", "ENTRYPOINT [\"/usr/local/bin/entrypoint.sh\"]", "CMD []"]
+    changes = [
+      "ENV PEBBLE /var/lib/pebble/",
+      "ENTRYPOINT [\"sh\"]",
+      "CMD [\"-c\", \"/usr/local/bin/dockerd-entrypoint.sh & until docker info >/dev/null 2>&1; do sleep 1; done && /usr/local/bin/pebble-entrypoint.sh\"]"
+    ]
     source_image_build = {
       path      = "../docker/Dockerfile.debian"
       pull      = true
