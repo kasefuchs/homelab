@@ -27,3 +27,9 @@ network:
       host: 8510
       guest: 8501
       protocol: tcp
+
+    # Nomad port forwarding configuration.
+    nomad:
+      host: 4656
+      guest: 4646
+      protocol: tcp
