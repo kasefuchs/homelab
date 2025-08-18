@@ -9,8 +9,8 @@ packer/outputs/
 # Machine states
 .vagrant/
 
-# Mounts
-.mounts/
+# Persistent
+.persist/
 
 # --- Python ---
 .venv/

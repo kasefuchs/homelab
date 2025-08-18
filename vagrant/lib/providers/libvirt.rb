@@ -1,5 +1,5 @@
 module Provider
-  def self.configure(node, name, options)
+  def self.configure(node, node_index, node_name, options)
     node.vm.provider :libvirt do |domain|
       domain.cpus   = options.dig("domain", "cores")
       domain.memory = options.dig("domain", "memory")

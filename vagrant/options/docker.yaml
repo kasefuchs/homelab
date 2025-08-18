@@ -10,40 +10,68 @@ domain:
   # Arguments passed to 'docker run' for each container.
   create_arguments:
     - --dns=127.0.0.1
-    - --network=homelab
+    - --cgroupns=host
     - --privileged
     - --security-opt=seccomp=unconfined
 
-# Bind mounts for container data and configuration.
-mounts:
-  # Persistent state for Pebble.
-  pebble-state:
-    guest: /var/lib/pebble
+# Network configuration shared across all nodes.
+network:
+  # Private network configurations for internal communication.
+  private:
+    # Default 'homelab' bridge network for all containers.
+    homelab:
+      # Starting IP address for container allocation.
+      # Subsequent containers get sequential addresses (172.18.0.2, 172.18.0.3, etc).
+      start_ip: 172.18.0.1
 
-  # Configuration files for CoreDNS.
-  coredns-config:
-    guest: /etc/coredns
+# Storage configuration for nodes.
+storage:
+  # Bind mounts.
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
 
-  # Vault server configuration.
-  vault-server-config:
-    guest: /etc/vault
+  # Persistent per-node mounts.
+  persistent:
+    # Persistent state for Pebble.
+    pebble-state:
+      guest: /var/lib/pebble
 
-  # Vault server persistent state.
-  vault-server-state:
-    guest: /var/lib/vault
+    # Configuration files for CoreDNS.
+    coredns-config:
+      guest: /etc/coredns
 
-  # Vault agent configuration.
-  vault-agent-config:
-    guest: /etc/vault-agent
+    # Vault server configuration.
+    vault-server-config:
+      guest: /etc/vault
 
-  # Vault agent persistent state.
-  vault-agent-state:
-    guest: /var/lib/vault-agent
+    # Vault server persistent state.
+    vault-server-state:
+      guest: /var/lib/vault
 
-  # Vault agent configuration.
-  consul-agent-config:
-    guest: /etc/consul
+    # Vault agent configuration.
+    vault-agent-config:
+      guest: /etc/vault-agent
 
-  # Vault agent persistent state.
-  consul-agent-state:
-    guest: /var/lib/consul
+    # Vault agent persistent state.
+    vault-agent-state:
+      guest: /var/lib/vault-agent
+
+    # Consul agent configuration.
+    consul-agent-config:
+      guest: /etc/consul
+
+    # Consul agent persistent state.
+    consul-agent-state:
+      guest: /var/lib/consul
+
+    # Nomad agent configuration.
+    nomad-agent-config:
+      guest: /etc/nomad
+
+    # Vault agent persistent state.
+    nomad-agent-state:
+      guest: /var/lib/nomad
+
+    # Root user home directory.
+    root-home:
+      guest: /root
