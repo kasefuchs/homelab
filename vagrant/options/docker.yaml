@@ -19,16 +19,17 @@ network:
   # Private network configurations for internal communication.
   private:
     # Default 'homelab' bridge network for all containers.
-    homelab:
-      # Starting IP address for container allocation.
-      # Subsequent containers get sequential addresses (172.18.0.2, 172.18.0.3, etc).
-      start_ip: 172.18.0.1
+    name: homelab
+
+    # Starting IP address for container allocation.
+    # Subsequent containers get sequential addresses (172.18.0.2, 172.18.0.3, etc).
+    start_ip: 172.18.0.1
 
 # Storage configuration for nodes.
 storage:
   # Bind mounts.
   volumes:
-    - "/var/run/docker.sock:/var/run/docker.sock"
+    - /var/run/docker.sock:/var/run/docker.sock
 
   # Persistent per-node mounts.
   persistent:
