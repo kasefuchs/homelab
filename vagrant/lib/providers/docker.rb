@@ -8,7 +8,7 @@ module Provider
 
       domain.name        = format(name_format, node_name)
       domain.image       = options.fetch("image")
-      domain.volumes     = options.dig("storage", "volumes")
+      domain.volumes     = options.dig("domain", "volumes")
       domain.create_args = options.dig("domain", "create_arguments") + network_args
     end
   end

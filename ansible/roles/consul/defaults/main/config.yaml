@@ -15,7 +15,7 @@ consul_config_node_name: "{{ inventory_hostname }}"
 consul_config_datacenter: global
 
 # Address for binding all Consul services.
-consul_config_bind_address: 0.0.0.0
+consul_config_bind_address: "{{ ansible_default_ipv4.address }}"
 
 # Address for client requests.
 consul_config_client_address: 0.0.0.0

@@ -7,6 +7,9 @@ domain:
   # Format string for container names.
   name_format: homelab-%s
 
+  # Docker volumes to mount.
+  volumes: []
+
   # Arguments passed to 'docker run' for each container.
   create_arguments:
     - --dns=127.0.0.1
@@ -25,13 +28,13 @@ network:
     # Subsequent containers get sequential addresses (172.18.0.2, 172.18.0.3, etc).
     start_ip: 172.18.0.1
 
-# Storage configuration for nodes.
-storage:
-  # Bind mounts.
-  volumes: []
+# Persistent per-node mounts.
+persistent:
+  # Base directory on the host for all persistent data.
+  root: .persist
 
-  # Persistent per-node mounts.
-  persistent:
+  # Persistent volumes.
+  volumes:
     # Persistent state for Pebble.
     pebble-state:
       guest: /var/lib/pebble
