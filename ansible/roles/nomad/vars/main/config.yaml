@@ -1,0 +1,53 @@
+---
+# TLS settings.
+nomad_config_tls:
+  rpc: true
+  http: true
+  ca_file: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  key_file: "{{ (nomad_config_cert_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
+  cert_file: "{{ (nomad_config_cert_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
+  verify_server_hostname: true
+
+# ACL settings.
+nomad_config_acl:
+  enabled: true
+
+# Directory where Nomad configuration files will be stored.
+nomad_config_dir: /etc/nomad
+
+# User to run Nomad as.
+nomad_config_user: "{{ 'root' if nomad_config_client else nomad_install_user }}"
+
+# Directory for additional Nomad config.
+nomad_config_include_dir: "{{ (nomad_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# Directory where Nomad data will be stored.
+nomad_config_state_dir: /var/lib/nomad
+
+# Full path to the main Nomad configuration file.
+nomad_config_file: "{{ (nomad_config_include_dir, 'config.hcl') | ansible.builtin.path_join }}"
+
+# Full path to the Vault secrets Nomad configuration file.
+nomad_config_vault_file: "{{ (nomad_config_include_dir, 'vault.hcl') | ansible.builtin.path_join }}"
+
+# Directory where Nomad certificate files will be stored in the config path.
+nomad_config_cert_dir: "{{ (nomad_config_dir, 'certs') | ansible.builtin.path_join }}"
+
+# Directory where Nomad CA certificate files will be stored in the config path.
+nomad_config_cert_ca_dir: "{{ (nomad_config_cert_dir, 'ca') | ansible.builtin.path_join }}"
+
+# Directory where Nomad entity certificate files will be stored in the config path.
+nomad_config_cert_entity_dir: "{{ (nomad_config_cert_dir, 'entity') | ansible.builtin.path_join }}"
+
+# Pebble service layer definition for the Nomad service.
+nomad_config_pebble_layer:
+  services:
+    nomad:
+      override: replace
+      startup: enabled
+      command: "{{ nomad_install_binary_file }} agent -config={{ nomad_config_include_dir }}"
+      user: "{{ nomad_config_user }}"
+      group: "{{ nomad_install_group }}"
+
+# Path to the Pebble layer file that contains the Nomad service configuration.
+nomad_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '006-nomad.yaml') | ansible.builtin.path_join }}"

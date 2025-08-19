@@ -1,0 +1,67 @@
+---
+- name: Create Nomad agent directories
+  loop:
+    - path: "{{ nomad_config_dir }}"
+      mode: "0755"
+    - path: "{{ nomad_config_include_dir }}"
+      mode: "0755"
+    - path: "{{ nomad_config_state_dir }}"
+      mode: "0700"
+    - path: "{{ nomad_config_cert_dir }}"
+      mode: "0755"
+    - path: "{{ nomad_config_cert_ca_dir }}"
+      mode: "0755"
+    - path: "{{ nomad_config_cert_entity_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    owner: "{{ nomad_config_user }}"
+    group: "{{ nomad_install_group }}"
+
+- name: Copy Vault intermediate CA certificate
+  ansible.builtin.copy:
+    src: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    dest: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    mode: "0644"
+    owner: "{{ nomad_config_user }}"
+    group: "{{ nomad_install_group }}"
+
+- name: Include Vault agent templates
+  vars:
+    common_block_path: "{{ vault_agent_config_block_file }}"
+    common_block_label: "{{ item.key }}"
+    common_block_content: "{{ lookup('ansible.builtin.template', vault_agent_template_block_local_path, template_vars={'vault_agent_template': item.value}) }}"
+  loop: "{{ nomad_config_vault_agent_templates | ansible.builtin.dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  ansible.builtin.include_tasks:
+    file: "{{ (common_task_local_dir, 'block.yaml') | ansible.builtin.path_join }}"
+    apply:
+      notify: Restart Vault agent service
+
+- name: Render Nomad agent configuration template
+  ansible.builtin.template:
+    src: config.hcl.j2
+    dest: "{{ nomad_config_file }}"
+    mode: "0644"
+    owner: "{{ nomad_config_user }}"
+    group: "{{ nomad_install_group }}"
+
+- name: Update Nomad agent Pebble layer
+  vars:
+    pebble_layer: "{{ nomad_config_pebble_layer }}"
+  notify: Add Nomad agent Pebble layer
+  ansible.builtin.template:
+    src: "{{ pebble_template_layer_local_path }}"
+    dest: "{{ nomad_config_pebble_layer_file }}"
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Flush handlers
+  run_once: true
+  ansible.builtin.meta: flush_handlers

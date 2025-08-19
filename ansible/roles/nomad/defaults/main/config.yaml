@@ -1,0 +1,121 @@
+---
+# Unique node name.
+nomad_config_node_name: "{{ inventory_hostname }}"
+
+# Region name.
+nomad_config_region: global
+
+# Datacenter name.
+nomad_config_datacenter: default
+
+# Address for binding all Nomad services.
+nomad_config_bind_address: 0.0.0.0
+
+# Servers to join for cluster discovery.
+nomad_config_retry_join: "{{ groups['nomad_servers'] | reject('equalto', inventory_hostname) | product(['.internal']) | map('join') }}"
+
+# Service ports.
+nomad_config_ports:
+  http: 4646
+  rpc: 4647
+  serf: 4648
+
+# Bind addresses for services.
+nomad_config_addresses: {}
+
+# Telemetry configuration.
+nomad_config_telemetry:
+  disable_hostname: true
+  prometheus_metrics: true
+  publish_node_metrics: true
+  publish_allocation_metrics: true
+
+# Enable server mode.
+nomad_config_server: "{{ 'nomad_servers' in group_names }}"
+
+# Retry join for servers.
+nomad_config_server_retry_join: "{{ nomad_config_retry_join }}"
+
+# Number of servers expected for bootstrap.
+nomad_config_server_bootstrap_expect: "{{ groups['nomad_servers'] | length }}"
+
+# Enable client mode.
+nomad_config_client: "{{ 'nomad_clients' in group_names }}"
+
+# Client options.
+nomad_config_client_options: {}
+
+# Reserved client resources.
+nomad_config_client_reserved: {}
+
+# Retry join for clients.
+nomad_config_client_retry_join: "{{ nomad_config_retry_join }}"
+
+# Client node pool.
+nomad_config_client_node_pool: default
+
+# Client node class.
+nomad_config_client_node_class: ""
+
+# Vault agent templates for certificates and secrets.
+nomad_config_vault_agent_templates:
+  nomad-agent-cert:
+    contents: "{{ lookup('ansible.builtin.template', 'agent.pem.ctmpl.j2') }}"
+    destination: "{{ (nomad_config_cert_entity_dir, 'agent.pem') | ansible.builtin.path_join }}"
+    user: "{{ nomad_install_user }}"
+    group: "{{ nomad_install_group }}"
+    perms: 384
+    left_delimiter: "[["
+    right_delimiter: "]]"
+
+  nomad-agent-vault-secrets:
+    contents: "{{ lookup('ansible.builtin.template', 'secrets.hcl.ctmpl.j2') }}"
+    destination: "{{ nomad_config_vault_file }}"
+    user: "{{ nomad_install_user }}"
+    group: "{{ nomad_install_group }}"
+    perms: 384
+    left_delimiter: "[["
+    right_delimiter: "]]"
+
+# CN for server certificate.
+nomad_config_cert_entity_server_cn: "server.{{ nomad_config_region }}.nomad"
+
+# IP SANs for server certificate.
+nomad_config_cert_entity_server_ip_sans:
+  - 127.0.0.1
+  - "{{ ansible_default_ipv4.address }}"
+
+# DNS SANs for server certificate.
+nomad_config_cert_entity_server_dns_sans:
+  - localhost
+  - nomad.service.consul
+  - "{{ common_internal_fqdn }}"
+  - "server.{{ nomad_config_region }}.nomad"
+  - "{{ nomad_config_node_name }}.server.{{ nomad_config_region }}.nomad"
+
+# CN for client certificate.
+nomad_config_cert_entity_client_cn: "client.{{ nomad_config_region }}.nomad"
+
+# IP SANs for client certificate.
+nomad_config_cert_entity_client_ip_sans:
+  - 127.0.0.1
+  - "{{ ansible_default_ipv4.address }}"
+
+# DNS SANs for client certificate.
+nomad_config_cert_entity_client_dns_sans:
+  - localhost
+  - "{{ common_internal_fqdn }}"
+  - "client.{{ nomad_config_region }}.nomad"
+  - "{{ nomad_config_node_name }}.client.{{ nomad_config_region }}.nomad"
+
+# CN based on node role.
+nomad_config_cert_entity_cn: "{{ nomad_config_cert_entity_server_cn if nomad_config_server else nomad_config_cert_entity_client_cn }}"
+
+# Certificate validity duration.
+nomad_config_cert_entity_duration: 168h
+
+# IP SANs based on node role.
+nomad_config_cert_entity_ip_sans: "{{ nomad_config_cert_entity_server_ip_sans if nomad_config_server else nomad_config_cert_entity_client_ip_sans }}"
+
+# DNS SANs based on node role.
+nomad_config_cert_entity_dns_sans: "{{ nomad_config_cert_entity_server_dns_sans if nomad_config_server else nomad_config_cert_entity_client_dns_sans }}"

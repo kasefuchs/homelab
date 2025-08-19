@@ -15,6 +15,16 @@ resource "vault_kv_secret_v2" "consul" {
   data_json = jsonencode({ encrypt = random_bytes.consul_encrypt.base64 })
 }
 
+resource "random_bytes" "nomad_encrypt" {
+  length = 32
+}
+
+resource "vault_kv_secret_v2" "nomad" {
+  name      = "nomad"
+  mount     = vault_mount.kv_cluster.path
+  data_json = jsonencode({ encrypt = random_bytes.nomad_encrypt.base64 })
+}
+
 resource "vault_mount" "pki_root" {
   type                  = "pki"
   path                  = "pki-root"
@@ -69,6 +79,13 @@ resource "vault_pki_secret_backend_role" "consul" {
   backend          = vault_mount.pki_intermediate.path
   name             = "consul"
   allowed_domains  = ["consul", "internal"]
+  allow_subdomains = true
+}
+
+resource "vault_pki_secret_backend_role" "nomad" {
+  backend          = vault_mount.pki_intermediate.path
+  name             = "nomad"
+  allowed_domains  = ["nomad", "service.consul", "internal"]
   allow_subdomains = true
 }
 
