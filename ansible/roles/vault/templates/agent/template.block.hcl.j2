@@ -1,3 +1,3 @@
 template {
-{{ vault_agent_template | to_hcl2 | trim | indent(2, True) }}
+  {{ vault_agent_template | to_hcl2 | trim | indent(2) }}
 }

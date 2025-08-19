@@ -1,4 +1,7 @@
 ---
+# Enable Nomad agent deployment on this host.
+nomad_deploy: "{{ nomad_config_server or nomad_config_client }}"
+
 # Path to the Nomad role.
 nomad_role_local_dir: "{{ (role_path, '../nomad') | ansible.builtin.path_join | ansible.builtin.realpath }}"
 

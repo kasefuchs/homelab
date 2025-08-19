@@ -15,3 +15,24 @@
     file: install.yaml
     apply:
       tags: [install, packer]
+
+- name: Configure Nomad agent
+  tags: config
+  when: nomad_deploy
+  ansible.builtin.include_tasks:
+    file: config.yaml
+    apply:
+      tags: config
+      notify:
+        - Restart Nomad agent service
+        - Wait for Nomad agent
+
+- name: Bootstrap Nomad ACL
+  tags: bootstrap
+  when: nomad_bootstrap_host == inventory_hostname
+  ansible.builtin.include_tasks:
+    file: bootstrap.yaml
+    apply:
+      tags: bootstrap
+      become: false
+      delegate_to: localhost

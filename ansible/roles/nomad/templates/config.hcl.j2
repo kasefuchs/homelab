@@ -1,0 +1,51 @@
+{{ common_managed_header | ansible.builtin.comment }}
+data_dir = "{{ nomad_config_state_dir }}"
+
+name       = "{{ nomad_config_node_name }}"
+region     = "{{ nomad_config_region }}"
+datacenter = "{{ nomad_config_datacenter }}"
+
+bind_addr = "{{ nomad_config_bind_address }}"
+
+server {
+  enabled = {{ nomad_config_server | lower }}
+
+  bootstrap_expect = {{ nomad_config_server_bootstrap_expect }}
+
+  server_join {
+    retry_join = {{ nomad_config_server_retry_join | ansible.builtin.to_json }}
+  }
+}
+
+client {
+  enabled = {{ nomad_config_client | lower }}
+
+  node_pool  = "{{ nomad_config_client_node_pool }}"
+  node_class = "{{ nomad_config_client_node_class }}"
+
+  server_join {
+    retry_join = {{ nomad_config_client_retry_join | ansible.builtin.to_json }}
+  }
+
+  {{
+    {
+      "options": nomad_config_client_options,
+      "reserved": nomad_config_client_reserved
+    }
+    | to_hcl2
+    | trim
+    | indent(2)
+  }}
+}
+
+{{
+  {
+    "tls": nomad_config_tls,
+    "acl": nomad_config_acl,
+    "addresses": nomad_config_addresses,
+    "ports": nomad_config_ports,
+    "telemetry": nomad_config_telemetry
+  }
+  | to_hcl2
+  | trim
+}}

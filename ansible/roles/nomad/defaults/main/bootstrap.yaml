@@ -1,0 +1,3 @@
+---
+# Host where Nomad will bootstrap.
+nomad_bootstrap_host: "{{ groups['nomad_servers'][0] }}"

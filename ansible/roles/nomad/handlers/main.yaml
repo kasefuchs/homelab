@@ -21,4 +21,4 @@
 
 - name: Wait for Nomad agent
   ansible.builtin.wait_for:
-    port: "{{ nomad_config_ports.https }}"
+    port: "{{ nomad_config_ports.http }}"
