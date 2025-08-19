@@ -12,6 +12,9 @@ packer/outputs/
 # Persistent
 .persist/
 
+# Override configs
+vagrant/options/*.override.yaml
+
 # --- Python ---
 .venv/
 __pycache__/

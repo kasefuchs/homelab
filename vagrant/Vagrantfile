@@ -9,8 +9,10 @@ common_options = YAML.safe_load_file("options/common.yaml", aliases: true)
 provider_name    = common_options.fetch("provider")
 provider_path    = "options/#{provider_name}.yaml"
 provider_options = File.exist?(provider_path) ? YAML.safe_load_file(provider_path, aliases: true) : {}
+override_path    = "options/#{provider_name}.override.yaml"
+override_options = File.exist?(provider_path) ? YAML.safe_load_file(override_path, aliases: true) : {}
 
-options = common_options.deep_merge(provider_options)
+options = common_options.deep_merge(provider_options).deep_merge(override_options)
 
 require_relative "lib/providers/#{provider_name}"
 
@@ -30,8 +32,9 @@ Vagrant.configure("2") do |config|
 
       node.vm.hostname = node_name
 
-      (options.dig("storage", "persistent") || {}).each do |folder_id, mount_options|
-        base_host_path = mount_options.fetch("host", File.join(".persist", folder_id))
+      root_host_path = options.dig("persistent", "root")
+      (options.dig("persistent", "volumes") || {}).each do |folder_id, mount_options|
+        base_host_path = mount_options.fetch("host", File.join(root_host_path, folder_id))
         full_host_path = File.join(base_host_path, node_name)
         FileUtils.mkdir_p(full_host_path) unless Dir.exist?(full_host_path)
 
