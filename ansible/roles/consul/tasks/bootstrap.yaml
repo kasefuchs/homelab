@@ -20,6 +20,7 @@
   block:
     - name: Run Consul ACL bootstrap command
       register: consul_bootstrap_result
+      failed_when: false
       changed_when: consul_bootstrap_result.rc == 0
       environment:
         CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"

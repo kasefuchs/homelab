@@ -1,9 +1,11 @@
 {{ common_managed_header | ansible.builtin.comment }}
-ui            = {{ vault_server_config_enable_ui | lower }}
-disable_mlock = {{ vault_server_config_disable_mlock | lower }}
+cluster_name = "{{ vault_server_config_cluster_name }}"
 
 api_addr     = "{{ vault_server_config_advertise_api_address }}"
 cluster_addr = "{{ vault_server_config_advertise_cluster_address }}"
+
+ui            = {{ vault_server_config_enable_ui | lower }}
+disable_mlock = {{ vault_server_config_disable_mlock | lower }}
 
 listener "tcp" {
   address         = "{{ vault_server_config_api_listen_address }}"
@@ -27,3 +29,11 @@ storage "raft" {
   }
 {% endfor %}
 }
+
+{{
+  {
+    "telemetry": vault_server_config_telemetry
+  }
+  | to_hcl2
+  | trim
+}}
