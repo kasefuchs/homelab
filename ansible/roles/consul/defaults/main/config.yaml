@@ -36,7 +36,9 @@ consul_config_ports:
   grpc_tls: 8503
 
 # Consul Telemetry config.
-consul_config_telemetry: {}
+consul_config_telemetry:
+  prometheus_retention_time: 1m
+  disable_hostname: true
 
 # Vault agent templates for certificates and secrets.
 consul_config_vault_agent_templates:

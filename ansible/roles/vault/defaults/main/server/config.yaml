@@ -23,6 +23,14 @@ vault_server_config_cluster_listen_port: 8201
 # The IP and port Vault will listen on for cluster traffic (used in Raft).
 vault_server_config_cluster_listen_address: "{{ ansible_default_ipv4.address }}:{{ vault_server_config_cluster_listen_port }}"
 
+# The name of the Vault cluster.
+vault_server_config_cluster_name: global
+
+# The telemetry config of Vault server.
+vault_server_config_telemetry:
+  disable_hostname: true
+  prometheus_retention_time: 1m
+
 # Sets the unique node ID for the Raft cluster, typically the hostname.
 vault_server_config_node_name: "{{ inventory_hostname }}"
 
