@@ -124,6 +124,7 @@ nomad_config_cert_entity_client_ip_sans:
 # DNS SANs for client certificate.
 nomad_config_cert_entity_client_dns_sans:
   - localhost
+  - nomad-client.service.consul
   - "{{ common_internal_fqdn }}"
   - "client.{{ nomad_config_region }}.nomad"
   - "{{ nomad_config_node_name }}.client.{{ nomad_config_region }}.nomad"

@@ -1,0 +1,9 @@
+---
+# Path to the CNI plugins role.
+cni_role_local_dir: "{{ (role_path, '../cni') | ansible.builtin.path_join | ansible.builtin.realpath }}"
+
+# Path to its files' directory.
+cni_file_local_dir: "{{ (cni_role_local_dir, 'files') | ansible.builtin.path_join }}"
+
+# Path to the main files' directory.
+cni_main_file_local_dir: "{{ (cni_file_local_dir, 'main') | ansible.builtin.path_join }}"

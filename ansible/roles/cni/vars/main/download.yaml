@@ -1,0 +1,17 @@
+---
+# GitHub user or organization that maintains the CNI plugins repository.
+cni_download_github_user: containernetworking
+
+# GitHub repository name for CNI plugins.
+cni_download_github_repository: plugins
+
+# Mapping from system architecture to CNI plugins release architecture naming.
+cni_download_architecture_map:
+  x86_64: amd64
+  aarch64: arm64
+
+# Directory path where specific versions of CNI plugins will be downloaded.
+cni_download_local_dir: "{{ (cni_main_file_local_dir, 'download') | ansible.builtin.path_join }}"
+
+# Symlink path pointing to the currently used CNI plugins version.
+cni_download_current_local_dir_link: "{{ (cni_download_local_dir, 'current') | ansible.builtin.path_join }}"

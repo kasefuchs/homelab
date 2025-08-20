@@ -1,0 +1,5 @@
+---
+- name: Set up CNI plugins
+  hosts: all
+  become: true
+  roles: [cni]

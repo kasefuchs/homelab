@@ -1,0 +1,30 @@
+---
+# Local path to the downloaded CNI plugins binaries archive for the current architecture.
+cni_install_archive_local_file: "{{ (cni_download_current_local_dir_link, ansible_architecture) | ansible.builtin.path_join }}"
+
+# Destination path on the target system where the CNI plugins will be installed.
+cni_install_archive_extract_dir: /opt/cni/bin
+
+# Additional options for extracting the CNI plugins archive.
+cni_install_unarchive_options: []
+
+# List of file or directory patterns to include when extracting the archive.
+cni_install_unarchive_include:
+  - ./bandwidth
+  - ./bridge
+  - ./dhcp
+  - ./dummy
+  - ./firewall
+  - ./host-device
+  - ./host-local
+  - ./ipvlan
+  - ./loopback
+  - ./macvlan
+  - ./portmap
+  - ./ptp
+  - ./sbr
+  - ./static
+  - ./tap
+  - ./tuning
+  - ./vlan
+  - ./vrf
