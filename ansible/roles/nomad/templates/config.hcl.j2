@@ -38,12 +38,21 @@ client {
   }}
 }
 
+{% for config in nomad_config_plugins | ansible.builtin.dict2items %}
+plugin "{{ config.key }}" {
+  config {
+    {{ config.value | to_hcl2 | trim | indent(4) }}
+  }
+}
+{% endfor %}
+
 {{
   {
     "tls": nomad_config_tls,
     "acl": nomad_config_acl,
-    "addresses": nomad_config_addresses,
     "ports": nomad_config_ports,
+    "consul": nomad_config_consul,
+    "addresses": nomad_config_addresses,
     "telemetry": nomad_config_telemetry
   }
   | to_hcl2

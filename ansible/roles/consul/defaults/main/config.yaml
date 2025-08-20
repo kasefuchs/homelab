@@ -52,7 +52,7 @@ consul_config_vault_agent_templates:
     right_delimiter: "]]"
 
   consul-agent-vault-secrets:
-    contents: "{{ lookup('ansible.builtin.template', 'secrets.hcl.ctmpl.j2') }}"
+    contents: "{{ lookup('ansible.builtin.template', 'vault.hcl.ctmpl.j2') }}"
     destination: "{{ consul_config_vault_file }}"
     user: "{{ consul_install_user }}"
     group: "{{ consul_install_group }}"
