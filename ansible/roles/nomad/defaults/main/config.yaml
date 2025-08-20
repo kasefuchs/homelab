@@ -20,6 +20,26 @@ nomad_config_ports:
   rpc: 4647
   serf: 4648
 
+# Consul integration settings.
+nomad_config_consul:
+  address: 127.0.0.1:8501
+  ca_file: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  grpc_address: 127.0.0.1:8503
+  grpc_ca_file: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  ssl: true
+  share_ssl: true
+  server_auto_join: false
+  client_auto_join: false
+
+# ACL token used by Nomad clients when communicating with Consul.
+nomad_config_client_consul_token: "{{ consul_provision_data.nomad_client_acl_token_secret_id.value }}"
+
+# ACL token used by Nomad servers when communicating with Consul.
+nomad_config_server_consul_token: "{{ consul_provision_data.nomad_server_acl_token_secret_id.value }}"
+
+# Consul integration token.
+nomad_config_consul_token: "{{ nomad_config_server_consul_token if nomad_config_server else nomad_config_client_consul_token }}"
+
 # Bind addresses for services.
 nomad_config_addresses: {}
 
@@ -69,7 +89,7 @@ nomad_config_vault_agent_templates:
     right_delimiter: "]]"
 
   nomad-agent-vault-secrets:
-    contents: "{{ lookup('ansible.builtin.template', 'secrets.hcl.ctmpl.j2') }}"
+    contents: "{{ lookup('ansible.builtin.template', 'vault.hcl.ctmpl.j2') }}"
     destination: "{{ nomad_config_vault_file }}"
     user: "{{ nomad_install_user }}"
     group: "{{ nomad_install_group }}"
@@ -119,3 +139,9 @@ nomad_config_cert_entity_ip_sans: "{{ nomad_config_cert_entity_server_ip_sans if
 
 # DNS SANs based on node role.
 nomad_config_cert_entity_dns_sans: "{{ nomad_config_cert_entity_server_dns_sans if nomad_config_server else nomad_config_cert_entity_client_dns_sans }}"
+
+# Task driver plugin config options.
+nomad_config_plugins:
+  # Docker task driver config options.
+  docker:
+    allow_privileged: true
