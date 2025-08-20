@@ -1,0 +1,6 @@
+---
+# Version of CNI plugins to download. Can be a specific version (e.g., "1.1.12") or "latest".
+cni_download_version: latest
+
+# URL to download the CNI plugins archive, constructed from GitHub user, repository, version, and architecture.
+cni_download_url: "https://github.com/containernetworking/plugins/releases/download/v{{ cni_download_version }}/cni-plugins-linux-{{ cni_download_architecture.value }}-v{{ cni_download_version }}.tgz"
