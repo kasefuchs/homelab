@@ -46,3 +46,13 @@
       tags: bootstrap
       become: false
       delegate_to: localhost
+
+- name: Provision Nomad
+  tags: provision
+  when: nomad_provision_host == inventory_hostname
+  ansible.builtin.include_tasks:
+    file: provision.yaml
+    apply:
+      tags: provision
+      become: false
+      delegate_to: localhost

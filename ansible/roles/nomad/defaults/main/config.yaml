@@ -30,6 +30,12 @@ nomad_config_consul:
   share_ssl: true
   server_auto_join: false
   client_auto_join: false
+  service_identity:
+    aud: [consul.io]
+    ttl: 1h
+  task_identity:
+    aud: [consul.io]
+    ttl: 1h
 
 # Bind addresses for services.
 nomad_config_addresses: {}

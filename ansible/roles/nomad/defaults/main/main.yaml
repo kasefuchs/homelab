@@ -2,14 +2,17 @@
 # Address of the Nomad service.
 nomad_local_address: "https://{{ ansible_default_ipv4.address }}:{{ nomad_config_ports.http }}"
 
+# Token for the Nomad service.
+nomad_local_token: "{{ nomad_bootstrap_data.SecretID }}"
+
 # Address of the Vault service.
 nomad_local_vault_address: "https://{{ hostvars[groups['vault_servers'][0]].ansible_default_ipv4.address }}:8200"
 
-# Address of the Consul service.
-nomad_local_consul_address: "https://{{ hostvars[groups['consul_servers'][0]].ansible_default_ipv4.address }}:8501"
-
 # Token for the Vault service.
 nomad_local_vault_token: "{{ vault_server_init_data.root_token }}"
+
+# Address of the Consul service.
+nomad_local_consul_address: "https://{{ hostvars[groups['consul_servers'][0]].ansible_default_ipv4.address }}:8501"
 
 # Token for the Consul service.
 nomad_local_consul_token: "{{ consul_bootstrap_data.SecretID }}"
