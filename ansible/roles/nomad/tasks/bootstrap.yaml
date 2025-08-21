@@ -12,7 +12,7 @@
   register: nomad_bootstrap_leader_result
   changed_when: false
   ansible.builtin.uri:
-    url: "{{ nomad_local_api_address }}/v1/status/leader"
+    url: "{{ nomad_local_address }}/v1/status/leader"
     ca_path: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
 
 - name: Bootstrap Nomad ACL
@@ -23,7 +23,7 @@
       failed_when: false
       changed_when: nomad_bootstrap_result.rc == 0
       environment:
-        NOMAD_ADDR: "{{ nomad_local_api_address }}"
+        NOMAD_ADDR: "{{ nomad_local_address }}"
         NOMAD_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command: nomad acl bootstrap -json
 

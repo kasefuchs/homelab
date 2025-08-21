@@ -31,15 +31,6 @@ nomad_config_consul:
   server_auto_join: false
   client_auto_join: false
 
-# ACL token used by Nomad clients when communicating with Consul.
-nomad_config_client_consul_token: "{{ consul_provision_data.nomad_client_acl_token_secret_id.value }}"
-
-# ACL token used by Nomad servers when communicating with Consul.
-nomad_config_server_consul_token: "{{ consul_provision_data.nomad_server_acl_token_secret_id.value }}"
-
-# Consul integration token.
-nomad_config_consul_token: "{{ nomad_config_server_consul_token if nomad_config_server else nomad_config_client_consul_token }}"
-
 # Bind addresses for services.
 nomad_config_addresses: {}
 

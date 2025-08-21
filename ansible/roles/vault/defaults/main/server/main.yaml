@@ -1,3 +1,6 @@
 ---
 # API address used to communicate from local host.
-vault_server_local_api_address: "https://{{ ansible_default_ipv4.address }}:{{ vault_server_config_api_listen_port }}"
+vault_server_local_address: "https://{{ ansible_default_ipv4.address }}:{{ vault_server_config_api_listen_port }}"
+
+# Vault authorization token to use.
+vault_server_local_token: "{{ vault_server_init_data.root_token }}"

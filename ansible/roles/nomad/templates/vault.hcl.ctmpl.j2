@@ -3,4 +3,8 @@
 server {
   encrypt = "[[ .Data.data.encrypt ]]"
 }
+
+consul {
+  token = "[[ .Data.data.{{ nomad_config_consul_token_type }}_consul_token ]]"
+}
 [[- end ]]

@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    time   = { source = "hashicorp/time" }
     vault  = { source = "hashicorp/vault" }
+    consul = { source = "hashicorp/consul" }
     random = { source = "hashicorp/random" }
   }
 }

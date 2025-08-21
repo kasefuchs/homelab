@@ -1,3 +1,6 @@
 ---
 # Enable Vault server deployment on this host.
 vault_server_deploy: "{{ 'vault_servers' in group_names }}"
+
+# Local directory with Terraform projects for Vault.
+vault_server_terraform_local_dir: "{{ (common_terraform_local_dir, 'vault') | ansible.builtin.path_join }}"

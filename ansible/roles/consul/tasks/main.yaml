@@ -16,6 +16,16 @@
     apply:
       tags: [install, packer]
 
+- name: Prepare Consul
+  tags: prepare
+  ansible.builtin.include_tasks:
+    file: prepare.yaml
+    apply:
+      tags: prepare
+      become: false
+      run_once: true
+      delegate_to: localhost
+
 - name: Configure Consul agent
   tags: config
   ansible.builtin.include_tasks:

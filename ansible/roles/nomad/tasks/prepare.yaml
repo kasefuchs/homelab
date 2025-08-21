@@ -1,0 +1,20 @@
+---
+- name: Include Vault initialization result
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_init_local_file }}"
+
+- name: Include Consul bootstrap result
+  ansible.builtin.include_vars:
+    file: "{{ consul_bootstrap_local_file }}"
+
+- name: Prepare Nomad
+  environment:
+    VAULT_ADDR: "{{ nomad_local_vault_address }}"
+    VAULT_TOKEN: "{{ nomad_local_vault_token }}"
+    VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+    CONSUL_HTTP_ADDR: "{{ nomad_local_consul_address }}"
+    CONSUL_HTTP_TOKEN: "{{ nomad_local_consul_token }}"
+    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  community.general.terraform:
+    project_path: "{{ nomad_prepare_terraform_local_dir }}"
+    workspace: "{{ common_inventory_name }}"

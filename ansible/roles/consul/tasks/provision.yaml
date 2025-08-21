@@ -12,7 +12,7 @@
 - name: Provision Consul
   register: consul_provision_result
   environment:
-    CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"
+    CONSUL_HTTP_ADDR: "{{ consul_local_address }}"
     CONSUL_HTTP_TOKEN: "{{ consul_provision_bootstrap_token }}"
     CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
   community.general.terraform:
