@@ -1,0 +1,53 @@
+---
+- name: Include Nomad bootstrap result
+  ansible.builtin.include_vars:
+    file: "{{ nomad_bootstrap_local_file }}"
+
+- name: Include Consul bootstrap result
+  ansible.builtin.include_vars:
+    file: "{{ consul_bootstrap_local_file }}"
+
+- name: Include Vault initialization result
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_init_local_file }}"
+
+- name: Include Vault server provision result
+  ansible.builtin.include_vars:
+    file: "{{ vault_server_provision_local_file }}"
+
+- name: Ensure Nomad provision directory exists
+  ansible.builtin.file:
+    path: "{{ nomad_provision_local_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: Provision Nomad
+  register: nomad_provision_result
+  environment:
+    VAULT_ADDR: "{{ nomad_local_vault_address }}"
+    VAULT_TOKEN: "{{ nomad_local_vault_token }}"
+    VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+    CONSUL_HTTP_ADDR: "{{ nomad_local_consul_address }}"
+    CONSUL_HTTP_TOKEN: "{{ nomad_local_consul_token }}"
+    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    NOMAD_ADDR: "{{ nomad_local_address }}"
+    NOMAD_TOKEN: "{{ nomad_local_token }}"
+    NOMAD_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  community.general.terraform:
+    project_path: "{{ nomad_provision_terraform_local_dir }}"
+    workspace: "{{ common_inventory_name }}"
+    variables:
+      vault_pki_intermediate_ca_certificate: "{{ vault_server_provision_data.vault_pki_intermediate_ca_certificate.value }}"
+
+- name: Render Nomad provision result to local YAML file
+  vars:
+    common_managed_content: |
+      ---
+      {{
+        {"nomad_provision_data": nomad_provision_result.outputs}
+        | ansible.builtin.to_nice_yaml(indent=2)
+      }}
+  ansible.builtin.template:
+    src: "{{ common_template_managed_local_path }}"
+    dest: "{{ nomad_provision_local_file }}"
+    mode: "0600"
