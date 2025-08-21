@@ -16,6 +16,16 @@
     apply:
       tags: [install, packer]
 
+- name: Prepare Nomad
+  tags: prepare
+  ansible.builtin.include_tasks:
+    file: prepare.yaml
+    apply:
+      tags: prepare
+      become: false
+      run_once: true
+      delegate_to: localhost
+
 - name: Configure Nomad agent
   tags: config
   when: nomad_deploy

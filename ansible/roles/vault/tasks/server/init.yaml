@@ -12,7 +12,7 @@
       failed_when: vault_server_init_status_result.rc == 1
       changed_when: false
       environment:
-        VAULT_ADDR: "{{ vault_server_local_api_address }}"
+        VAULT_ADDR: "{{ vault_server_local_address }}"
         VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command:
         cmd: vault status -format=json
@@ -30,7 +30,7 @@
       register: vault_server_init_result
       changed_when: vault_server_init_result.rc != 0
       environment:
-        VAULT_ADDR: "{{ vault_server_local_api_address }}"
+        VAULT_ADDR: "{{ vault_server_local_address }}"
         VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command:
         argv:

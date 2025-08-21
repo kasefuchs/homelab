@@ -18,7 +18,7 @@
   loop_control:
     label: "{{ item.type }}"
   environment:
-    CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"
+    CONSUL_HTTP_ADDR: "{{ consul_local_address }}"
     CONSUL_HTTP_TOKEN: "{{ consul_acl_bootstrap_token }}"
     CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
   ansible.builtin.command: "consul acl set-agent-token {{ item.type }} {{ item.value }}"

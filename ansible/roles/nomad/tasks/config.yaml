@@ -56,14 +56,6 @@
     owner: "{{ nomad_config_user }}"
     group: "{{ nomad_install_group }}"
 
-- name: Render Nomad agent secrets template
-  ansible.builtin.template:
-    src: secrets.hcl.j2
-    dest: "{{ nomad_config_secrets_file }}"
-    mode: "0600"
-    owner: "{{ nomad_config_user }}"
-    group: "{{ nomad_install_group }}"
-
 - name: Update Nomad agent Pebble layer
   vars:
     pebble_layer: "{{ nomad_config_pebble_layer }}"

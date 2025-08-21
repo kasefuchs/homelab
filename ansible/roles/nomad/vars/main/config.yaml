@@ -12,6 +12,9 @@ nomad_config_tls:
 nomad_config_acl:
   enabled: true
 
+# Consul ACL token type.
+nomad_config_consul_token_type: "{{ 'server' if nomad_config_server else 'client' }}"
+
 # Directory where Nomad configuration files will be stored.
 nomad_config_dir: /etc/nomad
 
@@ -29,9 +32,6 @@ nomad_config_file: "{{ (nomad_config_include_dir, 'config.hcl') | ansible.builti
 
 # Full path to the Vault secrets Nomad configuration file.
 nomad_config_vault_file: "{{ (nomad_config_include_dir, 'vault.hcl') | ansible.builtin.path_join }}"
-
-# Full path to the secrets Nomad configuration file.
-nomad_config_secrets_file: "{{ (nomad_config_include_dir, 'secrets.hcl') | ansible.builtin.path_join }}"
 
 # Directory where Nomad certificate files will be stored in the config path.
 nomad_config_cert_dir: "{{ (nomad_config_dir, 'certs') | ansible.builtin.path_join }}"

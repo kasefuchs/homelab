@@ -7,3 +7,6 @@ consul_file_local_dir: "{{ (consul_role_local_dir, 'files') | ansible.builtin.pa
 
 # Path to the main files' directory.
 consul_main_file_local_dir: "{{ (consul_file_local_dir, 'main') | ansible.builtin.path_join }}"
+
+# Local directory with Terraform projects for Consul.
+consul_terraform_local_dir: "{{ (common_terraform_local_dir, 'consul') | ansible.builtin.path_join }}"

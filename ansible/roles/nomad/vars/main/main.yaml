@@ -10,3 +10,6 @@ nomad_file_local_dir: "{{ (nomad_role_local_dir, 'files') | ansible.builtin.path
 
 # Path to the main files' directory.
 nomad_main_file_local_dir: "{{ (nomad_file_local_dir, 'main') | ansible.builtin.path_join }}"
+
+# Local directory with Terraform projects for Nomad.
+nomad_terraform_local_dir: "{{ (common_terraform_local_dir, 'nomad') | ansible.builtin.path_join }}"

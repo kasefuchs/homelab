@@ -12,7 +12,7 @@
   register: consul_bootstrap_leader_result
   changed_when: false
   ansible.builtin.uri:
-    url: "{{ consul_local_api_address }}/v1/status/leader"
+    url: "{{ consul_local_address }}/v1/status/leader"
     ca_path: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
 
 - name: Bootstrap Consul ACL
@@ -23,7 +23,7 @@
       failed_when: false
       changed_when: consul_bootstrap_result.rc == 0
       environment:
-        CONSUL_HTTP_ADDR: "{{ consul_local_api_address }}"
+        CONSUL_HTTP_ADDR: "{{ consul_local_address }}"
         CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command: consul acl bootstrap -format=json
 
