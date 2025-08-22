@@ -41,7 +41,7 @@
     owner: "{{ nebula_install_user }}"
     group: "{{ nebula_install_group }}"
 
-- name: Render Nebula configuration template
+- name: Render Nebula config template
   ansible.builtin.template:
     src: config.yaml.j2
     dest: "{{ nebula_config_file }}"

@@ -1,7 +1,8 @@
 ---
 - name: Include Consul bootstrap result
-  ansible.builtin.include_vars:
-    file: "{{ consul_bootstrap_local_file }}"
+  run_once: true
+  failed_when: false
+  ansible.builtin.include_vars: "{{ consul_bootstrap_local_file }}"
 
 - name: Ensure Consul provision directory exists
   ansible.builtin.file:

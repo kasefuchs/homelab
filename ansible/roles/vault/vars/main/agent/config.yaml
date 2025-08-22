@@ -1,5 +1,5 @@
 ---
-# Directory where Vault agent configuration files will be stored.
+# Directory where Vault agent config files will be stored.
 vault_agent_config_dir: /etc/vault-agent
 
 # Directory for additional Vault agent config.
@@ -20,10 +20,10 @@ vault_agent_config_auth_role_id_file: "{{ (vault_agent_config_auth_dir, 'role-id
 # Path to the file storing the AppRole Secret ID.
 vault_agent_config_auth_role_secret_id_file: "{{ (vault_agent_config_auth_dir, 'role-secret-id') | ansible.builtin.path_join }}"
 
-# Full path to the main Vault agent configuration file.
+# Full path to the main Vault agent config file.
 vault_agent_config_file: "{{ (vault_agent_config_include_dir, 'config.hcl') | ansible.builtin.path_join }}"
 
-# Full path to the Vault agent block configuration file.
+# Full path to the Vault agent block config file.
 vault_agent_config_block_file: "{{ (vault_agent_config_include_dir, 'block.hcl') | ansible.builtin.path_join }}"
 
 # Directory where Vault agent certificate files will be stored in the config path.
@@ -45,5 +45,5 @@ vault_agent_config_pebble_layer:
       user: root
       group: root
 
-# Path to the Pebble layer file that contains the Vault agent service configuration.
+# Path to the Pebble layer file that contains the Vault agent service config.
 vault_agent_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '004-vault-agent.yaml') | ansible.builtin.path_join }}"

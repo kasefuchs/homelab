@@ -1,7 +1,8 @@
 ---
 - name: Include Vault initialization result
-  ansible.builtin.include_vars:
-    file: "{{ vault_server_init_local_file }}"
+  run_once: true
+  failed_when: false
+  ansible.builtin.include_vars: "{{ vault_server_init_local_file }}"
 
 - name: Prepare Consul
   environment:

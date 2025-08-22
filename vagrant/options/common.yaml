@@ -5,30 +5,30 @@ provider: docker
 # Total number of virtual machines (nodes) to create.
 nodes: 5
 
-# Network configuration shared across all VMs.
+# Network config shared across all VMs.
 network:
   # Port forwarding rules from host to guest.
   # Host ports will increment based on the VM index (e.g., 2231, 2232, 2233...).
   ports:
-    # Vault port forwarding configuration.
+    # Vault port forwarding config.
     vault:
       host: 8210
       guest: 8200
       protocol: tcp
 
-    # Pebble port forwarding configuration.
+    # Pebble port forwarding config.
     pebble:
       host: 9010
       guest: 9001
       protocol: tcp
 
-    # Consul port forwarding configuration.
+    # Consul port forwarding config.
     consul:
       host: 8510
       guest: 8501
       protocol: tcp
 
-    # Nomad port forwarding configuration.
+    # Nomad port forwarding config.
     nomad:
       host: 4656
       guest: 4646

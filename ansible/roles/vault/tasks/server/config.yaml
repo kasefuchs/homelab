@@ -43,7 +43,7 @@
     owner: "{{ vault_install_user }}"
     group: "{{ vault_install_group }}"
 
-- name: Render Vault server configuration template
+- name: Render Vault server config template
   ansible.builtin.template:
     src: server/config.hcl.j2
     dest: "{{ vault_server_config_file }}"

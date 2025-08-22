@@ -2,19 +2,19 @@
 # Port on which CoreDNS will listen for incoming DNS queries.
 coredns_config_port: 53
 
-# Directory where CoreDNS configuration files will be stored.
+# Directory where CoreDNS config files will be stored.
 coredns_config_dir: /etc/coredns
 
-# Full path to the main CoreDNS configuration file.
+# Full path to the main CoreDNS config file.
 coredns_config_file: "{{ (coredns_config_dir, 'Corefile') | ansible.builtin.path_join }}"
 
 # The directory where individual zone files are stored.
 coredns_config_zone_dir: "{{ (coredns_config_dir, 'zones') | ansible.builtin.path_join }}"
 
-# The directory where individual configuration files are stored.
+# The directory where individual config files are stored.
 coredns_config_include_dir: "{{ (coredns_config_dir, 'conf.d') | ansible.builtin.path_join }}"
 
-# The glob of the included zone configuration files.
+# The glob of the included zone config files.
 coredns_config_include_glob: "{{ (coredns_config_include_dir, '*.conf') | ansible.builtin.path_join }}"
 
 #
@@ -33,5 +33,5 @@ coredns_config_pebble_layer:
       user: "{{ coredns_install_user }}"
       group: "{{ coredns_install_group }}"
 
-# Path to the Pebble layer file that contains the CoreDNS service configuration.
+# Path to the Pebble layer file that contains the CoreDNS service config.
 coredns_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '002-coredns.yaml') | ansible.builtin.path_join }}"

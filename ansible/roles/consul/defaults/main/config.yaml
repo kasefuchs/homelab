@@ -24,7 +24,7 @@ consul_config_client_address: 0.0.0.0
 consul_config_ui:
   enabled: true
 
-# Default addresses configuration.
+# Default addresses config.
 consul_config_addresses:
   dns: 127.0.0.1
 
