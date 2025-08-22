@@ -1,0 +1,9 @@
+{{ common_managed_header | ansible.builtin.comment }}
+(common) {
+  errors
+  log
+  loadbalance
+  loop
+  local
+  prometheus {{ coredns_config_prometheus_listen_address }}
+}

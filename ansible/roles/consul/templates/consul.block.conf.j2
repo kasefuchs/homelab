@@ -1,0 +1,5 @@
+{{ common_managed_header | ansible.builtin.comment }}
+consul {
+  import common
+  forward . 127.0.0.1:{{ consul_config_ports.dns }}
+}

@@ -43,6 +43,16 @@
     apply:
       notify: Restart Vault agent service
 
+- name: Include CoreDNS Consul configuration fragment
+  vars:
+    common_block_path: "{{ coredns_config_block_file }}"
+    common_block_label: consul
+    common_block_content: "{{ lookup('ansible.builtin.template', 'consul.block.conf.j2') }}"
+  ansible.builtin.include_tasks:
+    file: "{{ (common_task_local_dir, 'block.yaml') | ansible.builtin.path_join }}"
+    apply:
+      notify: Restart CoreDNS service
+
 - name: Render Consul agent configuration template
   ansible.builtin.template:
     src: config.hcl.j2

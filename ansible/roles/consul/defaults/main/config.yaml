@@ -25,7 +25,8 @@ consul_config_ui:
   enabled: true
 
 # Default addresses configuration.
-consul_config_addresses: {}
+consul_config_addresses:
+  dns: 127.0.0.1
 
 # Consul ports.
 consul_config_ports:
