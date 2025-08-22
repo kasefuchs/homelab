@@ -45,10 +45,10 @@
 
 - name: Include Consul provision result
   run_once: true
-  ansible.builtin.include_vars:
-    file: "{{ consul_provision_local_file }}"
+  failed_when: false
+  ansible.builtin.include_vars: "{{ consul_provision_local_file }}"
 
-- name: Render Nomad agent configuration template
+- name: Render Nomad agent config template
   ansible.builtin.template:
     src: config.hcl.j2
     dest: "{{ nomad_config_file }}"

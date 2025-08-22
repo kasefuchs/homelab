@@ -1,5 +1,5 @@
 ---
-# Nebula configuration.
+# Nebula config.
 nebula_config:
   firewall: "{{ nebula_config_firewall }}"
   lighthouse: "{{ nebula_config_lighthouse }}"
@@ -15,7 +15,7 @@ nebula_config_listen:
   host: 0.0.0.0
   port: 4646
 
-# Configuration related to Nebula lighthouse functionality.
+# config related to Nebula lighthouse functionality.
 nebula_config_lighthouse:
   am_lighthouse: true
   hosts: []
@@ -37,7 +37,7 @@ nebula_config_firewall:
       port: any
       proto: any
 
-# Configuration for UDP hole punching support.
+# config for UDP hole punching support.
 nebula_config_punchy:
   punch: true
   respond: true

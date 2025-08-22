@@ -16,7 +16,7 @@
     owner: "{{ coredns_install_user }}"
     group: "{{ coredns_install_group }}"
 
-- name: Render CoreDNS configuration template
+- name: Render CoreDNS config template
   ansible.builtin.template:
     src: Corefile.j2
     dest: "{{ coredns_config_file }}"
@@ -24,7 +24,7 @@
     owner: "{{ coredns_install_user }}"
     group: "{{ coredns_install_group }}"
 
-- name: Render CoreDNS snippets configuration template
+- name: Render CoreDNS snippets config template
   ansible.builtin.template:
     src: 001-snippet.conf.j2
     dest: "{{ coredns_config_snippet_file }}"
@@ -49,7 +49,7 @@
         owner: "{{ coredns_install_user }}"
         group: "{{ coredns_install_group }}"
 
-- name: Include CoreDNS configuration fragments
+- name: Include CoreDNS config fragments
   vars:
     common_block_path: "{{ coredns_config_block_file }}"
     common_block_label: "{{ item.key }}"

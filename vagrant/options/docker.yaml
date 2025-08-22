@@ -2,7 +2,7 @@
 # The Vagrant Docker image to use for all virtual machines.
 image: ghcr.io/kasefuchs/homelab-debian:trixie-slim
 
-# Default Docker configuration for each container.
+# Default Docker config for each container.
 domain:
   # Format string for container names.
   name_format: homelab-%s
@@ -17,9 +17,9 @@ domain:
     - --privileged
     - --security-opt=seccomp=unconfined
 
-# Network configuration shared across all nodes.
+# Network config shared across all nodes.
 network:
-  # Private network configurations for internal communication.
+  # Private network configs for internal communication.
   private:
     # Default 'homelab' bridge network for all containers.
     name: homelab
@@ -39,11 +39,11 @@ persistent:
     pebble-state:
       guest: /var/lib/pebble
 
-    # Configuration files for CoreDNS.
+    # config files for CoreDNS.
     coredns-config:
       guest: /etc/coredns
 
-    # Vault server configuration.
+    # Vault server config.
     vault-server-config:
       guest: /etc/vault
 
@@ -51,7 +51,7 @@ persistent:
     vault-server-state:
       guest: /var/lib/vault
 
-    # Vault agent configuration.
+    # Vault agent config.
     vault-agent-config:
       guest: /etc/vault-agent
 
@@ -59,7 +59,7 @@ persistent:
     vault-agent-state:
       guest: /var/lib/vault-agent
 
-    # Consul agent configuration.
+    # Consul agent config.
     consul-agent-config:
       guest: /etc/consul
 
@@ -67,7 +67,7 @@ persistent:
     consul-agent-state:
       guest: /var/lib/consul
 
-    # Nomad agent configuration.
+    # Nomad agent config.
     nomad-agent-config:
       guest: /etc/nomad
 

@@ -40,8 +40,7 @@
 - name: Include Vault server provision result
   run_once: true
   failed_when: false
-  ansible.builtin.include_vars:
-    file: "{{ vault_server_provision_local_file }}"
+  ansible.builtin.include_vars: "{{ vault_server_provision_local_file }}"
 
 - name: Copy Vault agent auth credentials
   loop:
@@ -79,7 +78,7 @@
         owner: "{{ vault_install_user }}"
         group: "{{ vault_install_group }}"
 
-- name: Render Vault agent configuration template
+- name: Render Vault agent config template
   ansible.builtin.template:
     src: agent/config.hcl.j2
     dest: "{{ vault_agent_config_file }}"

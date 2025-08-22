@@ -1,8 +1,8 @@
 ---
-# Directory where Nebula configuration files will be stored.
+# Directory where Nebula config files will be stored.
 nebula_config_dir: /etc/nebula
 
-# Full path to the main Nebula configuration file.
+# Full path to the main Nebula config file.
 nebula_config_file: "{{ (nebula_config_dir, 'config.yaml') | ansible.builtin.path_join }}"
 
 # Directory where Nebula certificate files will be stored in the config path.
@@ -30,5 +30,5 @@ nebula_config_pebble_layer:
       user: "{{ nebula_install_user }}"
       group: "{{ nebula_install_group }}"
 
-# Path to the Pebble layer file that contains the Nebula service configuration.
+# Path to the Pebble layer file that contains the Nebula service config.
 nebula_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '001-nebula.yaml') | ansible.builtin.path_join }}"

@@ -43,7 +43,7 @@
     apply:
       notify: Restart Vault agent service
 
-- name: Include CoreDNS Consul configuration fragment
+- name: Include CoreDNS Consul config fragment
   vars:
     common_block_path: "{{ coredns_config_block_file }}"
     common_block_label: consul
@@ -53,7 +53,7 @@
     apply:
       notify: Restart CoreDNS service
 
-- name: Render Consul agent configuration template
+- name: Render Consul agent config template
   ansible.builtin.template:
     src: config.hcl.j2
     dest: "{{ consul_config_file }}"

@@ -1,19 +1,13 @@
 ---
-- name: Include Nomad bootstrap result
-  ansible.builtin.include_vars:
-    file: "{{ nomad_bootstrap_local_file }}"
-
-- name: Include Consul bootstrap result
-  ansible.builtin.include_vars:
-    file: "{{ consul_bootstrap_local_file }}"
-
-- name: Include Vault initialization result
-  ansible.builtin.include_vars:
-    file: "{{ vault_server_init_local_file }}"
-
-- name: Include Vault server provision result
-  ansible.builtin.include_vars:
-    file: "{{ vault_server_provision_local_file }}"
+- name: Include vars
+  loop:
+    - "{{ vault_server_init_local_file }}"
+    - "{{ vault_server_provision_local_file }}"
+    - "{{ consul_bootstrap_local_file }}"
+    - "{{ nomad_bootstrap_local_file }}"
+  run_once: true
+  failed_when: false
+  ansible.builtin.include_vars: "{{ item }}"
 
 - name: Ensure Nomad provision directory exists
   ansible.builtin.file:

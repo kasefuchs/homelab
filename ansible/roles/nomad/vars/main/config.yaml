@@ -15,7 +15,7 @@ nomad_config_acl:
 # Consul ACL token type.
 nomad_config_consul_token_type: "{{ 'server' if nomad_config_server else 'client' }}"
 
-# Directory where Nomad configuration files will be stored.
+# Directory where Nomad config files will be stored.
 nomad_config_dir: /etc/nomad
 
 # User to run Nomad as.
@@ -27,10 +27,10 @@ nomad_config_include_dir: "{{ (nomad_config_dir, 'conf.d') | ansible.builtin.pat
 # Directory where Nomad data will be stored.
 nomad_config_state_dir: /var/lib/nomad
 
-# Full path to the main Nomad configuration file.
+# Full path to the main Nomad config file.
 nomad_config_file: "{{ (nomad_config_include_dir, 'config.hcl') | ansible.builtin.path_join }}"
 
-# Full path to the Vault secrets Nomad configuration file.
+# Full path to the Vault secrets Nomad config file.
 nomad_config_vault_file: "{{ (nomad_config_include_dir, 'vault.hcl') | ansible.builtin.path_join }}"
 
 # Directory where Nomad certificate files will be stored in the config path.
@@ -52,5 +52,5 @@ nomad_config_pebble_layer:
       user: "{{ nomad_config_user }}"
       group: "{{ nomad_install_group }}"
 
-# Path to the Pebble layer file that contains the Nomad service configuration.
+# Path to the Pebble layer file that contains the Nomad service config.
 nomad_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '006-nomad.yaml') | ansible.builtin.path_join }}"
