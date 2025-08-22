@@ -65,12 +65,12 @@
 - name: Ensure Vault agent block config exists
   block:
     - name: Stat Vault agent block config
-      register: vault_agent_config_template_stat_result
+      register: vault_agent_config_block_stat_result
       ansible.builtin.stat:
         path: "{{ vault_agent_config_block_file }}"
 
     - name: Render Vault agent block config
-      when: not vault_agent_config_template_stat_result.stat.exists
+      when: not vault_agent_config_block_stat_result.stat.exists
       vars: { common_managed_content: "" }
       ansible.builtin.template:
         src: "{{ common_template_managed_local_path }}"

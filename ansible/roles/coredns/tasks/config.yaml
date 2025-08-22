@@ -24,18 +24,41 @@
     owner: "{{ coredns_install_user }}"
     group: "{{ coredns_install_group }}"
 
-- name: Copy CoreDNS configuration fragments
-  loop: "{{ coredns_config | ansible.builtin.dict2items }}"
-  loop_control:
-    label: "{{ item.key }}"
-  vars:
-    common_managed_content: "{{ item.value }}"
+- name: Render CoreDNS snippets configuration template
   ansible.builtin.template:
-    src: "{{ common_template_managed_local_path }}"
-    dest: "{{ (coredns_config_include_dir, item.key ~ '.conf') | ansible.builtin.path_join }}"
+    src: 001-snippet.conf.j2
+    dest: "{{ coredns_config_snippet_file }}"
     mode: "0644"
     owner: "{{ coredns_install_user }}"
     group: "{{ coredns_install_group }}"
+
+- name: Ensure CoreDNS config block exists
+  block:
+    - name: Stat CoreDNS config block file
+      register: coredns_config_block_stat_result
+      ansible.builtin.stat:
+        path: "{{ coredns_config_block_file }}"
+
+    - name: Render CoreDNS config block file
+      when: not coredns_config_block_stat_result.stat.exists
+      vars: { common_managed_content: "" }
+      ansible.builtin.template:
+        src: "{{ common_template_managed_local_path }}"
+        dest: "{{ coredns_config_block_file }}"
+        mode: "0644"
+        owner: "{{ coredns_install_user }}"
+        group: "{{ coredns_install_group }}"
+
+- name: Include CoreDNS configuration fragments
+  vars:
+    common_block_path: "{{ coredns_config_block_file }}"
+    common_block_label: "{{ item.key }}"
+    common_block_content: "{{ item.value }}"
+  loop: "{{ coredns_config | ansible.builtin.dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  ansible.builtin.include_tasks:
+    file: "{{ (common_task_local_dir, 'block.yaml') | ansible.builtin.path_join }}"
 
 - name: Copy CoreDNS zone databases
   loop: "{{ coredns_config_zones | ansible.builtin.dict2items }}"
@@ -53,9 +76,11 @@
 
 - name: Render resolv.conf template
   when: ansible_virtualization_type != "docker"
+  vars:
+    common_managed_content: "{{ lookup('ansible.builtin.file', (coredns_main_file_local_dir, 'config/resolv.conf') | ansible.builtin.path_join) }}"
   failed_when: false
   ansible.builtin.template:
-    src: resolv.conf.j2
+    src: "{{ common_template_managed_local_path }}"
     dest: /etc/resolv.conf
     mode: "0644"
     owner: root

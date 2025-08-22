@@ -1,13 +1,19 @@
 ---
 # Map of CoreDNS configuration files.
 coredns_config:
-  root: "{{ lookup('ansible.builtin.file', (coredns_main_file_local_dir, 'config/root.conf') | ansible.builtin.path_join) }}"
-  vault: "{{ lookup('ansible.builtin.template', 'zone.conf.j2', template_vars={'coredns_config_zone': 'vault'}) }}"
-  consul: "{{ lookup('ansible.builtin.file', (coredns_main_file_local_dir, 'config/consul.conf') | ansible.builtin.path_join) }}"
-  internal: "{{ lookup('ansible.builtin.template', 'zone.conf.j2', template_vars={'coredns_config_zone': 'internal'}) }}"
+  root: "{{ lookup('ansible.builtin.file', (coredns_main_file_local_dir, 'config/root.block.conf') | ansible.builtin.path_join) }}"
+  vault: "{{ lookup('ansible.builtin.template', 'zone.block.conf.j2', template_vars={'coredns_config_zone': 'vault'}) }}"
+  internal: "{{ lookup('ansible.builtin.template', 'zone.block.conf.j2', template_vars={'coredns_config_zone': 'internal'}) }}"
+  discovery: "{{ lookup('ansible.builtin.template', 'zone.block.conf.j2', template_vars={'coredns_config_zone': 'discovery.internal'}) }}"
 
 # Serial number for SOA records.
 coredns_config_serial: "{{ ansible_date_time.epoch }}"
+
+# Port on which the Prometheus plugin will expose metrics.
+coredns_config_prometheus_listen_port: 9153
+
+# Address and port for Prometheus metrics listener.
+coredns_config_prometheus_listen_address: "0.0.0.0:{{ coredns_config_prometheus_listen_port }}"
 
 # Map of CoreDNS zone files.
 coredns_config_zones:
@@ -15,14 +21,22 @@ coredns_config_zones:
   vault: |
     $TTL 300
     @          IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
-    {% for host in groups['vault_servers'] | sort %}
-    server     IN A     {{ hostvars[host].ansible_default_ipv4.address }}
+    {% for hostname in groups['vault_servers'] | sort %}
+    server     IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
     {% endfor %}
 
   # language="text"
   internal: |
     $TTL 300
     @                IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
-    {% for host in ansible_play_hosts_all | sort %}
-    {{ host.ljust(16) }} IN A     {{ hostvars[host].ansible_default_ipv4.address }}
+    {% for hostname in ansible_play_hosts_all | sort %}
+    {{ hostname.ljust(16) }} IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
+    {% endfor %}
+
+  # language="text"
+  discovery.internal: |
+    $TTL 300
+    @         IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
+    {% for hostname in ansible_play_hosts_all | sort %}
+    nodes     IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
     {% endfor %}

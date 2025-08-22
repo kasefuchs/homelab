@@ -17,6 +17,12 @@ coredns_config_include_dir: "{{ (coredns_config_dir, 'conf.d') | ansible.builtin
 # The glob of the included zone configuration files.
 coredns_config_include_glob: "{{ (coredns_config_include_dir, '*.conf') | ansible.builtin.path_join }}"
 
+#
+coredns_config_snippet_file: "{{ (coredns_config_include_dir, '001-snippet.conf') | ansible.builtin.path_join }}"
+
+#
+coredns_config_block_file: "{{ (coredns_config_include_dir, '002-block.conf') | ansible.builtin.path_join }}"
+
 # Pebble service layer definition for the CoreDNS service.
 coredns_config_pebble_layer:
   services:
