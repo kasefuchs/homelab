@@ -12,3 +12,4 @@
   community.general.terraform:
     project_path: "{{ consul_prepare_terraform_local_dir }}"
     workspace: "{{ common_inventory_name }}"
+    force_init: true

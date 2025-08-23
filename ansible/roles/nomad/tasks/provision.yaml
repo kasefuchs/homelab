@@ -30,6 +30,7 @@
   community.general.terraform:
     project_path: "{{ nomad_provision_terraform_local_dir }}"
     workspace: "{{ common_inventory_name }}"
+    force_init: true
     variables:
       vault_pki_intermediate_ca_certificate: "{{ vault_server_provision_data.vault_pki_intermediate_ca_certificate.value }}"
 
