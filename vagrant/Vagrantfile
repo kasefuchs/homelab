@@ -1,23 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require "yaml"
 require_relative "lib/extensions/hash"
+require_relative "lib/utils/config"
 
-common_options = YAML.safe_load_file("options/common.yaml", aliases: true)
+options = ConfigUtils.load_layer_with_overrides("common").then do |common|
+  provider_name = common.fetch("provider")
+  require_relative "lib/providers/#{provider_name}"
 
-provider_name    = common_options.fetch("provider")
-provider_path    = "options/#{provider_name}.yaml"
-provider_options = File.exist?(provider_path) ? YAML.safe_load_file(provider_path, aliases: true) : {}
-override_path    = "options/#{provider_name}.override.yaml"
-override_options = File.exist?(provider_path) ? YAML.safe_load_file(override_path, aliases: true) : {}
-
-options = common_options.deep_merge(provider_options).deep_merge(override_options)
-
-require_relative "lib/providers/#{provider_name}"
+  provider = ConfigUtils.load_layer_with_overrides(provider_name)
+  common.deep_merge(provider)
+end
 
 Vagrant.configure("2") do |config|
-  config.vm.box = provider_name != "docker" ? options.fetch("box") : nil
+  config.vm.box = options.fetch("box", nil)
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   (options.dig("provision", "shell") || []).each do |command|
