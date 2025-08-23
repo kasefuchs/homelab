@@ -1,6 +1,6 @@
 ---
 # The Vagrant box image to use for all virtual machines.
-image: homelab/debian-bookworm
+box: homelab/debian-bookworm
 
 # Default hardware config for each VM.
 domain:

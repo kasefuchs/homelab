@@ -17,7 +17,7 @@ packer/outputs/
 .persist/
 
 # Override configs
-vagrant/options/*.override.yaml
+vagrant/configs/*.override.yaml
 
 # --- Python ---
 .venv/
