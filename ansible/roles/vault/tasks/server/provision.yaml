@@ -32,6 +32,7 @@
   community.general.terraform:
     project_path: "{{ vault_server_provision_terraform_local_dir }}"
     workspace: "{{ common_inventory_name }}"
+    force_init: true
 
 - name: Render Vault provision result to local YAML file
   vars:
