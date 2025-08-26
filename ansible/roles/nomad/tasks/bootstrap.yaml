@@ -13,7 +13,7 @@
   changed_when: false
   ansible.builtin.uri:
     url: "{{ nomad_local_address }}/v1/status/leader"
-    ca_path: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    ca_path: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
 
 - name: Bootstrap Nomad ACL
   run_once: true
@@ -24,7 +24,7 @@
       changed_when: nomad_bootstrap_result.rc == 0
       environment:
         NOMAD_ADDR: "{{ nomad_local_address }}"
-        NOMAD_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+        NOMAD_CACERT: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command: nomad acl bootstrap -json
 
     - name: Render Nomad ACL bootstrap output to local YAML file

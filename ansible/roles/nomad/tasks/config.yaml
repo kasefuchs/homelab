@@ -24,10 +24,10 @@
 
 - name: Copy Vault CA certificates
   loop:
-    - src: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
-      dest: "{{ (nomad_config_cert_ca_dir, 'vault-intermediate.crt') | ansible.builtin.path_join }}"
+    - src: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_config_cert_ca_dir, 'cluster.crt') | ansible.builtin.path_join }}"
     - src: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
-      dest: "{{ (nomad_config_cert_ca_dir, 'vault-server.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nomad_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
   loop_control:
     label: "{{ item.dest }}"
   ansible.builtin.copy:

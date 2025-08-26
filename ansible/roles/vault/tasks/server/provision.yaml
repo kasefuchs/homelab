@@ -51,8 +51,8 @@
   loop:
     - name: root
       value: "{{ vault_server_provision_result.outputs.vault_pki_root_ca_certificate.value }}"
-    - name: intermediate
-      value: "{{ vault_server_provision_result.outputs.vault_pki_intermediate_ca_certificate.value }}"
+    - name: cluster
+      value: "{{ vault_server_provision_result.outputs.vault_pki_cluster_ca_certificate.value }}"
   loop_control:
     label: "{{ item.name }}"
   vars:

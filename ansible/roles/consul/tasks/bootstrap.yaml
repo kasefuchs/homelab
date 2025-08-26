@@ -13,7 +13,7 @@
   changed_when: false
   ansible.builtin.uri:
     url: "{{ consul_local_address }}/v1/status/leader"
-    ca_path: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    ca_path: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
 
 - name: Bootstrap Consul ACL
   run_once: true
@@ -24,7 +24,7 @@
       changed_when: consul_bootstrap_result.rc == 0
       environment:
         CONSUL_HTTP_ADDR: "{{ consul_local_address }}"
-        CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+        CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command: consul acl bootstrap -format=json
 
     - name: Render Consul ACL bootstrap output to local YAML file
