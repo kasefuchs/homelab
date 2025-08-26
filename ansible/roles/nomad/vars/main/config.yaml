@@ -3,7 +3,7 @@
 nomad_config_tls:
   rpc: true
   http: true
-  ca_file: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  ca_file: "{{ (nomad_config_cert_ca_dir, 'vault-intermediate.crt') | ansible.builtin.path_join }}"
   key_file: "{{ (nomad_config_cert_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
   cert_file: "{{ (nomad_config_cert_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
   verify_server_hostname: true

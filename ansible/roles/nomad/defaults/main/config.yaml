@@ -20,16 +20,28 @@ nomad_config_ports:
   rpc: 4647
   serf: 4648
 
+# Vault integration settings.
+nomad_config_vault:
+  enabled: true
+  address: https://server.vault:8200
+  ca_file: "{{ (nomad_config_cert_ca_dir, 'vault-server.crt') | ansible.builtin.path_join }}"
+  jwt_auth_backend_path: jwt-nomad
+  default_identity:
+    aud: [vault.io]
+    ttl: 1h
+
 # Consul integration settings.
 nomad_config_consul:
   address: 127.0.0.1:8501
-  ca_file: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  ca_file: "{{ (nomad_config_cert_ca_dir, 'vault-intermediate.crt') | ansible.builtin.path_join }}"
   grpc_address: 127.0.0.1:8503
-  grpc_ca_file: "{{ (nomad_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+  grpc_ca_file: "{{ (nomad_config_cert_ca_dir, 'vault-intermediate.crt') | ansible.builtin.path_join }}"
   ssl: true
   share_ssl: true
   server_auto_join: false
   client_auto_join: false
+  task_auth_method: nomad-workloads
+  service_auth_method: nomad-workloads
   service_identity:
     aud: [consul.io]
     ttl: 1h

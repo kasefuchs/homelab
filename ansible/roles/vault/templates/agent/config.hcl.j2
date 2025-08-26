@@ -1,7 +1,7 @@
 {{ common_managed_header | ansible.builtin.comment }}
 vault {
   address = "{{ vault_agent_config_api_address }}"
-  ca_cert = "{{ (vault_agent_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
+  ca_cert = "{{ (vault_agent_config_cert_ca_dir, 'vault-server.crt') | ansible.builtin.path_join }}"
 }
 
 auto_auth {
