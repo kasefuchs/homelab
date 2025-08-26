@@ -23,7 +23,7 @@ storage "raft" {
   retry_join {
     leader_api_addr = "{{ api_address }}"
 
-    leader_ca_cert_file     = "{{ (vault_server_config_cert_ca_dir, 'vault-server.crt') | ansible.builtin.path_join }}"
+    leader_ca_cert_file     = "{{ (vault_server_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
     leader_client_key_file  = "{{ (vault_server_config_cert_entity_dir, 'server.key') | ansible.builtin.path_join }}"
     leader_client_cert_file = "{{ (vault_server_config_cert_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
   }

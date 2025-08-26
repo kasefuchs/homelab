@@ -15,7 +15,7 @@
   environment:
     CONSUL_HTTP_ADDR: "{{ consul_local_address }}"
     CONSUL_HTTP_TOKEN: "{{ consul_local_token }}"
-    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
   community.general.terraform:
     project_path: "{{ consul_provision_terraform_local_dir }}"
     workspace: "{{ common_inventory_name }}"

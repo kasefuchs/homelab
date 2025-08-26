@@ -8,7 +8,7 @@ consul_config_acl:
 # Consul TLS config.
 consul_config_tls:
   defaults:
-    ca_file: "{{ (consul_config_cert_ca_dir, 'vault-intermediate.crt') | ansible.builtin.path_join }}"
+    ca_file: "{{ (consul_config_cert_ca_dir, 'cluster.crt') | ansible.builtin.path_join }}"
     key_file: "{{ (consul_config_cert_entity_dir, 'agent.key') | ansible.builtin.path_join }}"
     cert_file: "{{ (consul_config_cert_entity_dir, 'agent.crt') | ansible.builtin.path_join }}"
 

@@ -14,7 +14,7 @@
     VAULT_CACERT: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
     CONSUL_HTTP_ADDR: "{{ nomad_local_consul_address }}"
     CONSUL_HTTP_TOKEN: "{{ nomad_local_consul_token }}"
-    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
   community.general.terraform:
     project_path: "{{ nomad_prepare_terraform_local_dir }}"
     workspace: "{{ common_inventory_name }}"

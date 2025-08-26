@@ -31,7 +31,7 @@ resource "vault_kv_secret_v2" "nomad" {
 }
 
 resource "vault_pki_secret_backend_role" "consul" {
-  backend          = local.vault_pki_intermediate_mount_path
+  backend          = local.vault_pki_cluster_mount_path
   name             = "nomad"
   allowed_domains  = ["nomad", "service.consul", "internal"]
   allow_subdomains = true

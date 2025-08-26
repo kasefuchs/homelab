@@ -11,6 +11,6 @@ output "vault_pki_root_ca_certificate" {
   value = vault_pki_secret_backend_root_cert.root.certificate
 }
 
-output "vault_pki_intermediate_ca_certificate" {
-  value = vault_pki_secret_backend_root_sign_intermediate.intermediate.certificate
+output "vault_pki_cluster_ca_certificate" {
+  value = vault_pki_secret_backend_root_sign_intermediate.cluster.certificate
 }

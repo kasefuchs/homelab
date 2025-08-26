@@ -25,41 +25,41 @@ resource "vault_pki_secret_backend_root_cert" "root" {
   ttl         = local.root_certificate_ttl
 }
 
-resource "vault_mount" "pki_intermediate" {
+resource "vault_mount" "pki_cluster" {
   type        = "pki"
-  path        = local.vault_pki_intermediate_mount_path
-  description = "intermediate pki ca for issuing service certificates"
+  path        = local.vault_pki_cluster_mount_path
+  description = "intermediate pki ca for issuing cluster certificates"
 }
 
-resource "vault_pki_secret_backend_config_urls" "intermediate" {
-  backend                 = vault_mount.pki_intermediate.path
-  issuing_certificates    = [format("https://server.vault:8200/v1/%s/ca", vault_mount.pki_intermediate.path)]
-  crl_distribution_points = [format("https://server.vault:8200/v1/%s/crl", vault_mount.pki_intermediate.path)]
+resource "vault_pki_secret_backend_config_urls" "cluster" {
+  backend                 = vault_mount.pki_cluster.path
+  issuing_certificates    = [format("https://server.vault:8200/v1/%s/ca", vault_mount.pki_cluster.path)]
+  crl_distribution_points = [format("https://server.vault:8200/v1/%s/crl", vault_mount.pki_cluster.path)]
 }
 
-resource "vault_pki_secret_backend_intermediate_cert_request" "intermediate" {
+resource "vault_pki_secret_backend_intermediate_cert_request" "cluster" {
   type        = "internal"
-  backend     = vault_mount.pki_intermediate.path
-  common_name = "Vault PKI Intermediate CA"
+  backend     = vault_mount.pki_cluster.path
+  common_name = "Vault PKI Cluster CA"
 }
 
-resource "vault_pki_secret_backend_root_sign_intermediate" "intermediate" {
+resource "vault_pki_secret_backend_root_sign_intermediate" "cluster" {
   backend     = vault_mount.pki_root.path
-  csr         = vault_pki_secret_backend_intermediate_cert_request.intermediate.csr
+  csr         = vault_pki_secret_backend_intermediate_cert_request.cluster.csr
   ttl         = local.intermediate_certificate_ttl
-  common_name = "Vault PKI Intermediate CA"
+  common_name = "Vault PKI Cluster CA"
 }
 
-resource "vault_pki_secret_backend_intermediate_set_signed" "intermediate" {
-  backend     = vault_mount.pki_intermediate.path
-  certificate = vault_pki_secret_backend_root_sign_intermediate.intermediate.certificate
+resource "vault_pki_secret_backend_intermediate_set_signed" "cluster" {
+  backend     = vault_mount.pki_cluster.path
+  certificate = vault_pki_secret_backend_root_sign_intermediate.cluster.certificate
 }
 
 resource "vault_policy" "vault_agent" {
   name = "vault-agent"
   policy = templatefile("${path.module}/policies/vault/vault-agent.hcl.tftpl", {
-    kv_cluster_mount_path       = vault_mount.kv_cluster.path,
-    pki_intermediate_mount_path = vault_mount.pki_intermediate.path,
+    kv_cluster_mount_path  = vault_mount.kv_cluster.path,
+    pki_cluster_mount_path = vault_mount.pki_cluster.path,
   })
 }
 

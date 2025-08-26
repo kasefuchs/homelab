@@ -4,7 +4,7 @@ resource "consul_acl_auth_method" "nomad_workloads" {
   description = "JWT auth method for Nomad services and workloads"
   config_json = jsonencode({
     JWKSURL          = "https://nomad.service.consul:4646/.well-known/jwks.json"
-    JWKSCACert       = var.vault_pki_intermediate_ca_certificate
+    JWKSCACert       = var.vault_pki_cluster_ca_certificate
     JWTSupportedAlgs = ["RS256"]
     BoundAudiences   = ["consul.io"]
     ClaimMappings = {
@@ -49,7 +49,7 @@ resource "vault_jwt_auth_backend" "nomad" {
   default_role = "nomad-workloads"
 
   jwks_url           = "https://nomad.service.consul:4646/.well-known/jwks.json"
-  jwks_ca_pem        = var.vault_pki_intermediate_ca_certificate
+  jwks_ca_pem        = var.vault_pki_cluster_ca_certificate
   jwt_supported_algs = ["RS256", "EdDSA"]
 }
 
@@ -57,7 +57,13 @@ resource "vault_mount" "kv_nomad" {
   type        = "kv"
   path        = local.vault_kv_nomad_mount_path
   options     = { version = "2" }
-  description = "kv engine for nomad tasks secrets and configuration"
+  description = "kv engine for nomad tasks"
+}
+
+resource "vault_mount" "db_nomad" {
+  type        = "database"
+  path        = local.vault_db_nomad_mount_path
+  description = "database engine for nomad tasks"
 }
 
 resource "vault_policy" "nomad_workloads" {
@@ -65,6 +71,7 @@ resource "vault_policy" "nomad_workloads" {
   policy = templatefile("${path.module}/policies/vault/nomad-workloads.hcl.tftpl", {
     auth_backend_accessor = vault_jwt_auth_backend.nomad.accessor
     kv_nomad_mount_path   = vault_mount.kv_nomad.path
+    db_nomad_mount_path   = vault_mount.db_nomad.path
   })
 }
 

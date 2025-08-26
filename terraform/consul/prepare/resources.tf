@@ -7,7 +7,7 @@ resource "vault_kv_secret_v2" "consul" {
 }
 
 resource "vault_pki_secret_backend_role" "consul" {
-  backend          = local.vault_pki_intermediate_mount_path
+  backend          = local.vault_pki_cluster_mount_path
   name             = "consul"
   allowed_domains  = ["consul", "internal"]
   allow_subdomains = true
