@@ -1,0 +1,7 @@
+path "${kv_nomad_mount_path}/data/{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_namespace}}/{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_job_id}}/*" {
+  capabilities = ["read"]
+}
+
+path "${kv_nomad_mount_path}/data/{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_namespace}}/{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_job_id}}" {
+  capabilities = ["read"]
+}

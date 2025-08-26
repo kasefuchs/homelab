@@ -1,6 +1,7 @@
 resource "consul_acl_policy" "nomad_client" {
-  name  = "nomad-client"
-  rules = file("${path.module}/policies/consul/nomad-client.hcl")
+  name        = "nomad-client"
+  rules       = file("${path.module}/policies/consul/nomad-client.hcl")
+  description = "A policy that is used by Nomad clients"
 }
 
 resource "consul_acl_token" "nomad_client" {
@@ -8,8 +9,9 @@ resource "consul_acl_token" "nomad_client" {
 }
 
 resource "consul_acl_policy" "nomad_server" {
-  name  = "nomad-server"
-  rules = file("${path.module}/policies/consul/nomad-server.hcl")
+  name        = "nomad-server"
+  rules       = file("${path.module}/policies/consul/nomad-server.hcl")
+  description = "A policy that is used by Nomad servers"
 }
 
 resource "consul_acl_token" "nomad_server" {

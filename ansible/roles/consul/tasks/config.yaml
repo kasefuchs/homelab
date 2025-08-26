@@ -25,7 +25,7 @@
 - name: Copy Vault intermediate CA certificate
   ansible.builtin.copy:
     src: "{{ (vault_server_cert_ca_local_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
-    dest: "{{ (consul_config_cert_ca_dir, 'intermediate.crt') | ansible.builtin.path_join }}"
+    dest: "{{ (consul_config_cert_ca_dir, 'vault-intermediate.crt') | ansible.builtin.path_join }}"
     mode: "0644"
     owner: "{{ consul_install_user }}"
     group: "{{ consul_install_group }}"

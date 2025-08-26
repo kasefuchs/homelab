@@ -24,7 +24,7 @@
   loop:
     - label: Vault server CA certificate
       src: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
-      dest: "{{ (vault_server_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (vault_server_config_cert_ca_dir, 'vault-server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
     - label: Vault server certificate
       src: "{{ (vault_server_cert_entity_host_local_dir, 'server.crt') | ansible.builtin.path_join }}"
