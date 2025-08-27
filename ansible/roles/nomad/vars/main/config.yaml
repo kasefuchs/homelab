@@ -51,6 +51,8 @@ nomad_config_pebble_layer:
       command: "{{ nomad_install_binary_file }} agent -config={{ nomad_config_include_dir }}"
       user: "{{ nomad_config_user }}"
       group: "{{ nomad_install_group }}"
+      requires: [coredns, vault-agent, consul]
+      after: [coredns, vault-agent, consul]
 
 # Path to the Pebble layer file that contains the Nomad service config.
 nomad_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '006-nomad.yaml') | ansible.builtin.path_join }}"

@@ -26,6 +26,8 @@ vault_server_config_pebble_layer:
       command: "{{ vault_install_binary_file }} server -config={{ vault_server_config_file }}"
       user: "{{ vault_install_user }}"
       group: "{{ vault_install_group }}"
+      requires: [coredns]
+      after: [coredns]
 
 # Path to the Pebble layer file that contains the Vault server service config.
 vault_server_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '003-vault.yaml') | ansible.builtin.path_join }}"
