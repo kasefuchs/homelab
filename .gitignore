@@ -6,6 +6,11 @@
 # VSCode
 .vscode/
 
+# --- Environment ---
+# Dotenv
+.env
+.*.env
+
 # --- Packer ---
 packer/outputs/
 

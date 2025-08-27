@@ -45,9 +45,9 @@ resource "vault_pki_secret_backend_intermediate_cert_request" "cluster" {
 
 resource "vault_pki_secret_backend_root_sign_intermediate" "cluster" {
   backend     = vault_mount.pki_root.path
-  csr         = vault_pki_secret_backend_intermediate_cert_request.cluster.csr
   ttl         = local.intermediate_certificate_ttl
-  common_name = "Vault PKI Cluster CA"
+  csr         = vault_pki_secret_backend_intermediate_cert_request.cluster.csr
+  common_name = vault_pki_secret_backend_intermediate_cert_request.cluster.common_name
 }
 
 resource "vault_pki_secret_backend_intermediate_set_signed" "cluster" {

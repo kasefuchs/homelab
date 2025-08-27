@@ -66,12 +66,43 @@ resource "vault_mount" "db_nomad" {
   description = "database engine for nomad tasks"
 }
 
+resource "vault_mount" "pki_nomad" {
+  type        = "pki"
+  path        = local.vault_pki_nomad_mount_path
+  description = "intermediate pki ca for issuing nomad tasks certificates"
+}
+
+resource "vault_pki_secret_backend_config_urls" "cluster" {
+  backend                 = vault_mount.pki_nomad.path
+  issuing_certificates    = [format("https://server.vault:8200/v1/%s/ca", vault_mount.pki_nomad.path)]
+  crl_distribution_points = [format("https://server.vault:8200/v1/%s/crl", vault_mount.pki_nomad.path)]
+}
+
+resource "vault_pki_secret_backend_intermediate_cert_request" "cluster" {
+  type        = "internal"
+  backend     = vault_mount.pki_nomad.path
+  common_name = "Vault PKI Nomad CA"
+}
+
+resource "vault_pki_secret_backend_root_sign_intermediate" "cluster" {
+  backend     = local.vault_pki_root_mount_path
+  ttl         = local.intermediate_certificate_ttl
+  csr         = vault_pki_secret_backend_intermediate_cert_request.cluster.csr
+  common_name = vault_pki_secret_backend_intermediate_cert_request.cluster.common_name
+}
+
+resource "vault_pki_secret_backend_intermediate_set_signed" "cluster" {
+  backend     = vault_mount.pki_nomad.path
+  certificate = vault_pki_secret_backend_root_sign_intermediate.cluster.certificate
+}
+
 resource "vault_policy" "nomad_workloads" {
   name = "nomad-workloads"
   policy = templatefile("${path.module}/policies/vault/nomad-workloads.hcl.tftpl", {
     auth_backend_accessor = vault_jwt_auth_backend.nomad.accessor
     kv_nomad_mount_path   = vault_mount.kv_nomad.path
     db_nomad_mount_path   = vault_mount.db_nomad.path
+    pki_nomad_mount_path  = vault_mount.pki_nomad.path
   })
 }
 

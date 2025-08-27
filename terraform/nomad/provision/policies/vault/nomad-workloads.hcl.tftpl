@@ -13,3 +13,11 @@ path "${db_nomad_mount_path}/creds/{{identity.entity.aliases.${auth_backend_acce
 path "${db_nomad_mount_path}/static-creds/{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_namespace}}-{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_job_id}}" {
   capabilities = ["read"]
 }
+
+path "${pki_nomad_mount_path}/cert/ca" {
+  capabilities = ["read"]
+}
+
+path "${pki_nomad_mount_path}/issue/{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_namespace}}-{{identity.entity.aliases.${auth_backend_accessor}.metadata.nomad_job_id}}" {
+  capabilities = ["create", "update"]
+}
