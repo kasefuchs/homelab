@@ -155,3 +155,5 @@ nomad_config_plugins:
   # Docker task driver config options.
   docker:
     allow_privileged: true
+    volumes:
+      enabled: true
