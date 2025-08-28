@@ -23,6 +23,8 @@ client {
   node_pool  = "{{ nomad_config_client_node_pool }}"
   node_class = "{{ nomad_config_client_node_class }}"
 
+  network_interface = "{{ nomad_config_client_network_interface }}"
+
   server_join {
     retry_join = {{ nomad_config_client_retry_join | ansible.builtin.to_json }}
   }
@@ -36,12 +38,18 @@ client {
     | trim
     | indent(2)
   }}
+
+{% for item in nomad_config_client_host_networks | ansible.builtin.dict2items %}
+  host_network "{{ item.key }}" {
+    {{ item.value | to_hcl2 | trim | indent(4) }}
+  }
+{% endfor %}
 }
 
-{% for config in nomad_config_plugins | ansible.builtin.dict2items %}
-plugin "{{ config.key }}" {
+{% for item in nomad_config_plugins | ansible.builtin.dict2items %}
+plugin "{{ item.key }}" {
   config {
-    {{ config.value | to_hcl2 | trim | indent(4) }}
+    {{ item.value | to_hcl2 | trim | indent(4) }}
   }
 }
 {% endfor %}
@@ -54,6 +62,7 @@ plugin "{{ config.key }}" {
     "vault": nomad_config_vault,
     "consul": nomad_config_consul,
     "addresses": nomad_config_addresses,
+    "advertise": nomad_config_advertise,
     "telemetry": nomad_config_telemetry
   }
   | to_hcl2

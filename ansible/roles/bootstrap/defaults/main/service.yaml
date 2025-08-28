@@ -1,0 +1,10 @@
+---
+# List of system services to configure per distribution.
+bootstrap_service_systemd_distribution:
+  default:
+    - name: containerd
+      state: started
+      enabled: true
+    - name: docker
+      state: started
+      enabled: true

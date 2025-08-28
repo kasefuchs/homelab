@@ -14,11 +14,14 @@ consul_config_node_name: "{{ inventory_hostname }}"
 # Datacenter name.
 consul_config_datacenter: global
 
-# Address for binding all Consul services.
+# Address for binding internal cluster communications.
 consul_config_bind_address: "{{ ansible_default_ipv4.address }}"
 
 # Address for client requests.
 consul_config_client_address: 0.0.0.0
+
+# The address to advertise to other nodes in the cluster.
+consul_config_advertise_address: "{{ consul_config_bind_address }}"
 
 # Consul UI config.
 consul_config_ui:
@@ -64,11 +67,6 @@ consul_config_vault_agent_templates:
 # CN for server certificate.
 consul_config_cert_entity_server_cn: "server.{{ consul_config_datacenter }}.consul"
 
-# IP SANs for server certificate.
-consul_config_cert_entity_server_ip_sans:
-  - 127.0.0.1
-  - "{{ ansible_default_ipv4.address }}"
-
 # DNS SANs for server certificate.
 consul_config_cert_entity_server_dns_sans:
   - localhost
@@ -79,11 +77,6 @@ consul_config_cert_entity_server_dns_sans:
 
 # CN for client certificate.
 consul_config_cert_entity_client_cn: "client.{{ consul_config_datacenter }}.consul"
-
-# IP SANs for client certificate.
-consul_config_cert_entity_client_ip_sans:
-  - 127.0.0.1
-  - "{{ ansible_default_ipv4.address }}"
 
 # DNS SANs for client certificate.
 consul_config_cert_entity_client_dns_sans:
@@ -98,8 +91,13 @@ consul_config_cert_entity_cn: "{{ consul_config_cert_entity_server_cn if consul_
 # Certificate validity duration.
 consul_config_cert_entity_duration: 168h
 
-# IP SANs based on node role.
-consul_config_cert_entity_ip_sans: "{{ consul_config_cert_entity_server_ip_sans if consul_config_server else consul_config_cert_entity_client_ip_sans }}"
+# IP addresses included in the certificate.
+consul_config_cert_entity_ip_sans:
+  - 127.0.0.1
+  - "{{ ansible_default_ipv4.address }}"
 
 # DNS SANs based on node role.
 consul_config_cert_entity_dns_sans: "{{ consul_config_cert_entity_server_dns_sans if consul_config_server else consul_config_cert_entity_client_dns_sans }}"
+
+# List of services that service depends on for startup ordering.
+consul_config_service_dependencies: [coredns, vault-agent]

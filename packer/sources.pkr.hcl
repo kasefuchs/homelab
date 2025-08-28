@@ -1,10 +1,10 @@
 source "vagrant" "image" {
   communicator = "ssh"
 
-  template    = "${local.template_directory}/vagrant/Vagrantfile.${var.vagrant.provider}.tpl"
+  template    = "templates/vagrant/Vagrantfile.${var.vagrant.provider}.tpl"
   provider    = var.vagrant.provider
   skip_add    = var.vagrant.source_skip_add
-  output_dir  = "${local.output_directory}/vagrant/${var.vagrant.provider}"
+  output_dir  = "${var.common.output_dir}/vagrant/${var.vagrant.provider}"
   source_path = var.vagrant.source_path
 }
 

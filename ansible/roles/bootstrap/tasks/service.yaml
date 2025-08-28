@@ -1,0 +1,7 @@
+---
+- name: Enable SystemD services
+  when: ansible_service_mgr == "systemd"
+  loop: "{{ bootstrap_service_systemd }}"
+  loop_control:
+    label: "{{ item.name }}"
+  ansible.builtin.systemd_service: "{{ item }}"

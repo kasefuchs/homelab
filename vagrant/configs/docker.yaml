@@ -37,7 +37,7 @@ persistent:
   volumes:
     # Persistent state for Pebble.
     pebble-state:
-      guest: /var/lib/pebble
+      guest: /var/lib/pebble/default
 
     # config files for CoreDNS.
     coredns-config:

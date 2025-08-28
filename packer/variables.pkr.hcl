@@ -26,9 +26,8 @@ variable "docker" {
 
   default = {
     changes = [
-      "ENV PEBBLE /var/lib/pebble/",
       "ENTRYPOINT [\"sh\"]",
-      "CMD [\"-c\", \"/usr/local/bin/dockerd-entrypoint.sh & until docker info >/dev/null 2>&1; do sleep 1; done && /usr/local/bin/pebble-entrypoint.sh\"]"
+      "CMD [\"-c\", \"dockerd-entrypoint.sh & until docker info >/dev/null 2>&1; do sleep 1; done && pebble-entrypoint.sh\"]"
     ]
     source_image_build = {
       path      = "../docker/Dockerfile.debian"
@@ -49,5 +48,15 @@ variable "ansible" {
   default = {
     env_vars        = []
     extra_arguments = ["--tags=packer"]
+  }
+}
+
+variable "common" {
+  type = object({
+    output_dir = string
+  })
+
+  default = {
+    output_dir = "./outputs"
   }
 }

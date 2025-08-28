@@ -32,7 +32,10 @@
   block:
     - name: Install Pebble Systemd service
       when: ansible_service_mgr == "systemd"
-      notify: Reload Systemd Daemon
+      notify:
+        - Reload Systemd Daemon
+        - Enable Pebble service
+        - Restart Pebble service
       ansible.builtin.template:
         src: pebble.service.j2
         dest: /etc/systemd/system/pebble.service

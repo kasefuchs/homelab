@@ -5,10 +5,21 @@ bootstrap_package_update_cache: true
 # Whether to remove the package manager's cache after installation is complete.
 bootstrap_package_remove_cache: true
 
-# A mapping of OS distributions to the list of packages to install during bootstrapping.
-bootstrap_package_distribution_install:
-  debian: # Packages specific to Debian.
-    - unzip
+# Additional APT repositories for package installations.
+bootstrap_package_apt_repositories_distribution:
+  default: # Default APT repository configuration.
+    docker:
+      url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
+      key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+      components: [stable]
 
-# The list of packages to install for the current OS, selected from the distribution map.
-bootstrap_package_install: "{{ bootstrap_package_distribution_install[ansible_distribution | lower | replace(' ', '')] }}"
+# A mapping of OS distributions to the list of packages to install during bootstrapping.
+bootstrap_package_install_distribution:
+  debian: # Packages specific to Debian.
+    - "{{ 'containerd.io' if ansible_virtualization_type != 'docker' else omit }}"
+    - "{{ 'docker-ce' if ansible_virtualization_type != 'docker' else omit }}"
+    - dnsutils
+    - dmidecode
+    - htop
+    - tar
+    - unzip

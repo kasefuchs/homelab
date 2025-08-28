@@ -26,7 +26,7 @@
         - Enable Pebble service
         - Restart Pebble service
 
-- name: Configure Pebble
+- name: Configure Pebble identities
   tags: identity
   when: pebble_identity | length != 0
   ansible.builtin.include_tasks:

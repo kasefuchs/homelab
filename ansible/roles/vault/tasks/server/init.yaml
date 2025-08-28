@@ -38,8 +38,8 @@
           - operator
           - init
           - -format=json
-          - -key-shares={{ vault_server_init_key_shares }}
-          - -key-threshold={{ vault_server_init_key_threshold }}
+          - "-key-shares={{ vault_server_init_key_shares }}"
+          - "-key-threshold={{ vault_server_init_key_threshold }}"
 
     - name: Render Vault init output to local YAML file
       when: vault_server_init_result.stdout is defined
