@@ -5,3 +5,11 @@
     file: package.yaml
     apply:
       tags: [package, packer]
+
+- name: Configure services
+  tags: [service, packer]
+  when: ansible_virtualization_type != "docker"
+  ansible.builtin.include_tasks:
+    file: service.yaml
+    apply:
+      tags: [service, packer]

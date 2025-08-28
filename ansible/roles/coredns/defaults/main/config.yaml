@@ -40,3 +40,6 @@ coredns_config_zones:
     {% for hostname in ansible_play_hosts_all | sort %}
     nodes     IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
     {% endfor %}
+
+# List of services that service depends on for startup ordering.
+coredns_config_service_dependencies: []

@@ -1,0 +1,9 @@
+---
+# Defines the directory where APT repository keyrings are stored.
+bootstrap_package_apt_keyring_dir: /etc/apt/keyrings
+
+# Additional APT repositories for the current distribution.
+bootstrap_package_apt_repositories: "{{ bootstrap_package_apt_repositories_distribution[ansible_distribution | lower] | default(bootstrap_package_apt_repositories_distribution.default) }}"
+
+# The list of packages to install for the current distribution.
+bootstrap_package_install: "{{ bootstrap_package_install_distribution[ansible_distribution | lower] }}"

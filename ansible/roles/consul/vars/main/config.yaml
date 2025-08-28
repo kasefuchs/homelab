@@ -45,8 +45,8 @@ consul_config_pebble_layer:
       command: "{{ consul_install_binary_file }} agent -config-dir={{ consul_config_include_dir }}"
       user: "{{ consul_install_user }}"
       group: "{{ consul_install_group }}"
-      requires: [coredns, vault-agent]
-      after: [coredns, vault-agent]
+      requires: "{{ consul_config_service_dependencies | reject('equalto', omit) }}"
+      after: "{{ consul_config_service_dependencies | reject('equalto', omit) }}"
 
 # Path to the Pebble layer file that contains the Consul service config.
 consul_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '005-consul.yaml') | ansible.builtin.path_join }}"

@@ -1,9 +1,14 @@
 ---
 # URL for the Vault API endpoint used by the Vault Agent.
-vault_agent_config_api_address: https://server.vault:{{ vault_server_config_api_listen_port }}
+vault_agent_config_api_address: "https://server.vault:{{ vault_server_config_api_listen_port }}"
 
 # AppRole Role ID used for Vault Agent authentication.
 vault_agent_config_auth_role_id: "{{ vault_server_provision_data.vault_agent_auth_role_id.value }}"
 
 # AppRole Secret ID paired with Role ID for authentication.
 vault_agent_config_auth_role_secret_id: "{{ vault_server_provision_data.vault_agent_auth_role_secret_id.value }}"
+
+# List of services that service depends on for startup ordering.
+vault_agent_config_service_dependencies:
+  - coredns
+  - "{{ 'vault' if vault_server_deploy else omit }}"

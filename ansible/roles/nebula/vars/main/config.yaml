@@ -29,6 +29,8 @@ nebula_config_pebble_layer:
       command: "{{ nebula_install_binary_file }} -config={{ nebula_config_file }}"
       user: "{{ nebula_install_user }}"
       group: "{{ nebula_install_group }}"
+      requires: "{{ nebula_config_service_dependencies | reject('equalto', omit) }}"
+      after: "{{ nebula_config_service_dependencies | reject('equalto', omit) }}"
 
 # Path to the Pebble layer file that contains the Nebula service config.
 nebula_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '001-nebula.yaml') | ansible.builtin.path_join }}"

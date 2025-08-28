@@ -2,9 +2,9 @@ build {
   sources = ["vagrant.image", "docker.image"]
 
   provisioner "ansible" {
-    playbook_file    = "${local.ansible_directory}/playbooks/packer.yaml"
+    playbook_file    = "${local.ansible_dir}/playbooks/packer.yaml"
     extra_arguments  = concat(var.ansible.extra_arguments, ["--scp-extra-args", "'-O'"])
-    ansible_env_vars = concat(var.ansible.env_vars, ["ANSIBLE_CONFIG=${local.ansible_directory}/ansible.cfg"])
+    ansible_env_vars = concat(var.ansible.env_vars, ["ANSIBLE_CONFIG=${local.ansible_dir}/ansible.cfg"])
   }
 
   post-processors {

@@ -4,8 +4,9 @@ data_dir = "{{ consul_config_state_dir }}"
 node_name  = "{{ consul_config_node_name }}"
 datacenter = "{{ consul_config_datacenter }}"
 
-bind_addr   = "{{ consul_config_bind_address }}"
-client_addr = "{{ consul_config_client_address }}"
+bind_addr      = "{{ consul_config_bind_address }}"
+client_addr    = "{{ consul_config_client_address }}"
+advertise_addr = "{{ consul_config_advertise_address }}"
 
 server           = {{ consul_config_server | lower }}
 retry_join       = {{ consul_config_retry_join | ansible.builtin.to_json }}

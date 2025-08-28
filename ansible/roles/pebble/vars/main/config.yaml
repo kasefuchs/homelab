@@ -1,6 +1,6 @@
 ---
 # Directory where Pebble data will be stored.
-pebble_config_state_dir: /var/lib/pebble
+pebble_config_state_dir: /var/lib/pebble/default
 
 # Directory where Pebble layers config files will be stored.
 pebble_config_layer_dir: "{{ (pebble_config_state_dir, 'layers') | ansible.builtin.path_join }}"

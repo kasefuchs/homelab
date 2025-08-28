@@ -44,8 +44,8 @@ vault_agent_config_pebble_layer:
       command: "{{ vault_install_binary_file }} agent -config={{ vault_agent_config_include_dir }}"
       user: root
       group: root
-      requires: [coredns]
-      after: [coredns]
+      requires: "{{ vault_agent_config_service_dependencies | reject('equalto', omit) }}"
+      after: "{{ vault_agent_config_service_dependencies | reject('equalto', omit) }}"
 
 # Path to the Pebble layer file that contains the Vault agent service config.
 vault_agent_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '004-vault-agent.yaml') | ansible.builtin.path_join }}"

@@ -17,10 +17,10 @@ coredns_config_include_dir: "{{ (coredns_config_dir, 'conf.d') | ansible.builtin
 # The glob of the included zone config files.
 coredns_config_include_glob: "{{ (coredns_config_include_dir, '*.conf') | ansible.builtin.path_join }}"
 
-#
+# Full path to the snippets CoreDNS config file.
 coredns_config_snippet_file: "{{ (coredns_config_include_dir, '001-snippet.conf') | ansible.builtin.path_join }}"
 
-#
+# Full path to the block-in-file CoreDNS config file.
 coredns_config_block_file: "{{ (coredns_config_include_dir, '002-block.conf') | ansible.builtin.path_join }}"
 
 # Pebble service layer definition for the CoreDNS service.
@@ -32,6 +32,8 @@ coredns_config_pebble_layer:
       command: "{{ coredns_install_binary_file }} -conf={{ coredns_config_file }} -dns.port={{ coredns_config_port }}"
       user: "{{ coredns_install_user }}"
       group: "{{ coredns_install_group }}"
+      requires: "{{ coredns_config_service_dependencies | reject('equalto', omit) }}"
+      after: "{{ coredns_config_service_dependencies | reject('equalto', omit) }}"
 
 # Path to the Pebble layer file that contains the CoreDNS service config.
 coredns_config_pebble_layer_file: "{{ (pebble_config_layer_dir, '002-coredns.yaml') | ansible.builtin.path_join }}"
