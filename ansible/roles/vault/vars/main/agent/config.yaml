@@ -35,6 +35,9 @@ vault_agent_config_cert_ca_dir: "{{ (vault_agent_config_cert_dir, 'ca') | ansibl
 # Directory where Vault agent entity certificate files will be stored in the config path.
 vault_agent_config_cert_entity_dir: "{{ (vault_agent_config_cert_dir, 'entity') | ansible.builtin.path_join }}"
 
+# User to run Vault agent as.
+vault_agent_config_user: root
+
 # Pebble service layer definition for the Vault agent service.
 vault_agent_config_pebble_layer:
   services:
@@ -42,8 +45,8 @@ vault_agent_config_pebble_layer:
       override: replace
       startup: enabled
       command: "{{ vault_install_binary_file }} agent -config={{ vault_agent_config_include_dir }}"
-      user: root
-      group: root
+      user: "{{ vault_agent_config_user }}"
+      group: "{{ vault_install_group }}"
       requires: "{{ vault_agent_config_service_dependencies | reject('equalto', omit) }}"
       after: "{{ vault_agent_config_service_dependencies | reject('equalto', omit) }}"
 

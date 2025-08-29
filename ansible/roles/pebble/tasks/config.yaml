@@ -15,7 +15,7 @@
     state: directory
 
 - name: Copy Pebble config layers
-  loop: "{{ pebble_config_layer | ansible.builtin.dict2items }}"
+  loop: "{{ pebble_config_layers | ansible.builtin.dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   vars:
