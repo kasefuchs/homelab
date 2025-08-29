@@ -19,7 +19,7 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: "{{ vault_install_user }}"
+    owner: "{{ vault_agent_config_user }}"
     group: "{{ vault_install_group }}"
 
 - name: Copy Vault agent certificates
@@ -34,7 +34,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ vault_install_user }}"
+    owner: "{{ vault_agent_config_user }}"
     group: "{{ vault_install_group }}"
 
 - name: Include Vault server provision result
@@ -58,7 +58,7 @@
     content: "{{ item.content }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ vault_install_user }}"
+    owner: "{{ vault_agent_config_user }}"
     group: "{{ vault_install_group }}"
 
 - name: Ensure Vault agent block config exists
@@ -75,7 +75,7 @@
         src: "{{ common_template_managed_local_path }}"
         dest: "{{ vault_agent_config_block_file }}"
         mode: "0644"
-        owner: "{{ vault_install_user }}"
+        owner: "{{ vault_agent_config_user }}"
         group: "{{ vault_install_group }}"
 
 - name: Render Vault agent config template
@@ -83,7 +83,7 @@
     src: agent/config.hcl.j2
     dest: "{{ vault_agent_config_file }}"
     mode: "0644"
-    owner: "{{ vault_install_user }}"
+    owner: "{{ vault_agent_config_user }}"
     group: "{{ vault_install_group }}"
 
 - name: Update Vault agent Pebble layer
