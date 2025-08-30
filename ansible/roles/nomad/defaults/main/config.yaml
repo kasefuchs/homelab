@@ -53,7 +53,13 @@ nomad_config_consul:
 nomad_config_addresses: {}
 
 # Advertise addresses for services.
-nomad_config_advertise: {}
+nomad_config_advertise:
+  http: "{{ ansible_default_ipv4.address }}"
+  rpc: "{{ ansible_default_ipv4.address }}"
+  serf: "{{ ansible_default_ipv4.address }}"
+
+# Disables automatic checking for new version releases.
+nomad_config_disable_update_check: true
 
 # Telemetry config.
 nomad_config_telemetry:

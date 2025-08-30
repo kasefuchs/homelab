@@ -15,13 +15,16 @@ consul_config_node_name: "{{ inventory_hostname }}"
 consul_config_datacenter: global
 
 # Address for binding internal cluster communications.
-consul_config_bind_address: "{{ ansible_default_ipv4.address }}"
+consul_config_bind_address: 0.0.0.0
 
 # Address for client requests.
 consul_config_client_address: 0.0.0.0
 
 # The address to advertise to other nodes in the cluster.
-consul_config_advertise_address: "{{ consul_config_bind_address }}"
+consul_config_advertise_address: "{{ ansible_default_ipv4.address }}"
+
+# Disables automatic checking for new version releases.
+consul_config_disable_update_check: true
 
 # Consul UI config.
 consul_config_ui:
