@@ -7,6 +7,8 @@ datacenter = "{{ nomad_config_datacenter }}"
 
 bind_addr = "{{ nomad_config_bind_address }}"
 
+disable_update_check = {{ nomad_config_disable_update_check | lower }}
+
 server {
   enabled = {{ nomad_config_server | lower }}
 

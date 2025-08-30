@@ -3,6 +3,6 @@
   ansible.builtin.blockinfile:
     path: "{{ common_block_path }}"
     block: "{{ common_block_content }}"
-    marker: "{{ '--- {mark} %s BLOCK ---' | format(common_block_label | upper) | ansible.builtin.comment(prefix = '', postfix = '') | trim }}"
+    marker: "{{ '--- {mark} %s BLOCK ---' | format(common_block_label | upper) | ansible.builtin.comment(prefix='', postfix='') | trim }}"
     append_newline: true
     prepend_newline: true

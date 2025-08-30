@@ -12,6 +12,8 @@ server           = {{ consul_config_server | lower }}
 retry_join       = {{ consul_config_retry_join | ansible.builtin.to_json }}
 bootstrap_expect = {{ consul_config_bootstrap_expect | int * consul_config_server }}
 
+disable_update_check = {{ consul_config_disable_update_check | lower }}
+
 {{
   {
     "acl": consul_config_acl,
