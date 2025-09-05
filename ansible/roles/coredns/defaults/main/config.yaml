@@ -6,9 +6,6 @@ coredns_config:
   internal: "{{ lookup('ansible.builtin.template', 'zone.block.conf.j2', template_vars={'coredns_config_zone': 'internal'}) }}"
   discovery: "{{ lookup('ansible.builtin.template', 'zone.block.conf.j2', template_vars={'coredns_config_zone': 'discovery.internal'}) }}"
 
-# Serial number for SOA records.
-coredns_config_serial: "{{ ansible_date_time.epoch }}"
-
 # Port on which the Prometheus plugin will expose metrics.
 coredns_config_prometheus_listen_port: 9153
 
@@ -18,27 +15,28 @@ coredns_config_prometheus_listen_address: "0.0.0.0:{{ coredns_config_prometheus_
 # Map of CoreDNS zone files.
 coredns_config_zones:
   # language="text"
-  vault: |
-    $TTL 300
-    @          IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
-    {% for hostname in groups['vault_servers'] | sort %}
-    server     IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
-    {% endfor %}
-
-  # language="text"
   internal: |
+    {%- set hostname_padding = ansible_play_hosts_all | map('length') | max -%}
     $TTL 300
-    @                IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
+    {{ '@'.ljust(hostname_padding) }} IN SOA DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ ansible_date_time.epoch }} 3600 600 604800 1440
     {% for hostname in ansible_play_hosts_all | sort %}
-    {{ hostname.ljust(16) }} IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
+    {{ hostname.ljust(hostname_padding) }} IN A   {{ hostvars[hostname].coredns_config_internal_ip | default( hostvars[hostname].ansible_default_ipv4.address) }}
     {% endfor %}
 
   # language="text"
   discovery.internal: |
     $TTL 300
-    @         IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ coredns_config_serial }} 3600 600 604800 1440
+    @     IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ ansible_date_time.epoch }} 3600 600 604800 1440
     {% for hostname in ansible_play_hosts_all | sort %}
-    nodes     IN A     {{ hostvars[hostname].ansible_default_ipv4.address }}
+    nodes IN CNAME {{ hostname }}.internal.
+    {% endfor %}
+
+  # language="text"
+  vault: |
+    $TTL 300
+    @      IN SOA   DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ ansible_date_time.epoch }} 3600 600 604800 1440
+    {% for hostname in groups['vault_servers'] | sort %}
+    server IN CNAME {{ hostname }}.internal.
     {% endfor %}
 
 # List of services that service depends on for startup ordering.
