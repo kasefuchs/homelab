@@ -56,7 +56,10 @@ consul_config_vault_agent_templates:
     group: "{{ consul_install_group }}"
     perms: 384
     exec:
-      command: ["sh", "-c", "PEBBLE={{ pebble_config_state_dir }} {{ pebble_install_binary_file }} signal HUP consul || true"]
+      command:
+        - sh
+        - -c
+        - "PEBBLE={{ pebble_config_state_dir }} {{ pebble_install_binary_file }} signal HUP consul || true"
     left_delimiter: "[["
     right_delimiter: "]]"
 
