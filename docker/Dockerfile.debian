@@ -5,7 +5,7 @@ FROM debian:${DISTRO_TAG}
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update --assume-yes && \
-    apt-get install --assume-yes --no-install-recommends adduser dmidecode dnsutils gnupg htop iproute2 iptables python3 python3-pip sudo tar unzip && \
+    apt-get install --assume-yes --no-install-recommends adduser dmidecode dnsutils gnupg htop iproute2 iptables python3 python3-pip qemu-system sudo tar unzip && \
     apt-get clean --assume-yes
 
 COPY --from=docker:dind /usr/local/bin/ /usr/local/bin/
