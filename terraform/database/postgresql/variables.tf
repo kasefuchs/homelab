@@ -4,10 +4,12 @@ variable "connection_name" {
 }
 
 variable "static_roles" {
-  type = list(object({
-    vault_role          = string
-    postgresql_role     = string
-    postgresql_database = string
-  }))
+  type = list(
+    object({
+      vault_role          = string
+      postgresql_role     = string
+      postgresql_database = string
+    })
+  )
   default = []
 }
