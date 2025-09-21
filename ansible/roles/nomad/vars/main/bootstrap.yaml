@@ -3,4 +3,4 @@
 nomad_bootstrap_local_dir: "{{ (nomad_main_file_local_dir, 'bootstrap') | ansible.builtin.path_join }}"
 
 # Full path to the local file where Nomad bootstrap output will be saved.
-nomad_bootstrap_local_file: "{{ (nomad_bootstrap_local_dir, common_inventory_name ~ '.yaml') | ansible.builtin.path_join }}"
+nomad_bootstrap_encrypted_local_file: "{{ (nomad_bootstrap_local_dir, common_inventory_name ~ '.sops.json') | ansible.builtin.path_join }}"

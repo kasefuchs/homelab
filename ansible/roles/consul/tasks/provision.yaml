@@ -2,7 +2,8 @@
 - name: Include Consul bootstrap result
   run_once: true
   failed_when: false
-  ansible.builtin.include_vars: "{{ consul_bootstrap_local_file }}"
+  ansible.builtin.set_fact:
+    consul_bootstrap_data: "{{ lookup('community.sops.sops', consul_bootstrap_encrypted_local_file) | ansible.builtin.from_json }}"
 
 - name: Ensure Consul provision directory exists
   ansible.builtin.file:
@@ -21,15 +22,7 @@
     workspace: "{{ common_inventory_name }}"
     force_init: true
 
-- name: Render Consul provision result to local YAML file
-  vars:
-    common_managed_content: |
-      ---
-      {{
-        {"consul_provision_data": consul_provision_result.outputs}
-        | ansible.builtin.to_nice_yaml(indent=2)
-      }}
-  ansible.builtin.template:
-    src: "{{ common_template_managed_local_path }}"
-    dest: "{{ consul_provision_local_file }}"
-    mode: "0600"
+- name: Render Consul provision result to local JSON file
+  community.sops.sops_encrypt:
+    path: "{{ consul_provision_encrypted_local_file }}"
+    content_json: "{{ consul_provision_result.outputs }}"

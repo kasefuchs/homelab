@@ -1,4 +1,10 @@
 ---
+- name: Include Vault initialization result
+  run_once: true
+  failed_when: false
+  ansible.builtin.set_fact:
+    vault_server_provision_data: "{{ lookup('community.sops.sops', vault_server_provision_encrypted_local_file) | ansible.builtin.from_json }}"
+
 - name: Create Vault agent directories
   loop:
     - path: "{{ vault_agent_config_dir }}"
@@ -36,11 +42,6 @@
     mode: "{{ item.mode }}"
     owner: "{{ vault_agent_config_user }}"
     group: "{{ vault_install_group }}"
-
-- name: Include Vault server provision result
-  run_once: true
-  failed_when: false
-  ansible.builtin.include_vars: "{{ vault_server_provision_local_file }}"
 
 - name: Copy Vault agent auth credentials
   loop:

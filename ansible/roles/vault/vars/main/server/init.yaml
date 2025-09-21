@@ -3,4 +3,4 @@
 vault_server_init_local_dir: "{{ (vault_file_local_dir, 'server/init') | ansible.builtin.path_join }}"
 
 # Full path to the local file where Vault init output will be saved.
-vault_server_init_local_file: "{{ (vault_server_init_local_dir, common_inventory_name ~ '.yaml') | ansible.builtin.path_join }}"
+vault_server_init_encrypted_local_file: "{{ (vault_server_init_local_dir, common_inventory_name ~ '.sops.json') | ansible.builtin.path_join }}"

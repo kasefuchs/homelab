@@ -3,4 +3,5 @@
 vault_download_version: latest
 
 # URL to download the Vault archive, constructed from GitHub user, repository, version, and architecture.
-vault_download_url: "https://hashicorp-releases.yandexcloud.net/vault/{{ vault_download_version }}/vault_{{ vault_download_version }}_linux_{{ vault_download_architecture.value }}.zip"
+vault_download_url: "https://hashicorp-releases.yandexcloud.net/vault/{{ vault_download_version }}/vault_{{ vault_download_version }}_linux_{{ vault_download_architecture.value
+  }}.zip"

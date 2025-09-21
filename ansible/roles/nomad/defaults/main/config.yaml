@@ -51,7 +51,6 @@ nomad_config_consul:
 
 # Bind addresses for services.
 nomad_config_addresses: {}
-
 # Advertise addresses for services.
 nomad_config_advertise:
   http: "{{ ansible_default_ipv4.address }}"
@@ -82,10 +81,8 @@ nomad_config_client: "{{ 'nomad_clients' in group_names }}"
 
 # Client options.
 nomad_config_client_options: {}
-
 # Reserved client resources.
 nomad_config_client_reserved: {}
-
 # Retry join for clients.
 nomad_config_client_retry_join: "{{ nomad_config_retry_join }}"
 

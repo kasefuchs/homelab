@@ -27,16 +27,8 @@
         CONSUL_CACERT: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command: consul acl bootstrap -format=json
 
-    - name: Render Consul ACL bootstrap output to local YAML file
+    - name: Render Consul ACL bootstrap result to local JSON file
       when: consul_bootstrap_result.rc == 0
-      vars:
-        common_managed_content: |
-          ---
-          {{
-            {"consul_bootstrap_data": consul_bootstrap_result.stdout | ansible.builtin.from_json}
-            | ansible.builtin.to_nice_yaml(indent=2)
-          }}
-      ansible.builtin.template:
-        src: "{{ common_template_managed_local_path }}"
-        dest: "{{ consul_bootstrap_local_file }}"
-        mode: "0600"
+      community.sops.sops_encrypt:
+        path: "{{ consul_bootstrap_encrypted_local_file }}"
+        content_json: "{{ consul_bootstrap_result.stdout }}"

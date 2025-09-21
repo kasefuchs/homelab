@@ -12,7 +12,6 @@ bootstrap_package_apt_repositories_distribution:
       url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
       key: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
       components: [stable]
-
 # A mapping of OS distributions to the list of packages to install during bootstrapping.
 bootstrap_package_install_distribution:
   debian: # Packages specific to Debian.

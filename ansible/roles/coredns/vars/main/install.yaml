@@ -13,10 +13,8 @@ coredns_install_archive_extract_dir: /usr/local/bin
 
 # Additional options for extracting the CoreDNS archive.
 coredns_install_unarchive_options: []
-
 # List of file or directory patterns to include when extracting the archive.
 coredns_install_unarchive_include: [coredns]
-
 # Path to the CoreDNS binary.
 coredns_install_binary_file: "{{ (coredns_install_archive_extract_dir, 'coredns') | ansible.builtin.path_join }}"
 

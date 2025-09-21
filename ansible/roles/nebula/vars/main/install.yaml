@@ -13,10 +13,8 @@ nebula_install_archive_extract_dir: /usr/local/bin
 
 # Additional options for extracting the Nebula archive.
 nebula_install_unarchive_options: []
-
 # List of file or directory patterns to include when extracting the archive.
 nebula_install_unarchive_include: [nebula]
-
 # Path to the Nebula binary.
 nebula_install_binary_file: "{{ (nebula_install_archive_extract_dir, 'nebula') | ansible.builtin.path_join }}"
 

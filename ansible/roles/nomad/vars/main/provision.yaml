@@ -3,7 +3,7 @@
 nomad_provision_local_dir: "{{ (nomad_main_file_local_dir, 'provision') | ansible.builtin.path_join }}"
 
 # Full path to the local file where Nomad provision data will be saved.
-nomad_provision_local_file: "{{ (nomad_provision_local_dir, common_inventory_name ~ '.yaml') | ansible.builtin.path_join }}"
+nomad_provision_encrypted_local_file: "{{ (nomad_provision_local_dir, common_inventory_name ~ '.sops.json') | ansible.builtin.path_join }}"
 
 # Local directory with Terraform project for Nomad provisioning.
 nomad_provision_terraform_local_dir: "{{ (nomad_terraform_local_dir, 'provision') | ansible.builtin.path_join }}"

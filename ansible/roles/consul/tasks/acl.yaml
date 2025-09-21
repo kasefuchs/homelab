@@ -1,11 +1,10 @@
 ---
-- name: Include variables
-  loop:
-    - "{{ consul_bootstrap_local_file }}"
-    - "{{ consul_provision_local_file }}"
+- name: Include vars
   run_once: true
   failed_when: false
-  ansible.builtin.include_vars: "{{ item }}"
+  ansible.builtin.set_fact:
+    consul_bootstrap_data: "{{ lookup('community.sops.sops', consul_bootstrap_encrypted_local_file) | ansible.builtin.from_json }}"
+    consul_provision_data: "{{ lookup('community.sops.sops', consul_provision_encrypted_local_file) | ansible.builtin.from_json }}"
 
 - name: Set Consul Agent ACL tokens
   register: consul_acl_set_token_result
