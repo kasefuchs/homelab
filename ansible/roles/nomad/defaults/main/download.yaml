@@ -3,5 +3,4 @@
 nomad_download_version: latest
 
 # URL to download the Nomad archive, constructed from GitHub user, repository, version, and architecture.
-nomad_download_url: "https://hashicorp-releases.yandexcloud.net/nomad/{{ nomad_download_version }}/nomad_{{ nomad_download_version }}_linux_{{ nomad_download_architecture.value
-  }}.zip"
+nomad_download_url: "https://hashicorp-releases.yandexcloud.net/nomad/{{ nomad_download_version }}/nomad_{{ nomad_download_version }}_linux_{{ nomad_download_architecture.value }}.zip"

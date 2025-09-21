@@ -24,5 +24,4 @@ common_internal_fqdn: "{{ inventory_hostname }}.internal"
 common_inventory_name: "{{ inventory_dir | ansible.builtin.basename }}"
 
 # Header of managed templates.
-common_managed_header: "Managed by Ansible | Template: {{ template_path if not template_path.startswith('/') else (template_path | basename) }} (last modified: {{
-  template_mtime.strftime('%Y-%m-%d %H:%M:%S') }})"
+common_managed_header: "Managed by Ansible | Template: {{ template_path if not template_path.startswith('/') else (template_path | basename) }} (last modified: {{ template_mtime.strftime('%Y-%m-%d %H:%M:%S') }})"

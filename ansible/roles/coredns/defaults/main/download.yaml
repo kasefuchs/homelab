@@ -3,5 +3,4 @@
 coredns_download_version: latest
 
 # URL to download the CoreDNS binary, constructed from GitHub user, repository, version, and architecture.
-coredns_download_url: "https://github.com/{{ coredns_download_github_user }}/{{ coredns_download_github_repository }}/releases/download/v{{ coredns_download_version
-  }}/coredns_{{ coredns_download_version }}_linux_{{ coredns_download_architecture.value }}.tgz"
+coredns_download_url: "https://github.com/{{ coredns_download_github_user }}/{{ coredns_download_github_repository }}/releases/download/v{{ coredns_download_version }}/coredns_{{ coredns_download_version }}_linux_{{ coredns_download_architecture.value }}.tgz"

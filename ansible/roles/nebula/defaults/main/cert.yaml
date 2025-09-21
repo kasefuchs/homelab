@@ -8,8 +8,10 @@ nebula_cert_ca_ips:
 
 # List of group names assigned to the CA certificate.
 nebula_cert_ca_groups: []
+
 # List of subnet ranges included in the CA certificate.
 nebula_cert_ca_subnets: []
+
 # Duration of CA certificate validity.
 nebula_cert_ca_duration: 87600h
 

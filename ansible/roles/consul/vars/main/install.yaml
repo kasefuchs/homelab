@@ -13,7 +13,9 @@ consul_install_archive_extract_dir: /usr/local/bin
 
 # Additional options for extracting the Consul archive.
 consul_install_unarchive_options: []
+
 # List of file or directory patterns to include when extracting the archive.
 consul_install_unarchive_include: [consul]
+
 # Path to the Consul binary.
 consul_install_binary_file: "{{ (consul_install_archive_extract_dir, 'consul') | ansible.builtin.path_join }}"

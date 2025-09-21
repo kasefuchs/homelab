@@ -19,6 +19,7 @@ nebula_config_listen:
 nebula_config_lighthouse:
   am_lighthouse: true
   hosts: []
+
 # Name of the TUN interface created by Nebula.
 nebula_config_tun:
   dev: nebula0
@@ -48,5 +49,6 @@ nebula_config_relay:
 
 # The static host map defines a set of hosts with fixed IP addresses on the internet (or any network).
 nebula_config_static_host_map: {}
+
 # List of services that service depends on for startup ordering.
 nebula_config_service_dependencies: []
