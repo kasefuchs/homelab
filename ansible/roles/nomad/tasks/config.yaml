@@ -1,4 +1,10 @@
 ---
+- name: Include Consul provision result
+  run_once: true
+  failed_when: false
+  ansible.builtin.set_fact:
+    nomad_consul_provision_data: "{{ lookup('community.sops.sops', consul_provision_encrypted_local_file) | ansible.builtin.from_json }}"
+
 - name: Create Nomad agent directories
   loop:
     - path: "{{ nomad_config_dir }}"
@@ -49,11 +55,6 @@
     file: "{{ (common_task_local_dir, 'block.yaml') | ansible.builtin.path_join }}"
     apply:
       notify: Restart Vault agent service
-
-- name: Include Consul provision result
-  run_once: true
-  failed_when: false
-  ansible.builtin.include_vars: "{{ consul_provision_local_file }}"
 
 - name: Render Nomad agent config template
   ansible.builtin.template:

@@ -23,21 +23,24 @@
 - name: Copy Vault server certificates
   loop:
     - label: Vault server CA certificate
-      src: "{{ (vault_server_cert_ca_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+      src: "{{ vault_server_cert_ca_local_crt_path }}"
       dest: "{{ (vault_server_config_cert_ca_dir, 'server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
+      lookup: ansible.builtin.file
     - label: Vault server certificate
-      src: "{{ (vault_server_cert_entity_host_local_dir, 'server.crt') | ansible.builtin.path_join }}"
+      src: "{{ vault_server_cert_entity_local_crt_path }}"
       dest: "{{ (vault_server_config_cert_entity_dir, 'server.crt') | ansible.builtin.path_join }}"
       mode: "0644"
+      lookup: ansible.builtin.file
     - label: Vault server private key
-      src: "{{ (vault_server_cert_entity_host_local_dir, 'server.key') | ansible.builtin.path_join }}"
+      src: "{{ vault_server_cert_entity_local_key_encrypted_path }}"
       dest: "{{ (vault_server_config_cert_entity_dir, 'server.key') | ansible.builtin.path_join }}"
       mode: "0600"
+      lookup: community.sops.sops
   loop_control:
     label: "{{ item.label }}"
   ansible.builtin.copy:
-    src: "{{ item.src }}"
+    content: "{{ lookup(item.lookup, item.src) }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
     owner: "{{ vault_install_user }}"

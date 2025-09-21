@@ -41,16 +41,8 @@
           - "-key-shares={{ vault_server_init_key_shares }}"
           - "-key-threshold={{ vault_server_init_key_threshold }}"
 
-    - name: Render Vault init output to local YAML file
+    - name: Render Vault init output to local JSON file
       when: vault_server_init_result.stdout is defined
-      vars:
-        common_managed_content: |
-          ---
-          {{
-            {"vault_server_init_data": vault_server_init_result.stdout | ansible.builtin.from_json}
-            | ansible.builtin.to_nice_yaml(indent=2)
-          }}
-      ansible.builtin.template:
-        src: "{{ common_template_managed_local_path }}"
-        dest: "{{ vault_server_init_local_file }}"
-        mode: "0600"
+      community.sops.sops_encrypt:
+        path: "{{ vault_server_init_encrypted_local_file }}"
+        content_json: "{{ vault_server_init_result.stdout | ansible.builtin.from_json }}"

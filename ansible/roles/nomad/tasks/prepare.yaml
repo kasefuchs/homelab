@@ -1,11 +1,10 @@
 ---
 - name: Include vars
-  loop:
-    - "{{ vault_server_init_local_file }}"
-    - "{{ consul_bootstrap_local_file }}"
   run_once: true
   failed_when: false
-  ansible.builtin.include_vars: "{{ item }}"
+  ansible.builtin.set_fact:
+    nomad_vault_server_init_data: "{{ lookup('community.sops.sops', vault_server_init_encrypted_local_file) | ansible.builtin.from_json }}"
+    nomad_consul_bootstrap_data: "{{ lookup('community.sops.sops', consul_bootstrap_encrypted_local_file) | ansible.builtin.from_json }}"
 
 - name: Prepare Nomad
   environment:

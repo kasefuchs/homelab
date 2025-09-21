@@ -27,16 +27,8 @@
         NOMAD_CACERT: "{{ (vault_server_cert_ca_local_dir, 'cluster.crt') | ansible.builtin.path_join }}"
       ansible.builtin.command: nomad acl bootstrap -json
 
-    - name: Render Nomad ACL bootstrap output to local YAML file
+    - name: Render Nomad ACL bootstrap output to local JSON file
       when: nomad_bootstrap_result.rc == 0
-      vars:
-        common_managed_content: |
-          ---
-          {{
-            {"nomad_bootstrap_data": nomad_bootstrap_result.stdout | ansible.builtin.from_json}
-            | ansible.builtin.to_nice_yaml(indent=2)
-          }}
-      ansible.builtin.template:
-        src: "{{ common_template_managed_local_path }}"
-        dest: "{{ nomad_bootstrap_local_file }}"
-        mode: "0600"
+      community.sops.sops_encrypt:
+        path: "{{ nomad_bootstrap_encrypted_local_file }}"
+        content_json: "{{ nomad_bootstrap_result.stdout }}"

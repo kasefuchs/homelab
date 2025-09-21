@@ -3,7 +3,7 @@
 consul_provision_local_dir: "{{ (consul_main_file_local_dir, 'provision') | ansible.builtin.path_join }}"
 
 # Full path to the local file where Consul provision data will be saved.
-consul_provision_local_file: "{{ (consul_provision_local_dir, common_inventory_name ~ '.yaml') | ansible.builtin.path_join }}"
+consul_provision_encrypted_local_file: "{{ (consul_provision_local_dir, common_inventory_name ~ '.sops.json') | ansible.builtin.path_join }}"
 
 # Local directory with Terraform project for Consul provisioning.
 consul_provision_terraform_local_dir: "{{ (consul_terraform_local_dir, 'provision') | ansible.builtin.path_join }}"

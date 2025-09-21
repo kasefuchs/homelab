@@ -1,24 +1,36 @@
 ---
-- name: Create certificate private key
-  register: common_cert_entity_private_key
-  community.crypto.openssl_privatekey:
-    path: "{{ (common_cert_entity_dir, common_cert_entity_name ~ '.key') | ansible.builtin.path_join }}"
+- name: Stat encrypted key
+  register: common_cert_entity_key_encrypted_stat_result
+  ansible.builtin.stat:
+    path: "{{ common_cert_entity_key_encrypted_local_path }}"
+
+- name: Create key if not exists
+  when: not common_cert_entity_key_encrypted_stat_result.stat.exists
+  block:
+    - name: Create key
+      register: common_cert_entity_key
+      community.crypto.openssl_privatekey_pipe:
+
+    - name: Write encrypted key to disk
+      community.sops.sops_encrypt:
+        path: "{{ common_cert_entity_key_encrypted_local_path }}"
+        content_text: "{{ common_cert_entity_key.privatekey }}"
 
 - name: Create certificate signing request
   register: common_cert_entity_csr
   community.crypto.openssl_csr:
-    path: "{{ (common_cert_entity_dir, common_cert_entity_name ~ '.csr') | ansible.builtin.path_join }}"
-    privatekey_path: "{{ common_cert_entity_private_key.filename }}"
+    path: "{{ common_cert_entity_csr_local_path }}"
+    privatekey_content: "{{ lookup('community.sops.sops', common_cert_entity_key_encrypted_local_path) }}"
     subject: "{{ common_cert_entity_subject }}"
     subject_alt_name: "{{ ['IP:'] | product(common_cert_entity_ip_sans) | map('join') + ['DNS:'] | product(common_cert_entity_dns_sans) | map('join') }}"
     extended_key_usage: "{{ common_cert_entity_eku | default(['serverAuth', 'clientAuth']) }}"
 
 - name: Create certificate from CSR
   community.crypto.x509_certificate:
-    path: "{{ (common_cert_entity_dir, common_cert_entity_name ~ '.crt') | ansible.builtin.path_join }}"
+    path: "{{ common_cert_entity_crt_local_path }}"
     provider: ownca
     csr_path: "{{ common_cert_entity_csr.filename }}"
-    ownca_path: "{{ (common_cert_entity_ca_dir, common_cert_entity_ca_name ~ '.crt') | ansible.builtin.path_join }}"
-    ownca_privatekey_path: "{{ (common_cert_entity_ca_dir, common_cert_entity_ca_name ~ '.key') | ansible.builtin.path_join }}"
+    ownca_path: "{{ common_cert_ca_crt_local_path }}"
+    ownca_privatekey_content: "{{ lookup('community.sops.sops', common_cert_ca_key_encrypted_local_path) }}"
     ownca_not_after: "+{{ common_cert_entity_duration }}"
     ownca_not_before: "-1d"

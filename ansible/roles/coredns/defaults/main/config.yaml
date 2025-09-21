@@ -20,7 +20,7 @@ coredns_config_zones:
     $TTL 300
     {{ '@'.ljust(hostname_padding) }} IN SOA DEFAULT_NOT_SET. DEFAULT_NOT_SET. {{ ansible_date_time.epoch }} 3600 600 604800 1440
     {% for hostname in ansible_play_hosts_all | sort %}
-    {{ hostname.ljust(hostname_padding) }} IN A   {{ hostvars[hostname].coredns_config_internal_ip | default( hostvars[hostname].ansible_default_ipv4.address) }}
+    {{ hostname.ljust(hostname_padding) }} IN A   {{ hostvars[hostname].coredns_config_internal_ip | default(hostvars[hostname].ansible_default_ipv4.address) }}
     {% endfor %}
 
   # language="text"
