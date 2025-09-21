@@ -35,8 +35,7 @@ vault_server_config_telemetry:
 vault_server_config_node_name: "{{ inventory_hostname }}"
 
 # List of peer nodes to attempt to join during Raft initialization (excluding the current node).
-vault_server_config_retry_join: "{{ groups['vault_servers'] | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.internal:8200')
-  }}"
+vault_server_config_retry_join: "{{ groups['vault_servers'] | reject('equalto', inventory_hostname) | map('regex_replace', '^(.*)$', 'https://\\1.internal:8200') }}"
 
 # List of services that service depends on for startup ordering.
 vault_server_config_service_dependencies: [coredns]
