@@ -1,0 +1,13 @@
+# --- Ansible ---
++ ansible/
++ ansible/roles/
++ ansible/roles/*/
++ ansible/roles/*/files/
++ ansible/roles/*/files/*/
++ ansible/roles/*/files/*/cert/***
++ ansible/roles/*/files/*/init/***
++ ansible/roles/*/files/*/bootstrap/***
++ ansible/roles/*/files/*/provision/***
+
+# --- Everything else ---
+- *

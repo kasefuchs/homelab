@@ -2,8 +2,5 @@
 # Path to the encrypted private key file for this certificate entity.
 common_cert_entity_key_encrypted_local_path: "{{ (common_cert_entity_local_dir, common_cert_entity_name ~ '.sops.key') | ansible.builtin.path_join }}"
 
-# Path to the certificate signing request (CSR) file for this certificate entity.
-common_cert_entity_csr_local_path: "{{ (common_cert_entity_local_dir, common_cert_entity_name ~ '.csr') | ansible.builtin.path_join }}"
-
 # Path to the certificate file for this certificate entity.
 common_cert_entity_crt_local_path: "{{ (common_cert_entity_local_dir, common_cert_entity_name ~ '.crt') | ansible.builtin.path_join }}"

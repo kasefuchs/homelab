@@ -16,23 +16,30 @@
         path: "{{ common_cert_ca_key_encrypted_local_path }}"
         content_text: "{{ common_cert_ca_key.privatekey }}"
 
-- name: Create signing request
-  register: common_cert_ca_csr
-  community.crypto.openssl_csr:
-    path: "{{ common_cert_ca_csr_local_path }}"
-    privatekey_content: "{{ lookup('community.sops.sops', common_cert_ca_key_encrypted_local_path) }}"
-    subject: "{{ common_cert_ca_subject }}"
-    use_common_name_for_san: false
-    key_usage: [keyCertSign]
-    key_usage_critical: true
-    basic_constraints: [CA:TRUE]
-    basic_constraints_critical: true
-
-- name: Create certificate from signing request
-  community.crypto.x509_certificate:
+- name: Stat certificate
+  register: common_cert_ca_crt_stat_result
+  ansible.builtin.stat:
     path: "{{ common_cert_ca_crt_local_path }}"
-    csr_path: "{{ common_cert_ca_csr.filename }}"
-    privatekey_content: "{{ lookup('community.sops.sops', common_cert_ca_key_encrypted_local_path) }}"
-    provider: selfsigned
-    ownca_not_after: "+{{ common_cert_ca_duration }}"
-    ownca_not_before: "-1d"
+
+- name: Create certificate if not exists
+  when: not common_cert_ca_crt_stat_result.stat.exists
+  block:
+    - name: Create signing request
+      register: common_cert_ca_csr
+      community.crypto.openssl_csr_pipe:
+        privatekey_content: "{{ lookup('community.sops.sops', common_cert_ca_key_encrypted_local_path) }}"
+        subject: "{{ common_cert_ca_subject }}"
+        use_common_name_for_san: false
+        key_usage: [keyCertSign]
+        key_usage_critical: true
+        basic_constraints: [CA:TRUE]
+        basic_constraints_critical: true
+
+    - name: Create certificate from signing request
+      community.crypto.x509_certificate:
+        path: "{{ common_cert_ca_crt_local_path }}"
+        csr_content: "{{ common_cert_ca_csr.csr }}"
+        privatekey_content: "{{ lookup('community.sops.sops', common_cert_ca_key_encrypted_local_path) }}"
+        provider: selfsigned
+        ownca_not_after: "+{{ common_cert_ca_duration }}"
+        ownca_not_before: "-1d"

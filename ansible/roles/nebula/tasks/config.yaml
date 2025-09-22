@@ -20,22 +20,25 @@
 
 - name: Copy Nebula certificates
   loop:
-    - label: Nebula CA certificate
-      src: "{{ (nebula_cert_ca_local_dir, 'nebula.crt') | ansible.builtin.path_join }}"
+    - label: CA certificate
+      src: "{{ nebula_cert_ca_crt_local_path }}"
       dest: "{{ (nebula_config_cert_ca_dir, 'nebula.crt') | ansible.builtin.path_join }}"
       mode: "0644"
-    - label: Nebula host certificate
-      src: "{{ (nebula_cert_entity_local_dir, inventory_hostname, 'host.crt') | ansible.builtin.path_join }}"
+      lookup: ansible.builtin.file
+    - label: host certificate
+      src: "{{ nebula_cert_entity_crt_local_path }}"
       dest: "{{ (nebula_config_cert_entity_dir, 'host.crt') | ansible.builtin.path_join }}"
       mode: "0644"
-    - label: Nebula host private key
-      src: "{{ (nebula_cert_entity_local_dir, inventory_hostname, 'host.key') | ansible.builtin.path_join }}"
+      lookup: ansible.builtin.file
+    - label: host private key
+      src: "{{ nebula_cert_entity_key_encrypted_local_path }}"
       dest: "{{ (nebula_config_cert_entity_dir, 'host.key') | ansible.builtin.path_join }}"
       mode: "0600"
+      lookup: community.sops.sops
   loop_control:
     label: "{{ item.label }}"
   ansible.builtin.copy:
-    src: "{{ item.src }}"
+    content: "{{ lookup(item.lookup, item.src) }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
     owner: "{{ nebula_install_user }}"
