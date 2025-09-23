@@ -1,0 +1,8 @@
+---
+- name: Configure kernel
+  loop: "{{ bootstrap_kernel_config | ansible.builtin.dict2items }}"
+  loop_control:
+    label: "{{ item.key }}={{ item.value }}"
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
