@@ -6,14 +6,14 @@ variable "dynamic_host" {
       namespace = optional(string, "default")
       node = optional(
         object({
-          id   = string
-          pool = string
+          id   = optional(string)
+          pool = optional(string)
         })
       )
       capacity = optional(
         object({
-          min = string
-          max = string
+          min = optional(string)
+          max = optional(string)
         })
       )
       parameters = optional(

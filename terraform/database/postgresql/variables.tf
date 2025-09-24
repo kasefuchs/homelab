@@ -1,6 +1,6 @@
 variable "connection_name" {
   type    = string
-  default = "default-postgresql"
+  default = "postgresql"
 }
 
 variable "static_roles" {
