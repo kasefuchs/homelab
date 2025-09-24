@@ -32,6 +32,6 @@ resource "nomad_dynamic_host_volume" "dynamic_host" {
 
   for_each = {
     for index, volume in var.dynamic_host :
-    volume.name => volume
+    format("%s.%s", volume.namespace, volume.name) => volume
   }
 }
