@@ -58,8 +58,8 @@ resource "vault_pki_secret_backend_intermediate_set_signed" "cluster" {
 resource "vault_policy" "vault_agent" {
   name = "vault-agent"
   policy = templatefile("${path.module}/policies/vault/vault-agent.hcl.tftpl", {
-    kv_cluster_mount_path  = vault_mount.kv_cluster.path,
-    pki_cluster_mount_path = vault_mount.pki_cluster.path,
+    kv_cluster_mount_path  = vault_mount.kv_cluster.path
+    pki_cluster_mount_path = vault_mount.pki_cluster.path
   })
 }
 

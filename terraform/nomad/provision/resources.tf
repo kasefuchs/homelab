@@ -25,15 +25,9 @@ resource "consul_acl_binding_rule" "nomad_service" {
 }
 
 resource "consul_acl_policy" "nomad_tasks" {
-  name        = "nomad-tasks"
+  name        = local.consul_nomad_tasks_acl_policy
   rules       = file("${path.module}/policies/consul/nomad-tasks.hcl")
   description = "A policy that is used by Nomad tasks"
-}
-
-resource "consul_acl_role" "nomad_tasks_default" {
-  name        = "nomad-tasks-default"
-  policies    = [consul_acl_policy.nomad_tasks.name]
-  description = "ACL role for Nomad tasks in the default Nomad namespace"
 }
 
 resource "consul_acl_binding_rule" "nomad_role" {
