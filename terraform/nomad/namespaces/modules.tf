@@ -1,5 +1,5 @@
 module "namespace" {
-  source = "./namespace"
+  source = "../modules/namespace"
 
   name         = each.value.name
   description  = try(each.value.description, "")

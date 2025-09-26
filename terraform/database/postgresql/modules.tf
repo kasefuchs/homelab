@@ -1,5 +1,5 @@
 module "static_role" {
-  source = "./static-role"
+  source = "../modules/postgresql-static-role"
 
   vault_connection_name = vault_database_secret_backend_connection.postgresql.name
 
