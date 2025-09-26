@@ -13,6 +13,13 @@ resource "nomad_namespace" "namespace" {
   }
 }
 
+resource "nomad_acl_policy" "admin" {
+  name = "ns-${nomad_namespace.namespace.name}-admin"
+  rules_hcl = templatefile("${path.module}/policies/nomad/ns-admin.hcl.tftpl", {
+    nomad_namespace_name = nomad_namespace.namespace.name
+  })
+}
+
 resource "consul_acl_policy" "policy" {
   name        = "nomad-tasks-${nomad_namespace.namespace.name}"
   description = "ACL policy for Nomad tasks in the ${nomad_namespace.namespace.name} Nomad namespace"
