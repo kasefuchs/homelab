@@ -172,5 +172,9 @@ nomad_config_plugins:
     volumes:
       enabled: true
 
+  # QEMU task driver config options.
+  qemu:
+    image_paths: ["{{ nomad_config_qemu_image_dir }}"]
+
 # List of services that service depends on for startup ordering.
 nomad_config_service_dependencies: [coredns, vault-agent, consul]

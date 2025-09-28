@@ -27,6 +27,9 @@ nomad_config_include_dir: "{{ (nomad_config_dir, 'conf.d') | ansible.builtin.pat
 # Directory where Nomad data will be stored.
 nomad_config_state_dir: /var/lib/nomad
 
+# Directory where QEMU images will be stored.
+nomad_config_qemu_image_dir: "{{ (nomad_config_state_dir, 'qemu_images') | ansible.builtin.path_join }}"
+
 # Full path to the main Nomad config file.
 nomad_config_file: "{{ (nomad_config_include_dir, 'config.hcl') | ansible.builtin.path_join }}"
 
