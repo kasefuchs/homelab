@@ -54,7 +54,6 @@
         state: absent
 
 - name: Stat entity certificate encrypted key
-  run_once: true
   register: nebula_cert_entity_key_encrypted_stat_result
   ansible.builtin.stat:
     path: "{{ nebula_cert_entity_key_encrypted_local_path }}"
@@ -63,13 +62,11 @@
   when: not nebula_cert_entity_key_encrypted_stat_result.stat.exists
   block:
     - name: Create temporary directory
-      run_once: true
       register: nebula_cert_entity_tempfile
       ansible.builtin.tempfile:
         state: directory
 
     - name: Decrypt CA key
-      run_once: true
       ansible.builtin.copy:
         content: "{{ lookup('community.sops.sops', nebula_cert_ca_key_encrypted_local_path) }}"
         dest: "{{ (nebula_cert_entity_tempfile.path, 'nebula.key') | ansible.builtin.path_join }}"
@@ -100,7 +97,6 @@
         content_binary: "{{ nebula_cert_entity_key.content }}"
 
     - name: Delete temporary directory
-      run_once: true
       ansible.builtin.file:
         path: "{{ nebula_cert_entity_tempfile.path }}"
         state: absent
