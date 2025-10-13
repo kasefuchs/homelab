@@ -40,7 +40,9 @@
         path: "{{ (vault_download_current_local_dir_link, vault_download_architecture.key) | ansible.builtin.path_join }}"
 
     - name: Download Vault archives
-      when: not vault_download_files.results[ansible_loop.index0].stat.exists
+      when:
+        - not vault_download_files.results[ansible_loop.index0].stat.exists
+        - vault_download_architecture.key in common_unique_architectures
       loop: "{{ vault_download_architecture_map | ansible.builtin.dict2items }}"
       loop_control:
         label: "{{ vault_download_architecture.key }}"
