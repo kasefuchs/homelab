@@ -40,7 +40,9 @@
         path: "{{ (nomad_download_current_local_dir_link, nomad_download_architecture.key) | ansible.builtin.path_join }}"
 
     - name: Download Nomad archives
-      when: not nomad_download_files.results[ansible_loop.index0].stat.exists
+      when:
+        - not nomad_download_files.results[ansible_loop.index0].stat.exists
+        - nomad_download_architecture.key in common_unique_architectures
       loop: "{{ nomad_download_architecture_map | ansible.builtin.dict2items }}"
       loop_control:
         label: "{{ nomad_download_architecture.key }}"

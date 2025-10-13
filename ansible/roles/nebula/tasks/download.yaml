@@ -40,7 +40,9 @@
         path: "{{ (nebula_download_current_local_dir_link, nebula_download_architecture.key) | ansible.builtin.path_join }}"
 
     - name: Download Nebula archives
-      when: not nebula_download_files.results[ansible_loop.index0].stat.exists
+      when:
+        - not nebula_download_files.results[ansible_loop.index0].stat.exists
+        - nebula_download_architecture.key in common_unique_architectures
       loop: "{{ nebula_download_architecture_map | ansible.builtin.dict2items }}"
       loop_control:
         label: "{{ nebula_download_architecture.key }}"
