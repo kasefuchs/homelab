@@ -28,6 +28,9 @@ vagrant/configs/*.override.yaml
 .venv/
 __pycache__/
 
+# --- SOPS ---
+.sops.yaml
+
 # --- Ansible ---
 # Configuration
 .ansible/
