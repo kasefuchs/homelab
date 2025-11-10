@@ -1,6 +1,0 @@
----
-# Authorization token for Consul agents.
-consul_acl_agent_token: "{{ consul_provision_data.consul_agent_acl_token_secret_id.value }}"
-
-# Authorization token for Consul DNS service.
-consul_acl_dns_token: "{{ consul_provision_data.consul_dns_acl_token_secret_id.value }}"

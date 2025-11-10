@@ -1,5 +1,0 @@
-{{ common_managed_header | ansible.builtin.comment }}
-{{ coredns_config_zone }} {
-  import common
-  file {{ (coredns_config_zone_dir, coredns_config_zone ~ '.zone') | ansible.builtin.path_join }}
-}

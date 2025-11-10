@@ -1,3 +1,0 @@
----
-# Host where Consul will be provisioned.
-consul_provision_host: "{{ groups['consul_servers'][0] }}"

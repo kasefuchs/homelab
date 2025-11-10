@@ -1,3 +1,0 @@
----
-# Host where Nomad will be provisioned.
-nomad_provision_host: "{{ groups['nomad_servers'][0] }}"

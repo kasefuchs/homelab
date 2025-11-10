@@ -1,3 +1,0 @@
----
-# List of system services to configure.
-bootstrap_service_systemd: "{{ bootstrap_service_systemd_distribution[ansible_distribution | lower] | default(bootstrap_service_systemd_distribution.default) }}"

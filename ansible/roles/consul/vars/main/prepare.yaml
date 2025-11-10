@@ -1,3 +1,0 @@
----
-# Local directory with Terraform project for Consul preparing.
-consul_prepare_terraform_local_dir: "{{ (consul_terraform_local_dir, 'prepare') | ansible.builtin.path_join }}"

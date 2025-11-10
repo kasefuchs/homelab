@@ -1,3 +1,0 @@
----
-# Host where Consul will bootstrap.
-consul_bootstrap_host: "{{ groups['consul_servers'][0] }}"
