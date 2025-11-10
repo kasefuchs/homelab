@@ -1,5 +1,0 @@
----
-- name: Set up Consul
-  hosts: all
-  become: true
-  roles: [consul]

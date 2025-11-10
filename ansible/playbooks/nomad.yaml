@@ -1,5 +1,0 @@
----
-- name: Set up Nomad
-  hosts: all
-  become: true
-  roles: [nomad]

@@ -1,9 +1,0 @@
----
-# Map of Pebble layer filenames to their contents.
-pebble_config_layers: {}
-
-# Port to listen on for HTTP connections.
-pebble_config_http_listen_port: 9001
-
-# Address and port to bind the HTTP service.
-pebble_config_http_listen_address: "0.0.0.0:{{ pebble_config_http_listen_port }}"

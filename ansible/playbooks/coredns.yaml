@@ -1,5 +1,0 @@
----
-- name: Set up CoreDNS
-  hosts: all
-  become: true
-  roles: [coredns]

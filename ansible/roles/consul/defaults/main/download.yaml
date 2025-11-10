@@ -1,6 +1,0 @@
----
-# Version of Consul to download. Can be a specific version (e.g., "1.1.12") or "latest".
-consul_download_version: latest
-
-# URL to download the Consul archive, constructed from GitHub user, repository, version, and architecture.
-consul_download_url: "https://hashicorp-releases.yandexcloud.net/consul/{{ consul_download_version }}/consul_{{ consul_download_version }}_linux_{{ consul_download_architecture.value }}.zip"

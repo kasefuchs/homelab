@@ -1,3 +1,0 @@
----
-# Local directory with Terraform project for Nomad preparing.
-nomad_prepare_terraform_local_dir: "{{ (nomad_terraform_local_dir, 'prepare') | ansible.builtin.path_join }}"

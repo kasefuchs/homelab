@@ -1,5 +1,0 @@
----
-- name: Prepare base image with Packer
-  hosts: all
-  become: true
-  roles: [bootstrap, pebble, coredns, nebula, vault, consul, nomad, cni]

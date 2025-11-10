@@ -1,9 +1,0 @@
----
-# Path to the Nebula role.
-nebula_role_local_dir: "{{ (role_path, '../nebula') | ansible.builtin.path_join | ansible.builtin.realpath }}"
-
-# Path to its files' directory.
-nebula_file_local_dir: "{{ (nebula_role_local_dir, 'files') | ansible.builtin.path_join }}"
-
-# Path to the main files' directory.
-nebula_main_file_local_dir: "{{ (nebula_file_local_dir, 'main') | ansible.builtin.path_join }}"

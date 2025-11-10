@@ -1,6 +1,0 @@
----
-# Path to the encrypted private key file for the CA certificate.
-common_cert_ca_key_encrypted_local_path: "{{ (common_cert_ca_local_dir, common_cert_ca_name ~ '.sops.key') | ansible.builtin.path_join }}"
-
-# Path to the CA certificate file.
-common_cert_ca_crt_local_path: "{{ (common_cert_ca_local_dir, common_cert_ca_name ~ '.crt') | ansible.builtin.path_join }}"
