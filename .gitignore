@@ -1,0 +1,7 @@
+# --- IDE / Editor ---
+# JetBrains
+.idea/
+*.iml
+
+# VSCode
+.vscode/
