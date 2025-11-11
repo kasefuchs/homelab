@@ -1,0 +1,3 @@
+build {
+  sources = ["qemu.image"]
+}

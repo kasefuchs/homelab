@@ -5,3 +5,7 @@
 
 # VSCode
 .vscode/
+
+# --- Build artifacts ---
+# Packer output
+output-*/
