@@ -5,6 +5,7 @@ source "qemu" "image" {
   cpus        = var.resources.cpus
   memory      = var.resources.memory
   disk_size   = var.resources.disk_size
+  disk_image  = var.resources.disk_image
   headless    = var.resources.headless
   accelerator = var.resources.accelerator
 
@@ -16,7 +17,7 @@ source "qemu" "image" {
   boot_key_interval = var.boot.key_interval
 
   efi_boot          = var.boot.efi
-  efi_drop_efivars  = true
+  efi_drop_efivars  = var.boot.efi
   efi_firmware_code = local.efi.code
   efi_firmware_vars = local.efi.vars
 

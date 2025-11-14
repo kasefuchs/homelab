@@ -59,6 +59,7 @@ variable "resources" {
     cpus        = number
     memory      = number
     disk_size   = string
+    disk_image  = bool
     headless    = bool
     accelerator = string
   })
@@ -67,6 +68,7 @@ variable "resources" {
     cpus        = 2
     memory      = 1024
     disk_size   = "5G"
+    disk_image  = false
     headless    = true
     accelerator = "kvm"
   }
