@@ -1,0 +1,3 @@
+---
+# Local path for storing Nebula cache.
+nebula_cache_local_dir: "{{ (common_cache_local_dir, 'nebula') | ansible.builtin.path_join }}"

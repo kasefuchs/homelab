@@ -1,2 +1,3 @@
 ansible==12.2.0
+github3.py==4.0.1
 pur==7.3.3

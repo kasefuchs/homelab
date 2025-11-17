@@ -1,0 +1,23 @@
+---
+- name: Get latest Nebula version
+  when: nebula_download_version == "latest"
+  block:
+    - name: Fetch latest Nebula release on GitHub
+      register: nebula_download_github_release
+      community.general.github_release:
+        user: "{{ nebula_download_github_user }}"
+        repo: "{{ nebula_download_github_repository }}"
+        token: "{{ lookup('ansible.builtin.env', 'ANSIBLE_GITHUB_API_TOKEN') }}"
+        action: latest_release
+
+    - name: Set Nebula version fact
+      ansible.builtin.set_fact:
+        nebula_download_version: "{{ nebula_download_github_release.tag | ansible.builtin.regex_replace('^v', '') }}"
+
+- name: Download Nebula archive
+  ansible.builtin.include_role:
+    name: kasefuchs.general.download
+  vars:
+    download_dir: "{{ nebula_download_local_dir }}"
+    download_url: "{{ nebula_download_url }}"
+    download_version: "{{ nebula_download_version }}"

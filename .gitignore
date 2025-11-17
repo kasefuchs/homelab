@@ -13,3 +13,9 @@ output-*/
 # --- Ansible ---
 # Configs
 inventories/
+
+# Cache
+cache/
+
+# Artifacts
+artifacts/
