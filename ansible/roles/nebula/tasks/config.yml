@@ -1,0 +1,16 @@
+---
+- name: Create Nebula configuration directory
+  ansible.builtin.file:
+    path: "{{ nebula_config_dir }}"
+    mode: "0755"
+    state: directory
+    owner: root
+    group: root
+
+- name: Render Nebula config template
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ nebula_config_file }}"
+    mode: "0644"
+    owner: root
+    group: root
