@@ -1,0 +1,78 @@
+---
+- name: Create Nebula CA certificate
+  become: false
+  run_once: true
+  delegate_to: localhost
+  block:
+    - name: Create local Nebula certificate directory
+      ansible.builtin.file:
+        path: "{{ nebula_cert_local_dir }}"
+        mode: "0700"
+        state: directory
+
+    - name: Create Nebula CA certificate
+      environment:
+        NEBULA_CA_PASSPHRASE: "{{ nebula_cert_ca_passphrase }}"
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - ca
+          - -encrypt
+          - "-name={{ nebula_cert_ca_cn }}"
+          - "-duration={{ nebula_cert_ca_duration }}"
+        chdir: "{{ nebula_cert_local_dir }}"
+        creates: "{{ (nebula_cert_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+
+- name: Create Nebula node certificate
+  block:
+    - name: Create node Nebula certificate directory
+      ansible.builtin.file:
+        path: "{{ nebula_cert_dir }}"
+        mode: "0700"
+        state: directory
+        owner: root
+        group: root
+
+    - name: Create Nebula node keychain
+      ansible.builtin.command:
+        cmd: nebula-cert keygen -out-key=node.key -out-pub=node.pub
+        chdir: "{{ nebula_cert_dir }}"
+        creates: "{{ (nebula_cert_dir, 'node.pub') | ansible.builtin.path_join }}"
+
+    - name: Copy Nebula node public key
+      ansible.builtin.fetch:
+        src: "{{ (nebula_cert_dir, 'node.pub') | ansible.builtin.path_join }}"
+        dest: "{{ (nebula_cert_local_dir, inventory_hostname ~ '.pub') | ansible.builtin.path_join }}"
+        flat: true
+
+    - name: Sign Nebula node certificate
+      become: false
+      delegate_to: localhost
+      environment:
+        NEBULA_CA_PASSPHRASE: "{{ nebula_cert_ca_passphrase }}"
+      ansible.builtin.command:
+        argv:
+          - nebula-cert
+          - sign
+          - "-ip={{ nebula_cert_host_ip }}"
+          - "-name={{ nebula_cert_host_cn }}"
+          - "-subnets={{ nebula_cert_host_subnets | join(',') }}"
+          - "-in-pub={{ inventory_hostname }}.pub"
+          - "-out-crt={{ inventory_hostname }}.crt"
+        chdir: "{{ nebula_cert_local_dir }}"
+        creates: "{{ (nebula_cert_local_dir, inventory_hostname ~ '.crt') | ansible.builtin.path_join }}"
+
+- name: Copy Nebula certificates
+  loop:
+    - label: CA
+      src: "{{ (nebula_cert_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_cert_dir, 'ca.crt') | ansible.builtin.path_join }}"
+    - label: Node
+      src: "{{ (nebula_cert_local_dir, inventory_hostname ~ '.crt') | ansible.builtin.path_join }}"
+      dest: "{{ (nebula_cert_dir, 'node.crt') | ansible.builtin.path_join }}"
+  loop_control:
+    label: "{{ item.label }}"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"

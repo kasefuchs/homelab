@@ -15,3 +15,17 @@
     file: install.yml
     apply:
       tags: [install, packer]
+
+- name: Generate Nebula certificates
+  tags: cert
+  ansible.builtin.include_tasks:
+    file: cert.yml
+    apply:
+      tags: cert
+
+- name: Configure Nebula
+  tags: config
+  ansible.builtin.include_tasks:
+    file: config.yml
+    apply:
+      tags: config
