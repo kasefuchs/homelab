@@ -1,0 +1,16 @@
+{{ common_managed_header | ansible.builtin.comment }}
+[Unit]
+Description=Nebula: Overlay Networking tool
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=simple
+ExecStart={{ nebula_install_binary }} -config={{ nebula_config_file }}
+Restart=always
+KillMode=process
+KillSignal=SIGTERM
+AmbientCapabilities=CAP_NET_ADMIN
+
+[Install]
+WantedBy=multi-user.target
