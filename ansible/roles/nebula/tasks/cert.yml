@@ -71,6 +71,7 @@
       dest: "{{ (nebula_cert_dir, 'node.crt') | ansible.builtin.path_join }}"
   loop_control:
     label: "{{ item.label }}"
+  notify: Restart Nebula service
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

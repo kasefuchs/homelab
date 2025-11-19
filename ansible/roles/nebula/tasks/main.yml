@@ -29,3 +29,8 @@
     file: config.yml
     apply:
       tags: config
+
+- name: Flush handlers
+  tags: always
+  run_once: true
+  ansible.builtin.meta: flush_handlers
