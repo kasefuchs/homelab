@@ -11,15 +11,14 @@
         state: directory
 
     - name: Create Nebula CA certificate
-      environment:
-        NEBULA_CA_PASSPHRASE: "{{ nebula_cert_ca_passphrase }}"
-      ansible.builtin.command:
-        argv:
-          - nebula-cert
-          - ca
-          - -encrypt
-          - "-name={{ nebula_cert_ca_cn }}"
-          - "-duration={{ nebula_cert_ca_duration }}"
+      ansible.builtin.expect:
+        command: >
+          nebula-cert ca
+          -encrypt
+          -name={{ nebula_cert_ca_cn }}
+          -duration={{ nebula_cert_ca_duration }}
+        responses:
+          passphrase: ["{{ nebula_cert_ca_passphrase }}"]
         chdir: "{{ nebula_cert_local_dir }}"
         creates: "{{ (nebula_cert_local_dir, 'ca.crt') | ansible.builtin.path_join }}"
 
@@ -48,17 +47,17 @@
     - name: Sign Nebula node certificate
       become: false
       delegate_to: localhost
-      environment:
-        NEBULA_CA_PASSPHRASE: "{{ nebula_cert_ca_passphrase }}"
-      ansible.builtin.command:
-        argv:
-          - nebula-cert
-          - sign
-          - "-ip={{ nebula_cert_host_ip }}"
-          - "-name={{ nebula_cert_host_cn }}"
-          - "-subnets={{ nebula_cert_host_subnets | join(',') }}"
-          - "-in-pub={{ inventory_hostname }}.pub"
-          - "-out-crt={{ inventory_hostname }}.crt"
+      ansible.builtin.expect:
+        command: >
+          nebula-cert
+          sign
+          -ip={{ nebula_cert_host_ip }}
+          -name={{ nebula_cert_host_cn }}
+          -subnets={{ nebula_cert_host_subnets | join(',') }}
+          -in-pub={{ inventory_hostname }}.pub
+          -out-crt={{ inventory_hostname }}.crt
+        responses:
+          passphrase: ["{{ nebula_cert_ca_passphrase }}"]
         chdir: "{{ nebula_cert_local_dir }}"
         creates: "{{ (nebula_cert_local_dir, inventory_hostname ~ '.crt') | ansible.builtin.path_join }}"
 
