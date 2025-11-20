@@ -6,16 +6,23 @@
 # VSCode
 .vscode/
 
-# --- Build artifacts ---
-# Packer output
-output-*/
-
 # --- Ansible ---
 # Configs
 inventories/
 
+# Artifacts
+artifacts/
+
 # Cache
 cache/
 
+# --- Zensical ---
+# Build
+docs/build/
+
+# Cache
+.cache/
+
+# --- Packer ---
 # Artifacts
-artifacts/
+output-*/
