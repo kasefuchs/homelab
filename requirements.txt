@@ -1,4 +1,5 @@
-ansible==12.2.0
+ansible==13.0.0
 github3.py==4.0.1
 pur==7.3.3
 pexpect==4.9.0
+zensical==0.0.9
