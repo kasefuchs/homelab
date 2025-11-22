@@ -1,0 +1,18 @@
+---
+- name: Create bridge interface
+  loop:
+    - "auto {{ proxmox_nat_bridge.key }}"
+    - "iface {{ proxmox_nat_bridge.key }} inet manual"
+  ansible.builtin.lineinfile:
+    line: "{{ item }}"
+    path: "{{ proxmox_nat_bridge_interface_file }}"
+
+- name: Configure bridge interface
+  loop: "{{ proxmox_nat_bridge_interface_config | ansible.builtin.dict2items }}"
+  loop_control:
+    label: "{{ item.key }}={{ item.value }}"
+  community.general.interfaces_file:
+    dest: "{{ proxmox_nat_bridge_interface_file }}"
+    iface: "{{ proxmox_nat_bridge.key }}"
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"

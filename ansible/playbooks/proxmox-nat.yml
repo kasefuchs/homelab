@@ -1,0 +1,5 @@
+---
+- name: Set up Proxmox NAT
+  hosts: all
+  become: true
+  roles: [proxmox-nat]
