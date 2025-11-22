@@ -1,0 +1,24 @@
+---
+- name: Configure kernel parameters
+  tags: sysctl
+  ansible.builtin.include_tasks:
+    file: sysctl.yml
+    apply:
+      tags: sysctl
+
+- name: Configure bridges
+  tags: bridge
+  loop: "{{ proxmox_nat_bridges | ansible.builtin.dict2items }}"
+  loop_control:
+    label: "{{ proxmox_nat_bridge.key }}"
+    loop_var: proxmox_nat_bridge
+  ansible.builtin.include_tasks:
+    file: bridge.yml
+    apply:
+      tags: bridge
+      notify: Restart networking
+
+- name: Flush handlers
+  tags: always
+  run_once: true
+  ansible.builtin.meta: flush_handlers
