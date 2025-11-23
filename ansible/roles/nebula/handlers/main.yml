@@ -1,13 +1,13 @@
 ---
 - name: Enable Nebula service (systemd)
-  when: ansible_service_mgr == "systemd"
+  when: ansible_facts.service_mgr == "systemd"
   listen: Enable Nebula service
   ansible.builtin.systemd_service:
     name: nebula
     enabled: true
 
 - name: Restart Nebula service (systemd)
-  when: ansible_service_mgr == "systemd"
+  when: ansible_facts.service_mgr == "systemd"
   listen: Restart Nebula service
   ansible.builtin.systemd_service:
     name: nebula
