@@ -1,4 +1,7 @@
 ---
+- name: Save iptables rules
+  ansible.builtin.shell: iptables-save > /etc/iptables/rules.v4
+
 - name: Restart networking
   ansible.builtin.systemd_service:
     name: networking

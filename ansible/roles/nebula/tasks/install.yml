@@ -24,7 +24,7 @@
     - Reload daemon
     - Enable Nebula service
   block:
-    - name: Install Nebula service (SystemD)
+    - name: Install Nebula service (systemd)
       when: ansible_service_mgr == "systemd"
       ansible.builtin.template:
         src: nebula.service.j2

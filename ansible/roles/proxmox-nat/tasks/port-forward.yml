@@ -1,0 +1,20 @@
+---
+- name: Install iptables-persistent
+  ansible.builtin.apt:
+    name: iptables-persistent
+
+- name: Add port forwarding rules
+  loop: "{{ proxmox_nat_port_forwards }}"
+  loop_control:
+    label: "{{ item.interface }} ({{ item.protocol }}): {{ item.external }} -> {{ item.internal }}"
+  notify: Save iptables rules
+  ansible.builtin.iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: "{{ item.interface }}"
+    protocol: "{{ item.protocol }}"
+    destination: "{{ item.external.split(':')[0] }}"
+    destination_port: "{{ item.external.split(':')[1] }}"
+    jump: DNAT
+    to_destination: "{{ item.internal }}"
+    state: "{{ item.state | default('present') }}"

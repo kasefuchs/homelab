@@ -6,7 +6,7 @@
     apply:
       tags: sysctl
 
-- name: Configure bridges
+- name: Configure NAT bridges
   tags: bridge
   loop: "{{ proxmox_nat_bridges | ansible.builtin.dict2items }}"
   loop_control:
@@ -17,6 +17,13 @@
     apply:
       tags: bridge
       notify: Restart networking
+
+- name: Configure NAT port forwarding
+  tags: port-forward
+  ansible.builtin.include_tasks:
+    file: port-forward.yml
+    apply:
+      tags: port-forward
 
 - name: Flush handlers
   tags: always
