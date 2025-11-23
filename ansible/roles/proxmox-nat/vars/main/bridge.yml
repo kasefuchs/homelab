@@ -4,9 +4,9 @@ proxmox_nat_bridge_interface_file: /etc/network/interfaces
 
 # Standardized configuration for the bridge interface.
 proxmox_nat_bridge_interface_config:
-  address: "{{ proxmox_nat_bridge.value.cidr }}"
-  post-up: "iptables -t nat -A POSTROUTING -s '{{ proxmox_nat_bridge.value.cidr }}' -o {{ proxmox_nat_bridge.value.uplink }} -j MASQUERADE"
-  post-down: "iptables -t nat -D POSTROUTING -s '{{ proxmox_nat_bridge.value.cidr }}' -o {{ proxmox_nat_bridge.value.uplink }} -j MASQUERADE"
-  bridge-ports: none
-  bridge-stp: "off"
-  bridge-fd: 0
+  - address: "{{ proxmox_nat_bridge.value.cidr }}"
+  - bridge-ports: none
+    bridge-stp: "off"
+    bridge-fd: 0
+  - post-up: "iptables -t nat -A POSTROUTING -s '{{ proxmox_nat_bridge.value.cidr }}' -o {{ proxmox_nat_bridge.value.uplink }} -j MASQUERADE"
+    post-down: "iptables -t nat -D POSTROUTING -s '{{ proxmox_nat_bridge.value.cidr }}' -o {{ proxmox_nat_bridge.value.uplink }} -j MASQUERADE"

@@ -8,7 +8,7 @@
     path: "{{ proxmox_nat_bridge_interface_file }}"
 
 - name: Configure bridge interface
-  loop: "{{ proxmox_nat_bridge_interface_config | ansible.builtin.dict2items }}"
+  loop: "{{ proxmox_nat_bridge_interface_config | map('ansible.builtin.dict2items') | ansible.builtin.flatten }}"
   loop_control:
     label: "{{ item.key }}={{ item.value }}"
   community.general.interfaces_file:

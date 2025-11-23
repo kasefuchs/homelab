@@ -1,0 +1,3 @@
+---
+# List of NAT port forwards to configure.
+proxmox_nat_port_forwards: []
