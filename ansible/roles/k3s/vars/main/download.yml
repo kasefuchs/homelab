@@ -1,0 +1,14 @@
+---
+# GitHub user or organization that maintains the K3s repository.
+k3s_download_github_user: k3s-io
+
+# GitHub repository name for K3s.
+k3s_download_github_repository: k3s
+
+# Mapping from system architecture to K3s release architecture naming.
+k3s_download_architecture_map:
+  x86_64: "{{ omit }}"
+  aarch64: arm64
+
+# Directory path where specific versions of K3s will be downloaded.
+k3s_download_local_dir: "{{ (k3s_cache_local_dir, 'download') | ansible.builtin.path_join }}"
