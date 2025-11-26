@@ -1,0 +1,24 @@
+---
+- name: Get latest K3s version
+  when: k3s_download_version == "latest"
+  block:
+    - name: Fetch latest K3s release on GitHub
+      register: k3s_download_github_release
+      community.general.github_release:
+        user: "{{ k3s_download_github_user }}"
+        repo: "{{ k3s_download_github_repository }}"
+        token: "{{ lookup('ansible.builtin.env', 'ANSIBLE_GITHUB_API_TOKEN') }}"
+        action: latest_release
+
+    - name: Set K3s version fact
+      ansible.builtin.set_fact:
+        k3s_download_version: "{{ k3s_download_github_release.tag | ansible.builtin.regex_replace('^v', '') }}"
+
+- name: Download K3s archive
+  ansible.builtin.include_role:
+    name: kasefuchs.general.download
+  vars:
+    download_dir: "{{ k3s_download_local_dir }}"
+    download_url: "{{ k3s_download_url }}"
+    download_version: "{{ k3s_download_version }}"
+    download_architecture_map: "{{ k3s_download_architecture_map }}"

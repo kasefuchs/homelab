@@ -1,0 +1,16 @@
+---
+- name: Create K3s installation directory
+  ansible.builtin.file:
+    path: "{{ k3s_install_dir }}"
+    mode: "0755"
+    state: directory
+    owner: root
+    group: root
+
+- name: Install K3s binary
+  ansible.builtin.copy:
+    src: "{{ k3s_install_local_file }}"
+    dest: "{{ k3s_install_binary }}"
+    mode: "0755"
+    owner: root
+    group: root

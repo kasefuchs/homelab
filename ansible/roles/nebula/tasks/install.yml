@@ -1,23 +1,21 @@
 ---
-- name: Extract Nebula archive
-  block:
-    - name: Create Nebula archive extraction directory
-      ansible.builtin.file:
-        path: "{{ nebula_install_extract_dir }}"
-        mode: "0755"
-        state: directory
-        owner: root
-        group: root
+- name: Create Nebula installation directory
+  ansible.builtin.file:
+    path: "{{ nebula_install_extract_dir }}"
+    mode: "0755"
+    state: directory
+    owner: root
+    group: root
 
-    - name: Extract Nebula archive
-      ansible.builtin.unarchive:
-        src: "{{ nebula_install_archive }}"
-        dest: "{{ nebula_install_extract_dir }}"
-        mode: "0755"
-        owner: root
-        group: root
-        include: "{{ nebula_install_extract_include }}"
-        extra_opts: "{{ nebula_install_extract_options }}"
+- name: Extract Nebula archive
+  ansible.builtin.unarchive:
+    src: "{{ nebula_install_archive }}"
+    dest: "{{ nebula_install_extract_dir }}"
+    mode: "0755"
+    owner: root
+    group: root
+    include: "{{ nebula_install_extract_include }}"
+    extra_opts: "{{ nebula_install_extract_options }}"
 
 - name: Install Nebula service
   notify:

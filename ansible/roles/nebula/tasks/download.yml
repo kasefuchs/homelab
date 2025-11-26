@@ -21,3 +21,4 @@
     download_dir: "{{ nebula_download_local_dir }}"
     download_url: "{{ nebula_download_url }}"
     download_version: "{{ nebula_download_version }}"
+    download_architecture_map: "{{ nebula_download_architecture_map }}"

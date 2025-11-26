@@ -1,0 +1,12 @@
+---
+# Version of K3s to download.
+k3s_download_version: latest
+
+# URL to download the K3s binary.
+k3s_download_url: >
+  https://github.com/{{ k3s_download_github_user }}/{{ k3s_download_github_repository }}/releases/download/v{{ download_version }}/
+  {%- if download_architecture.key == 'x86_64' -%}
+  k3s
+  {%- else -%}
+  {{ download_architecture.value }}
+  {%- endif -%}

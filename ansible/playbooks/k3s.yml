@@ -1,0 +1,5 @@
+---
+- name: Set up K3s
+  hosts: all
+  become: true
+  roles: [k3s]

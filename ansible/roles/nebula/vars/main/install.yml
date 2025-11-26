@@ -1,6 +1,6 @@
 ---
 # Path to the Nebula archive for the current architecture.
-nebula_install_archive: "{{ (nebula_download_local_dir, 'current', ansible_facts.architecture) | ansible.builtin.path_join }}"
+nebula_install_local_file: "{{ (nebula_download_local_dir, 'current', ansible_facts.architecture) | ansible.builtin.path_join }}"
 
 # Target directory where Nebula will be extracted.
 nebula_install_extract_dir: /usr/local/bin

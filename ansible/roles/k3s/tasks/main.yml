@@ -1,0 +1,17 @@
+---
+- name: Download K3s
+  tags: [download, packer]
+  ansible.builtin.include_tasks:
+    file: download.yml
+    apply:
+      tags: [download, packer]
+      become: false
+      run_once: true
+      delegate_to: localhost
+
+- name: Install K3s
+  tags: [install, packer]
+  ansible.builtin.include_tasks:
+    file: install.yml
+    apply:
+      tags: [install, packer]
