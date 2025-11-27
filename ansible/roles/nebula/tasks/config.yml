@@ -8,9 +8,11 @@
     group: root
 
 - name: Render Nebula config template
-  notify: Restart Nebula service
+  notify:
+    - Enable Nebula service
+    - Restart Nebula service
   ansible.builtin.template:
-    src: config.yml.j2
+    src: config.yaml.j2
     dest: "{{ nebula_config_file }}"
     mode: "0644"
     owner: root

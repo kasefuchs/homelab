@@ -12,3 +12,6 @@ nebula_download_architecture_map:
 
 # Directory path where specific versions of Nebula will be downloaded.
 nebula_download_local_dir: "{{ (nebula_cache_local_dir, 'download') | ansible.builtin.path_join }}"
+
+# Path to the Nebula archive for the current architecture.
+nebula_download_local_file: "{{ (nebula_download_local_dir, 'current', ansible_facts.architecture) | ansible.builtin.path_join }}"

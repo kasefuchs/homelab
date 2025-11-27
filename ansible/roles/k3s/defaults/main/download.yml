@@ -8,5 +8,5 @@ k3s_download_url: >
   {%- if download_architecture.key == 'x86_64' -%}
   k3s
   {%- else -%}
-  {{ download_architecture.value }}
+  k3s-{{ download_architecture.value }}
   {%- endif -%}
