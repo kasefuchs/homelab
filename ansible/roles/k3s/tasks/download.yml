@@ -14,7 +14,7 @@
       ansible.builtin.set_fact:
         k3s_download_version: "{{ k3s_download_github_release.tag | ansible.builtin.regex_replace('^v', '') }}"
 
-- name: Download K3s archive
+- name: Download K3s binary
   ansible.builtin.include_role:
     name: kasefuchs.general.download
   vars:

@@ -9,7 +9,7 @@
 
 - name: Extract Nebula archive
   ansible.builtin.unarchive:
-    src: "{{ nebula_install_archive }}"
+    src: "{{ nebula_download_local_file }}"
     dest: "{{ nebula_install_extract_dir }}"
     mode: "0755"
     owner: root
@@ -18,9 +18,7 @@
     extra_opts: "{{ nebula_install_extract_options }}"
 
 - name: Install Nebula service
-  notify:
-    - Reload daemon
-    - Enable Nebula service
+  notify: Reload daemon
   block:
     - name: Install Nebula service (systemd)
       when: ansible_facts.service_mgr == "systemd"
