@@ -9,7 +9,7 @@
 
 - name: Copy K3s binary
   ansible.builtin.copy:
-    src: "{{ k3s_download_local_file }}"
+    src: "{{ k3s_download_binary_local_file }}"
     dest: "{{ k3s_install_binary }}"
     mode: "0755"
     owner: root

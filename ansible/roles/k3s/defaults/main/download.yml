@@ -3,10 +3,13 @@
 k3s_download_version: latest
 
 # URL to download the K3s binary.
-k3s_download_url: >
+k3s_download_binary_url: >
   https://github.com/{{ k3s_download_github_user }}/{{ k3s_download_github_repository }}/releases/download/v{{ download_version }}/
   {%- if download_architecture.key == 'x86_64' -%}
   k3s
   {%- else -%}
   k3s-{{ download_architecture.value }}
   {%- endif -%}
+
+# URL to download the K3s script.
+k3s_download_script_url: https://get.k3s.io

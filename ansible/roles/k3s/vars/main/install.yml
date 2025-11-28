@@ -4,3 +4,6 @@ k3s_install_dir: /usr/local/bin
 
 # Path to the K3s binary.
 k3s_install_binary: "{{ (k3s_install_dir, 'k3s') | ansible.builtin.path_join }}"
+
+# Path to the K3s install script.
+k3s_install_script: "{{ (k3s_install_dir, 'k3s-install.sh') | ansible.builtin.path_join }}"

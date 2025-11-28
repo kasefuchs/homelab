@@ -1,0 +1,8 @@
+---
+- name: Install K3s agent
+  environment:
+    INSTALL_K3S_EXEC: agent
+    INSTALL_K3S_SKIP_ENABLE: "true"
+    INSTALL_K3S_SKIP_DOWNLOAD: "true"
+  ansible.builtin.script:
+    cmd: "{{ k3s_download_script_local_file }}"

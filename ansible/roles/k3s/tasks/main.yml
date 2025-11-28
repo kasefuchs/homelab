@@ -15,3 +15,25 @@
     file: install.yml
     apply:
       tags: [install, packer]
+
+- name: Setup K3s server
+  tags: server
+  when: k3s_server_group in group_names
+  block:
+    - name: Install K3s server
+      tags: [install, server]
+      ansible.builtin.include_tasks:
+        file: server/install.yml
+        apply:
+          tags: [install, server]
+
+- name: Setup K3s agent
+  tags: agent
+  when: k3s_agent_group in group_names
+  block:
+    - name: Install K3s agent
+      tags: [install, agent]
+      ansible.builtin.include_tasks:
+        file: agent/install.yml
+        apply:
+          tags: [install, agent]

@@ -14,4 +14,7 @@ k3s_download_architecture_map:
 k3s_download_local_dir: "{{ (k3s_cache_local_dir, 'download') | ansible.builtin.path_join }}"
 
 # Path to the K3s binary for the current architecture.
-k3s_download_local_file: "{{ (k3s_download_local_dir, 'current', ansible_facts.architecture) | ansible.builtin.path_join }}"
+k3s_download_binary_local_file: "{{ (k3s_download_local_dir, 'current', ansible_facts.architecture) | ansible.builtin.path_join }}"
+
+# Path to the K3s install script.
+k3s_download_script_local_file: "{{ (k3s_download_local_dir, 'install.sh') | ansible.builtin.path_join }}"
