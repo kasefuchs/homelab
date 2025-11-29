@@ -1,12 +1,4 @@
 ---
-- name: Create Nebula configuration directory
-  ansible.builtin.file:
-    path: "{{ nebula_config_dir }}"
-    mode: "0755"
-    state: directory
-    owner: root
-    group: root
-
 - name: Render Nebula config template
   notify:
     - Enable Nebula service

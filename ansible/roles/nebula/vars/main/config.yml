@@ -1,9 +1,6 @@
 ---
-# Directory where Nebula configuration stored.
-nebula_config_dir: /etc/nebula
-
 # Path to the Nebula configuration file.
-nebula_config_file: "{{ (nebula_config_dir, 'config.yaml') | ansible.builtin.path_join }}"
+nebula_config_file: "{{ (nebula_install_config_dir, 'config.yaml') | ansible.builtin.path_join }}"
 
 # Paths to Nebula certificate files.
 nebula_config_pki:

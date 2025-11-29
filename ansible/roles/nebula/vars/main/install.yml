@@ -1,6 +1,9 @@
 ---
 # Target directory where Nebula will be extracted.
-nebula_install_extract_dir: /usr/local/bin
+nebula_install_dir: /usr/local/bin
+
+# Directory where Nebula configuration stored.
+nebula_install_config_dir: /etc/nebula
 
 # Extra options for extracting the Nebula archive.
 nebula_install_extract_options: []
@@ -9,4 +12,4 @@ nebula_install_extract_options: []
 nebula_install_extract_include: [nebula, nebula-cert]
 
 # Path to the Nebula binary.
-nebula_install_binary: "{{ (nebula_install_extract_dir, 'nebula') | ansible.builtin.path_join }}"
+nebula_install_binary: "{{ (nebula_install_dir, 'nebula') | ansible.builtin.path_join }}"

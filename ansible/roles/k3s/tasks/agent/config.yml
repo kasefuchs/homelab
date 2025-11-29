@@ -1,0 +1,13 @@
+---
+- name: Render K3s agent template
+  vars:
+    k3s_config: "{{ k3s_agent_config }}"
+  notify:
+    - Enable K3s agent service
+    - Restart K3s agent service
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ k3s_config_file }}"
+    mode: "0644"
+    owner: root
+    group: root
