@@ -1,0 +1,3 @@
+---
+# Settings for the K3s server node.
+k3s_server_config: {}

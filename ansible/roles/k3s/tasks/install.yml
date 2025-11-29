@@ -1,7 +1,10 @@
 ---
-- name: Create K3s installation directory
+- name: Create K3s directories
+  loop:
+    - "{{ k3s_install_dir }}"
+    - "{{ k3s_install_config_dir }}"
   ansible.builtin.file:
-    path: "{{ k3s_install_dir }}"
+    path: "{{ item }}"
     mode: "0755"
     state: directory
     owner: root
