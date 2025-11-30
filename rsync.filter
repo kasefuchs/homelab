@@ -1,0 +1,9 @@
+# --- Ansible ---
++ ansible/
++ ansible/artifacts/
++ ansible/artifacts/**
++ ansible/inventories/
++ ansible/inventories/**
+
+# --- Everything else ---
+- *
