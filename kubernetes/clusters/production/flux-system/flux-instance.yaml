@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/fluxcd.controlplane.io/fluxinstance_v1.json
 apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
 metadata:
@@ -11,9 +10,9 @@ metadata:
     fluxcd.controlplane.io/reconcileTimeout: 5m
 spec:
   distribution:
-    version: "2.7.5"
-    registry: "ghcr.io/fluxcd"
-    artifact: "oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests"
+    version: 2.7.x
+    registry: ghcr.io/fluxcd
+    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests
   components:
     - source-controller
     - kustomize-controller
@@ -21,12 +20,12 @@ spec:
     - notification-controller
   cluster:
     type: kubernetes
-    size: medium
+    size: small
+    domain: cluster.local
     multitenant: false
     networkPolicy: true
-    domain: "cluster.local"
   sync:
     kind: GitRepository
-    url: "https://github.com/kasefuchs/homelab.git"
-    ref: "refs/heads/main"
-    path: "kubernetes/clusters/production"
+    url: https://github.com/kasefuchs/homelab.git
+    ref: refs/heads/main
+    path: kubernetes/clusters/production
