@@ -11,12 +11,6 @@
 .venv/
 
 # --- Ansible ---
-# Configs
-inventories/
-
-# Artifacts
-artifacts/
-
 # Cache
 cache/
 
