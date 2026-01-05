@@ -11,3 +11,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  patches:
+    - target:
+        kind: ClusterIssuer
+        name: letsencrypt
+      patch: |
+        - op: replace
+          path: /spec/acme/server
+          value: https://acme-v02.api.letsencrypt.org/directory
