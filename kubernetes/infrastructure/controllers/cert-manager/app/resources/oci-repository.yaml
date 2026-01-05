@@ -3,9 +3,9 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: cert-manager
-  namespace: flux-system
+  namespace: cert-manager
 spec:
   interval: 24h
-  url: oci://ghcr.io/cert-manager/charts/cert-manager
+  url: oci://quay.io/jetstack/charts/cert-manager
   ref:
     semver: 1.x
