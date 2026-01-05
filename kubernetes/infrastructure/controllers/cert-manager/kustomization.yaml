@@ -7,7 +7,10 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/infrastructure/controllers/cert-manager/app
+  wait: false
   prune: true
+  timeout: 5m
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
