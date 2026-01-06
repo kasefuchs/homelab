@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: longhorn
-  namespace: longhorn-system
+  name: cnpg
+  namespace: cnpg-system
 spec:
   interval: 1h
   install:
@@ -16,9 +16,9 @@ spec:
       retryInterval: 3m
   chart:
     spec:
-      chart: longhorn
-      version: 1.10.x
+      chart: cloudnative-pg
+      version: 0.27.x
       interval: 5h
       sourceRef:
         kind: HelmRepository
-        name: longhorn
+        name: cnpg
