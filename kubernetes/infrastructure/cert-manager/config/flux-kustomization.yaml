@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/configs/cert-manager/config
+  path: ./kubernetes/infrastructure/cert-manager/config/kustomize
   wait: false
   prune: true
   timeout: 5m
