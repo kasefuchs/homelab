@@ -11,6 +11,7 @@ spec:
   prune: true
   timeout: 5m
   retryInterval: 2m
+  targetNamespace: longhorn-system
   dependsOn:
     - name: longhorn-controller
   sourceRef:

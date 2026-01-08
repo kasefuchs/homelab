@@ -11,6 +11,7 @@ spec:
   prune: true
   timeout: 5m
   retryInterval: 2m
+  targetNamespace: cnpg-system
   sourceRef:
     kind: GitRepository
     name: flux-system
