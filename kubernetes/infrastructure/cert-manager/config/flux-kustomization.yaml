@@ -11,6 +11,7 @@ spec:
   prune: true
   timeout: 5m
   retryInterval: 2m
+  targetNamespace: cert-manager
   dependsOn:
     - name: cert-manager-controller
   sourceRef:
