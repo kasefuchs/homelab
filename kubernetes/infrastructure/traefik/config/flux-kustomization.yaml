@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/traefik/config/kustomize
+  path: ./kubernetes/infrastructure/traefik/config
   wait: false
   prune: true
   timeout: 5m

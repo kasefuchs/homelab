@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/apps/production/games/gate-lite/kustomize
+  path: ./kubernetes/apps/production/games/gate-lite
   wait: false
   prune: true
   timeout: 5m
