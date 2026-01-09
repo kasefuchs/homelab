@@ -8,6 +8,7 @@ spec:
   interval: 10m
   path: ./kubernetes/repositories
   prune: true
+  targetNamespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
