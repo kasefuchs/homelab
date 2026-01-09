@@ -6,3 +6,4 @@ resources:
   - flux-instance.yaml
   - flux-operator.yaml
   - infrastructure.yaml
+  - repositories.yaml
