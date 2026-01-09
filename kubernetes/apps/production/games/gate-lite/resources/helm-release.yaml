@@ -45,10 +45,10 @@ spec:
               lite:
                 enabled: true
                 routes:
-                  - host: mc.floof.fans
-                    backend: 10.44.16.13:25565
                   - host: ru.lvmc.icu
                     backend: 130.61.115.93:25565
+                  - host: mc.floof.fans
+                    backend: 130.61.115.93:30000
     persistence:
       config:
         enabled: true
