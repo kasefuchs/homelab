@@ -13,9 +13,15 @@ spec:
     strategy:
       name: RetryOnFailure
       retryInterval: 3m
-  chartRef:
-    kind: OCIRepository
-    name: cert-manager
+  chart:
+    spec:
+      chart: cert-manager
+      version: 1.19.x
+      interval: 2h
+      sourceRef:
+        kind: HelmRepository
+        name: jetstack
+        namespace: flux-system
   values:
     crds:
       enabled: true

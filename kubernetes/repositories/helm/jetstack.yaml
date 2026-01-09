@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: cnpg
+  name: jetstack
 spec:
   interval: 1h
-  url: https://cloudnative-pg.github.io/charts
+  url: https://charts.jetstack.io

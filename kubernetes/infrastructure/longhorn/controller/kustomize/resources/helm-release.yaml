@@ -17,7 +17,8 @@ spec:
     spec:
       chart: longhorn
       version: 1.10.x
-      interval: 5h
+      interval: 2h
       sourceRef:
         kind: HelmRepository
         name: longhorn
+        namespace: flux-system
