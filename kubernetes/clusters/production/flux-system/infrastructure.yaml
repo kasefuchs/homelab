@@ -15,9 +15,10 @@ spec:
     - name: repositories
   patches:
     - target:
+        group: cert-manager.io
         kind: ClusterIssuer
         name: letsencrypt
-      patch: |
+      patch: |-
         - op: replace
           path: /spec/acme/server
           value: https://acme-v02.api.letsencrypt.org/directory
