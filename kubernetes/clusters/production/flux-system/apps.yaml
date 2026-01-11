@@ -14,3 +14,14 @@ spec:
   dependsOn:
     - name: repositories
     - name: infrastructure
+  patches:
+    - target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
+      patch: |-
+        - op: replace
+          path: /spec/decryption
+          value:
+            provider: sops
+            secretRef:
+              name: sops-keys
