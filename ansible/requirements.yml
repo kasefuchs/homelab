@@ -1,4 +1,4 @@
 ---
 collections:
-  - name: https://github.com/kasefuchs/ansible-collection-general.git
+  - name: https://codeberg.org/kasefuchs/ansible-collection-general.git
     type: git
