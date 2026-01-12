@@ -1,0 +1,14 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: woodpecker-server-db
+spec:
+  instances: 1
+  storage:
+    size: 2Gi
+    storageClass: longhorn-local
+  bootstrap:
+    initdb:
+      database: woodpecker
+      owner: woodpecker
