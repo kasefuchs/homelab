@@ -1,0 +1,30 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: woodpecker-agent
+spec:
+  interval: 1h
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 3m
+  chartRef:
+    kind: OCIRepository
+    name: woodpecker
+    namespace: flux-system
+  values:
+    server:
+      enabled: false
+    agent:
+      enabled: true
+      env:
+        WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 2Gi
+        WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
+      persistence:
+        size: 1Gi
+        storageClass: longhorn-local
