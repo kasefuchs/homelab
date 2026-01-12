@@ -15,10 +15,18 @@ spec:
     - name: repositories
   patches:
     - target:
-        group: cert-manager.io
-        kind: ClusterIssuer
-        name: letsencrypt
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
+        name: cert-manager-config
       patch: |-
-        - op: replace
-          path: /spec/acme/server
-          value: https://acme-v02.api.letsencrypt.org/directory
+        - op: add
+          path: /spec/patches
+          value:
+            - target:
+                group: cert-manager.io
+                kind: ClusterIssuer
+                name: letsencrypt
+              patch: |-
+                - op: replace
+                  path: /spec/acme/server
+                  value: https://acme-v02.api.letsencrypt.org/directory
