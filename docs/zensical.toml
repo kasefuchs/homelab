@@ -5,9 +5,9 @@ site_dir = "build/"
 site_name = "Homelab"
 site_url = "https://homelab.kasefuchs.net"
 
-repo_url = "https://github.com/kasefuchs/homelab"
+repo_url = "https://codeberg.org/kasefuchs/homelab"
 repo_name = "kasefuchs/homelab"
-edit_uri = "edit/main/docs/pages"
+edit_uri = "_edit/main/docs/pages"
 
 nav = [
   { "Home" = "index.md" },
@@ -31,7 +31,7 @@ features = [
 
 [project.theme.icon]
 logo = "lucide/server"
-repo = "lucide/github"
+repo = "lucide/mountain-snow"
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
