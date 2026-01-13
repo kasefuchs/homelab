@@ -7,13 +7,13 @@ when:
 
 steps:
   - name: build
-    image: zensical/zensical
+    image: joshooaj/zensical
     commands:
       - cd docs
       - zensical build
 
   - name: deploy
-    image: yinanzhou/wrangler
+    image: jfxs/wrangler
     environment:
       CLOUDFLARE_ACCOUNT_ID:
         from_secret: CLOUDFLARE_ACCOUNT_ID
