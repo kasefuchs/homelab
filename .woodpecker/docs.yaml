@@ -1,0 +1,23 @@
+---
+when:
+  - event: push
+    branch: main
+    path:
+      include: ['.woodpecker/docs.yaml', 'docs/**']
+
+steps:
+  - name: build
+    image: zensical/zensical
+    commands:
+      - cd docs
+      - zensical build
+
+  - name: deploy
+    image: yinanzhou/wrangler
+    environment:
+      CLOUDFLARE_ACCOUNT_ID:
+        from_secret: CLOUDFLARE_ACCOUNT_ID
+      CLOUDFLARE_API_TOKEN:
+        from_secret: CLOUDFLARE_PAGES_API_TOKEN
+    commands:
+      - wrangler pages deploy docs/build --project-name "$${CI_REPO_NAME}"
