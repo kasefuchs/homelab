@@ -3,7 +3,9 @@ when:
   - event: push
     branch: main
     path:
-      include: ['.woodpecker/docs.yaml', 'docs/**']
+      include:
+        - .woodpecker/docs.yaml
+        - docs/**
 
 steps:
   - name: build
