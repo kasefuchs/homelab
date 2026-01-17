@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: woodpecker-server
+  name: woodpecker
 spec:
   interval: 1h
   install:
@@ -19,7 +19,13 @@ spec:
     namespace: flux-system
   values:
     agent:
-      enabled: false
+      enabled: true
+      env:
+        WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 2Gi
+        WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
+      persistence:
+        size: 1Gi
+        storageClass: longhorn-local
     server:
       enabled: true
       env:
