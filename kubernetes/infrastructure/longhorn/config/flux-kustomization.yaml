@@ -12,8 +12,8 @@ spec:
   timeout: 5m
   retryInterval: 2m
   targetNamespace: longhorn-system
-  dependsOn:
-    - name: longhorn-controller
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: longhorn-controller
