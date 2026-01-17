@@ -5,4 +5,5 @@ resources:
   - resources/cloudnative-pg.yaml
   - resources/jetstack.yaml
   - resources/longhorn.yaml
+  - resources/opstree.yaml
   - resources/seaweedfs-operator.yaml
