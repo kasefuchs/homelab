@@ -6,5 +6,6 @@ resources:
   - resources/cnpg-system.yaml
   - resources/games.yaml
   - resources/longhorn-system.yaml
+  - resources/ot-operators.yaml
   - resources/seaweedfs-operator.yaml
   - resources/woodpecker.yaml
