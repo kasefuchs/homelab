@@ -1,0 +1,4 @@
+---
+k3s_server_config_disable:
+  - traefik
+  - local-storage
