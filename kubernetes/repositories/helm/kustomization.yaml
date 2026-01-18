@@ -7,3 +7,4 @@ resources:
   - resources/longhorn.yaml
   - resources/opstree.yaml
   - resources/seaweedfs-operator.yaml
+  - resources/traefik.yaml

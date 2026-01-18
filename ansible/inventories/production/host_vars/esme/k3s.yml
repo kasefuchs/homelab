@@ -5,3 +5,4 @@ k3s_server_config:
   advertise-address: 10.44.16.10
   flannel-iface: eth1
   tls-san: [192.168.1.20]
+  disable: "{{ k3s_server_config_disable }}"
