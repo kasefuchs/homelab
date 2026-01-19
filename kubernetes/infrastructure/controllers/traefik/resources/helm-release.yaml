@@ -25,7 +25,6 @@ spec:
   values:
     deployment:
       kind: DaemonSet
-
     ingressRoute:
       dashboard:
         enabled: true

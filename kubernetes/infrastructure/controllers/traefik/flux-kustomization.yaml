@@ -2,16 +2,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: redis-operator-controller
+  name: traefik-controller
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/redis-operator/controller
+  path: ./kubernetes/infrastructure/controllers/traefik
   wait: false
   prune: true
   timeout: 5m
   retryInterval: 2m
-  targetNamespace: ot-operators
+  targetNamespace: traefik
   sourceRef:
     kind: GitRepository
     name: flux-system

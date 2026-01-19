@@ -2,16 +2,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cloudnative-pg-controller
+  name: longhorn-controller
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/cloudnative-pg/controller
+  path: ./kubernetes/infrastructure/controllers/longhorn
   wait: false
   prune: true
   timeout: 5m
   retryInterval: 2m
-  targetNamespace: cnpg-system
+  targetNamespace: longhorn-system
   sourceRef:
     kind: GitRepository
     name: flux-system
