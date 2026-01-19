@@ -22,4 +22,4 @@ steps:
       CLOUDFLARE_API_TOKEN:
         from_secret: CLOUDFLARE_PAGES_API_TOKEN
     commands:
-      - wrangler pages deploy docs/build --project-name "$${CI_REPO_NAME}"
+      - wrangler pages deploy docs/build --project-name "$${CI_REPO_NAME}" --branch production
