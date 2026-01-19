@@ -5,6 +5,7 @@ resources:
   - resources/cert-manager.yaml
   - resources/cnpg-system.yaml
   - resources/games.yaml
+  - resources/gotosocial.yaml
   - resources/longhorn-system.yaml
   - resources/ot-operators.yaml
   - resources/seaweedfs-operator.yaml

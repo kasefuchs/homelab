@@ -18,6 +18,16 @@ spec:
     - target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
+      patch: |-
+        - op: replace
+          path: /spec/decryption
+          value:
+            provider: sops
+            secretRef:
+              name: sops-keys
+    - target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
         name: cert-manager-config
       patch: |-
         - op: add
