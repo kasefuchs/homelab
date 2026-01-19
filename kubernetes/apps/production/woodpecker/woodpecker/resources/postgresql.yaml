@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: woodpecker-server-db
+  name: server-db
 spec:
   instances: 1
   storage:

@@ -47,13 +47,13 @@ spec:
                 pathType: Prefix
         tls:
           - hosts: [*host]
-            secretName: woodpecker-server-tls
+            secretName: server-tls
       persistentVolume:
         enabled: false
       extraSecretNamesForEnvFrom:
-        - woodpecker-server-secret
+        - server-secret
   valuesFrom:
     - kind: Secret
-      name: woodpecker-server-db-app
+      name: server-db-app
       valuesKey: uri
       targetPath: server.env.WOODPECKER_DATABASE_DATASOURCE
