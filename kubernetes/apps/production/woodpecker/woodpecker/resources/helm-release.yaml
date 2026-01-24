@@ -21,7 +21,7 @@ spec:
     agent:
       enabled: true
       env:
-        WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 2Gi
+        WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
         WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
       persistence:
         size: 128Mi

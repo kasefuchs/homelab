@@ -53,6 +53,9 @@ spec:
                   - host: play.lvmc.icu
                     backend: 130.61.115.93:25565
                     fallback: *offline-fallback
+                  - host: ru.lvmc.icu
+                    backend: 130.61.115.93:25565
+                    fallback: *offline-fallback
                   - host: mc.floof.fans
                     backend: 130.61.115.93:30000
                     fallback: *offline-fallback
