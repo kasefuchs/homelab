@@ -50,7 +50,7 @@ spec:
               lite:
                 enabled: true
                 routes:
-                  - host: ru.lvmc.icu
+                  - host: play.lvmc.icu
                     backend: 130.61.115.93:25565
                     fallback: *offline-fallback
                   - host: mc.floof.fans
