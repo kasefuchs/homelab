@@ -1,0 +1,7 @@
+---
+k3s_agent_config:
+  node-ip: 10.44.4.10
+  node-external-ip: 57.128.251.65
+  flannel-iface: nebula0
+  server: https://10.44.16.10:6443
+  token: "{{ k3s_agent_config_token }}"

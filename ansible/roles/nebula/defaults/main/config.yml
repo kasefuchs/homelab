@@ -17,8 +17,11 @@ nebula_config_listen:
 
 # Nebula lighthouse configuration.
 nebula_config_lighthouse:
-  am_lighthouse: true
-  hosts: []
+  am_lighthouse: false
+  hosts: "{{ nebula_config_lighthouse_list }}"
+
+# Hosts is a list of lighthouse hosts this node should report to and query from.
+nebula_config_lighthouse_list: []
 
 # Name of the TUN interface created by Nebula.
 nebula_config_tun:
@@ -40,8 +43,12 @@ nebula_config_punchy:
 
 # Settings for enabling or using relay nodes in Nebula.
 nebula_config_relay:
+  relays: "{{ nebula_config_relay_list }}"
   am_relay: false
   use_relays: true
+
+# Relays are a list of Nebula IP's that peers can use to relay packets to me.
+nebula_config_relay_list: []
 
 # The static host map defines a set of hosts with fixed IP addresses.
 nebula_config_static_host_map: {}

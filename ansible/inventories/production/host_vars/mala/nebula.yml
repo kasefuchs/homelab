@@ -1,0 +1,9 @@
+---
+nebula_cert_host_ip: 10.44.4.10/20
+nebula_cert_host_subnets: []
+
+nebula_config_tun:
+  dev: nebula0
+  unsafe_routes:
+    - route: 10.44.16.1/24
+      via: 10.44.1.10

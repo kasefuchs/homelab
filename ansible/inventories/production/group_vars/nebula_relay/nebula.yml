@@ -1,0 +1,4 @@
+---
+nebula_config_relay:
+  am_relay: true
+  use_relays: false
