@@ -1,5 +1,3 @@
 ---
 nebula_config_lighthouse:
   am_lighthouse: true
-
-nebula_config_static_host_map: {}
