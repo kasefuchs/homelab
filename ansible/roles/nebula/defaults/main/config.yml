@@ -38,8 +38,8 @@ nebula_config_firewall:
 
 # Config for UDP hole punching support.
 nebula_config_punchy:
-  punch: true
-  respond: true
+  punch: false
+  respond: false
 
 # Settings for enabling or using relay nodes in Nebula.
 nebula_config_relay:

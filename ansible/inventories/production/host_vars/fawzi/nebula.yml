@@ -1,3 +1,0 @@
----
-nebula_cert_host_ip: 10.44.1.10/20
-nebula_cert_host_subnets: [10.44.16.1/24]

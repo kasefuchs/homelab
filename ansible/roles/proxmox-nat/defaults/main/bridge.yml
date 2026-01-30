@@ -1,3 +1,0 @@
----
-# Dictionary of NAT bridges to configure.
-proxmox_nat_bridges: {}

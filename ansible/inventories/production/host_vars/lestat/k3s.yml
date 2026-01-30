@@ -1,0 +1,8 @@
+---
+k3s_server_config:
+  node-ip: 10.44.0.10
+  node-external-ip: 192.168.1.10
+  advertise-address: 10.44.0.10
+  flannel-iface: nebula0
+  tls-san: [192.168.1.10]
+  disable: "{{ k3s_server_config_disable }}"

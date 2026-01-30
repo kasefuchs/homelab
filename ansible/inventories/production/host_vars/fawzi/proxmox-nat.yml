@@ -1,5 +1,0 @@
----
-proxmox_nat_bridges:
-  vmbr1:
-    cidr: 10.44.16.1/24
-    uplink: vmbr0
