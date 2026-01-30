@@ -1,3 +1,7 @@
 ---
+# Token used by the K3s agent to join the cluster.
+k3s_agent_config_token: "{{ undef('K3s agent token must be provided (k3s_agent_config_token)') }}"
+
 # Settings for the K3s agent node.
-k3s_agent_config: {}
+k3s_agent_config:
+  token: "{{ k3s_agent_config_token }}"

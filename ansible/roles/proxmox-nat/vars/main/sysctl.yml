@@ -1,7 +1,0 @@
----
-# Sysctl parameters to enable NAT / routing.
-proxmox_nat_sysctl:
-  net.ipv4.ip_forward: 1
-
-# Sysctl configuration file path.
-proxmox_nat_sysctl_file: /etc/sysctl.d/nat.conf
