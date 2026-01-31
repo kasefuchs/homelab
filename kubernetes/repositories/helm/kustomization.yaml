@@ -6,5 +6,6 @@ resources:
   - resources/jetstack.yaml
   - resources/longhorn.yaml
   - resources/opstree.yaml
+  - resources/seaweedfs.yaml
   - resources/seaweedfs-operator.yaml
   - resources/traefik.yaml

@@ -1,0 +1,25 @@
+---
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: Redis
+metadata:
+  name: store-redis
+spec:
+  kubernetesConfig:
+    image: quay.io/opstree/redis:v7.0.15
+    imagePullPolicy: IfNotPresent
+    redisSecret:
+      name: store-secret
+      key: redis_password
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: longhorn-local
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 2Gi
+  nodeSelector:
+    backup-store: "true"
+  podSecurityContext:
+    runAsUser: 1000
+    fsGroup: 1000
