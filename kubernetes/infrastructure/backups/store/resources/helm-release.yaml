@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: store
+spec:
+  interval: 1h
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 3m
+  chart:
+    spec:
+      chart: seaweedfs
+      version: 4.0.x
+      interval: 2h
+      sourceRef:
+        kind: HelmRepository
+        name: seaweedfs
+        namespace: flux-system
+  values:
+    master:
+      enabled: true
+      replicas: 1
+      data:
+        type: emptyDir
+      logs:
+        type: emptyDir
+    volume:
+      enabled: true
+      replicas: 1
+      dataDirs:
+        - name: data
+          type: persistentVolumeClaim
+          storageClass: longhorn-local
+          size: 50Gi
+          maxVolumes: 0
+      nodeSelector: |
+        backup-store: "true"
+    filer:
+      enabled: true
+      replicas: 1
+      data:
+        type: emptyDir
+      logs:
+        type: emptyDir
+      extraEnvironmentVars:
+        WEED_REDIS2_ENABLED: "true"
+        WEED_REDIS2_ADDRESS: "store-redis.backups.svc.cluster.local:6379"
+      secretExtraEnvironmentVars:
+        WEED_REDIS2_PASSWORD:
+          secretKeyRef:
+            name: store-secret
+            key: redis_password
+      s3:
+        enabled: true
+        enableAuth: true
+        existingConfigSecret: store-secret
