@@ -51,6 +51,7 @@ spec:
       extraEnvironmentVars:
         WEED_REDIS2_ENABLED: "true"
         WEED_REDIS2_ADDRESS: "store-redis.backups.svc.cluster.local:6379"
+        WEED_LEVELDB2_ENABLED: "false"
       secretExtraEnvironmentVars:
         WEED_REDIS2_PASSWORD:
           secretKeyRef:
@@ -60,3 +61,8 @@ spec:
         enabled: true
         enableAuth: true
         existingConfigSecret: store-secret
+        createBuckets:
+          - name: cnpg
+            anonymousRead: false
+          - name: longhorn
+            anonymousRead: false
