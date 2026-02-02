@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: redis-operator-controller
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./kubernetes/infrastructure/base/controllers/redis-operator/kustomize
+  wait: false
+  prune: true
+  timeout: 5m
+  retryInterval: 2m
+  targetNamespace: ot-operators
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
