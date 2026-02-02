@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/apps/production/woodpecker/woodpecker
+  path: ./kubernetes/apps/production/woodpecker/woodpecker/kustomize
   wait: false
   prune: true
   timeout: 5m
