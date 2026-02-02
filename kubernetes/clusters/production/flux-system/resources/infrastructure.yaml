@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/infrastructure
+  path: ./kubernetes/infrastructure/overlays/production
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,19 +25,3 @@ spec:
             provider: sops
             secretRef:
               name: sops-keys
-    - target:
-        group: kustomize.toolkit.fluxcd.io
-        kind: Kustomization
-        name: cert-manager-config
-      patch: |-
-        - op: add
-          path: /spec/patches
-          value:
-            - target:
-                group: cert-manager.io
-                kind: ClusterIssuer
-                name: letsencrypt
-              patch: |-
-                - op: replace
-                  path: /spec/acme/server
-                  value: https://acme-v02.api.letsencrypt.org/directory
