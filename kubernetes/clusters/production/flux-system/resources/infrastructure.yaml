@@ -18,6 +18,7 @@ spec:
     - target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
+      # language="yaml"
       patch: |-
         - op: replace
           path: /spec/decryption
