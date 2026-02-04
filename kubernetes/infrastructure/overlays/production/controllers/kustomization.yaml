@@ -9,3 +9,4 @@ resources:
   - ../../../base/controllers/redis-operator
   - ../../../base/controllers/seaweedfs-operator
   - ../../../base/controllers/traefik
+
