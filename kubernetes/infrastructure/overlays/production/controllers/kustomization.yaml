@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ../../../base/controllers/cert-manager
   - ../../../base/controllers/cloudnative-pg
+  - ../../../base/controllers/external-dns
   - ../../../base/controllers/longhorn
   - ../../../base/controllers/redis-operator
   - ../../../base/controllers/seaweedfs-operator

@@ -5,6 +5,7 @@ resources:
   - resources/backups.yaml
   - resources/cert-manager.yaml
   - resources/cnpg-system.yaml
+  - resources/external-dns.yaml
   - resources/games.yaml
   - resources/gotosocial.yaml
   - resources/longhorn-system.yaml
