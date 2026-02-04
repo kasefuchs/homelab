@@ -2,11 +2,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - external-dns
   - ../../../base/controllers/cert-manager
   - ../../../base/controllers/cloudnative-pg
-  - ../../../base/controllers/external-dns
   - ../../../base/controllers/longhorn
   - ../../../base/controllers/redis-operator
   - ../../../base/controllers/seaweedfs-operator
   - ../../../base/controllers/traefik
-

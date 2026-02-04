@@ -10,6 +10,7 @@ spec:
         group: cert-manager.io
         kind: ClusterIssuer
         name: letsencrypt
+      # language="yaml"
       patch: |-
         - op: replace
           path: /spec/acme/server
