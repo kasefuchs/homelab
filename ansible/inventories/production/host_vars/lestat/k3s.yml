@@ -1,9 +1,16 @@
 ---
-k3s_agent_config:
+k3s_server_config:
+  disable: "{{ k3s_server_config_disable }}"
+
   node-ip: 10.44.0.10
   node-external-ip: 192.168.1.10
+  advertise-address: 10.44.0.10
 
-  server: https://10.44.4.10:6443
-  token: "{{ k3s_agent_config_token }}"
+  tls-san:
+    - 192.168.1.10
+    - lestat.kasefuchs.net
+
+  node-label:
+    - backup-store=true
 
   flannel-iface: nebula0
