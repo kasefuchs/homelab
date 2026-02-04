@@ -1,8 +1,9 @@
 ---
-k3s_server_config:
+k3s_agent_config:
   node-ip: 10.44.0.10
   node-external-ip: 192.168.1.10
-  advertise-address: 10.44.0.10
+
+  server: https://10.44.4.10:6443
+  token: "{{ k3s_agent_config_token }}"
+
   flannel-iface: nebula0
-  tls-san: [192.168.1.10]
-  disable: "{{ k3s_server_config_disable }}"
