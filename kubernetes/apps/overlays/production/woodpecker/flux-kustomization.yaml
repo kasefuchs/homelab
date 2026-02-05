@@ -2,16 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: woodpecker
+  name: woodpecker-overlay
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/apps/base/woodpecker/woodpecker/kustomize
+  path: ./kubernetes/apps/overlays/production/woodpecker/kustomize
   wait: false
   prune: true
   timeout: 5m
   retryInterval: 2m
-  targetNamespace: woodpecker
   sourceRef:
     kind: GitRepository
     name: flux-system
