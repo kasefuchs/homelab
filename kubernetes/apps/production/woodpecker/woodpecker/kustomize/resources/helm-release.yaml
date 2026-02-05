@@ -40,6 +40,7 @@ spec:
         ingressClassName: traefik
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
+          external-dns.alpha.kubernetes.io/target: traefik.kasefuchs.net
         hosts:
           - host: &host ci.kasefuchs.net
             paths:
