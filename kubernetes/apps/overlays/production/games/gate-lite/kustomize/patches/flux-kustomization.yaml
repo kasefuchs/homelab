@@ -1,0 +1,38 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gate-lite
+  namespace: flux-system
+spec:
+  patches:
+    - target:
+        group: helm.toolkit.fluxcd.io
+        kind: HelmRelease
+        name: gate-lite
+      # language="yaml"
+      patch: |-
+        - op: replace
+          path: /spec/values/configMaps/config/data/config.yml
+          # language="yaml"
+          value: |-
+            ---
+            x-offline-fallback: &offline-fallback
+              motd: |
+                §cСервер недоступен.
+                §7Попробуйте позже!
+            
+            config:
+              bind: 0.0.0.0:25565
+              lite:
+                enabled: true
+                routes:
+                  - host: play.lvmc.icu
+                    backend: 130.61.115.93:25565
+                    fallback: *offline-fallback
+                  - host: ru.lvmc.icu
+                    backend: 130.61.115.93:25565
+                    fallback: *offline-fallback
+                  - host: mc.floof.fans
+                    backend: 130.61.115.93:30000
+                    fallback: *offline-fallback
