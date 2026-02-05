@@ -21,7 +21,6 @@ spec:
             WOODPECKER_FORGEJO: "true"
             WOODPECKER_FORGEJO_URL: https://codeberg.org
             WOODPECKER_DATABASE_DRIVER: postgres
-
         - op: replace
           path: /spec/values/server/ingress
           value:
@@ -36,5 +35,6 @@ spec:
                   - path: /
                     pathType: Prefix
             tls:
-              - hosts: [ ci.kasefuchs.net ]
+              - hosts: 
+                  - ci.kasefuchs.net
                 secretName: server-tls

@@ -7,4 +7,5 @@ resources:
   - resources/jetstack.yaml
   - resources/longhorn.yaml
   - resources/opstree.yaml
+  - resources/seaweedfs.yaml
   - resources/traefik.yaml

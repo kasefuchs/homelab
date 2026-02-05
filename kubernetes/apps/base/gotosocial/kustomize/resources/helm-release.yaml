@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gotosocial
+spec:
+  interval: 1h
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 3m
+  chartRef:
+    kind: OCIRepository
+    name: gotosocial
+    namespace: flux-system
+  values:
+    gotosocial:
+      host: localhost
+      accountDomain: localhost
+      database:
+        type: postgres
+        tlsMode: enable
+      storage:
+        backend: s3
+        s3:
+          endpoint: gotosocial-seaweedfs-s3:8333
+          useSSL: false
+          bucket: gotosocial
+          proxy: true
+    env:
+      GTS_STORAGE_S3_USE_SSL: "false"
+    ingress:
+      enabled: false
+    persistence:
+      enabled: false
+  valuesFrom:
+    - kind: Secret
+      name: gotosocial-db-app
+      valuesKey: host
+      targetPath: gotosocial.database.address
+    - kind: Secret
+      name: gotosocial-db-app
+      valuesKey: port
+      targetPath: gotosocial.database.port
+    - kind: Secret
+      name: gotosocial-db-app
+      valuesKey: dbname
+      targetPath: gotosocial.database.database
+    - kind: Secret
+      name: gotosocial-db-app
+      valuesKey: user
+      targetPath: gotosocial.database.username
+    - kind: Secret
+      name: gotosocial-db-app
+      valuesKey: password
+      targetPath: gotosocial.database.password
+    - kind: Secret
+      name: gotosocial-secret
+      valuesKey: s3_access_key
+      targetPath: gotosocial.storage.s3.accessKey
+    - kind: Secret
+      name: gotosocial-secret
+      valuesKey: s3_secret_key
+      targetPath: gotosocial.storage.s3.secretKey

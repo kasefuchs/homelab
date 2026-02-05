@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gotosocial-seaweedfs
+spec:
+  interval: 1h
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 3m
+  chart:
+    spec:
+      chart: seaweedfs
+      version: 4.0.407
+      interval: 2h
+      sourceRef:
+        kind: HelmRepository
+        name: seaweedfs
+        namespace: flux-system
+  values:
+    nameOverride: gotosocial-seaweedfs
+    master:
+      enabled: true
+      replicas: 1
+      data:
+        type: emptyDir
+      logs:
+        type: emptyDir
+    volume:
+      enabled: true
+      replicas: 1
+      dataDirs:
+        - name: data
+          type: persistentVolumeClaim
+          storageClass: longhorn-local
+          size: 10Gi
+          maxVolumes: 0
+    filer:
+      enabled: true
+      replicas: 1
+      data:
+        type: emptyDir
+      logs:
+        type: emptyDir
+      extraEnvironmentVars:
+        WEED_REDIS2_ENABLED: "true"
+        WEED_REDIS2_ADDRESS: "gotosocial-seaweedfs-redis:6379"
+        WEED_LEVELDB2_ENABLED: "false"
+      secretExtraEnvironmentVars:
+        WEED_REDIS2_PASSWORD:
+          secretKeyRef:
+            name: gotosocial-seaweedfs-redis-secret
+            key: redis_password
+      s3:
+        enabled: true
+        enableAuth: true
+        existingConfigSecret: gotosocial-seaweedfs-secret
+        createBuckets:
+          - name: gotosocial
+            anonymousRead: false
