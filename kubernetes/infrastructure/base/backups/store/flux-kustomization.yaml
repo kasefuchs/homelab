@@ -8,7 +8,7 @@ spec:
   interval: 1h
   path: ./kubernetes/infrastructure/base/backups/store/kustomize
   wait: false
-  prune: true
+  prune: false
   timeout: 5m
   retryInterval: 2m
   targetNamespace: backups

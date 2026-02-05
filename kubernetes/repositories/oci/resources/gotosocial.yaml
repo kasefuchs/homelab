@@ -1,0 +1,13 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: gotosocial
+spec:
+  interval: 1h
+  url: oci://codeberg.org/wrenix/helm-charts/gotosocial
+  ref:
+    tag: 0.2.26
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
