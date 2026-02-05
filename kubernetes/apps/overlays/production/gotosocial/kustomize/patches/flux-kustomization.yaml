@@ -1,0 +1,46 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gotosocial
+  namespace: flux-system
+spec:
+  patches:
+    - target:
+        group: helm.toolkit.fluxcd.io
+        kind: HelmRelease
+        name: gotosocial
+      # language="yaml"
+      patch: |-
+        - op: replace
+          path: /spec/values/gotosocial/accountDomain
+          value: floof.fans
+        - op: replace
+          path: /spec/values/gotosocial/host
+          value: social.floof.fans
+        - op: replace
+          path: /spec/values/ingress
+          value:
+            enabled: true
+            className: traefik
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              external-dns.alpha.kubernetes.io/target: traefik.kasefuchs.net
+            hosts:
+              - host: floof.fans
+                paths:
+                  - path: /.well-known/webfinger
+                    pathType: Exact
+                  - path: /.well-known/host-meta
+                    pathType: Exact
+                  - path: /.well-known/nodeinfo
+                    pathType: Exact
+              - host: social.floof.fans
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - hosts:
+                  - floof.fans
+                  - social.floof.fans
+                secretName: server-tls
