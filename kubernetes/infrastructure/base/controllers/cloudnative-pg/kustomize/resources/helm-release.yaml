@@ -22,3 +22,4 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg
         namespace: flux-system
+  values: {}

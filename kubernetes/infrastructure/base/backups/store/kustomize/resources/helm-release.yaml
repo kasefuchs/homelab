@@ -23,6 +23,7 @@ spec:
         name: seaweedfs
         namespace: flux-system
   values:
+    nameOverride: store
     master:
       enabled: true
       replicas: 1
