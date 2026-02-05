@@ -38,27 +38,13 @@ spec:
         enabled: true
         data:
           # language="yaml"
-          config.yml: |
+          config.yml: |-
             ---
-            x-offline-fallback: &offline-fallback
-              motd: |
-                §cСервер недоступен.
-                §7Попробуйте позже!
-
             config:
               bind: 0.0.0.0:25565
               lite:
                 enabled: true
-                routes:
-                  - host: play.lvmc.icu
-                    backend: 130.61.115.93:25565
-                    fallback: *offline-fallback
-                  - host: ru.lvmc.icu
-                    backend: 130.61.115.93:25565
-                    fallback: *offline-fallback
-                  - host: mc.floof.fans
-                    backend: 130.61.115.93:30000
-                    fallback: *offline-fallback
+                routes: []
     persistence:
       config:
         enabled: true

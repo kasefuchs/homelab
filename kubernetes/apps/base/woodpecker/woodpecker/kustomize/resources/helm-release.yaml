@@ -29,26 +29,9 @@ spec:
     server:
       enabled: true
       env:
-        WOODPECKER_HOST: https://ci.kasefuchs.net
-        WOODPECKER_OPEN: "false"
-        WOODPECKER_ADMIN: kasefuchs
-        WOODPECKER_FORGEJO: "true"
-        WOODPECKER_FORGEJO_URL: https://codeberg.org
         WOODPECKER_DATABASE_DRIVER: postgres
       ingress:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
-          external-dns.alpha.kubernetes.io/target: traefik.kasefuchs.net
-        hosts:
-          - host: &host ci.kasefuchs.net
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts: [*host]
-            secretName: server-tls
+        enabled: false
       persistentVolume:
         enabled: false
       extraSecretNamesForEnvFrom:

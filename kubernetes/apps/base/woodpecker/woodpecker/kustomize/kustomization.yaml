@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - resources/helm-release.yaml
   - resources/postgresql.yaml
-  - resources/secret.yaml
