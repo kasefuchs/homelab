@@ -10,6 +10,5 @@ resources:
   - resources/gotosocial.yaml
   - resources/longhorn-system.yaml
   - resources/ot-operators.yaml
-  - resources/seaweedfs-operator.yaml
   - resources/traefik.yaml
   - resources/woodpecker.yaml
