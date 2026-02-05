@@ -7,5 +7,4 @@ resources:
   - ../../../base/controllers/cloudnative-pg
   - ../../../base/controllers/longhorn
   - ../../../base/controllers/redis-operator
-  - ../../../base/controllers/seaweedfs-operator
   - ../../../base/controllers/traefik
