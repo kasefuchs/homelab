@@ -35,9 +35,9 @@ spec:
       persistentVolume:
         enabled: false
       extraSecretNamesForEnvFrom:
-        - server-secret
+        - woodpecker-secret
   valuesFrom:
     - kind: Secret
-      name: server-db-app
+      name: woodpecker-db-app
       valuesKey: uri
       targetPath: server.env.WOODPECKER_DATABASE_DATASOURCE

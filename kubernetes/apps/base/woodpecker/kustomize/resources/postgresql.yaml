@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: server-db
+  name: woodpecker-db
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
