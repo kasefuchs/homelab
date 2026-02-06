@@ -16,7 +16,6 @@ spec:
           path: /spec/values/provider
           value:
             name: cloudflare
-
         - op: add
           path: /spec/values/env
           value:
@@ -25,3 +24,8 @@ spec:
                 secretKeyRef:
                   name: external-dns-secret
                   key: cloudflare_api_token
+        - op: add
+          path: /spec/values/domainFilters
+          value:
+            - kasefuchs.net
+            - floof.fans

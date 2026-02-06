@@ -25,7 +25,7 @@ spec:
             className: traefik
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt
-              external-dns.alpha.kubernetes.io/target: traefik.kasefuchs.net
+              external-dns.alpha.kubernetes.io/target: 85.208.85.159
             hosts:
               - host: floof.fans
                 paths:
