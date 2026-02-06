@@ -15,28 +15,13 @@ spec:
         - op: add
           path: /spec/values/provider
           value:
-            name: webhook
-            webhook:
-              image:
-                repository: ghcr.io/michelangelomo/external-dns-desec-provider
-                tag: latest
-              env:
-                - name: WEBHOOK_APITOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: webhook-secret
-                      key: desec_token
-                - name: WEBHOOK_DOMAINFILTERS
-                  value: "kasefuchs.net,floof.fans"
-              livenessProbe:
-                httpGet:
-                  path: /healthz
-                  port: http-webhook
-                initialDelaySeconds: 10
-                timeoutSeconds: 5
-              readinessProbe:
-                httpGet:
-                  path: /readyz
-                  port: http-webhook
-                initialDelaySeconds: 10
-                timeoutSeconds: 5
+            name: cloudflare
+
+        - op: add
+          path: /spec/values/env
+          value:
+            - name: CF_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: external-dns-secret
+                  key: cloudflare_api_token
