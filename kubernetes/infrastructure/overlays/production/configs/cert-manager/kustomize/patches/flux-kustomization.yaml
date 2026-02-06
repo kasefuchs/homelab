@@ -13,5 +13,14 @@ spec:
       # language="yaml"
       patch: |-
         - op: replace
+          path: /spec/acme/email
+          value: kasefuchs@protonmail.com
+        - op: replace
           path: /spec/acme/server
           value: https://acme-v02.api.letsencrypt.org/directory
+        - op: add
+          path: /spec/acme/solvers/0/http01/ingress/ingressTemplate
+          value:
+            metadata:
+              annotations:
+                external-dns.alpha.kubernetes.io/target: 85.208.85.159
