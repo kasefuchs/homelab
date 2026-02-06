@@ -28,3 +28,7 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
+    service:
+      type: LoadBalancer
+      spec:
+        externalTrafficPolicy: Local
