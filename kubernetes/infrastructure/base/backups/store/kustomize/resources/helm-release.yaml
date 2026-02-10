@@ -41,7 +41,7 @@ spec:
           size: 50Gi
           maxVolumes: 0
       nodeSelector: |
-        backup-store: "true"
+        net.kasefuchs.homelab/backup-store: "true"
     filer:
       enabled: true
       replicas: 1

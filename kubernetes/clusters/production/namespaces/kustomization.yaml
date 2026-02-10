@@ -12,3 +12,4 @@ resources:
   - resources/ot-operators.yaml
   - resources/traefik.yaml
   - resources/woodpecker.yaml
+  - resources/x-ui.yaml
