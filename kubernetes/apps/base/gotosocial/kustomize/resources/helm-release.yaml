@@ -33,8 +33,6 @@ spec:
           proxy: true
     env:
       GTS_STORAGE_S3_USE_SSL: "false"
-    ingress:
-      enabled: false
     persistence:
       enabled: false
   valuesFrom:

@@ -11,6 +11,8 @@ k3s_server_config:
     - lestat.kasefuchs.net
 
   node-label:
-    - backup-store=true
+    - net.kasefuchs.homelab/region=cis
+    - net.kasefuchs.homelab/placement=home
+    - net.kasefuchs.homelab/backup-store=true
 
   flannel-iface: nebula0

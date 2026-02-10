@@ -30,8 +30,6 @@ spec:
       enabled: true
       env:
         WOODPECKER_DATABASE_DRIVER: postgres
-      ingress:
-        enabled: false
       persistentVolume:
         enabled: false
       extraSecretNamesForEnvFrom:

@@ -21,7 +21,7 @@ spec:
             WOODPECKER_FORGEJO: "true"
             WOODPECKER_FORGEJO_URL: https://codeberg.org
             WOODPECKER_DATABASE_DRIVER: postgres
-        - op: replace
+        - op: add
           path: /spec/values/server/ingress
           value:
             enabled: true

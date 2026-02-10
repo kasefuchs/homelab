@@ -19,7 +19,7 @@ spec:
           requests:
             storage: 2Gi
   nodeSelector:
-    backup-store: "true"
+    net.kasefuchs.homelab/backup-store: "true"
   podSecurityContext:
     runAsUser: 1000
     fsGroup: 1000

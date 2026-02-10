@@ -18,7 +18,7 @@ spec:
         - op: replace
           path: /spec/values/gotosocial/host
           value: social.floof.fans
-        - op: replace
+        - op: add
           path: /spec/values/ingress
           value:
             enabled: true
