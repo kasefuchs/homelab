@@ -32,3 +32,13 @@ spec:
       type: LoadBalancer
       spec:
         externalTrafficPolicy: Local
+    ports:
+      web:
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
+      websecure:
+        asDefault: true
