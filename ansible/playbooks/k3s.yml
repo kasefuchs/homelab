@@ -2,4 +2,5 @@
 - name: Set up K3s
   hosts: all
   become: true
-  roles: [k3s]
+  roles:
+    - kasefuchs.general.k3s
