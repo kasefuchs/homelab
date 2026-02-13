@@ -1,6 +1,0 @@
----
-# Local path for storing K3s cache.
-k3s_cache_local_dir: "{{ (common_cache_local_dir, 'k3s') | ansible.builtin.path_join }}"
-
-# Local path for storing K3s cache.
-k3s_artifact_local_dir: "{{ (common_artifact_local_dir, 'k3s') | ansible.builtin.path_join }}"

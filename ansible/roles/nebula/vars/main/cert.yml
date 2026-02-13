@@ -1,6 +1,0 @@
----
-# Directory for Nebula certificates.
-nebula_cert_dir: /etc/pki/nebula
-
-# Local directory for storing Nebula certificates.
-nebula_cert_local_dir: "{{ (nebula_artifact_local_dir, 'cert') | ansible.builtin.path_join }}"
