@@ -1,4 +1,4 @@
 ---
 collections:
-  - name: https://codeberg.org/kasefuchs/ansible-collection-general.git
-    type: git
+  - type: galaxy
+    name: kasefuchs.general
