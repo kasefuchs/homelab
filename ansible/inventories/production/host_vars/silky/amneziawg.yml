@@ -1,0 +1,17 @@
+---
+amneziawg_config_interface:
+  Address: 10.45.4.10/16
+  ListenPort: 49006
+  PrivateKey: "{{ amneziawg_config_private_key }}"
+
+amneziawg_config_peers:
+  # mala
+  - PublicKey: "{{ amneziawg_config_public_keys.mala }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.mala }}"
+    AllowedIPs: 10.45.8.10/32
+    Endpoint: mala.kasefuchs.net:49006
+
+  # lestat
+  - PublicKey: "{{ amneziawg_config_public_keys.lestat }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.lestat }}"
+    AllowedIPs: 10.45.0.10/32
