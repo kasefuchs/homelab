@@ -2,17 +2,16 @@
 k3s_server_config:
   disable: "{{ k3s_server_config_disable }}"
 
-  node-ip: 10.44.0.10
+  node-ip: 10.45.0.33
   node-external-ip: 192.168.1.10
-  advertise-address: 10.44.0.10
+  advertise-address: 10.45.0.33
 
   tls-san:
     - 192.168.1.10
-    - lestat.kasefuchs.net
 
   node-label:
     - net.kasefuchs.homelab/region=cis
     - net.kasefuchs.homelab/placement=home
     - net.kasefuchs.homelab/backup-store=true
 
-  flannel-iface: nebula0
+  flannel-iface: awg0

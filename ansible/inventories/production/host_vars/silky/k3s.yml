@@ -1,13 +1,13 @@
 ---
 k3s_agent_config:
-  node-ip: 10.44.4.10
+  node-ip: 10.45.0.34
   node-external-ip: 85.208.85.159
 
-  server: https://10.44.0.10:6443
+  server: https://10.45.0.33:6443
   token: "{{ k3s_agent_config_token }}"
 
   node-label:
     - net.kasefuchs.homelab/region=cis
     - net.kasefuchs.homelab/placement=cloud
 
-  flannel-iface: nebula0
+  flannel-iface: awg0
