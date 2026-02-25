@@ -1,9 +1,9 @@
 ---
 k3s_agent_config:
-  node-ip: 10.45.0.34
+  node-ip: 10.45.20.20
   node-external-ip: 85.208.85.159
 
-  server: https://10.45.0.33:6443
+  server: https://10.45.20.16:6443
   token: "{{ k3s_agent_config_token }}"
 
   node-label:
