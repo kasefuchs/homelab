@@ -2,9 +2,12 @@
 k3s_server_config:
   disable: "{{ k3s_server_config_disable }}"
 
-  node-ip: 10.45.20.16
+  node-ip: 10.45.20.16,fd45:45:45:20::16
   node-external-ip: 192.168.1.10
   advertise-address: 10.45.20.16
+
+  cluster-cidr: 10.42.0.0/16,fd45:45:45:1000::/56
+  service-cidr: 10.43.0.0/16,fd45:45:45:1f00::/112
 
   tls-san:
     - 192.168.1.10
@@ -15,3 +18,4 @@ k3s_server_config:
     - net.kasefuchs.homelab/backup-store=true
 
   flannel-iface: awg0
+  flannel-ipv6-masq: true

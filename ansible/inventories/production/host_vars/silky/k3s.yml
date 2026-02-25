@@ -1,6 +1,6 @@
 ---
 k3s_agent_config:
-  node-ip: 10.45.20.20
+  node-ip: 10.45.20.20,fd45:45:45:20::20
   node-external-ip: 85.208.85.159
 
   server: https://10.45.20.16:6443

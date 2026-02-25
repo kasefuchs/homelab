@@ -1,7 +1,7 @@
 ---
 k3s_agent_config:
-  node-ip: 10.45.30.16
-  node-external-ip: 57.128.251.65
+  node-ip: 10.45.30.16,fd45:45:45:30::16
+  node-external-ip: 57.128.251.65,2001:41d0:601:1100::7dd5
 
   server: https://10.45.20.16:6443
   token: "{{ k3s_agent_config_token }}"
