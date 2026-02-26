@@ -24,3 +24,4 @@ spec:
             metadata:
               annotations:
                 external-dns.alpha.kubernetes.io/target: 85.208.85.159
+                traefik.ingress.kubernetes.io/router.entrypoints: web
