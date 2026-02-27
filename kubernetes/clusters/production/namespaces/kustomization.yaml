@@ -9,6 +9,7 @@ resources:
   - resources/gotosocial.yaml
   - resources/longhorn-system.yaml
   - resources/ot-operators.yaml
+  - resources/seaweedfs.yaml
   - resources/traefik.yaml
   - resources/woodpecker.yaml
   - resources/x-ui.yaml
