@@ -5,6 +5,7 @@ resources:
   - external-dns
   - ../../../base/controllers/cert-manager
   - ../../../base/controllers/cloudnative-pg
+  - ../../../base/controllers/cosi
   - ../../../base/controllers/longhorn
   - ../../../base/controllers/redis-operator
   - ../../../base/controllers/traefik
