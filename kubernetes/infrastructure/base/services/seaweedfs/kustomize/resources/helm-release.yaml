@@ -57,13 +57,9 @@ spec:
             key: redis_password
     s3:
       enabled: true
-      enableAuth: true
-      existingConfigSecret: seaweedfs-s3-secret
       logs:
         type: emptyDir
     cosi:
       enabled: true
-      enableAuth: true
-      existingConfigSecret: seaweedfs-s3-secret
     admin:
       enabled: true
