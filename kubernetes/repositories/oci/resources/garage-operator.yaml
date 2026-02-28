@@ -1,0 +1,13 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: garage-operator
+spec:
+  interval: 1h
+  url: oci://ghcr.io/rajsinghtech/charts/garage-operator
+  ref:
+    tag: 0.0.40
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy

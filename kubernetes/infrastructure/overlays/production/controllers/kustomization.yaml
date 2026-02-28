@@ -7,6 +7,7 @@ resources:
   - ../../../base/controllers/cloudnative-pg
   - ../../../base/controllers/cosi
   - ../../../base/controllers/external-secrets
+  - ../../../base/controllers/garage-operator
   - ../../../base/controllers/longhorn
   - ../../../base/controllers/redis-operator
   - ../../../base/controllers/traefik
