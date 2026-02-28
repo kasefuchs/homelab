@@ -6,6 +6,7 @@ resources:
   - ../../../base/controllers/cert-manager
   - ../../../base/controllers/cloudnative-pg
   - ../../../base/controllers/cosi
+  - ../../../base/controllers/external-secrets
   - ../../../base/controllers/longhorn
   - ../../../base/controllers/redis-operator
   - ../../../base/controllers/traefik
