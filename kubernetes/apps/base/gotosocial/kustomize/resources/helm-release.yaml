@@ -27,10 +27,8 @@ spec:
       storage:
         backend: s3
         s3:
-          endpoint: gotosocial-seaweedfs-s3:8333
-          useSSL: false
-          bucket: gotosocial
           proxy: true
+          useSSL: false
     env:
       GTS_STORAGE_S3_USE_SSL: "false"
     persistence:
@@ -57,10 +55,18 @@ spec:
       valuesKey: password
       targetPath: gotosocial.database.password
     - kind: Secret
-      name: gotosocial-secret
-      valuesKey: s3_access_key
+      name: gotosocial-bucket-access-secret
+      valuesKey: COSI_S3_ENDPOINT
+      targetPath: gotosocial.storage.s3.endpoint
+    - kind: Secret
+      name: gotosocial-bucket-access-secret
+      valuesKey: COSI_S3_BUCKET_ID
+      targetPath: gotosocial.storage.s3.bucket
+    - kind: Secret
+      name: gotosocial-bucket-access-secret
+      valuesKey: COSI_S3_ACCESS_KEY_ID
       targetPath: gotosocial.storage.s3.accessKey
     - kind: Secret
-      name: gotosocial-secret
-      valuesKey: s3_secret_key
+      name: gotosocial-bucket-access-secret
+      valuesKey: COSI_S3_ACCESS_SECRET_KEY
       targetPath: gotosocial.storage.s3.secretKey

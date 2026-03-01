@@ -43,4 +43,4 @@ spec:
               - hosts:
                   - floof.fans
                   - social.floof.fans
-                secretName: server-tls
+                secretName: gotosocial-tls

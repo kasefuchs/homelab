@@ -22,6 +22,9 @@ spec:
             WOODPECKER_FORGEJO_URL: https://codeberg.org
             WOODPECKER_DATABASE_DRIVER: postgres
         - op: add
+          path: /spec/values/server/extraSecretNamesForEnvFrom
+          value: [woodpecker-secret]
+        - op: add
           path: /spec/values/server/ingress
           value:
             enabled: true
@@ -37,4 +40,14 @@ spec:
             tls:
               - hosts: 
                   - ci.kasefuchs.net
-                secretName: server-tls
+                secretName: woodpecker-tls
+        - op: add
+          path: /spec/values/agent/env
+          value:
+            WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
+            WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
+        - op: add
+          path: /spec/values/agent/persistence
+          value:
+            size: 128Mi
+            storageClass: longhorn-local

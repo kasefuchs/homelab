@@ -20,20 +20,12 @@ spec:
   values:
     agent:
       enabled: true
-      env:
-        WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
-        WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
-      persistence:
-        size: 128Mi
-        storageClass: longhorn-local
     server:
       enabled: true
       env:
         WOODPECKER_DATABASE_DRIVER: postgres
       persistentVolume:
         enabled: false
-      extraSecretNamesForEnvFrom:
-        - woodpecker-secret
   valuesFrom:
     - kind: Secret
       name: woodpecker-db-app
