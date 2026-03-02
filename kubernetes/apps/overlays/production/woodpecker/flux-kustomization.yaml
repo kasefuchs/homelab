@@ -9,6 +9,7 @@ spec:
   path: ./kubernetes/apps/overlays/production/woodpecker/kustomize
   wait: false
   prune: true
+  patches: []
   timeout: 5m
   retryInterval: 2m
   sourceRef:

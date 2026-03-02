@@ -9,6 +9,7 @@ spec:
   path: ./kubernetes/infrastructure/overlays/production/controllers/external-dns/kustomize
   wait: false
   prune: true
+  patches: []
   timeout: 5m
   retryInterval: 2m
   sourceRef:

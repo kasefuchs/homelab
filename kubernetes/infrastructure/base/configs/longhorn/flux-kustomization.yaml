@@ -9,6 +9,7 @@ spec:
   path: ./kubernetes/infrastructure/base/configs/longhorn/kustomize
   wait: false
   prune: true
+  patches: []
   timeout: 5m
   retryInterval: 2m
   targetNamespace: longhorn-system

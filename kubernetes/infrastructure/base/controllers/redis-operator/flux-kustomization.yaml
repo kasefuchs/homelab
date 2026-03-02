@@ -9,6 +9,7 @@ spec:
   path: ./kubernetes/infrastructure/base/controllers/redis-operator/kustomize
   wait: false
   prune: true
+  patches: []
   timeout: 5m
   retryInterval: 2m
   targetNamespace: ot-operators
