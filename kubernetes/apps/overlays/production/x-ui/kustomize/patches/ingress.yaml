@@ -52,7 +52,7 @@
                   - websecure
                 routes:
                   - services:
-                      - name: x-ui
+                      - name: x-ui-main
                         port: vless
                 tls:
                   passthrough: true

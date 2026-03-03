@@ -9,7 +9,7 @@
     # language="yaml"
     patch: |-
       - op: add
-        path: /spec/values/defaultPodOptions
+        path: /spec/values/controllers/main/pod
         value:
           nodeSelector:
             net.kasefuchs.homelab/region: cis

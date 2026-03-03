@@ -51,7 +51,7 @@ spec:
       main:
         enabled: true
         controller: main
-        type: LoadBalancer
+        type: ClusterIP
         ports:
           panel:
             enabled: true

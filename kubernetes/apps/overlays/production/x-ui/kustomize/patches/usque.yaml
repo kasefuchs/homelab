@@ -1,0 +1,54 @@
+---
+- op: add
+  path: /spec/patches/-
+  value:
+    target:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+      name: x-ui
+    # language="yaml"
+    patch: |-
+      - op: add
+        path: /spec/values/controllers/usque
+        value:
+          enabled: true
+          type: deployment
+          replicas: 1
+          pod:
+            nodeSelector:
+              net.kasefuchs.homelab/region: eu
+              net.kasefuchs.homelab/placement: cloud
+          containers:
+            main:
+              image:
+                repository: ghcr.io/kasefuchs/usque
+                tag: latest
+                pullPolicy: IfNotPresent
+              args:
+                - "-c"
+                - "/etc/usque/config.json"
+                - "socks"
+              ports:
+                - name: socks
+                  protocol: TCP
+                  containerPort: 1080
+      - op: add
+        path: /spec/values/service/usque
+        value:
+          enabled: true
+          controller: usque
+          type: ClusterIP
+          ports:
+            socks:
+              enabled: true
+              port: 1080
+      - op: add
+        path: /spec/values/persistence/usque
+        value:
+          enabled: true
+          type: secret
+          name: x-ui-usque-secret
+          advancedMounts:
+            usque:
+              main:
+                - path: /etc/usque/
