@@ -6,3 +6,6 @@ resources:
   - ../../../../base/woodpecker
 patches:
   - path: patches/flux-kustomization.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization

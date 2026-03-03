@@ -1,53 +1,49 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: woodpecker
-  namespace: flux-system
-spec:
-  patches:
-    - target:
-        group: helm.toolkit.fluxcd.io
-        kind: HelmRelease
-        name: woodpecker
-      # language="yaml"
-      patch: |-
-        - op: replace
-          path: /spec/values/server/env
-          value:
-            WOODPECKER_HOST: https://ci.kasefuchs.net
-            WOODPECKER_OPEN: "false"
-            WOODPECKER_ADMIN: kasefuchs
-            WOODPECKER_FORGEJO: "true"
-            WOODPECKER_FORGEJO_URL: https://codeberg.org
-            WOODPECKER_DATABASE_DRIVER: postgres
-        - op: add
-          path: /spec/values/server/extraSecretNamesForEnvFrom
-          value: [woodpecker-secret]
-        - op: add
-          path: /spec/values/server/ingress
-          value:
-            enabled: true
-            ingressClassName: traefik
-            annotations:
-              cert-manager.io/cluster-issuer: letsencrypt
-              external-dns.alpha.kubernetes.io/target: 85.208.85.159
-            hosts:
-              - host: ci.kasefuchs.net
-                paths:
-                  - path: /
-                    pathType: Prefix
-            tls:
-              - hosts: 
-                  - ci.kasefuchs.net
-                secretName: woodpecker-tls
-        - op: add
-          path: /spec/values/agent/env
-          value:
-            WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
-            WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
-        - op: add
-          path: /spec/values/agent/persistence
-          value:
-            size: 128Mi
-            storageClass: longhorn-local
+- op: add
+  path: /spec/patches/-
+  value:
+    target:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+      name: woodpecker
+    # language="yaml"
+    patch: |-
+      - op: replace
+        path: /spec/values/server/env
+        value:
+          WOODPECKER_HOST: https://ci.kasefuchs.net
+          WOODPECKER_OPEN: "false"
+          WOODPECKER_ADMIN: kasefuchs
+          WOODPECKER_FORGEJO: "true"
+          WOODPECKER_FORGEJO_URL: https://codeberg.org
+          WOODPECKER_DATABASE_DRIVER: postgres
+      - op: add
+        path: /spec/values/server/extraSecretNamesForEnvFrom
+        value: [woodpecker-secret]
+      - op: add
+        path: /spec/values/server/ingress
+        value:
+          enabled: true
+          ingressClassName: traefik
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt
+            external-dns.alpha.kubernetes.io/target: 85.208.85.159
+          hosts:
+            - host: ci.kasefuchs.net
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - hosts: 
+                - ci.kasefuchs.net
+              secretName: woodpecker-tls
+      - op: add
+        path: /spec/values/agent/env
+        value:
+          WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
+          WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
+      - op: add
+        path: /spec/values/agent/persistence
+        value:
+          size: 128Mi
+          storageClass: longhorn-local

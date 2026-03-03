@@ -5,3 +5,6 @@ resources:
   - ../../../../../base/games/gate-lite
 patches:
   - path: patches/flux-kustomization.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
