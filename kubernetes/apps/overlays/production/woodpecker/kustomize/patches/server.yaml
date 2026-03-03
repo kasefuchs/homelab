@@ -37,13 +37,3 @@
             - hosts: 
                 - ci.kasefuchs.net
               secretName: woodpecker-tls
-      - op: add
-        path: /spec/values/agent/env
-        value:
-          WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
-          WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
-      - op: add
-        path: /spec/values/agent/persistence
-        value:
-          size: 128Mi
-          storageClass: longhorn-local

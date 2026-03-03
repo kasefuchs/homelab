@@ -4,7 +4,11 @@ kind: Kustomization
 resources:
   - ../../../../base/gotosocial
 patches:
-  - path: patches/flux-kustomization.yaml
+  - path: patches/domain.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+  - path: patches/ingress.yaml
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization

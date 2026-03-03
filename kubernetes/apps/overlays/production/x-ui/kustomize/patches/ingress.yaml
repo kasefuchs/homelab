@@ -9,17 +9,6 @@
     # language="yaml"
     patch: |-
       - op: add
-        path: /spec/values/defaultPodOptions
-        value:
-          nodeSelector:
-            net.kasefuchs.homelab/region: cis
-            net.kasefuchs.homelab/placement: cloud
-      - op: add
-        path: /spec/values/service/main/ports/vless
-        value:
-          enabled: true
-          port: 8443
-      - op: add
         path: /spec/values/ingress
         value:
           main:
@@ -45,6 +34,11 @@
               - hosts:
                   - xui.kasefuchs.net
                 secretName: x-ui-tls
+      - op: add
+        path: /spec/values/service/main/ports/vless
+        value:
+          enabled: true
+          port: 8443
       - op: add
         path: /spec/values/rawResources
         value:

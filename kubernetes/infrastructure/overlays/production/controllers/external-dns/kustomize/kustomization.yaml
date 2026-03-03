@@ -5,7 +5,7 @@ resources:
   - resources/secret.yaml
   - ../../../../../base/controllers/external-dns
 patches:
-  - path: patches/flux-kustomization.yaml
+  - path: patches/provider.yaml
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization

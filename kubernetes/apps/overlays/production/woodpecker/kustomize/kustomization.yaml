@@ -5,7 +5,11 @@ resources:
   - resources/secret.yaml
   - ../../../../base/woodpecker
 patches:
-  - path: patches/flux-kustomization.yaml
+  - path: patches/agent.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+  - path: patches/server.yaml
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization

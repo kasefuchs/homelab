@@ -9,11 +9,6 @@
     # language="yaml"
     patch: |-
       - op: add
-        path: /spec/admin/adminTokenSecretRef
-        value:
-          name: garage-secret
-          key: garage_admin_token
-      - op: add
         path: /spec/storage
         value:
           data:

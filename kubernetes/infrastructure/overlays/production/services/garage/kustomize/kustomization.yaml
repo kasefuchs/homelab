@@ -5,7 +5,11 @@ resources:
   - resources/secret.yaml
   - ../../../../../base/services/garage
 patches:
-  - path: patches/flux-kustomization.yaml
+  - path: patches/admin.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+  - path: patches/storage.yaml
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization

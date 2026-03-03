@@ -8,12 +8,6 @@
       name: gotosocial
     # language="yaml"
     patch: |-
-      - op: replace
-        path: /spec/values/gotosocial/accountDomain
-        value: floof.fans
-      - op: replace
-        path: /spec/values/gotosocial/host
-        value: social.floof.fans
       - op: add
         path: /spec/values/ingress
         value:

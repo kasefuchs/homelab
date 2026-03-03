@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - ../../../../../base/configs/cert-manager
 patches:
-  - path: patches/flux-kustomization.yaml
+  - path: patches/letsencrypt.yaml
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization

@@ -1,0 +1,16 @@
+---
+- op: add
+  path: /spec/patches/-
+  value:
+    target:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+      name: x-ui
+    # language="yaml"
+    patch: |-
+      - op: add
+        path: /spec/values/defaultPodOptions
+        value:
+          nodeSelector:
+            net.kasefuchs.homelab/region: cis
+            net.kasefuchs.homelab/placement: cloud

@@ -20,8 +20,3 @@
               secretKeyRef:
                 name: external-dns-secret
                 key: cloudflare_api_token
-      - op: add
-        path: /spec/values/domainFilters
-        value:
-          - kasefuchs.net
-          - floof.fans

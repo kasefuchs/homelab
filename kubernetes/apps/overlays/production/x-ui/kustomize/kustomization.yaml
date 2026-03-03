@@ -5,7 +5,11 @@ resources:
   - resources/secret.yaml
   - ../../../../base/x-ui
 patches:
-  - path: patches/flux-kustomization.yaml
+  - path: patches/ingress.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+  - path: patches/placement.yaml
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
