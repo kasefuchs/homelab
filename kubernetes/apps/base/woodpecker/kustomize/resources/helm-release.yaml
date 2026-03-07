@@ -20,6 +20,7 @@ spec:
   values:
     agent:
       enabled: true
+      replicaCount: 1
     server:
       enabled: true
       env:
