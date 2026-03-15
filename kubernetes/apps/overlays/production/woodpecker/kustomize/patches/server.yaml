@@ -34,6 +34,6 @@
                 - path: /
                   pathType: Prefix
           tls:
-            - hosts: 
+            - hosts:
                 - ci.kasefuchs.net
               secretName: woodpecker-tls
