@@ -18,8 +18,5 @@ spec:
     name: garage-operator
     namespace: flux-system
   values:
-    image:
-      repository: ghcr.io/kasefuchs/garage-operator
-      tag: dev-7ea7dcc
     cosi:
       enabled: true
