@@ -6,8 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/clusters/production/namespaces
+  path: ./clusters/production/namespaces
   prune: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

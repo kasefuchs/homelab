@@ -6,12 +6,12 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/base/controllers/cosi/kustomize
+  path: ./infrastructure/base/controllers/cosi/kustomize
   wait: false
   prune: true
   patches: []
   timeout: 5m
   retryInterval: 2m
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

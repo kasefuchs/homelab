@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/base/controllers/redis-operator/kustomize
+  path: ./infrastructure/base/controllers/redis-operator/kustomize
   wait: false
   prune: true
   patches: []
@@ -14,5 +14,5 @@ spec:
   retryInterval: 2m
   targetNamespace: ot-operators
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

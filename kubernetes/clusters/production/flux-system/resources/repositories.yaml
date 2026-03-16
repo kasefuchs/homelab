@@ -6,11 +6,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/repositories
+  path: ./repositories
   prune: true
   targetNamespace: flux-system
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
   dependsOn:
     - name: namespaces

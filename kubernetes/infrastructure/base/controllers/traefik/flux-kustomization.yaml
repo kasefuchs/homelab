@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/base/controllers/traefik/kustomize
+  path: ./infrastructure/base/controllers/traefik/kustomize
   wait: false
   prune: true
   patches: []
@@ -14,5 +14,5 @@ spec:
   retryInterval: 2m
   targetNamespace: traefik
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

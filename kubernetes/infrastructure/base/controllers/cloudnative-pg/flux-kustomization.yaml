@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/base/controllers/cloudnative-pg/kustomize
+  path: ./infrastructure/base/controllers/cloudnative-pg/kustomize
   wait: false
   prune: true
   patches: []
@@ -14,5 +14,5 @@ spec:
   retryInterval: 2m
   targetNamespace: cnpg-system
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/apps/base/gotosocial/kustomize
+  path: ./apps/base/gotosocial/kustomize
   wait: false
   prune: true
   patches: []
@@ -14,5 +14,5 @@ spec:
   retryInterval: 2m
   targetNamespace: gotosocial
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

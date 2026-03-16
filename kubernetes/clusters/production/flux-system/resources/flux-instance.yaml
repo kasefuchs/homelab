@@ -24,7 +24,8 @@ spec:
     multitenant: false
     networkPolicy: true
   sync:
-    kind: GitRepository
-    url: https://codeberg.org/kasefuchs/homelab.git
-    ref: refs/heads/main
-    path: kubernetes/clusters/production
+    kind: OCIRepository
+    url: oci://codeberg.org/kasefuchs/homelab/flux
+    ref: latest
+    path: clusters/production/flux-system
+    interval: 1h

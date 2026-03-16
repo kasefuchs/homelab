@@ -6,12 +6,12 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/apps/overlays/production/x-ui/kustomize
+  path: ./apps/overlays/production/x-ui/kustomize
   wait: false
   prune: true
   patches: []
   timeout: 5m
   retryInterval: 2m
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

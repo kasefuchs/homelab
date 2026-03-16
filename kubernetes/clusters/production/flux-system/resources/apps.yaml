@@ -6,10 +6,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/apps/overlays/production
+  path: ./apps/overlays/production
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
   dependsOn:
     - name: namespaces

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/base/controllers/external-dns/kustomize
+  path: ./infrastructure/base/controllers/external-dns/kustomize
   wait: false
   prune: true
   patches: []
@@ -14,5 +14,5 @@ spec:
   retryInterval: 2m
   targetNamespace: external-dns
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/infrastructure/base/controllers/garage-operator/kustomize
+  path: ./infrastructure/base/controllers/garage-operator/kustomize
   wait: false
   prune: true
   patches: []
@@ -14,7 +14,7 @@ spec:
   retryInterval: 2m
   targetNamespace: garage-operator-system
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
   dependsOn:
     - name: cosi-controller
