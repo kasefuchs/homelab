@@ -11,7 +11,7 @@
       - op: add
         path: /spec/values/agent/env
         value:
-          WOODPECKER_MAX_WORKFLOWS: 3
+          WOODPECKER_MAX_WORKFLOWS: "5"
           WOODPECKER_BACKEND_K8S_VOLUME_SIZE: 5Gi
           WOODPECKER_BACKEND_K8S_STORAGE_CLASS: longhorn-local
           WOODPECKER_BACKEND_K8S_POD_NODE_SELECTOR: |-
