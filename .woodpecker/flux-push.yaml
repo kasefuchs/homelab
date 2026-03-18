@@ -5,7 +5,7 @@ when:
     path:
       include:
         - .woodpecker/flux-push.yaml
-        - kubernetes/**
+        - flux/**
 
 steps:
   - name: build
@@ -17,7 +17,7 @@ steps:
       # language="sh"
       - >-
         flux push artifact "oci://codeberg.org/${CI_REPO}/flux"
-        --path="kubernetes/"
+        --path="flux/"
         --creds="${CI_REPO_OWNER}:$${CODEBERG_API_TOKEN}"
         --source="${CI_REPO_CLONE_URL}"
         --revision="${CI_COMMIT_BRANCH}@sha1:${CI_COMMIT_SHA}"
