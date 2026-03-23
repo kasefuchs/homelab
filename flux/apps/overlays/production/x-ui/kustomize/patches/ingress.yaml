@@ -35,14 +35,14 @@
                   - xui.kasefuchs.net
                 secretName: x-ui-tls
       - op: add
-        path: /spec/values/service/main/ports/vless
+        path: /spec/values/service/main/ports/reality
         value:
           enabled: true
           port: 8443
       - op: add
         path: /spec/values/rawResources
         value:
-          vless-route:
+          reality-route:
             enabled: true
             apiVersion: traefik.io/v1alpha1
             kind: IngressRouteTCP
@@ -53,7 +53,7 @@
                 routes:
                   - services:
                       - name: x-ui-main
-                        port: vless
+                        port: reality
                 tls:
                   passthrough: true
       - op: add
@@ -61,5 +61,5 @@
         value:
           - kind: Secret
             name: x-ui-secret
-            valuesKey: vless_route_match
-            targetPath: rawResources.vless-route.spec.spec.routes[0].match
+            valuesKey: reality_route_match
+            targetPath: rawResources.reality-route.spec.spec.routes[0].match
