@@ -25,3 +25,4 @@ spec:
   values:
     featureGates:
       GenerateConfigInInitContainer: true
+  valuesFrom: []

@@ -57,9 +57,9 @@
                 tls:
                   passthrough: true
       - op: add
-        path: /spec/valuesFrom
+        path: /spec/valuesFrom/-
         value:
-          - kind: Secret
-            name: x-ui-secret
-            valuesKey: reality_route_match
-            targetPath: rawResources.reality-route.spec.spec.routes[0].match
+          kind: Secret
+          name: x-ui-secret
+          valuesKey: reality_route_match
+          targetPath: rawResources.reality-route.spec.spec.routes[0].match

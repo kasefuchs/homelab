@@ -42,3 +42,4 @@ spec:
               permanent: true
       websecure:
         asDefault: true
+  valuesFrom: []

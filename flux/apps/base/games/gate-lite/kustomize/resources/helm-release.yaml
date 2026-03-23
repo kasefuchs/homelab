@@ -70,3 +70,4 @@ spec:
             port: 25565
             nodePort: 32565
             targetPort: minecraft
+  valuesFrom: []

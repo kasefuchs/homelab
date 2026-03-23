@@ -20,3 +20,4 @@ spec:
   values:
     cosi:
       enabled: true
+  valuesFrom: []

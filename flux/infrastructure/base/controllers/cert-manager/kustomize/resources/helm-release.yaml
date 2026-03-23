@@ -25,3 +25,4 @@ spec:
   values:
     crds:
       enabled: true
+  valuesFrom: []
