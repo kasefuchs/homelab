@@ -30,6 +30,15 @@
                     service:
                       identifier: s-ui
                       port: subscription
+              - host: xui.kasefuchs.net
+                paths:
+                  - path: /sub/
+                    pathType: Prefix
+                    service:
+                      identifier: s-ui
+                      port: subscription
             tls:
-              - hosts: [sui.kasefuchs.net]
+              - hosts:
+                  - sui.kasefuchs.net
+                  - xui.kasefuchs.net
                 secretName: s-ui-tls
