@@ -11,6 +11,7 @@ resources:
   - resources/garage-operator-system.yaml
   - resources/gotosocial.yaml
   - resources/longhorn-system.yaml
+  - resources/s-ui.yaml
   - resources/ot-operators.yaml
   - resources/traefik.yaml
   - resources/woodpecker.yaml
