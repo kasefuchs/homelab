@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - resources/cloudnative-pg.yaml
   - resources/external-dns.yaml
-  - resources/external-secrets.yaml
   - resources/jetstack.yaml
   - resources/longhorn.yaml
   - resources/opstree.yaml

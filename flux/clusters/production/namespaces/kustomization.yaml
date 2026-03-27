@@ -5,7 +5,6 @@ resources:
   - resources/cert-manager.yaml
   - resources/cnpg-system.yaml
   - resources/external-dns.yaml
-  - resources/external-secrets.yaml
   - resources/games.yaml
   - resources/garage.yaml
   - resources/garage-operator-system.yaml
@@ -15,4 +14,3 @@ resources:
   - resources/ot-operators.yaml
   - resources/traefik.yaml
   - resources/woodpecker.yaml
-  - resources/x-ui.yaml
