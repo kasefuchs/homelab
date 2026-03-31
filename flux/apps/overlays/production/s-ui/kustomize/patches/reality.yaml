@@ -12,7 +12,7 @@
         path: /spec/values/service/s-ui/ports/reality
         value:
           enabled: true
-          port: 443
+          port: 2087
       - op: add
         path: /spec/values/rawResources
         value:

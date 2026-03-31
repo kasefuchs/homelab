@@ -15,7 +15,7 @@
           controller: s-ui
           type: NodePort
           ports:
-            shadowsocks-udp:
+            turn:
               enabled: true
               protocol: UDP
-              port: 8388
+              port: 2096
