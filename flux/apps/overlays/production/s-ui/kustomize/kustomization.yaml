@@ -22,3 +22,7 @@ patches:
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
+  - path: patches/inbound.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
