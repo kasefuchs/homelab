@@ -23,7 +23,7 @@
               image:
                 repository: ghcr.io/kasefuchs/usque
                 tag: latest
-                pullPolicy: IfNotPresent
+                pullPolicy: Always
               args:
                 - "-c"
                 - "/etc/usque/config.json"

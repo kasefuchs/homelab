@@ -28,7 +28,7 @@ spec:
             image:
               repository: ghcr.io/minekube/gate
               tag: latest
-              pullPolicy: IfNotPresent
+              pullPolicy: Always
             ports:
               - name: minecraft
                 containerPort: 25565

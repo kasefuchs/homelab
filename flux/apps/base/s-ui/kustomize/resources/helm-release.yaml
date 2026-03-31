@@ -30,7 +30,7 @@ spec:
             image:
               repository: ghcr.io/alireza0/s-ui
               tag: latest
-              pullPolicy: IfNotPresent
+              pullPolicy: Always
             ports:
               - name: panel
                 protocol: TCP
