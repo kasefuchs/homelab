@@ -16,6 +16,7 @@
           WOODPECKER_ADMIN: kasefuchs
           WOODPECKER_FORGEJO: "true"
           WOODPECKER_FORGEJO_URL: https://codeberg.org
+          WOODPECKER_FORGE_TIMEOUT: 30s
           WOODPECKER_DATABASE_DRIVER: postgres
       - op: add
         path: /spec/values/server/extraSecretNamesForEnvFrom
