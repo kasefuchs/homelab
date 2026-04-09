@@ -1,0 +1,13 @@
+[project]
+name = "homelab"
+version = "0.0.0"
+requires-python = ">=3.12"
+
+license = "MIT"
+description = "Setup scripts for configuring and managing my homelab cluster"
+
+authors = [
+  { name = "Kasefuchs", email = "kasefuchs@protonmail.com" }
+]
+
+dependencies = []

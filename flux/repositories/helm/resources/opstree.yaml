@@ -1,8 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: opstree
-spec:
-  interval: 1h
-  url: https://ot-container-kit.github.io/helm-charts/
