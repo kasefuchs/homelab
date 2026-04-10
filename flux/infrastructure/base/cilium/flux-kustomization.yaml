@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cilium
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./infrastructure/base/cilium/kustomize
+  wait: false
+  prune: true
+  patches: []
+  timeout: 5m
+  retryInterval: 2m
+  targetNamespace: kube-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system

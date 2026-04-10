@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  values:
+    kubeProxyReplacement: true
+    k8sServiceHost: 172.18.0.4
+    k8sServicePort: 6443
