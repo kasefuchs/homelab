@@ -1,0 +1,35 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: 2.7.x
+    registry: ghcr.io/fluxcd
+    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+  cluster:
+    type: kubernetes
+    size: small
+    domain: cluster.local
+    multitenant: false
+    networkPolicy: true
+  sync:
+    kind: OCIRepository
+    url: oci://kind-registry:5000/kasefuchs/homelab/flux
+    ref: latest
+    path: ./clusters/kindest
+    interval: 1m
+  kustomize:
+    patches:
+      - # language="yaml"
+        patch: |-
+          - op: add
+            path: /spec/insecure
+            value: true
+        target:
+          kind: OCIRepository
