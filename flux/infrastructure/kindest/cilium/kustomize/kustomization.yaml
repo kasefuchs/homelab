@@ -5,3 +5,4 @@ resources:
 patches:
   - path: ./patches/kube-proxy.yaml
   - path: ./patches/hubble.yaml
+  - path: ./patches/replicas.yaml

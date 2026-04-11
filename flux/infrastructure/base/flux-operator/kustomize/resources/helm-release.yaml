@@ -19,4 +19,4 @@ spec:
     namespace: flux-system
   values:
     reporting:
-      interval: 45s
+      interval: 1m

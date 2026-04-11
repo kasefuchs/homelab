@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - ./resources/cilium.yaml
   - ./resources/flux-operator.yaml
+  - ./resources/traefik.yaml
