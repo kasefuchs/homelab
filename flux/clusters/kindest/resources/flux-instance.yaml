@@ -22,7 +22,7 @@ spec:
     kind: OCIRepository
     url: oci://kind-registry:5000/kasefuchs/homelab/flux
     ref: latest
-    path: ./clusters/kindest
+    path: clusters/kindest
     interval: 1m
   kustomize:
     patches:

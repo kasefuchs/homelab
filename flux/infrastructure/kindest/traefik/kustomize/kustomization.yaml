@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../../../base/traefik/kustomize
 patches:
-  - path: ./patches/service.yaml
+  - path: patches/service.yaml

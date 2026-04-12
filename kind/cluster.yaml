@@ -5,7 +5,7 @@ nodes:
   - role: control-plane
     extraMounts:
       - &containerd-certs-mount
-        hostPath: ./rootfs/etc/containerd/certs.d
+        hostPath: rootfs/etc/containerd/certs.d
         containerPath: /etc/containerd/certs.d
         readOnly: true
   - role: worker

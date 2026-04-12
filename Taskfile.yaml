@@ -1,8 +1,8 @@
 version: 3
 includes:
   flux:
-    dir: ./flux
-    taskfile: ./flux/Taskfile.yaml
+    dir: flux
+    taskfile: flux/Taskfile.yaml
   kind:
-    dir: ./kind
-    taskfile: ./kind/Taskfile.yaml
+    dir: kind
+    taskfile: kind/Taskfile.yaml

@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: ./infrastructure/kindest/cilium/kustomize
+        value: infrastructure/kindest/cilium/kustomize

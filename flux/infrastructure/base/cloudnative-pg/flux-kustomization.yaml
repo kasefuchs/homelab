@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./infrastructure/base/cloudnative-pg/kustomize
+  path: infrastructure/base/cloudnative-pg/kustomize
   wait: false
   prune: true
   timeout: 5m

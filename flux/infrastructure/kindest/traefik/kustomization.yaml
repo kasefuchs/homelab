@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: ./infrastructure/kindest/traefik/kustomize
+        value: infrastructure/kindest/traefik/kustomize

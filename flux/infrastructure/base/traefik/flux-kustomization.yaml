@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./infrastructure/base/traefik/kustomize
+  path: infrastructure/base/traefik/kustomize
   wait: false
   prune: true
   timeout: 5m

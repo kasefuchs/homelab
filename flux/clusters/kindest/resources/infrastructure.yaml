@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./infrastructure/kindest
+  path: infrastructure/kindest
   prune: true
   sourceRef:
     kind: OCIRepository
