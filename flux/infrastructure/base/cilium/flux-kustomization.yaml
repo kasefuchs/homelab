@@ -10,7 +10,7 @@ spec:
   prune: true
   timeout: 5m
   retryInterval: 2m
-  targetNamespace: kube-system
+  targetNamespace: cilium-system
   sourceRef:
     kind: OCIRepository
     name: flux-system

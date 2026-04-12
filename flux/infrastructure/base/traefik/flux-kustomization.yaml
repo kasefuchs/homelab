@@ -10,7 +10,7 @@ spec:
   prune: true
   timeout: 5m
   retryInterval: 2m
-  targetNamespace: flux-system
+  targetNamespace: traefik
   sourceRef:
     kind: OCIRepository
     name: flux-system
