@@ -1,16 +1,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium
+  name: cloudnative-pg
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./infrastructure/base/cilium/kustomize
+  path: ./infrastructure/base/cloudnative-pg/kustomize
   wait: false
   prune: true
   timeout: 5m
   retryInterval: 2m
-  targetNamespace: kube-system
+  targetNamespace: cnpg-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
+  dependsOn:
+    - name: cert-manager
