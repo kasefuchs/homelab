@@ -16,4 +16,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cloudnative-pg
-    namespace: flux-system

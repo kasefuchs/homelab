@@ -16,4 +16,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: traefik
-    namespace: flux-system

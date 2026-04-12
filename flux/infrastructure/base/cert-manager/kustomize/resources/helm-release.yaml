@@ -16,7 +16,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cert-manager
-    namespace: flux-system
   values:
     crds:
       enabled: true

@@ -16,7 +16,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: flux-operator
-    namespace: flux-system
   values:
     reporting:
       interval: 1m
