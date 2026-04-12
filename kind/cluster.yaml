@@ -4,9 +4,14 @@ name: homelab
 nodes:
   - role: control-plane
     extraMounts:
-      - hostPath: ./rootfs/etc/containerd/certs.d
+      - &containerd-certs-mount
+        hostPath: ./rootfs/etc/containerd/certs.d
         containerPath: /etc/containerd/certs.d
         readOnly: true
+  - role: worker
+    extraMounts: [*containerd-certs-mount]
+  - role: worker
+    extraMounts: [*containerd-certs-mount]
 networking:
   ipFamily: dual
   kubeProxyMode: none
