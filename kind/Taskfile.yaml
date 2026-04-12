@@ -1,0 +1,12 @@
+version: 3
+tasks:
+  up:
+    # language="sh"
+    cmds:
+      - docker compose up -d
+      - kind create cluster --config ./cluster.yaml
+  down:
+    # language="sh"
+    cmds:
+      - kind delete cluster --name homelab
+      - docker compose down
