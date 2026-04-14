@@ -1,6 +1,6 @@
 version: 3
 tasks:
-  push-artifact:
+  push:
     vars:
       SOURCE:
         sh: git config --get remote.origin.url
@@ -8,6 +8,6 @@ tasks:
         sh: git rev-parse --abbrev-ref HEAD
       REVISION:
         sh: git rev-parse HEAD
-    cmd: flux push artifact oci://localhost:5001/kasefuchs/homelab/flux --path=./ --source="{{.SOURCE}}" --revision="{{.BRANCH}}@sha1:{{.REVISION}}"
+    cmd: flux push artifact oci://localhost:5001/kasefuchs/homelab/flux --path=. --source="{{.SOURCE}}" --revision="{{.BRANCH}}@sha1:{{.REVISION}}"
   reconcile:
     cmd: flux reconcile source oci flux-system

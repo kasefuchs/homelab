@@ -1,0 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cosi
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: infrastructure/base/cosi/kustomize
+  wait: false
+  prune: true
+  timeout: 5m
+  retryInterval: 2m
+  targetNamespace: container-object-storage-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system

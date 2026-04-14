@@ -5,5 +5,5 @@ metadata:
 spec:
   values:
     kubeProxyReplacement: true
-    k8sServiceHost: 172.18.0.5
+    k8sServiceHost: 172.18.0.4
     k8sServicePort: 6443
