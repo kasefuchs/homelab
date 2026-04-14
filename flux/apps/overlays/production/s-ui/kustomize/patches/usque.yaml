@@ -22,16 +22,32 @@
             main:
               image:
                 repository: ghcr.io/kasefuchs/usque
-                tag: latest
-                pullPolicy: Always
+                tag: v2.0.1
+                pullPolicy: IfNotPresent
               args:
-                - "-c"
-                - "/etc/usque/config.json"
-                - "socks"
+                - -c
+                - /etc/usque/config.json
+                - socks
+                - --always-reconnect
+                - --local-dns
               ports:
                 - name: socks
                   protocol: TCP
                   containerPort: 1080
+              probes:
+                liveness:
+                  enabled: true
+                  custom: true
+                  spec:
+                    exec:
+                      command:
+                        - /bin/sh
+                        - -c
+                        - "curl -x socks5h://127.0.0.1:1080 -fsS --max-time 5 https://www.google.com/generate_204"
+                    initialDelaySeconds: 10
+                    periodSeconds: 30
+                    timeoutSeconds: 5
+                    failureThreshold: 3
       - op: add
         path: /spec/values/service/usque
         value:
