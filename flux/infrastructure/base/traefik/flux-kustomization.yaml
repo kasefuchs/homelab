@@ -4,11 +4,11 @@ metadata:
   name: traefik
   namespace: flux-system
 spec:
-  interval: 1h
   path: infrastructure/base/traefik/kustomize
   wait: false
   prune: true
   timeout: 5m
+  interval: 1h
   retryInterval: 2m
   targetNamespace: traefik
   sourceRef:

@@ -3,13 +3,12 @@ kind: Kustomization
 metadata:
   name: cosi
 spec:
-  interval: 1h
   path: .
   wait: false
   prune: true
   timeout: 5m
+  interval: 1h
   retryInterval: 2m
-  targetNamespace: container-object-storage-system
   sourceRef:
     kind: GitRepository
     name: cosi
