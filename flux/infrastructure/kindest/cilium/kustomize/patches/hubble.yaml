@@ -5,7 +5,14 @@ metadata:
 spec:
   values:
     hubble:
-      ui:
-        enabled: true
       relay:
         enabled: true
+      ui:
+        enabled: true
+        ingress:
+          enabled: true
+          className: traefik
+          annotations:
+            external-dns.alpha.kubernetes.io/hostname: traefik.kind.local
+          hosts:
+            - hubble.kind.local

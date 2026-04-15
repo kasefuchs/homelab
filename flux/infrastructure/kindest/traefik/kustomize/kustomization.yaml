@@ -4,3 +4,5 @@ resources:
   - ../../../base/traefik/kustomize
 patches:
   - path: patches/service.yaml
+  - path: patches/ports.yaml
+  - path: patches/dashboard.yaml

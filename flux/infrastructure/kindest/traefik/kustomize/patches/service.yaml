@@ -6,4 +6,4 @@ spec:
   values:
     service:
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: "traefik.kind.local"
+        external-dns.alpha.kubernetes.io/hostname: traefik.kind.local
