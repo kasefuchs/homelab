@@ -1,8 +1,7 @@
 version: 3
 vars:
-  CLUSTER_NAME: homelab
   NODES:
-    sh: kind get nodes --name {{.CLUSTER_NAME}}
+    sh: kind get nodes --name homelab
 tasks:
   up:
     cmds:
@@ -10,7 +9,7 @@ tasks:
       - kind create cluster --config cluster.yaml
   down:
     cmds:
-      - kind delete cluster --name {{.CLUSTER_NAME}}
+      - kind delete cluster --name homelab
       - docker compose down
   pause:
     ignore_error: true

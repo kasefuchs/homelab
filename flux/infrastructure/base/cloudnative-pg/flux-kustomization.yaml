@@ -15,4 +15,5 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
+    - name: cilium
     - name: cert-manager
