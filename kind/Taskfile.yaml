@@ -1,25 +1,27 @@
 version: 3
+includes:
+  docker:
+    taskfile: docker/Taskfile.yaml
+    dir: docker
 vars:
   NODES:
     sh: kind get nodes --name homelab
 tasks:
   up:
-    cmds:
-      - docker compose up -d
-      - kind create cluster --config cluster.yaml
+    deps: ["docker:up"]
+    cmd: kind create cluster --config cluster.yaml
   down:
-    cmds:
-      - kind delete cluster --name homelab
-      - docker compose down
+    deps: ["docker:down"]
+    cmd: kind delete cluster --name homelab
   pause:
     ignore_error: true
-    cmds:
-      - for: {var: NODES}
-        cmd: docker pause {{.ITEM}}
-      - docker compose pause
+    deps: ["docker:pause"]
+    cmd:
+      for: {var: NODES}
+      cmd: docker pause {{.ITEM}}
   unpause:
     ignore_error: true
-    cmds:
-      - docker compose unpause
-      - for: {var: NODES}
-        cmd: docker unpause {{.ITEM}}
+    deps: ["docker:unpause"]
+    cmd:
+      for: {var: NODES}
+      cmd: docker unpause {{.ITEM}}

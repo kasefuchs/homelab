@@ -1,0 +1,14 @@
+version: 3
+tasks:
+  up:
+    cmd: docker compose up -d
+  down:
+    cmd: docker compose down
+  build:
+    cmd: docker compose build
+  pause:
+    ignore_error: true
+    cmd: docker compose pause
+  unpause:
+    ignore_error: true
+    cmd: docker compose unpause
