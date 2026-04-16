@@ -4,5 +4,4 @@ metadata:
   name: external-dns
 spec:
   values:
-    domainFilters:
-      - kind.local
+    domainFilters: [kind.local]
