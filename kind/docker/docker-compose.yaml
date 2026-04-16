@@ -5,6 +5,16 @@ services:
     container_name: homelab-registry
     networks: [kind]
     ports: ["5001:5000"]
+  registry-proxy:
+    build: {context: "https://github.com/rpardini/docker-registry-proxy.git"}
+    restart: unless-stopped
+    container_name: homelab-registry-proxy
+    networks: [kind]
+    volumes:
+      - "registry-proxy-cache:/docker_mirror_cache"
+      - "registry-proxy-certs:/ca"
+    environment:
+      ENABLE_MANIFEST_CACHE: true
   dns-init:
     build: {context: dns-init}
     restart: on-failure
@@ -26,3 +36,5 @@ networks:
     external: true
 volumes:
   dns-data: {}
+  registry-proxy-cache: {}
+  registry-proxy-certs: {}
