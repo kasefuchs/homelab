@@ -1,8 +1,8 @@
 $TTL 86400
-@   IN  SOA kind-dns. admin.kind.local. (
+@   IN  SOA homelab-dns. admin.homelab.local. (
             2026010101 ; serial
             3600       ; refresh
             1800       ; retry
             604800     ; expire
             86400 )    ; minimum
-    IN  NS kind-dns.
+    IN  NS homelab-dns.

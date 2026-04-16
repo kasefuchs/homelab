@@ -2,13 +2,13 @@ services:
   registry:
     image: registry:2
     restart: unless-stopped
-    container_name: kind-registry
+    container_name: homelab-registry
     networks: [kind]
     ports: ["5001:5000"]
   dns-init:
     build: {context: dns-init}
     restart: on-failure
-    container_name: kind-dns-init
+    container_name: homelab-dns-init
     network_mode: none
     volumes: ["dns-data:/var/lib/bind"]
   dns:
@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
     depends_on:
       dns-init: {condition: service_completed_successfully}
-    container_name: kind-dns
+    container_name: homelab-dns
     networks: [kind]
     ports: ["8053:53/udp", "8053:53/tcp"]
     volumes: ["dns-data:/var/lib/bind"]

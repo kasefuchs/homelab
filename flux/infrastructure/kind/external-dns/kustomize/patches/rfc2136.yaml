@@ -7,8 +7,8 @@ spec:
     provider:
       name: rfc2136
     extraArgs:
-      - --rfc2136-host=kind-dns
+      - --rfc2136-host=homelab-dns
       - --rfc2136-port=53
-      - --rfc2136-zone=kind.local
+      - --rfc2136-zone=homelab.local
       - --rfc2136-insecure
       - --rfc2136-tsig-axfr

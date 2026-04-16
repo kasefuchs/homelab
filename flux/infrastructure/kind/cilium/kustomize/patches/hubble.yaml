@@ -13,6 +13,6 @@ spec:
           enabled: true
           className: traefik
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: traefik.kind.local
+            external-dns.alpha.kubernetes.io/hostname: traefik.homelab.local
           hosts:
-            - hubble.kind.local
+            - hubble.homelab.local

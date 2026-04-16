@@ -9,9 +9,9 @@ spec:
         enabled: true
         className: traefik
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: traefik.kind.local
+          external-dns.alpha.kubernetes.io/hostname: traefik.homelab.local
         hosts:
-          - host: flux.kind.local
+          - host: flux.homelab.local
             paths:
               - path: /
                 pathType: Prefix

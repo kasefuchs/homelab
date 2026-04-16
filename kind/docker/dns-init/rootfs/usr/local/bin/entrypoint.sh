@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 set -e
 
-if [ ! -f /var/lib/bind/db.kind.local ]; then
-    cp -n /templates/db.kind.local /var/lib/bind/db.kind.local
+if [ ! -f /var/lib/bind/db.homelab.local ]; then
+    cp -n /templates/db.homelab.local /var/lib/bind/db.homelab.local
 fi
 
 chown -R 53:53 /var/lib/bind
