@@ -1,0 +1,22 @@
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  replicas: 3
+  replication:
+    factor: 3
+  storage:
+    metadata:
+      size: 10Gi
+    data:
+      size: 100Gi
+  admin:
+    enabled: true
+    adminTokenSecretRef:
+      name: garage-secret
+      key: admin-token
+  network:
+    rpcSecretRef:
+      name: garage-secret
+      key: rpc-secret

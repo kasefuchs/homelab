@@ -1,0 +1,8 @@
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  replicas: 1
+  replication:
+    factor: 1

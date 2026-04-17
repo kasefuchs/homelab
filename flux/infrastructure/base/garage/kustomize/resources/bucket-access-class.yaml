@@ -1,0 +1,10 @@
+apiVersion: objectstorage.k8s.io/v1alpha2
+kind: BucketAccessClass
+metadata:
+  name: garage-readwrite
+spec:
+  driverName: garage.rajsingh.info
+  authenticationType: Key
+  parameters:
+    clusterRef: garage
+    clusterNamespace: garage
