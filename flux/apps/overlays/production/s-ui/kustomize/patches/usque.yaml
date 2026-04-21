@@ -29,7 +29,6 @@
                 - /etc/usque/config.json
                 - socks
                 - --always-reconnect
-                - --local-dns
               ports:
                 - name: socks
                   protocol: TCP
