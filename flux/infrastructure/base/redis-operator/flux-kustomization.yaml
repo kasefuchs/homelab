@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: redis-operator
+  namespace: flux-system
+spec:
+  path: infrastructure/base/redis-operator/kustomize
+  wait: false
+  prune: true
+  timeout: 5m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: ot-operators
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: cilium
+    - name: cert-manager

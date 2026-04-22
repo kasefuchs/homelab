@@ -1,3 +1,4 @@
+name: homelab
 services:
   registry:
     image: registry:2

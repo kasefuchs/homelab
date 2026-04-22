@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: redis-operator
+spec:
+  interval: 1h
+  url: oci://ghcr.io/ot-container-kit/charts/redis-operator
+  ref:
+    semver: "0.24.*"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
