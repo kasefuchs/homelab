@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: garage
 spec:
-  ingressClassName: traefik
   rules:
     - host: "*.web.garage.example.com"
       http:

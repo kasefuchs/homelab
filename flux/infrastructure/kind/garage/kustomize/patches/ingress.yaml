@@ -2,5 +2,5 @@
   path: /spec/rules/0/host
   value: "*.web.garage.homelab.local"
 - op: add
-  path: /metadata/annotations/external-dns.alpha.kubernetes.io~1hostname
-  value: traefik.homelab.local
+  path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+  value: ingress.homelab.local

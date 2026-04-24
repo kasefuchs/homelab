@@ -11,8 +11,7 @@ spec:
         enabled: true
         ingress:
           enabled: true
-          className: traefik
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: traefik.homelab.local
+            external-dns.alpha.kubernetes.io/target: ingress.homelab.local
           hosts:
             - hubble.homelab.local

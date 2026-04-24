@@ -7,9 +7,8 @@ spec:
     web:
       ingress:
         enabled: true
-        className: traefik
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: traefik.homelab.local
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.local
         hosts:
           - host: flux.homelab.local
             paths:
