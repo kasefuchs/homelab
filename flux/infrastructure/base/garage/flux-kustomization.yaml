@@ -16,4 +16,5 @@ spec:
     name: flux-system
   dependsOn:
     - name: cilium
+    - name: traefik
     - name: garage-operator

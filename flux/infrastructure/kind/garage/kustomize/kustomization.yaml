@@ -6,3 +6,8 @@ resources:
 patches:
   - path: patches/replication.yaml
   - path: patches/storage.yaml
+  - path: patches/ingress.yaml
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: garage

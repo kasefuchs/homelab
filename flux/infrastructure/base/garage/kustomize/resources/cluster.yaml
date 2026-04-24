@@ -11,8 +11,9 @@ spec:
       size: 10Gi
     data:
       size: 100Gi
+  webApi:
+    rootDomain: .web.garage.example.com
   admin:
-    enabled: true
     adminTokenSecretRef:
       name: garage-secret
       key: admin-token
