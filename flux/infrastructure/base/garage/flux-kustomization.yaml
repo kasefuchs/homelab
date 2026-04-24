@@ -17,4 +17,3 @@ spec:
   dependsOn:
     - name: cilium
     - name: garage-operator
-    - name: cosi

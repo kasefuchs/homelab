@@ -17,7 +17,5 @@ spec:
     kind: OCIRepository
     name: garage-operator
   values:
-    cosi:
-      enabled: true
     webhooks:
       enabled: true
