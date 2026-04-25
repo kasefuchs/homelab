@@ -1,0 +1,7 @@
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  webApi:
+    rootDomain: .web.garage.homelab.local

@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iceshrimp
+spec:
+  values:
+    controllers:
+      main:
+        initContainers:
+          config:
+            env:
+              ICESHRIMP_S3_ACCESS_URL: http://iceshrimp.web.garage.homelab.local/
+              ICESHRIMP_WEB_DOMAIN: shrimp.homelab.local
+              ICESHRIMP_ACCOUNT_DOMAIN: shrimp.homelab.local

@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: iceshrimp-db
+spec:
+  storage:
+    size: 1Gi
+---
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageBucket
+metadata:
+  name: iceshrimp-garage-bucket
+spec:
+  quotas:
+    maxSize: 1Gi

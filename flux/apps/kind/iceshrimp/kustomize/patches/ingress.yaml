@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iceshrimp
+spec:
+  values:
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+        hosts:
+          - host: shrimp.homelab.local
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: 3000

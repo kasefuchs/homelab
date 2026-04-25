@@ -1,0 +1,347 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: iceshrimp-config
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+data:
+  configuration.ini: |-
+    [Instance]
+    ListenPort = 3000
+    ListenHost = 0.0.0.0
+
+    ;; If you want to have the application listen on a unix socket instead, uncomment the line below. Make sure to configure filesystem permissions correctly!
+    ;;ListenSocket = /var/run/iceshrimp/iceshrimp.net.sock
+    ;;ListenSocketPerms = 660
+
+    ;; Caution: changing these settings after initial setup *will* break federation
+    WebDomain = {{ .Env.ICESHRIMP_WEB_DOMAIN }}
+    AccountDomain = {{ .Env.ICESHRIMP_ACCOUNT_DOMAIN }}
+    ;; End of problematic settings block
+
+    ;; Additional domains this instance allows API access from, separated by commas.
+    ;; Certain frontends such as Akkoma-FE may require reverse proxy configurations that send requests through the frontend domain.
+    ;; By default, such requests would be blocked in the production environment. This option allows you to permit them.
+    ;AdditionalDomains =
+
+    ;; Maximum number of characters allowed for local notes (must not be larger than the global limit, which is 100000 characters)
+    CharacterLimit = 8192
+
+    ;; Redirect unauthenticated requests to the index page to a custom URL. Especially useful for single user instances.
+    ;; Can be a relative url (e.g. /@username), or an absolute url (e.g. https://example.org).
+    ;RedirectIndexTo =
+
+    [Security]
+    ;; Whether to require incoming ActivityPub requests carry a valid HTTP or LD signature
+    ;; It is highly recommend you keep this enabled if you intend to use block- or allowlist federation
+    AuthorizedFetch = true
+
+    ;; Whether to validate incoming ActivityPub requests. Always enabled when AuthorizedFetch is enabled.
+    ;; Disabling this improves performance during large request bursts, but prevents remote instances from fetching follower-only notes.
+    ;; AP inbox delivery & AP inbox signature validation are unaffected by this option.
+    ValidateRequestSignatures = true
+
+    ;; Whether to attach LD signatures to outgoing activities. Outgoing relayed activities get signed regardless of this option.
+    AttachLdSignatures = false
+
+    ;; Whether to accept activities signed using LD signatures. Needs to be enabled for relayed activities to be accepted.
+    AcceptLdSignatures = false
+
+    ;; Whether to allow requests to IPv4 & IPv6 loopback addresses
+    AllowLoopback = false
+
+    ;; Whether to allow requests to local IPv4 addresses (RFC1918, link-local)
+    AllowLocalIPv4 = true
+
+    ;; Whether to allow requests to local IPv6 addresses (RFC3513, ULA, link-local)
+    AllowLocalIPv6 = true
+
+    ;; The level of detail in API error responses
+    ;; Options: [None, Basic, Full, Verbose]
+    ;;  - 'None' only returns the request identifier & status code
+    ;;  - 'Basic' adds the error code & message
+    ;;  - 'Full' adds error details (if any) and the name of the class that caused the exception
+    ;;  - 'Debug' adds the stack trace (HTML only)
+    ExceptionVerbosity = Basic
+
+    ;; Whether to allow instance registrations
+    ;; Options: [Closed, Invite, Open]
+    Registrations = Closed
+
+    ;; Whether to use a blocklist or allowlist for controlling who can federate with this instance
+    ;; Options: [BlockList, AllowList]
+    FederationMode = BlockList
+
+    ;; Whether to expose the list of blocked/allowed instances publicly, for registered users only, or not at all
+    ;; Options: [Public, Registered, Hide]
+    ExposeFederationList = Registered
+
+    ;; Whether to expose the reason for instance blocks publicly, for registered users only, or not at all
+    ;;
+    ;; !!!!IMPORTANT NOTE!!!!
+    ;; Some may think that publishing block reasons is defamatory in nature and is grounds for legal action.
+    ;; There is also the potential for harassment based on publicly shown block reasons.
+    ;; Consider whether it's worth the risk for you before setting this to Public.
+    ;;
+    ;; Options: [Public, Registered, Hide]
+    ExposeBlockReasons = Registered
+
+    ;; Whether to enable public preview of locally originating notes
+    ;;
+    ;; Public = No restrictions
+    ;; Restricted = Hide replies from remote instances
+    ;; RestrictedNoMedia = Hide replies remote instances & hide media
+    ;; Lockdown = Public preview is disabled, all unauthenticated API access (except authentication) is disabled
+    ;;
+    ;; Options: [Public, Restricted, RestrictedNoMedia, Lockdown]
+    PublicPreview = Public
+
+    [Network]
+    ;; Uncomment to use the specified HTTP proxy for all outgoing requests. Backend restart is required to apply changes.
+    ;HttpProxy = 127.0.0.1:8080
+    ;HttpProxyUser =
+    ;HttpProxyPass =
+
+    [Performance]
+    ;; Maximum number of incoming federation requests to handle concurrently.
+    ;; When exceeded, incoming requests are buffered in memory until they can be executed.
+    ;; While not recommended, this setting can enable lower-end hardware to sustain higher request load, as cryptography operations can be CPU-intensive.
+    ;; (0 = no limit)
+    FederationRequestHandlerConcurrency = 0
+
+    ;; Maximum number of jobs to process concurrently, for each queue.
+    [Performance:QueueConcurrency]
+    Inbox = 4
+    Deliver = 20
+    PreDeliver = 4
+    BackgroundTask = 4
+    Backfill = 10
+    BackfillUser = 10
+
+    [Backfill:Replies]
+    ;; Enables backfilling of replies. This is disabled by default as it may have a significant performance impact.
+    ;; This is an experimental feature that hasn't had too much time to bake, so only enable if you're open for instability.
+    ;; Note that replies can only be fetched from remote instances that expose a replies collection.
+    Enabled = false
+
+    ;; Identifies the user who asked to see the replies when backfilling them, instead of using an instance-wide anonymous actor.
+    ;; This provides information for remote instances to potentially list any private replies this user is allowed to see,
+    ;; however, a remote instance can track this as a "read receipt" if it so chooses.
+    ;; Single user instances may choose to enable this as the overall privacy impact is minimal in that context.
+    FetchAsUser = false
+
+    ;; Notes newer than this threshold will have reply backfilling delayed, to allow them time to accumulate replies.
+    NewNoteDelay = 5m
+
+    ;; The cooldown between multiple backfill attempts.
+    RefreshAfter = 15m
+
+    [Backfill:User]
+    ;; Enables backfilling of a user's posts on follow. This is disabled by default as it may have a significant performance impact.
+    ;; This is an experimental feature that hasn't had too much time to bake, so only enable if you're open for instability.
+    ;; Note that posts can only be fetched from remote instances that expose an outbox collection.
+    Enabled = false
+
+    ;; The maximum amount of activities to backfill. Does not include any threads the user may be replying to.
+    MaxItems = 100
+
+    ;; The cooldown between multiple backfill attempts.
+    RefreshAfter = 30d
+
+    ;; How many completed & failed jobs to keep around, per queue.
+    ;; Excess is trimmed every 15 minutes, oldest jobs first.
+    ;; (-1 = no limit)
+    [Queue:JobRetention]
+    Completed = 10
+    Failed = 100
+
+    [Database]
+    ;; Hostname, IP address or path to unix socket directory (specifying port is required even for unix sockets)
+    Host = {{ .Env.ICESHRIMP_DB_HOST }}
+    Port = {{ .Env.ICESHRIMP_DB_PORT }}
+    Database = {{ .Env.ICESHRIMP_DB_NAME }}
+    Username = {{ .Env.ICESHRIMP_DB_USER }}
+    Password = {{ .Env.ICESHRIMP_DB_PASSWORD }}
+
+    ;; The maximum amount of connections for the connection pool. Valid range: 1-1000. Defaults to 100 if unset.
+    MaxConnections = 100
+
+    ;; Whether to enable connection multiplexing, which allows for more efficient use of the connection pool.
+    ;; It's strongly recommended to keep this enabled unless you are experiencing issues, as it's quite easy to exhaust the connection pool otherwise.
+    Multiplexing = true
+
+    ;; Whether to log parameter information on errors.
+    ;; Caution: this may contain sensitive information, it's recommended to keep this disabled except for debugging purposes
+    ParameterLogging = false
+
+    [Storage]
+    ;; Where to store media attachments
+    ;; Options: [Local, ObjectStorage]
+    Provider = ObjectStorage
+
+    ;; Max file size for locally originating media, files larger than this will error on upload (-1 = no limit)
+    MaxUploadSize = 100M
+
+    ;; Max file size for remote media, files larger than this will never be cached (-1 = no limit)
+    MaxCacheSize = 20M
+
+    ;; Amount of time remote media is retained in the cache (0 = disabled, -1 = infinite)
+    MediaRetention = 30d
+
+    ;; Whether to cleanup remote avatars & banners past the media retention time
+    CleanAvatars = false
+    CleanBanners = false
+
+    ;; Whether to proxy remote media. This can prevent leaking the IP address of users, at the cost of higher bandwidth use.
+    ;; It is recommended to disable this for instances hosted on residential connections.
+    ProxyRemoteMedia = true
+
+    [Storage:Local]
+    ;; Path where media is stored at. Must be writable for the service user.
+    ;;Path = /path/to/media/location
+
+    [Storage:ObjectStorage]
+    Endpoint = {{ .Env.ICESHRIMP_S3_ENDPOINT }}
+    Region = {{ .Env.ICESHRIMP_S3_REGION }}
+    KeyId = {{ .Env.ICESHRIMP_S3_ACCESS_KEY }}
+    SecretKey = {{ .Env.ICESHRIMP_S3_SECRET_KEY }}
+    Bucket = {{ .Env.ICESHRIMP_S3_BUCKET }}
+    ;;Prefix =
+    AccessUrl = {{ .Env.ICESHRIMP_S3_ACCESS_URL }}
+    ;;SetAcl = public-read
+
+    ;; Disables the validation of the object storage configuration.
+    ;; Only enable this if you have a cache in front of the object storage access URL that makes the validation fail on restart.
+    ;;DisableValidation = false
+
+    [Storage:MediaProcessing]
+    ;; Which image processor to use.
+    ;;
+    ;; ImageSharp = .NET library, slower, lower memory footprint. No external dependencies.
+    ;; LibVips = Native library, faster, higher and spikier memory footprint. Requires compilation with -p:BundleNativeDeps=true, or for libvips to be installed on the system.
+    ;; None = Disables image processing, fastest, lowest memory footprint. Caution: metadata (e.g. location data) for locally originating images will *not* be stripped!
+    ;;
+    ;; Options: [ImageSharp, LibVips, None]
+    ImageProcessor = ImageSharp
+
+    ;; Whether to only process locally originating media. This is useful if you're working with a cpu-constrained environment,
+    ;; and want both remote media caching and local media processing.
+    LocalOnly = false
+
+    ;; Maximum file size for files to be considered for image processing.
+    ;; Caution: metadata (e.g. location data) for locally originating images will *not* be stripped for files larger than this
+    MaxFileSize = 10M
+
+    ;; Maximum resolution for files to be considered for image processing, in megapixels
+    ;; Note that processing an image requires up to 4MB of system memory per megapixel, in some edge case scenarios.
+    ;; Caution: metadata (e.g. location data) for locally originating images will *not* be stripped for files larger than this.
+    ;; If this is unwanted behavior, enable FailIfImageExceedsMaxRes.
+    MaxResolutionMpx = 30
+
+    ;; Should you prefer to reject locally originating images that exceed MaxResolutionMpx, set this option to true.
+    ;; Note that this does not apply to remote images, or to local images in a format not supported by the configured image processor.
+    FailIfImageExceedsMaxRes = false
+
+    ;; Maxmimum concurrent image encode tasks to run. (0 = no limit)
+    ImageProcessorConcurrency = 8
+
+    ;; --------------------------------------------------------------------------------------------------------------------------------------------------------- ;;
+    ;; The below section allows for detailed customization of the image processing pipeline. The respective defaults are listed below.                           ;;
+    ;; Caution: this is an advanced feature, it's quite easy to break media / media federation by messing with this. Make sure you know what you are doing.      ;;
+    ;;                                                                                                                                                           ;;
+    ;; Section keys follow the pattern Storage:MediaProcessing:ImagePipeline:<Version>:<Origin>                                                                  ;;
+    ;; Versions:                                                                                                                                                 ;;
+    ;;  - 'Original' is the canonical file. It's used when there is no 'Public' version available.                                                               ;;
+    ;;  - 'Thumbnail' is a compact thumbnail. It's used when a client requests it, usually for timeline rendering.                                               ;;
+    ;;  - 'Public' is used in place of 'Original'. Its default purpose is to serve as a smaller version with stripped metadata for locally originating images.   ;;
+    ;; Origins:                                                                                                                                                  ;;
+    ;;  - 'Local' means that the owner of the file is a local user.                                                                                              ;;
+    ;;  - 'Remote' means that the owner of the file is a remote user.                                                                                            ;;
+    ;; The full selection of encoding options is only specified once (for brevity).                                                                              ;;
+    ;; --------------------------------------------------------------------------------------------------------------------------------------------------------- ;;
+
+    ;;[Storage:MediaProcessing:ImagePipeline:<Version>:<Origin>]
+    ;; Which image format to use.
+    ;; Options: [None, Keep, Webp, Avif, Jxl]
+    ;;  - 'None' doesn't store an image of the respective type. It is not valid for the 'Original' image version.
+    ;;  - 'Keep' doesn't transcode the image, but still performs other image processing tasks (e.g. blurhash computation & deduplication).
+    ;;  - 'Webp' encodes the image as WebP
+    ;;  - 'Avif' encodes the image as AVIF. Only available when ImageProcessor is set to LibVips.
+    ;;  - 'Jxl' encodes the image as JPEG-XL. Only available when ImageProcessor is set to LibVips.
+    ;;Format = Keep
+
+    ;;; - Generic encoding options - ;;;
+
+    ;; The quality factor. Valid range: 1-100
+    ;;QualityFactor = 75
+
+    ;; The quality factor, when processing lossless png images. Valid range: 1-100
+    ;;QualityFactorPngSource = 100
+
+    ;; The resolution to scale the largest dimension to, in pixels. If the source image is smaller, no scaling is performed.
+    ;;TargetRes = 2048
+
+    ;;; - Webp encoding options - ;;;
+
+    ;; The compression mode.
+    ;; Options: [Lossy, NearLossless, Lossless]
+    ;;WebpCompressionMode = Lossy
+
+    ;;; - Avif encoding options - ;;;
+
+    ;; The compression mode.
+    ;; Options: [Lossy, Lossless]
+    ;;AvifCompressionMode = Lossy
+
+    ;; The bit depth. Valid range: 8-12. Leave unset to use source image bit depth.
+    ;;AvifBitDepth = 8
+
+    ;;; - Jxl encoding options - ;;;
+
+    ;; The compression mode.
+    ;; Options: [Lossy, Lossless]
+    ;;JxlCompressionMode = Lossy
+
+    ;; The encoding effort. Valid range: 1-9
+    ;;JxlEffort = 7
+
+    [Storage:MediaProcessing:ImagePipeline:Original:Local]
+    Format = Keep
+
+    [Storage:MediaProcessing:ImagePipeline:Original:Remote]
+    Format = Keep
+
+    [Storage:MediaProcessing:ImagePipeline:Thumbnail:Local]
+    Format = Webp
+    TargetRes = 1000
+
+    [Storage:MediaProcessing:ImagePipeline:Thumbnail:Remote]
+    Format = Webp
+    TargetRes = 1000
+    QualityFactorPngSource = 75
+
+    [Storage:MediaProcessing:ImagePipeline:Public:Local]
+    ;; Caution: locally originating public images are federated.
+    ;; If remote instance software doesn't understand the format, they might fail to ingest the image or associated note.
+
+    Format = Webp
+    TargetRes = 2048
+
+    [Storage:MediaProcessing:ImagePipeline:Public:Remote]
+    Format = None
+
+    [Logging:LogLevel]
+    Default = Information
+    Iceshrimp = Information
+    Microsoft.AspNetCore = Warning
+    Microsoft.EntityFrameworkCore = Warning
+    Microsoft.EntityFrameworkCore.Update = Critical
+    Microsoft.EntityFrameworkCore.Migrations = Information
+    Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager = Critical
+    Iceshrimp.Backend.SignalR.Authentication.HubAuthenticationHandler = Warning
+
+    [OpenTelemetry]
+    ;; Enable OpenTelemetry for traces, metrics, and logs.
+    ;; See https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/blob/main/docs/config.md
+    ;; for configuration instructions.
+    Enabled = false

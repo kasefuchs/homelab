@@ -6,6 +6,7 @@ resources:
 patches:
   - path: patches/replication.yaml
   - path: patches/storage.yaml
+  - path: patches/web.yaml
   - path: patches/ingress.yaml
     target:
       group: networking.k8s.io

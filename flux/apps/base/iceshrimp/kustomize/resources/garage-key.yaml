@@ -1,0 +1,12 @@
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageKey
+metadata:
+  name: iceshrimp-garage-key
+spec:
+  clusterRef:
+    name: garage
+    namespace: garage
+  bucketPermissions:
+    - bucketRef: iceshrimp-garage-bucket
+      read: true
+      write: true

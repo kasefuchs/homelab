@@ -1,0 +1,94 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iceshrimp
+spec:
+  interval: 1h
+  releaseName: iceshrimp
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      main:
+        initContainers:
+          config:
+            image:
+              repository: ghcr.io/hairyhenderson/gomplate
+              tag: v5.0.0
+            args: ["--input-dir", "/tmpl/", "--output-dir", "/app/config/"]
+            env:
+              ICESHRIMP_S3_BUCKET: iceshrimp
+              ICESHRIMP_S3_ACCESS_URL: http://iceshimp.web.garage.example.com
+              ICESHRIMP_WEB_DOMAIN: shrimp.example.com
+              ICESHRIMP_ACCOUNT_DOMAIN: shrimp.example.com
+        containers:
+          main:
+            image:
+              repository: ghcr.io/kasefuchs/containers/iceshrimp.net
+              tag: v2026.1-beta
+            env:
+              ICESHRIMP_CONFIG: /app/config/configuration.ini
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 3000
+    persistence:
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /app/config
+      config-tmpl:
+        type: configMap
+        name: iceshrimp-config
+        globalMounts:
+          - path: /tmpl
+            readOnly: true
+  valuesFrom:
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: host
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_HOST
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: port
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_PORT
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: dbname
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_NAME
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: user
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_USER
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: password
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_PASSWORD
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: host
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_ENDPOINT
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: region
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_REGION
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: access-key-id
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_ACCESS_KEY
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: secret-access-key
+      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_SECRET_KEY
