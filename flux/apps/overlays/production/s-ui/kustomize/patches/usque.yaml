@@ -21,8 +21,8 @@
           containers:
             main:
               image:
-                repository: ghcr.io/kasefuchs/usque
-                tag: v2.0.1
+                repository: ghcr.io/kasefuchs/containers/usque
+                tag: v3.0.0
                 pullPolicy: IfNotPresent
               args:
                 - -c
