@@ -1,29 +1,26 @@
 name: homelab
 services:
+  dns:
+    build: {context: dns}
+    restart: unless-stopped
+    networks: [kind]
+    ports: ["8053:53/udp", "8053:53/tcp"]
+    volumes: ["dns-data:/var/lib/bind"]
+    tmpfs: ["/var/cache/bind:mode=777"]
   registry:
     image: registry:2
     restart: unless-stopped
-    container_name: homelab-registry
     networks: [kind]
     ports: ["5001:5000"]
   registry-proxy:
     build: {context: "https://github.com/rpardini/docker-registry-proxy.git"}
     restart: unless-stopped
-    container_name: homelab-registry-proxy
     networks: [kind]
     volumes:
       - "registry-proxy-cache:/docker_mirror_cache"
       - "registry-proxy-certs:/ca"
     environment:
       ENABLE_MANIFEST_CACHE: true
-  dns:
-    build: {context: dns}
-    restart: unless-stopped
-    container_name: homelab-dns
-    networks: [kind]
-    ports: ["8053:53/udp", "8053:53/tcp"]
-    volumes: ["dns-data:/var/lib/bind"]
-    tmpfs: ["/var/cache/bind:mode=777"]
 networks:
   kind:
     external: true

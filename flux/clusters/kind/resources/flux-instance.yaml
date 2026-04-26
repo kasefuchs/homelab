@@ -20,7 +20,7 @@ spec:
     networkPolicy: true
   sync:
     kind: OCIRepository
-    url: oci://homelab-registry:5000/kasefuchs/homelab/flux
+    url: oci://registry:5000/kasefuchs/homelab/flux
     ref: latest
     path: clusters/kind
     interval: 1m

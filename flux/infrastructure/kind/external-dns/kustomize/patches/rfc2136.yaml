@@ -7,7 +7,7 @@ spec:
     provider:
       name: rfc2136
     extraArgs:
-      - --rfc2136-host=homelab-dns
+      - --rfc2136-host=dns
       - --rfc2136-port=53
       - --rfc2136-zone=homelab.local
       - --rfc2136-insecure

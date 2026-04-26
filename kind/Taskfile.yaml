@@ -28,5 +28,4 @@ tasks:
   setup-registry-proxy:
     cmd:
       for: {var: NODES}
-      cmd: >-
-        docker exec "{{.ITEM}}" sh -c "curl http://homelab-registry-proxy:3128/setup/systemd | sed s/docker\.service/containerd\.service/g | sed '/Environment/ s/$/ \"NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16\"/' | bash"
+      cmd: docker exec "{{.ITEM}}" sh -c "curl http://registry-proxy:3128/setup/systemd | sed s/docker\.service/containerd\.service/g | sed '/Environment/ s/$/ \"NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16\"/' | bash"
