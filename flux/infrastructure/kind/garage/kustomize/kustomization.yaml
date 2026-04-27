@@ -4,7 +4,7 @@ resources:
   - ../../../base/garage/kustomize
   - resources/secret.yaml
 patches:
-  - path: patches/replication.yaml
+  - path: patches/replica.yaml
   - path: patches/storage.yaml
   - path: patches/web.yaml
   - path: patches/ingress.yaml

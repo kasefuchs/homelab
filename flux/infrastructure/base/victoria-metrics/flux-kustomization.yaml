@@ -1,0 +1,18 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: victoria-metrics
+  namespace: flux-system
+spec:
+  path: infrastructure/base/victoria-metrics/kustomize
+  wait: false
+  prune: true
+  timeout: 5m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: victoria-metrics
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: cilium

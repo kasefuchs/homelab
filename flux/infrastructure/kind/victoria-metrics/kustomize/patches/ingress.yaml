@@ -1,0 +1,42 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+spec:
+  values:
+    grafana:
+      ingress:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+        hosts:
+          - grafana.homelab.local
+        path: /
+        pathType: Prefix
+    vmsingle:
+      ingress:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+        hosts:
+          - vmsingle.homelab.local
+        path: /
+        pathType: Prefix
+    vmalert:
+      ingress:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+        hosts:
+          - vmalert.homelab.local
+        path: /
+        pathType: Prefix
+    vmagent:
+      ingress:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+        hosts:
+          - vmagent.homelab.local
+        path: /
+        pathType: Prefix
