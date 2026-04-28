@@ -10,3 +10,16 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: prometheus-operator-crds
+spec:
+  interval: 1h
+  url: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
+  ref:
+    semver: "28.0.*"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
