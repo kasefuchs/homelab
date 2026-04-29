@@ -27,10 +27,55 @@ spec:
               tag: v5.0.0
             args: ["--input-dir", "/tmpl/", "--output-dir", "/app/config/"]
             env:
-              ICESHRIMP_S3_BUCKET: iceshrimp
-              ICESHRIMP_S3_ACCESS_URL: http://iceshimp.web.garage.example.com
               ICESHRIMP_WEB_DOMAIN: shrimp.example.com
               ICESHRIMP_ACCOUNT_DOMAIN: shrimp.example.com
+              ICESHRIMP_DB_HOST:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-db-app
+                    key: host
+              ICESHRIMP_DB_PORT:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-db-app
+                    key: port
+              ICESHRIMP_DB_NAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-db-app
+                    key: dbname
+              ICESHRIMP_DB_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-db-app
+                    key: user
+              ICESHRIMP_DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-db-app
+                    key: password
+              ICESHRIMP_S3_BUCKET: iceshrimp
+              ICESHRIMP_S3_ACCESS_URL: http://iceshimp.web.garage.example.com
+              ICESHRIMP_S3_ENDPOINT:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-garage-key
+                    key: host
+              ICESHRIMP_S3_REGION:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-garage-key
+                    key: region
+              ICESHRIMP_S3_ACCESS_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-garage-key
+                    key: access-key-id
+              ICESHRIMP_S3_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: iceshrimp-garage-key
+                    key: secret-access-key
         containers:
           main:
             image:
@@ -55,40 +100,3 @@ spec:
         globalMounts:
           - path: /tmpl
             readOnly: true
-  valuesFrom:
-    - kind: Secret
-      name: iceshrimp-db-app
-      valuesKey: host
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_HOST
-    - kind: Secret
-      name: iceshrimp-db-app
-      valuesKey: port
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_PORT
-    - kind: Secret
-      name: iceshrimp-db-app
-      valuesKey: dbname
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_NAME
-    - kind: Secret
-      name: iceshrimp-db-app
-      valuesKey: user
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_USER
-    - kind: Secret
-      name: iceshrimp-db-app
-      valuesKey: password
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_DB_PASSWORD
-    - kind: Secret
-      name: iceshrimp-garage-key
-      valuesKey: host
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_ENDPOINT
-    - kind: Secret
-      name: iceshrimp-garage-key
-      valuesKey: region
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_REGION
-    - kind: Secret
-      name: iceshrimp-garage-key
-      valuesKey: access-key-id
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_ACCESS_KEY
-    - kind: Secret
-      name: iceshrimp-garage-key
-      valuesKey: secret-access-key
-      targetPath: controllers.main.initContainers.config.env.ICESHRIMP_S3_SECRET_KEY
