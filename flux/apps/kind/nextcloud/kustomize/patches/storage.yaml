@@ -1,0 +1,25 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: nextcloud-db
+spec:
+  storage:
+    size: 1Gi
+---
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageBucket
+metadata:
+  name: nextcloud-garage-bucket
+spec:
+  quotas:
+    maxSize: 2Gi
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+spec:
+  values:
+    persistence:
+      enabled: true
+      size: 1Gi

@@ -1,0 +1,12 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+spec:
+  values:
+    nextcloud:
+      host: nextcloud.homelab.local
+    ingress:
+      enabled: true
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
