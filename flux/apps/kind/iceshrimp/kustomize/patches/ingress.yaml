@@ -8,7 +8,7 @@ spec:
       main:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
         hosts:
           - host: shrimp.homelab.internal
             paths:

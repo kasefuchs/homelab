@@ -9,4 +9,4 @@ spec:
     ingress:
       enabled: true
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
+        external-dns.alpha.kubernetes.io/target: ingress.homelab.internal

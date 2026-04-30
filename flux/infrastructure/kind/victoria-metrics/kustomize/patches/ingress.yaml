@@ -8,7 +8,7 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
         hosts:
           - grafana.homelab.internal
         path: /
@@ -17,7 +17,7 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
         hosts:
           - vmsingle.homelab.internal
         path: /
@@ -26,7 +26,7 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
         hosts:
           - vmalert.homelab.internal
         path: /
@@ -35,7 +35,7 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
         hosts:
           - vmagent.homelab.internal
         path: /

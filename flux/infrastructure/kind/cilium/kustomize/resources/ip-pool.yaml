@@ -4,4 +4,5 @@ metadata:
   name: default
 spec:
   blocks:
-    - cidr: 172.18.250.0/24
+    - start: 172.18.250.10
+      stop: 172.18.250.200
