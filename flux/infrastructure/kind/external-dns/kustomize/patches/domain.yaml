@@ -4,4 +4,4 @@ metadata:
   name: external-dns
 spec:
   values:
-    domainFilters: [homelab.local]
+    domainFilters: [homelab.internal]

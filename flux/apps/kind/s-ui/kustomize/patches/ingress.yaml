@@ -7,9 +7,9 @@ spec:
     ingress:
       main:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal
         hosts:
-          - host: sui.homelab.local
+          - host: sui.homelab.internal
             paths:
               - path: /
                 pathType: Prefix

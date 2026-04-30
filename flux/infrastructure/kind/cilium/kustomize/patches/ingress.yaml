@@ -7,4 +7,4 @@ spec:
     ingressController:
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.internal

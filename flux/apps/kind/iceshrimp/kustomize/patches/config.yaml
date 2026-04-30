@@ -9,6 +9,6 @@ spec:
         initContainers:
           config:
             env:
-              ICESHRIMP_S3_ACCESS_URL: http://iceshrimp.web.garage.homelab.local/
-              ICESHRIMP_WEB_DOMAIN: shrimp.homelab.local
-              ICESHRIMP_ACCOUNT_DOMAIN: shrimp.homelab.local
+              ICESHRIMP_S3_ACCESS_URL: http://iceshrimp.web.garage.homelab.internal/
+              ICESHRIMP_WEB_DOMAIN: shrimp.homelab.internal
+              ICESHRIMP_ACCOUNT_DOMAIN: shrimp.homelab.internal

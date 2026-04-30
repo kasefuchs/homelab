@@ -12,3 +12,5 @@ tasks:
   unpause:
     ignore_error: true
     cmd: docker compose unpause
+  restart:
+    cmd: docker compose restart
