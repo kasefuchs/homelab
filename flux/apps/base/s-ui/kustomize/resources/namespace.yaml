@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: s-ui
+  labels:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    pod-security.kubernetes.io/warn: baseline
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/enforce: baseline

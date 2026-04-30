@@ -83,6 +83,10 @@ spec:
               tag: v2026.1-beta
             env:
               ICESHRIMP_CONFIG: /app/config/configuration.ini
+            ports:
+              - name: web
+                protocol: TCP
+                containerPort: 3000
     service:
       main:
         controller: main

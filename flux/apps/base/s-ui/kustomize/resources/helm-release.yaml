@@ -1,0 +1,53 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: s-ui
+spec:
+  interval: 1h
+  releaseName: s-ui
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: ghcr.io/alireza0/s-ui
+              tag: v1.4.1
+            ports:
+              - name: web
+                protocol: TCP
+                containerPort: 2095
+              - name: sub
+                protocol: TCP
+                containerPort: 2096
+    persistence:
+      database:
+        type: persistentVolumeClaim
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        advancedMounts:
+          main:
+            main:
+              - path: /app/db/
+    service:
+      main:
+        primary: true
+        controller: main
+        ports:
+          web:
+            port: 2095
+          sub:
+            port: 2096

@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: s-ui
+spec:
+  values:
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.homelab.local
+        hosts:
+          - host: sui.homelab.local
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: web
+              - path: /sub/
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: sub
