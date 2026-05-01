@@ -16,3 +16,13 @@ spec:
   chartRef:
     kind: OCIRepository
     name: redis-operator
+  values:
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: [ALL]

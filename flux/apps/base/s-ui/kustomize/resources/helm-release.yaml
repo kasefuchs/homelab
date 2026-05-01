@@ -21,6 +21,19 @@ spec:
     controllers:
       main:
         type: statefulset
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+        defaultContainerOptions:
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
         containers:
           main:
             image:

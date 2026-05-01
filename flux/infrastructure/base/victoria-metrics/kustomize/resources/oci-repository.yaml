@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
   ref:
-    semver: "0.74.*"
+    semver: "0.76.*"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy

@@ -20,6 +20,19 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1654
+            fsGroup: 1654
+            seccompProfile:
+              type: RuntimeDefault
+        defaultContainerOptions:
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
         initContainers:
           config:
             image:
@@ -94,6 +107,10 @@ spec:
           http:
             port: 3000
     persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
       config:
         type: emptyDir
         globalMounts:

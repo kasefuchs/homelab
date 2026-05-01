@@ -17,6 +17,11 @@ spec:
     kind: OCIRepository
     name: nextcloud
   values:
+    x-container-security-context: &container-security-context
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: [ALL]
     internalDatabase:
       enabled: false
     externalDatabase:
@@ -44,6 +49,42 @@ spec:
           secretKeys:
             accessKey: access-key-id
             secretKey: secret-access-key
+      configs:
+        dataperms.config.php: |-
+          <?php
+          $CONFIG = array (
+            'check_data_directory_permissions' => false,
+          );
+      extraVolumes:
+        - name: confd
+          emptyDir: {}
+        - name: tmpfs
+          emptyDir: {}
+        - name: apache
+          emptyDir: {}
+      extraVolumeMounts:
+        - name: confd
+          mountPath: /usr/local/etc/php/conf.d/redis-session.ini
+          subPath: redis-session.ini
+        - name: tmpfs
+          mountPath: /tmp
+        - name: apache
+          mountPath: /var/run/apache2
+      extraInitContainers:
+        - name: init-confd
+          image: busybox:1.37.0
+          command: ["touch", "/usr/local/etc/php/conf.d/redis-session.ini"]
+          volumeMounts:
+            - name: confd
+              mountPath: /usr/local/etc/php/conf.d
+          securityContext: *container-security-context
+      securityContext: *container-security-context
+      podSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 33
+        fsGroup: 33
     redis:
       enabled: false
     externalRedis:
@@ -55,7 +96,9 @@ spec:
       size: 10Gi
     cronjob:
       enabled: true
+      sidecar:
+        securityContext: *container-security-context
     livenessProbe:
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
     readinessProbe:
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30

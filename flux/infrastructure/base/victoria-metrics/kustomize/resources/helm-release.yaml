@@ -16,6 +16,35 @@ spec:
   chartRef:
     kind: OCIRepository
     name: victoria-metrics
+  values:
+    x-security-context: &security-context
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: [ALL]
+      seccompProfile:
+        type: RuntimeDefault
+      fsGroup: 65534
+      runAsGroup: 65534
+      runAsUser: 65534
+    prometheus-node-exporter:
+      enabled: false
+    victoria-metrics-operator:
+      podSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+    vmagent:
+      spec:
+        securityContext: *security-context
+    vmalert:
+      spec:
+        securityContext: *security-context
+    vmsingle:
+      spec:
+        securityContext: *security-context
+    alertmanager:
+      spec:
+        securityContext: *security-context
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
