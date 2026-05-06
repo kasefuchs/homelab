@@ -26,3 +26,7 @@ patches:
     target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
+  - path: patches/socks.yaml
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization

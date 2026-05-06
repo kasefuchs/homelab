@@ -8,5 +8,5 @@ amneziawg_config_peers:
   - PublicKey: "{{ amneziawg_config_public_keys.silky }}"
     PresharedKey: "{{ amneziawg_config_preshared_keys.silky }}"
     AllowedIPs: 10.45.0.0/16, fd45:45:45::/48
-    Endpoint: silky.kasefuchs.net:49006
+    Endpoint: silky.kasefuchs.net:48092
     PersistentKeepalive: 25
