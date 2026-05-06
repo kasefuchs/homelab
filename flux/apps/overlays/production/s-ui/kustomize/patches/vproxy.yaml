@@ -9,7 +9,7 @@
     # language="yaml"
     patch: |-
       - op: add
-        path: /spec/values/controllers/socks
+        path: /spec/values/controllers/vproxy
         value:
           enabled: true
           type: deployment
@@ -21,20 +21,23 @@
           containers:
             main:
               image:
-                repository: serjs/go-socks5-proxy
-                tag: v0.0.4
+                repository: ghcr.io/0x676e67/vproxy
+                tag: v2.5.5
                 pullPolicy: IfNotPresent
-              env:
-                REQUIRE_AUTH: "false"
+              args:
+                - run
+                - --bind
+                - 0.0.0.0:1080
+                - socks5
               ports:
                 - name: socks
                   protocol: TCP
                   containerPort: 1080
       - op: add
-        path: /spec/values/service/socks
+        path: /spec/values/service/vproxy
         value:
           enabled: true
-          controller: socks
+          controller: vproxy
           type: ClusterIP
           ports:
             socks:
