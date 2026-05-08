@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: coder
+spec:
+  interval: 1h
+  url: oci://ghcr.io/coder/chart/coder
+  ref:
+    semver: "2.30.*"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy

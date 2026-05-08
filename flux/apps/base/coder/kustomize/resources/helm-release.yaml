@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder
+spec:
+  interval: 1h
+  releaseName: coder
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: coder
+  values:
+    coder:
+      securityContext:
+        capabilities:
+          drop: [ALL]
+      env:
+        - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
+          value: "false"
+        - name: CODER_PG_CONNECTION_URL
+          valueFrom:
+            secretKeyRef:
+              name: coder-db-app
+              key: uri

@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/values/coder/env/-
+  value:
+    name: CODER_ACCESS_URL
+    value: "http://coder.homelab.internal"
+- op: add
+  path: /spec/values/coder/env/-
+  value:
+    name: CODER_WILDCARD_ACCESS_URL
+    value: "*.coder.homelab.internal"
