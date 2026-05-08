@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: s-ui
+spec:
+  interval: 1h
+  url: oci://codeberg.org/kasefuchs/helm-charts/s-ui
+  ref:
+    semver: "0.1.*"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
