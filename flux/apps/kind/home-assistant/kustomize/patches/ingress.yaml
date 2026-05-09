@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+spec:
+  values:
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+        hosts:
+          - host: home.homelab.internal
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
