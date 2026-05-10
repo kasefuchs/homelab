@@ -8,35 +8,35 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
         hosts:
-          - grafana.homelab.internal
+          - grafana.kind.homelab.test
         path: /
         pathType: Prefix
     vmsingle:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
         hosts:
-          - vmsingle.homelab.internal
+          - vmsingle.kind.homelab.test
         path: /
         pathType: Prefix
     vmalert:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
         hosts:
-          - vmalert.homelab.internal
+          - vmalert.kind.homelab.test
         path: /
         pathType: Prefix
     vmagent:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
         hosts:
-          - vmagent.homelab.internal
+          - vmagent.kind.homelab.test
         path: /
         pathType: Prefix

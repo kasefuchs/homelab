@@ -12,6 +12,6 @@ spec:
         ingress:
           enabled: true
           annotations:
-            external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+            external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
           hosts:
-            - hubble.homelab.internal
+            - hubble.kind.homelab.test

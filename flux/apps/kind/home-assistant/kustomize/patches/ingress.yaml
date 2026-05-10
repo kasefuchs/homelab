@@ -7,9 +7,9 @@ spec:
     ingress:
       main:
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
         hosts:
-          - host: home.homelab.internal
+          - host: home.kind.homelab.test
             paths:
               - path: /
                 pathType: Prefix

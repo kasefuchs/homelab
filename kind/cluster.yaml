@@ -10,8 +10,6 @@ nodes:
         readOnly: true
   - role: worker
     extraMounts: [*containerd-certs-mount]
-  - role: worker
-    extraMounts: [*containerd-certs-mount]
 networking:
   ipFamily: dual
   kubeProxyMode: none

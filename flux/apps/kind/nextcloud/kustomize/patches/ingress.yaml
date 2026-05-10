@@ -5,8 +5,8 @@ metadata:
 spec:
   values:
     nextcloud:
-      host: nextcloud.homelab.internal
+      host: nextcloud.kind.homelab.test
     ingress:
       enabled: true
       annotations:
-        external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+        external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test

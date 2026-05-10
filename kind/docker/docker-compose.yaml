@@ -12,13 +12,14 @@ services:
     restart: unless-stopped
     networks: [kind]
     ports: ["5001:5000"]
+    volumes: ["registry-data:/var/lib/registry"]
   registry-proxy:
     build: {context: "https://github.com/rpardini/docker-registry-proxy.git"}
     restart: unless-stopped
     networks: [kind]
     volumes:
-      - "registry-proxy-cache:/docker_mirror_cache"
       - "registry-proxy-certs:/ca"
+      - "registry-proxy-cache:/docker_mirror_cache"
     environment:
       ENABLE_MANIFEST_CACHE: true
 networks:
@@ -26,5 +27,6 @@ networks:
     external: true
 volumes:
   dns-data: {}
-  registry-proxy-cache: {}
+  registry-data: {}
   registry-proxy-certs: {}
+  registry-proxy-cache: {}

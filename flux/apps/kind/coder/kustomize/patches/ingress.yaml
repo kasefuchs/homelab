@@ -7,7 +7,7 @@ spec:
     coder:
       ingress:
         enable: true
-        host: coder.homelab.internal
-        wildcardHost: "*.coder.homelab.internal"
+        host: coder.kind.homelab.test
+        wildcardHost: "*.coder.kind.homelab.test"
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test

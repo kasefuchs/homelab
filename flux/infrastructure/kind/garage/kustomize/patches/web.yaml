@@ -4,4 +4,4 @@ metadata:
   name: garage
 spec:
   webApi:
-    rootDomain: .web.garage.homelab.internal
+    rootDomain: .web.garage.kind.homelab.test

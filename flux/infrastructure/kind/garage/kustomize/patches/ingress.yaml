@@ -1,6 +1,6 @@
 - op: replace
   path: /spec/rules/0/host
-  value: "*.web.garage.homelab.internal"
+  value: "*.web.garage.kind.homelab.test"
 - op: add
   path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
-  value: ingress.homelab.internal
+  value: ingress.kind.homelab.test

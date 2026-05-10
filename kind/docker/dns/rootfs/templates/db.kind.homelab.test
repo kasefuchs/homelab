@@ -1,5 +1,5 @@
 $TTL 86400
-@   IN  SOA dns. admin.homelab.internal. (
+@   IN  SOA dns. admin.kind.homelab.test. (
             2026010101 ; serial
             3600       ; refresh
             1800       ; retry

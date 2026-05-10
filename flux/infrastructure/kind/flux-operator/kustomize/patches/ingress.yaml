@@ -8,9 +8,9 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.homelab.internal
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
         hosts:
-          - host: flux.homelab.internal
+          - host: flux.kind.homelab.test
             paths:
               - path: /
                 pathType: Prefix
