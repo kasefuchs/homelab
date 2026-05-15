@@ -4,11 +4,14 @@ metadata:
   name: iceshrimp
 spec:
   values:
-    controllers:
-      main:
-        initContainers:
-          config:
-            env:
-              ICESHRIMP_S3_ACCESS_URL: http://iceshrimp.web.garage.kind.homelab.test/
-              ICESHRIMP_WEB_DOMAIN: shrimp.kind.homelab.test
-              ICESHRIMP_ACCOUNT_DOMAIN: shrimp.kind.homelab.test
+    config:
+      Instance:
+        WebDomain: shrimp.kind.homelab.test
+        AccountDomain: shrimp.kind.homelab.test
+      Storage:
+        ObjectStorage:
+          AccessUrl: http://iceshrimp.web.garage.kind.homelab.test/
+      # Allow private Storage::ObjectStorage AccessUrl endpoint
+      Security:
+        AllowLocalIPv4: true
+        AllowLocalIPv6: true

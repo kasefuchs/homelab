@@ -13,3 +13,13 @@ metadata:
 spec:
   quotas:
     maxSize: 1Gi
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iceshrimp
+spec:
+  values:
+    persistence:
+      media:
+        enabled: false

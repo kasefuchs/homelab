@@ -15,109 +15,53 @@ spec:
       retryInterval: 2m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: iceshrimp
   values:
     controllers:
       main:
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1654
-            fsGroup: 1654
-            seccompProfile:
-              type: RuntimeDefault
-        defaultContainerOptions:
-          securityContext:
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: [ALL]
-        initContainers:
-          config:
-            image:
-              repository: ghcr.io/hairyhenderson/gomplate
-              tag: v5.0.0
-            args: ["--input-dir", "/tmpl/", "--output-dir", "/app/config/"]
-            env:
-              ICESHRIMP_WEB_DOMAIN: shrimp.example.com
-              ICESHRIMP_ACCOUNT_DOMAIN: shrimp.example.com
-              ICESHRIMP_DB_HOST:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-db-app
-                    key: host
-              ICESHRIMP_DB_PORT:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-db-app
-                    key: port
-              ICESHRIMP_DB_NAME:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-db-app
-                    key: dbname
-              ICESHRIMP_DB_USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-db-app
-                    key: user
-              ICESHRIMP_DB_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-db-app
-                    key: password
-              ICESHRIMP_S3_BUCKET: iceshrimp
-              ICESHRIMP_S3_ACCESS_URL: http://iceshimp.web.garage.example.com
-              ICESHRIMP_S3_ENDPOINT:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-garage-key
-                    key: host
-              ICESHRIMP_S3_REGION:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-garage-key
-                    key: region
-              ICESHRIMP_S3_ACCESS_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-garage-key
-                    key: access-key-id
-              ICESHRIMP_S3_SECRET_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: iceshrimp-garage-key
-                    key: secret-access-key
         containers:
           main:
             image:
               repository: ghcr.io/kasefuchs/containers/iceshrimp.net
-              tag: v2026.1-beta
-            env:
-              ICESHRIMP_CONFIG: /app/config/configuration.ini
-            ports:
-              - name: web
-                protocol: TCP
-                containerPort: 3000
-    service:
-      main:
-        controller: main
-        ports:
-          http:
-            port: 3000
-    persistence:
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
-      config:
-        type: emptyDir
-        globalMounts:
-          - path: /app/config
-      config-tmpl:
-        type: configMap
-        name: iceshrimp-config
-        globalMounts:
-          - path: /tmpl
-            readOnly: true
+    config:
+      Storage:
+        Provider: ObjectStorage
+        ObjectStorage:
+          Bucket: iceshrimp
+  valuesFrom:
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: host
+      targetPath: config.Database.Host
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: port
+      targetPath: config.Database.Port
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: dbname
+      targetPath: config.Database.Database
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: user
+      targetPath: config.Database.Username
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: password
+      targetPath: config.Database.Password
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: host
+      targetPath: config.Storage.ObjectStorage.Endpoint
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: region
+      targetPath: config.Storage.ObjectStorage.Region
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: access-key-id
+      targetPath: config.Storage.ObjectStorage.KeyId
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: secret-access-key
+      targetPath: config.Storage.ObjectStorage.SecretKey

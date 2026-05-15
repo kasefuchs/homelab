@@ -16,4 +16,4 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: main
-                  port: 3000
+                  port: http
