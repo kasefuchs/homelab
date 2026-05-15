@@ -1,0 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: conduwuit
+  namespace: flux-system
+spec:
+  path: apps/base/conduwuit/kustomize
+  wait: false
+  prune: true
+  timeout: 5m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: conduwuit
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system

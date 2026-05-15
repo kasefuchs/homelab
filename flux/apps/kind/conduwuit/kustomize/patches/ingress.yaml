@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: conduwuit
+spec:
+  values:
+    config:
+      global:
+        server_name: mtarix.kind.homelab.test
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
+        hosts:
+          - host: mtarix.kind.homelab.test
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
