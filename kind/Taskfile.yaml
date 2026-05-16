@@ -7,10 +7,10 @@ vars:
   NODES:
     sh: kind get nodes --name homelab
 tasks:
-  up:
+  create:
     deps: ["docker:up"]
     cmd: kind create cluster --config cluster.yaml
-  down:
+  destroy:
     deps: ["docker:down"]
     cmd: kind delete cluster --name homelab
   pause:
@@ -19,7 +19,7 @@ tasks:
     cmd:
       for: {var: NODES}
       cmd: docker pause {{.ITEM}}
-  unpause:
+  resume:
     ignore_error: true
     deps: ["docker:unpause"]
     cmd:
