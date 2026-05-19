@@ -10,3 +10,11 @@
 # Python
 .venv/
 uv.lock
+
+# Talm
+talm/**/charts/
+talm/**/Chart.lock
+secrets.yaml
+talosconfig
+talm.key
+kubeconfig
