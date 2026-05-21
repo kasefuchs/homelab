@@ -56,6 +56,9 @@ machine:
   install:
     {{- (include "talm.discovered.disks_info" .) | nindent 4 }}
     disk: {{ include "talm.discovered.system_disk_name" . | quote }}
+    {{- with .Values.image }}
+    image: {{ . }}
+    {{- end }}
 {{- end }}
 
 {{- /* Shared cluster section */ -}}
