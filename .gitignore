@@ -7,10 +7,6 @@
 .vscode/
 
 # --- Tools ---
-# Python
-.venv/
-uv.lock
-
 # Talm
 talm/**/charts/
 talm/**/Chart.lock
