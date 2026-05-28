@@ -1,9 +1,0 @@
-apiVersion: v2
-type: library
-name: talos-config
-version: 0.1.0
-description: Base library chart for configuring Talos clusters
-dependencies:
-  - name: talm
-    version: 0.1.0
-    repository: "git+https://github.com/cozystack/talm.git@charts?ref=v0.30.0"
