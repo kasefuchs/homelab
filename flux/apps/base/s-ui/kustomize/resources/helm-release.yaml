@@ -28,9 +28,9 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/alireza0/s-ui
-              tag: latest
-              pullPolicy: Always
+              repository: docker.io/alireza7/s-ui
+              tag: v1.4.2
+              pullPolicy: IfNotPresent
             ports:
               - name: panel
                 protocol: TCP
