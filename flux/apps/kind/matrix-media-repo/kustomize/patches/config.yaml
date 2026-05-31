@@ -1,0 +1,11 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: matrix-media-repo
+spec:
+  values:
+    homeservers:
+      mtarix.kind.homelab.test:
+        csApi: http://conduwuit.conduwuit:6167/
+        backoffAt: 10
+        adminApiKind: matrix

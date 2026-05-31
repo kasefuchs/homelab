@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: conduwuit
+spec:
+  values:
+    config:
+      global:
+        new_user_displayname_suffix: "🦊✨"

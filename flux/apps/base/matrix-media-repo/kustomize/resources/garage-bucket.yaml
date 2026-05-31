@@ -1,0 +1,13 @@
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageBucket
+metadata:
+  name: matrix-media-repo-garage-bucket
+spec:
+  globalAlias: matrix-media-repo
+  clusterRef:
+    name: garage
+    namespace: garage
+  quotas:
+    maxSize: 20Gi
+  website:
+    enabled: true

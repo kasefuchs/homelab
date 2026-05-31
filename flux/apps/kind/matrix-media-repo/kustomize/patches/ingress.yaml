@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: matrix-media-repo
+spec:
+  values:
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
+        hosts:
+          - host: mtarix.kind.homelab.test
+            paths:
+              - path: /_matrix/media/
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+              - path: /_matrix/client/v1/media/
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+              - path: /_matrix/federation/v1/media/
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http

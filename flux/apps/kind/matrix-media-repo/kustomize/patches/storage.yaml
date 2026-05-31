@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: iceshrimp-db
+  name: matrix-media-repo-db
 spec:
   storage:
     size: 1Gi
@@ -9,7 +9,7 @@ spec:
 apiVersion: garage.rajsingh.info/v1alpha1
 kind: GarageBucket
 metadata:
-  name: iceshrimp-garage-bucket
+  name: matrix-media-repo-garage-bucket
 spec:
   quotas:
     maxSize: 1Gi

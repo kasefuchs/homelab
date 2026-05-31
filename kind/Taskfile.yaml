@@ -10,7 +10,7 @@ tasks:
   create:
     deps: ["docker:up"]
     cmd: kind create cluster --config cluster.yaml
-  destroy:
+  delete:
     deps: ["docker:down"]
     cmd: kind delete cluster --name homelab
   pause:

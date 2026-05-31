@@ -1,0 +1,60 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: matrix-media-repo
+spec:
+  interval: 1h
+  releaseName: matrix-media-repo
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: matrix-media-repo
+  values:
+    persistence:
+      media:
+        enabled: false
+    config:
+      redis:
+        enabled: true
+        databaseNumber: 0
+        shards:
+          - name: main
+            addr: matrix-media-repo-redis:6379
+    datastores:
+      file:
+        forKinds: []
+      garage:
+        type: s3
+        forKinds: ["thumbnails", "remote_media", "local_media", "archives"]
+        opts:
+          tempPath: /tmp/
+          bucketName: matrix-media-repo
+          ssl: false
+  valuesFrom:
+    - kind: Secret
+      name: matrix-media-repo-db-app
+      valuesKey: uri
+      targetPath: config.database.postgres
+    - kind: Secret
+      name: matrix-media-repo-garage-key
+      valuesKey: host
+      targetPath: datastores.garage.opts.endpoint
+    - kind: Secret
+      name: matrix-media-repo-garage-key
+      valuesKey: region
+      targetPath: datastores.garage.opts.region
+    - kind: Secret
+      name: matrix-media-repo-garage-key
+      valuesKey: access-key-id
+      targetPath: datastores.garage.opts.accessKeyId
+    - kind: Secret
+      name: matrix-media-repo-garage-key
+      valuesKey: secret-access-key
+      targetPath: datastores.garage.opts.accessSecret

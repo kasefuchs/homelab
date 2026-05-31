@@ -17,6 +17,9 @@ spec:
     kind: OCIRepository
     name: iceshrimp
   values:
+    persistence:
+      media:
+        enabled: false
     controllers:
       main:
         containers:
