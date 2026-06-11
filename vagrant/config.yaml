@@ -1,0 +1,5 @@
+nodes:
+  master:
+    box: centos/stream9
+    provider:
+      kind: libvirt

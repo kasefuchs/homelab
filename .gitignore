@@ -7,10 +7,5 @@
 .vscode/
 
 # --- Tools ---
-# Talm
-talm/**/charts/
-talm/**/Chart.lock
-secrets.yaml
-talosconfig
-talm.key
-kubeconfig
+# Vagrant
+.vagrant/
