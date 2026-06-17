@@ -3,3 +3,10 @@ nodes:
     box: centos/stream9
     provider:
       kind: libvirt
+      cpus: 2
+      memory: 2048
+    provisioners:
+      - kind: shell
+        inline: |
+          sudo swapoff -a
+          sudo sed -i -r '/^[^#].+\s+swap\s+/ s/^/# /' /etc/fstab
