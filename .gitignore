@@ -5,7 +5,3 @@
 
 # VSCode
 .vscode/
-
-# --- Tools ---
-# Vagrant
-.vagrant/
