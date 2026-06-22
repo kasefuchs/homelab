@@ -9,7 +9,7 @@ options {
   dnssec-validation no;
 };
 
-zone "kind.homelab.test." {
+zone "{{ env.Getenv "ZONE_NAME" }}." {
   type primary;
-  file "/var/lib/bind/db.kind.homelab.test";
+  file "/var/lib/bind/db.{{ env.Getenv "ZONE_NAME" }}";
 };

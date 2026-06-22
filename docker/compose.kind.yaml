@@ -1,0 +1,14 @@
+services:
+  dns:
+    networks: [kind]
+    ports: ["8053:53/udp", "8053:53/tcp"]
+    environment:
+      ZONE_NAME: kind.homelab.test
+  registry:
+    networks: [kind]
+    ports: ["5001:5000"]
+  registry-proxy:
+    networks: [kind]
+networks:
+  kind:
+    external: true

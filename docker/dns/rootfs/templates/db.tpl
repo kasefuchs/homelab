@@ -1,5 +1,5 @@
 $TTL 86400
-@   IN  SOA dns. admin.kind.homelab.test. (
+@   IN  SOA dns. admin.{{ env.Getenv "ZONE_NAME" }}. (
             2026010101 ; serial
             3600       ; refresh
             1800       ; retry
