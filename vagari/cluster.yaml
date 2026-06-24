@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=none
+vm:
+  box: debian/trixie64
+providers:
+  - type: libvirt
+    cpus: 2
+    memory: 2048
+provisioners:
+  - type: hostmanager
+nodes:
+  docker:
+    networks:
+      - type: forwarded_port
+        host: 8053
+        guest: 53
+      - type: forwarded_port
+        host: 5001
+        guest: 5000
+      - type: forwarded_port
+        host: 3128
+        guest: 3128
+    synced_folders:
+      - type: rsync
+        host: ../docker
+        guest: /opt/homelab/docker
+    provisioners:
+      - type: shell
+        inline: apt-get update -y && apt-get install -y git
+      - type: docker
+        post_install_provision:
+          - type: shell
+            inline: |-
+              cd /opt/homelab/docker
+              sudo docker compose -f compose.yaml -f compose.vagari.yaml up -d
+  master:
+    vm:
+      hostname: master
+    networks:
+      - type: forwarded_port
+        host: 6443
+        guest: 6443
+    provisioners:
+      - type: k3s
+        args: server
+        skip_start: true
+        config:
+          token: baguette
+          disable: [local-storage, servicelb, traefik]
+          disable-kube-proxy: true
+          flannel-backend: none
+          cluster-init: true
+      - type: shell
+        inline: |-
+          curl http://docker:3128/setup/systemd \
+            | sed 's/docker\.service/k3s\.service/g' \
+            | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
+            | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \
+            | bash
+  worker:
+    vm:
+      hostname: worker
+    provisioners:
+      - type: k3s
+        args: agent
+        skip_start: true
+        config:
+          server: https://master:6443
+          token: baguette
+      - type: shell
+        inline: |-
+          curl http://docker:3128/setup/systemd \
+            | sed 's/docker\.service/k3s-agent\.service/g' \
+            | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
+            | sed 's/restart/restart --no-block/' \
+            | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \
+            | bash

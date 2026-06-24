@@ -9,3 +9,7 @@
 # --- Tools ---
 # Vagrant
 .vagrant/
+
+# K8s
+kubeconfig
+*.kubeconfig

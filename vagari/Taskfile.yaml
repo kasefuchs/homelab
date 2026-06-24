@@ -1,0 +1,7 @@
+version: 3
+tasks:
+  create: vagari up
+  delete: vagari destroy -f
+  pause: vagari suspend
+  resume: vagari resume
+  kubeconfig: vagari ssh master -c "sudo cat /etc/rancher/k3s/k3s.yaml"

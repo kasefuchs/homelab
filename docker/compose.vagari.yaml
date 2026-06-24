@@ -1,0 +1,9 @@
+services:
+  dns:
+    ports: ["53:53/udp", "53:53/tcp"]
+    environment:
+      ZONE_NAME: vagari.homelab.test
+  registry:
+    ports: ["5000:5000"]
+  registry-proxy:
+    ports: ["3128:3128"]

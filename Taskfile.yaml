@@ -6,3 +6,6 @@ includes:
   kind:
     dir: kind
     taskfile: kind/Taskfile.yaml
+  vagari:
+    dir: vagari
+    taskfile: vagari/Taskfile.yaml
