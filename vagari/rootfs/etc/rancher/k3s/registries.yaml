@@ -1,0 +1,3 @@
+mirrors:
+  "docker:5000":
+    endpoint: ["http://docker:5000"]
