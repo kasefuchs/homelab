@@ -3,8 +3,10 @@ services:
   dns:
     build: {context: dns}
     restart: unless-stopped
-    volumes: ["dns-data:/var/lib/bind"]
     tmpfs: ["/var/cache/bind:mode=777"]
+  recursor:
+    build: {context: recursor}
+    restart: unless-stopped
   registry:
     image: registry:2
     restart: unless-stopped

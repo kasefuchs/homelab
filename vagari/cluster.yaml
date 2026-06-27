@@ -10,6 +10,8 @@ provisioners:
     inline: apt-get update -y && apt-get install -y git rsync
   - type: shell
     inline: sudo rsync -avK /opt/homelab/rootfs/ /
+  - type: shell
+    inline: echo "nameserver $(getent hosts docker | awk '{print $1}' | head -n1)" | sudo tee /etc/rancher/k3s/resolv.conf
 synced_folders:
   - type: rsync
     host: rootfs
@@ -51,8 +53,10 @@ nodes:
           token: baguette
           disable: [local-storage, servicelb, traefik]
           disable-kube-proxy: true
+          disable-network-policy: true
           flannel-backend: none
           cluster-init: true
+          resolv-conf: /etc/rancher/k3s/resolv.conf
       - type: shell
         inline: |-
           curl http://docker:3128/setup/systemd \
@@ -69,6 +73,7 @@ nodes:
         config:
           server: https://master:6443
           token: baguette
+          resolv-conf: /etc/rancher/k3s/resolv.conf
       - type: shell
         inline: |-
           curl http://docker:3128/setup/systemd \

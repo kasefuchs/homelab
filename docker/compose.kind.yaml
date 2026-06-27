@@ -1,6 +1,10 @@
 services:
   dns:
     networks: [kind]
+    environment:
+      ZONE_NAME: kind.homelab.test
+  recursor:
+    networks: [kind]
     ports: ["8053:53/udp", "8053:53/tcp"]
     environment:
       ZONE_NAME: kind.homelab.test

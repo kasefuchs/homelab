@@ -1,6 +1,11 @@
 services:
   dns:
+    ports: ["8053:53/udp", "8053:53/tcp"]
+    environment:
+      ZONE_NAME: vagari.homelab.test
+  recursor:
     ports: ["53:53/udp", "53:53/tcp"]
+    volumes: ["/etc/hosts:/etc/hosts:ro"]
     environment:
       ZONE_NAME: vagari.homelab.test
   registry:
