@@ -6,3 +6,4 @@ patches:
   - path: patches/kube-proxy.yaml
   - path: patches/hubble.yaml
   - path: patches/ingress.yaml
+  - path: patches/ipam.yaml

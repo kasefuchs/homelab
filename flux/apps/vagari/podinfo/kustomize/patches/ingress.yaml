@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: podinfo
+spec:
+  values:
+    ingress:
+      enabled: true
+      annotations:
+        external-dns.alpha.kubernetes.io/target: ingress.vagari.homelab.test
+      hosts:
+        - host: podinfo.vagari.homelab.test
+          paths:
+            - path: /
+              pathType: Prefix
