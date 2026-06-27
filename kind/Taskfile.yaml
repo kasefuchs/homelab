@@ -14,6 +14,7 @@ tasks:
   delete:
     deps: ["docker:down"]
     cmd: kind delete cluster --name homelab
+  kubeconfig: kind get kubeconfig --name homelab
   pause:
     ignore_error: true
     deps: ["docker:pause"]

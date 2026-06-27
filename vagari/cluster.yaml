@@ -7,7 +7,7 @@ providers:
 provisioners:
   - type: hostmanager
   - type: shell
-    inline: apt-get update -y && apt-get install -y git rsync
+    inline: apt-get update -y && apt-get install -y git rsync retry
   - type: shell
     inline: sudo rsync -avK /opt/homelab/rootfs/ /
   - type: shell
@@ -59,9 +59,10 @@ nodes:
           resolv-conf: /etc/rancher/k3s/resolv.conf
       - type: shell
         inline: |-
-          curl http://docker:3128/setup/systemd \
+          retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \
             | sed 's/docker\.service/k3s\.service/g' \
             | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
+            | sed 's/restart/restart --no-block/' \
             | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \
             | bash
   worker:
@@ -76,7 +77,7 @@ nodes:
           resolv-conf: /etc/rancher/k3s/resolv.conf
       - type: shell
         inline: |-
-          curl http://docker:3128/setup/systemd \
+          retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \
             | sed 's/docker\.service/k3s-agent\.service/g' \
             | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
             | sed 's/restart/restart --no-block/' \
