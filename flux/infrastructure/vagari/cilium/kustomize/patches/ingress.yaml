@@ -1,0 +1,12 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  values:
+    ingressController:
+      service:
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ingress.vagari.homelab.test
+      hostNetwork:
+        enabled: true

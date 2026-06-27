@@ -1,0 +1,17 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  values:
+    hubble:
+      relay:
+        enabled: true
+      ui:
+        enabled: true
+        ingress:
+          enabled: true
+          annotations:
+            external-dns.alpha.kubernetes.io/target: ingress.vagari.homelab.test
+          hosts:
+            - hubble.vagari.homelab.test
