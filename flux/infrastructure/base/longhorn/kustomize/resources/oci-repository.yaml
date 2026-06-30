@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: longhorn
+spec:
+  interval: 1h
+  url: oci://ghcr.io/home-operations/charts-mirror/longhorn
+  ref:
+    semver: "1.12.*"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy

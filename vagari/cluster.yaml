@@ -1,13 +1,9 @@
 # yaml-language-server: $schema=none
 vm: {box: debian/trixie64}
-providers:
-  - type: libvirt
-    cpus: 2
-    memory: 2048
 provisioners:
   - type: hostmanager
   - type: shell
-    inline: apt-get update -y && apt-get install -y git rsync retry
+    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi
   - type: shell
     inline: sudo rsync -avK /opt/homelab/rootfs/ /
   - type: shell
@@ -18,6 +14,10 @@ synced_folders:
     guest: /opt/homelab/rootfs
 nodes:
   docker:
+    providers:
+      - type: libvirt
+        cpus: 1
+        memory: 1024
     networks:
       - type: forwarded_port
         host: 8053
@@ -41,6 +41,10 @@ nodes:
               sudo docker compose -f compose.yaml -f compose.vagari.yaml up -d
   master:
     vm: {hostname: master}
+    providers:
+      - type: libvirt
+        cpus: 2
+        memory: 3072
     networks:
       - type: forwarded_port
         host: 6443
@@ -67,6 +71,10 @@ nodes:
             | bash
   worker:
     vm: {hostname: worker}
+    providers:
+      - type: libvirt
+        cpus: 4
+        memory: 6144
     provisioners:
       - type: k3s
         args: agent
