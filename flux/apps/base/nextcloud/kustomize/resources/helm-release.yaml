@@ -21,7 +21,8 @@ spec:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
       capabilities:
-        drop: [ALL]
+        drop:
+          - ALL
     internalDatabase:
       enabled: false
     externalDatabase:
@@ -73,7 +74,9 @@ spec:
       extraInitContainers:
         - name: init-confd
           image: busybox:1.37.0
-          command: ["touch", "/usr/local/etc/php/conf.d/redis-session.ini"]
+          command:
+            - touch
+            - /usr/local/etc/php/conf.d/redis-session.ini
           volumeMounts:
             - name: confd
               mountPath: /usr/local/etc/php/conf.d

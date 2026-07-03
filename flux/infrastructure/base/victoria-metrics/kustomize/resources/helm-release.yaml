@@ -21,7 +21,8 @@ spec:
       runAsNonRoot: true
       allowPrivilegeEscalation: false
       capabilities:
-        drop: [ALL]
+        drop:
+          - ALL
       seccompProfile:
         type: RuntimeDefault
       fsGroup: 65534

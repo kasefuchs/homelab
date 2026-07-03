@@ -32,7 +32,11 @@ spec:
         forKinds: []
       garage:
         type: s3
-        forKinds: ["thumbnails", "remote_media", "local_media", "archives"]
+        forKinds:
+          - archives
+          - thumbnails
+          - local_media
+          - remote_media
         opts:
           tempPath: /tmp/
           bucketName: matrix-media-repo

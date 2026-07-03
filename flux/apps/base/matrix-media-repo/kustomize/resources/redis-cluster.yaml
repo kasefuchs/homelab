@@ -16,11 +16,13 @@ spec:
     readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
     capabilities:
-      drop: [ALL]
+      drop:
+        - ALL
   storage:
     volumeClaimTemplate:
       spec:
-        accessModes: [ReadWriteOnce]
+        accessModes:
+          - ReadWriteOnce
         resources:
           requests:
             storage: 1Gi

@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: gateway-api
+spec:
+  interval: 1h
+  url: https://github.com/kubernetes-sigs/gateway-api.git
+  ref:
+    tag: v1.6.0

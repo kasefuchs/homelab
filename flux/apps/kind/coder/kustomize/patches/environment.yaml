@@ -2,7 +2,7 @@
   path: /spec/values/coder/env/-
   value:
     name: CODER_ACCESS_URL
-    value: "http://coder.kind.homelab.test"
+    value: http://coder.kind.homelab.test
 - op: add
   path: /spec/values/coder/env/-
   value:

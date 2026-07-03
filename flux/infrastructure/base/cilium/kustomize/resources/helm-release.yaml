@@ -17,7 +17,8 @@ spec:
     kind: OCIRepository
     name: cilium
   values:
-    ingressController:
+    nodeIPAM:
       enabled: true
-      default: true
-      loadbalancerMode: shared
+    gatewayAPI:
+      enabled: true
+    defaultLBServiceIPAM: nodeipam

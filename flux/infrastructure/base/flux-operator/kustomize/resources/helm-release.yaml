@@ -19,3 +19,6 @@ spec:
   values:
     reporting:
       interval: 1m
+    web:
+      networkPolicy:
+        create: false

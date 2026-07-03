@@ -3,20 +3,25 @@ services:
   dns:
     build: {context: dns}
     restart: unless-stopped
-    tmpfs: ["/var/cache/bind:mode=777"]
+    tmpfs:
+      - /var/log:mode=777
+      - /etc/bind:mode=777
+      - /var/lib/bind:mode=777
+      - /var/cache/bind:mode=777
   recursor:
     build: {context: recursor}
     restart: unless-stopped
   registry:
     image: registry:2
     restart: unless-stopped
-    volumes: ["registry-data:/var/lib/registry"]
+    volumes:
+      - registry-data:/var/lib/registry
   registry-proxy:
     build: {context: "https://github.com/rpardini/docker-registry-proxy.git"}
     restart: unless-stopped
     volumes:
-      - "registry-proxy-certs:/ca"
-      - "registry-proxy-cache:/docker_mirror_cache"
+      - registry-proxy-certs:/ca
+      - registry-proxy-cache:/docker_mirror_cache
     environment:
       ENABLE_MANIFEST_CACHE: true
 volumes:

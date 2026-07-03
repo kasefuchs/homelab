@@ -17,7 +17,7 @@ spec:
     size: small
     domain: cluster.local
     multitenant: false
-    networkPolicy: true
+    networkPolicy: false
   sync:
     kind: OCIRepository
     url: oci://docker:5000/homelab/flux

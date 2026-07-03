@@ -20,7 +20,8 @@ spec:
     coder:
       securityContext:
         capabilities:
-          drop: [ALL]
+          drop:
+            - ALL
       env:
         - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
           value: "false"

@@ -4,4 +4,5 @@ metadata:
   name: external-dns
 spec:
   values:
-    domainFilters: [kind.homelab.test]
+    domainFilters:
+      - kind.homelab.test

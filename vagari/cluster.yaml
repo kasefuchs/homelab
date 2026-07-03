@@ -55,7 +55,10 @@ nodes:
         skip_start: true
         config:
           token: baguette
-          disable: [local-storage, servicelb, traefik]
+          disable:
+            - traefik
+            - servicelb
+            - local-storage
           disable-kube-proxy: true
           disable-network-policy: true
           flannel-backend: none

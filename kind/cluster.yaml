@@ -9,7 +9,8 @@ nodes:
         containerPath: /etc/containerd/certs.d
         readOnly: true
   - role: worker
-    extraMounts: [*containerd-certs-mount]
+    extraMounts:
+      - *containerd-certs-mount
 networking:
   ipFamily: dual
   kubeProxyMode: none
