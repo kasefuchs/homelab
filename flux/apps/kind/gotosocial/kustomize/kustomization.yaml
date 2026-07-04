@@ -4,5 +4,5 @@ resources:
   - ../../../base/gotosocial/kustomize
 patches:
   - path: patches/config.yaml
-  - path: patches/ingress.yaml
+  - path: patches/route.yaml
   - path: patches/storage.yaml

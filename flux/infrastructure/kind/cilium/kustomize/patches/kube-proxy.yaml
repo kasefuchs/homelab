@@ -4,6 +4,5 @@ metadata:
   name: cilium
 spec:
   values:
-    kubeProxyReplacement: true
     k8sServiceHost: homelab-control-plane
     k8sServicePort: 6443

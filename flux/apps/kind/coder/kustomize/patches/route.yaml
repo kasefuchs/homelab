@@ -5,9 +5,10 @@ metadata:
 spec:
   values:
     coder:
-      ingress:
+      httproute:
         enable: true
         host: coder.kind.homelab.test
         wildcardHost: "*.coder.kind.homelab.test"
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
+        parentRefs:
+          - name: external
+            namespace: gateway-system

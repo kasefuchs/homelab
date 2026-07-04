@@ -6,6 +6,12 @@ spec:
   values:
     hubble:
       ui:
-        enabled: true
-      relay:
-        enabled: true
+        # not merged yet, but why not?
+        # https://github.com/cilium/cilium/pull/46792
+        httpRoute:
+          enabled: true
+          hostnames:
+            - hubble.vagari.homelab.test
+          parentRefs:
+            - name: external
+              namespace: gateway-system

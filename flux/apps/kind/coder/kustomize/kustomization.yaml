@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../../../base/coder/kustomize
 patches:
-  - path: patches/ingress.yaml
+  - path: patches/route.yaml
   - path: patches/environment.yaml
     target:
       group: helm.toolkit.fluxcd.io

@@ -17,8 +17,14 @@ spec:
     kind: OCIRepository
     name: cilium
   values:
+    hubble:
+      ui:
+        enabled: true
+      relay:
+        enabled: true
     nodeIPAM:
       enabled: true
     gatewayAPI:
       enabled: true
     defaultLBServiceIPAM: nodeipam
+    kubeProxyReplacement: true

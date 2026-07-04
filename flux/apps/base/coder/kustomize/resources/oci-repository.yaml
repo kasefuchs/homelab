@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://ghcr.io/coder/chart/coder
   ref:
-    semver: "2.30.*"
+    semver: "2.34.*"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy

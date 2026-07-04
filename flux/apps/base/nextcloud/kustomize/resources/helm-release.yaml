@@ -64,6 +64,7 @@ spec:
         - name: apache
           emptyDir: {}
       extraVolumeMounts:
+        # https://github.com/nextcloud/helm/pull/752
         - name: confd
           mountPath: /usr/local/etc/php/conf.d/redis-session.ini
           subPath: redis-session.ini

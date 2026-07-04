@@ -4,4 +4,4 @@ resources:
   - ../../../base/nextcloud/kustomize
 patches:
   - path: patches/storage.yaml
-  - path: patches/ingress.yaml
+  - path: patches/route.yaml

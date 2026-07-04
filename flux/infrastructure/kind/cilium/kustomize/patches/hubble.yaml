@@ -5,13 +5,13 @@ metadata:
 spec:
   values:
     hubble:
-      relay:
-        enabled: true
       ui:
-        enabled: true
-        ingress:
+        # not merged yet, but why not?
+        # https://github.com/cilium/cilium/pull/46792
+        httpRoute:
           enabled: true
-          annotations:
-            external-dns.alpha.kubernetes.io/target: ingress.kind.homelab.test
-          hosts:
+          hostnames:
             - hubble.kind.homelab.test
+          parentRefs:
+            - name: external
+              namespace: gateway-system

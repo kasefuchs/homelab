@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gotosocial
+spec:
+  values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - social.kind.homelab.test
+        parentRefs:
+          - name: external
+            namespace: gateway-system

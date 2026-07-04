@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: conduwuit
+spec:
+  values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - mtarix.kind.homelab.test
+        parentRefs:
+          - name: external
+            namespace: gateway-system

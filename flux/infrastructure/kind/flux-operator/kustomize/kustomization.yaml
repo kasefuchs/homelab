@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../../../base/flux-operator/kustomize
 patches:
-  - path: patches/ingress.yaml
+  - path: patches/route.yaml

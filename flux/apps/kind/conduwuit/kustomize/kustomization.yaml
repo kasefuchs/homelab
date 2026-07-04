@@ -4,4 +4,4 @@ resources:
   - ../../../base/conduwuit/kustomize
 patches:
   - path: patches/config.yaml
-  - path: patches/ingress.yaml
+  - path: patches/route.yaml

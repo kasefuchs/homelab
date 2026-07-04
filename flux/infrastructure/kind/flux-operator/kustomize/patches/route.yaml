@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: flux-operator
+spec:
+  values:
+    web:
+      httpRoute:
+        enabled: true
+        hostnames:
+          - flux.kind.homelab.test
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /

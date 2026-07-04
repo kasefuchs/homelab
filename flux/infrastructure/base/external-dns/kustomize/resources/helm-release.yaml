@@ -22,7 +22,6 @@ spec:
       - ingress
       - gateway-httproute
       - gateway-grpcroute
-      # TODO: https://github.com/kubernetes-sigs/external-dns/issues/6247
-      # - gateway-tcproute
-      # - gateway-udproute
-      # - gateway-tlsroute
+      - gateway-tcproute
+      - gateway-udproute
+      - gateway-tlsroute
