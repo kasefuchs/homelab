@@ -1,7 +1,8 @@
 name: homelab
 services:
   dns:
-    build: {context: dns}
+    build:
+      context: dns
     restart: unless-stopped
     tmpfs:
       - /var/log:mode=777
@@ -9,7 +10,8 @@ services:
       - /var/lib/bind:mode=777
       - /var/cache/bind:mode=777
   recursor:
-    build: {context: recursor}
+    build:
+      context: recursor
     restart: unless-stopped
   registry:
     image: registry:2
@@ -17,7 +19,8 @@ services:
     volumes:
       - registry-data:/var/lib/registry
   registry-proxy:
-    build: {context: "https://github.com/rpardini/docker-registry-proxy.git"}
+    build:
+      context: https://github.com/rpardini/docker-registry-proxy.git
     restart: unless-stopped
     volumes:
       - registry-proxy-certs:/ca

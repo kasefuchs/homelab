@@ -1,16 +1,16 @@
-apiVersion: garage.rajsingh.info/v1alpha1
+apiVersion: garage.rajsingh.info/v1beta2
 kind: GarageCluster
 metadata:
   name: garage
 spec:
-  replicas: 3
   replication:
     factor: 3
   storage:
-    metadata:
-      size: 10Gi
+    replicas: 3
     data:
       size: 100Gi
+    metadata:
+      size: 10Gi
   webApi:
     rootDomain: .web.garage.example.com
   admin:

@@ -3,7 +3,8 @@ includes:
   docker:
     dir: ../docker
     taskfile: ../docker/Taskfile.yaml
-    vars: {ENVIRONMENT: kind}
+    vars:
+      ENVIRONMENT: kind
 vars:
   NODES:
     sh: kind get nodes --name homelab

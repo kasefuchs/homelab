@@ -1,4 +1,4 @@
-apiVersion: garage.rajsingh.info/v1alpha1
+apiVersion: garage.rajsingh.info/v1beta1
 kind: GarageKey
 metadata:
   name: matrix-media-repo-garage-key
@@ -7,6 +7,7 @@ spec:
     name: garage
     namespace: garage
   bucketPermissions:
-    - bucketRef: matrix-media-repo-garage-bucket
+    - bucketRef:
+        name: matrix-media-repo-garage-bucket
       read: true
       write: true

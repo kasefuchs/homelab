@@ -3,7 +3,5 @@ kind: GarageCluster
 metadata:
   name: garage
 spec:
-  storage:
-    replicas: 1
-  replication:
-    factor: 1
+  webApi:
+    rootDomain: .web.garage.vagari.homelab.test

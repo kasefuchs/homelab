@@ -1,4 +1,4 @@
-apiVersion: garage.rajsingh.info/v1alpha1
+apiVersion: garage.rajsingh.info/v1beta1
 kind: GarageKey
 metadata:
   name: gotosocial-garage-key
@@ -7,6 +7,7 @@ spec:
     name: garage
     namespace: garage
   bucketPermissions:
-    - bucketRef: gotosocial-garage-bucket
+    - bucketRef:
+        name: gotosocial-garage-bucket
       read: true
       write: true
