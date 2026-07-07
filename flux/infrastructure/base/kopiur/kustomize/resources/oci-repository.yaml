@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kopiur
+spec:
+  interval: 1h
+  url: oci://ghcr.io/home-operations/charts/kopiur
+  ref:
+    semver: "0.6.*"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy

@@ -20,6 +20,11 @@ services:
   registry-proxy:
     networks:
       - kind
+  s3mock:
+    networks:
+      - kind
+    ports:
+      - "9090:9090"
 networks:
   kind:
     external: true

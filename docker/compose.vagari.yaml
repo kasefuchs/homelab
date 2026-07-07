@@ -19,3 +19,6 @@ services:
   registry-proxy:
     ports:
       - "3128:3128"
+  s3mock:
+    ports:
+      - "9090:9090"

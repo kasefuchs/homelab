@@ -29,6 +29,9 @@ nodes:
       - type: forwarded_port
         host: 3128
         guest: 3128
+      - type: forwarded_port
+        host: 9090
+        guest: 9090
     synced_folders:
       - type: rsync
         host: ../docker
