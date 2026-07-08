@@ -1,10 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium
+  name: cilium-controller
   namespace: flux-system
 spec:
-  path: infrastructure/base/cilium/kustomize
+  path: infrastructure/base/cilium/controller
   wait: false
   prune: true
   timeout: 5m
@@ -15,4 +15,4 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: gateway-api
+    - name: gateway-api-controller

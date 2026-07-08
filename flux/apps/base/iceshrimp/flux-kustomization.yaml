@@ -1,10 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: iceshrimp
+  name: iceshrimp-app
   namespace: flux-system
 spec:
-  path: apps/base/iceshrimp/kustomize
+  path: apps/base/iceshrimp/app
   wait: false
   prune: true
   timeout: 5m

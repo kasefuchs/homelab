@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: apps/kind/gotosocial/kustomize
+        value: apps/kind/gotosocial/app

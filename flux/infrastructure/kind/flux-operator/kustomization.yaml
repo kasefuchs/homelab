@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: infrastructure/kind/flux-operator/kustomize
+        value: infrastructure/kind/flux-operator/controller

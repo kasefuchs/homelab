@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: apps/kind/nextcloud/kustomize
+        value: apps/kind/nextcloud/app

@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: apps/kind/conduwuit/kustomize
+        value: apps/kind/conduwuit/app

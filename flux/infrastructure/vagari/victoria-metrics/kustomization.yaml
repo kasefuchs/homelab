@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: infrastructure/vagari/victoria-metrics/kustomize
+        value: infrastructure/vagari/victoria-metrics/controller

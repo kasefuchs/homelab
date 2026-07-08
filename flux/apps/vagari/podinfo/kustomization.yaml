@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: apps/vagari/podinfo/kustomize
+        value: apps/vagari/podinfo/app

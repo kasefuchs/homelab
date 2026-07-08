@@ -1,10 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: redis-operator
+  name: redis-operator-controller
   namespace: flux-system
 spec:
-  path: infrastructure/base/redis-operator/kustomize
+  path: infrastructure/base/redis-operator/controller
   wait: false
   prune: true
   timeout: 5m
@@ -15,4 +15,4 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: cilium
+    - name: cilium-controller

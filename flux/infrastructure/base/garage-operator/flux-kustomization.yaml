@@ -1,10 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: garage-operator
+  name: garage-operator-controller
   namespace: flux-system
 spec:
-  path: infrastructure/base/garage-operator/kustomize
+  path: infrastructure/base/garage-operator/controller
   wait: false
   prune: true
   timeout: 5m
@@ -15,5 +15,5 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: cilium
-    - name: cert-manager
+    - name: cilium-controller
+    - name: cert-manager-controller

@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: apps/kind/home-assistant/kustomize
+        value: apps/kind/home-assistant/app

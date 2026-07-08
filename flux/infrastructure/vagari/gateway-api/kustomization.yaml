@@ -9,4 +9,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: infrastructure/vagari/gateway-api/kustomize
+        value: infrastructure/vagari/gateway-api/controller
