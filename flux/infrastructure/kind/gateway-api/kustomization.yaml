@@ -6,7 +6,8 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
+      name: gateway-api-config
     patch: |-
       - op: replace
         path: /spec/path
-        value: infrastructure/kind/gateway-api/controller
+        value: infrastructure/kind/gateway-api/config

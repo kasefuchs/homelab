@@ -15,4 +15,4 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: gateway-api-controller
+    - name: gateway-api-crd

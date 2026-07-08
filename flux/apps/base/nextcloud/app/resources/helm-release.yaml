@@ -41,7 +41,7 @@ spec:
         s3:
           enabled: true
           ssl: false
-          host: garage.garage.svc.cluster.local
+          host: garage.garage-operator-system.svc.cluster.local
           port: 3900
           region: garage
           bucket: nextcloud

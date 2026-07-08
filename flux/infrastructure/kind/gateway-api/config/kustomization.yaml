@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../../base/gateway-api/controller
+  - ../../../base/gateway-api/config
 patches:
   - path: patches/no-https.yaml
     target:

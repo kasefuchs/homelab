@@ -16,8 +16,8 @@ services:
   registry:
     image: registry:2
     restart: unless-stopped
-    volumes:
-      - registry-data:/var/lib/registry
+    tmpfs:
+      - /var/lib/registry:mode=777
   registry-proxy:
     build:
       context: https://github.com/rpardini/docker-registry-proxy.git
@@ -34,6 +34,5 @@ services:
       COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: kopia
 volumes:
   dns-data: {}
-  registry-data: {}
   registry-proxy-certs: {}
   registry-proxy-cache: {}

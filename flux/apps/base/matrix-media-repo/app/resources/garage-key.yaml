@@ -5,7 +5,7 @@ metadata:
 spec:
   clusterRef:
     name: garage
-    namespace: garage
+    namespace: garage-operator-system
   bucketPermissions:
     - bucketRef:
         name: matrix-media-repo-garage-bucket

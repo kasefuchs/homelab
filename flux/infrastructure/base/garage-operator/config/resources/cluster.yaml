@@ -11,6 +11,22 @@ spec:
       size: 100Gi
     metadata:
       size: 10Gi
+    env:
+      # i guess there should be a better way
+      - name: GARAGE_ALLOW_WORLD_READABLE_SECRETS
+        value: "true"
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+      runAsUser: 999
+      fsGroup: 999
+    containerSecurityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
   webApi:
     rootDomain: .web.garage.example.com
   admin:

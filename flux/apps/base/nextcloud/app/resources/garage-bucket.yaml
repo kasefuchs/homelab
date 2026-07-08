@@ -6,7 +6,7 @@ spec:
   globalAlias: nextcloud
   clusterRef:
     name: garage
-    namespace: garage
+    namespace: garage-operator-system
   quotas:
     maxSize: 20Gi
   website:
