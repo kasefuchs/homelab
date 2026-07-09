@@ -1,19 +1,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: victoria-metrics-controller
+  name: prometheus-operator-crd
   namespace: flux-system
 spec:
-  path: infrastructure/base/victoria-metrics/controller
+  path: infrastructure/base/prometheus-operator/crd
   wait: true
   prune: true
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: victoria-metrics
+  targetNamespace: flux-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
-  dependsOn:
-    - name: cilium-controller
-    - name: prometheus-operator-crd
