@@ -5,9 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   path: infrastructure/base/garage-operator/controller
-  wait: false
+  wait: true
   prune: true
-  timeout: 5m
+  timeout: 10m
   interval: 1h
   retryInterval: 2m
   targetNamespace: garage-operator-system
@@ -25,9 +25,9 @@ metadata:
   namespace: flux-system
 spec:
   path: infrastructure/base/garage-operator/config
-  wait: false
+  wait: true
   prune: true
-  timeout: 5m
+  timeout: 10m
   interval: 1h
   retryInterval: 2m
   targetNamespace: garage-operator-system
@@ -35,5 +35,4 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: cilium-controller
     - name: garage-operator-controller

@@ -18,4 +18,5 @@ spec:
     name: garage-operator
   values:
     webhooks:
-      enabled: true
+      # workaround for https://github.com/rajsinghtech/garage-operator/issues/272
+      enabled: false

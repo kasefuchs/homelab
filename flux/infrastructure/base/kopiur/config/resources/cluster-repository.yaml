@@ -1,0 +1,17 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: ClusterRepository
+metadata:
+  name: shared
+spec:
+  encryption:
+    passwordSecretRef:
+      namespace: kopiur-system
+      name: kopiur-secret
+      key: KOPIA_PASSWORD
+  allowedNamespaces:
+    selector:
+      matchLabels:
+        # needs a better name
+        kopiur.home-operations.com/repository: enabled
+  server:
+    namespace: kopiur-system

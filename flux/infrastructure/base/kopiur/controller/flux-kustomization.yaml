@@ -1,35 +1,39 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: gateway-api-crd
+  name: kopiur-controller
   namespace: flux-system
 spec:
-  path: infrastructure/base/gateway-api/crd
+  path: infrastructure/base/kopiur/controller
   wait: true
   prune: true
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: gateway-system
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: gateway-api-config
-  namespace: flux-system
-spec:
-  path: infrastructure/base/gateway-api/config
-  wait: true
-  prune: true
-  timeout: 10m
-  interval: 1h
-  retryInterval: 2m
-  targetNamespace: gateway-system
+  targetNamespace: kopiur-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: gateway-api-crd
+    - name: cilium-controller
+    - name: cert-manager-controller
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-config
+  namespace: flux-system
+spec:
+  path: infrastructure/base/kopiur/config
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: kopiur-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: gateway-api-config
+    - name: kopiur-controller

@@ -5,9 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   path: infrastructure/base/external-dns/controller
-  wait: false
+  wait: true
   prune: true
-  timeout: 5m
+  timeout: 10m
   interval: 1h
   retryInterval: 2m
   targetNamespace: external-dns
@@ -16,4 +16,4 @@ spec:
     name: flux-system
   dependsOn:
     - name: cilium-controller
-    - name: gateway-api-crd
+    - name: gateway-api-config

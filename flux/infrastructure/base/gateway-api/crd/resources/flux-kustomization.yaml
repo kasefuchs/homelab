@@ -4,9 +4,9 @@ metadata:
   name: gateway-api-crd
 spec:
   path: config/crd/experimental
-  wait: false
+  wait: true
   prune: true
-  timeout: 5m
+  timeout: 10m
   interval: 1h
   retryInterval: 2m
   sourceRef:

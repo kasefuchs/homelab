@@ -1,0 +1,15 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: ClusterRepository
+metadata:
+  name: shared
+spec:
+  backend:
+    s3:
+      bucket: kopiur
+      endpoint: s3mock:9090
+      tls:
+        disableTls: true
+      auth:
+        secretRef:
+          name: kopiur-secret
+          namespace: kopiur-system
