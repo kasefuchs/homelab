@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kind-tls
+spec:
+  secretName: kind-tls-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned
+  dnsNames:
+    - "*.kind.homelab.test"
+    - "*.web.garage.kind.homelab.test"

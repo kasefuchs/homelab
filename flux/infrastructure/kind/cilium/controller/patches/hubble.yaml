@@ -15,3 +15,4 @@ spec:
           parentRefs:
             - name: external
               namespace: gateway-system
+              sectionName: https

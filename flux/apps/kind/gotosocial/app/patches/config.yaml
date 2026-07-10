@@ -8,5 +8,5 @@ spec:
       host: social.kind.homelab.test
       protocol: http
       advanced-rate-limit-requests: 0
-      storage-s3-redirect-url: http://gotosocial.web.garage.kind.homelab.test
+      storage-s3-redirect-url: https://gotosocial.web.garage.kind.homelab.test
       storage-s3-proxy: false

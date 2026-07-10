@@ -33,3 +33,4 @@ spec:
     name: flux-system
   dependsOn:
     - name: gateway-api-crd
+    - name: cert-manager-config

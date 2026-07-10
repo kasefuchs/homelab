@@ -10,7 +10,8 @@ spec:
         AccountDomain: shrimp.vagari.homelab.test
       Storage:
         ObjectStorage:
-          AccessUrl: http://iceshrimp.web.garage.vagari.homelab.test/
+          AccessUrl: https://iceshrimp.web.garage.vagari.homelab.test/
+          DisableValidation: true
       # Allow private Storage::ObjectStorage AccessUrl endpoint
       Security:
         AllowLocalIPv4: true

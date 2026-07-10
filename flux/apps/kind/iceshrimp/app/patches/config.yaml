@@ -10,7 +10,8 @@ spec:
         AccountDomain: shrimp.kind.homelab.test
       Storage:
         ObjectStorage:
-          AccessUrl: http://iceshrimp.web.garage.kind.homelab.test/
+          AccessUrl: https://iceshrimp.web.garage.kind.homelab.test/
+          DisableValidation: true
       # Allow private Storage::ObjectStorage AccessUrl endpoint
       Security:
         AllowLocalIPv4: true

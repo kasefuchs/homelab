@@ -13,6 +13,7 @@ spec:
           parentRefs:
             - name: external
               namespace: gateway-system
+              sectionName: https
     vmsingle:
       route:
         enabled: true
@@ -21,6 +22,7 @@ spec:
         parentRefs:
           - name: external
             namespace: gateway-system
+            sectionName: https
     vmalert:
       route:
         enabled: true
@@ -29,6 +31,7 @@ spec:
         parentRefs:
           - name: external
             namespace: gateway-system
+            sectionName: https
     vmagent:
       route:
         enabled: true
@@ -37,3 +40,4 @@ spec:
         parentRefs:
           - name: external
             namespace: gateway-system
+            sectionName: https

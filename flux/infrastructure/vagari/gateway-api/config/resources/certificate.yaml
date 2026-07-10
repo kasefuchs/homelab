@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vagari-tls
+spec:
+  secretName: vagari-tls-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned
+  dnsNames:
+    - "*.vagari.homelab.test"
+    - "*.web.garage.vagari.homelab.test"

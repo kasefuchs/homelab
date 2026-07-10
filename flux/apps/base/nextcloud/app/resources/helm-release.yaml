@@ -103,6 +103,6 @@ spec:
       sidecar:
         securityContext: *container-security-context
     livenessProbe:
-      initialDelaySeconds: 30
+      initialDelaySeconds: 60
     readinessProbe:
       initialDelaySeconds: 30
