@@ -6,6 +6,8 @@ spec:
   clusterRef:
     name: garage
     namespace: garage-operator-system
+  secretTemplate:
+    includeBucketName: true
   bucketPermissions:
     - bucketRef:
         name: nextcloud-garage-bucket

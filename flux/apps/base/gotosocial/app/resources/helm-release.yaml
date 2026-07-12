@@ -32,6 +32,11 @@ spec:
                   secretKeyRef:
                     name: gotosocial-db-app
                     key: uri
+              GTS_STORAGE_S3_BUCKET:
+                valueFrom:
+                  secretKeyRef:
+                    name: gotosocial-garage-key
+                    key: bucket
               GTS_STORAGE_S3_ENDPOINT:
                 valueFrom:
                   secretKeyRef:

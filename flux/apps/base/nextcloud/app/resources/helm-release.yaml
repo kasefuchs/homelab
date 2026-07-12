@@ -44,10 +44,10 @@ spec:
           host: garage.garage-operator-system.svc.cluster.local
           port: 3900
           region: garage
-          bucket: nextcloud
           usePathStyle: true
           existingSecret: nextcloud-garage-key
           secretKeys:
+            bucket: bucket
             accessKey: access-key-id
             secretKey: secret-access-key
       configs:

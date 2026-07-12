@@ -16,7 +16,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: garage-operator
-  values:
-    webhooks:
-      # workaround for https://github.com/rajsinghtech/garage-operator/issues/272
-      enabled: false

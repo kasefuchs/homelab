@@ -29,8 +29,6 @@ spec:
     config:
       Storage:
         Provider: ObjectStorage
-        ObjectStorage:
-          Bucket: iceshrimp
   valuesFrom:
     - kind: Secret
       name: iceshrimp-db-app
@@ -56,6 +54,10 @@ spec:
       name: iceshrimp-garage-key
       valuesKey: host
       targetPath: config.Storage.ObjectStorage.Endpoint
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: bucket
+      targetPath: config.Storage.ObjectStorage.Bucket
     - kind: Secret
       name: iceshrimp-garage-key
       valuesKey: region
