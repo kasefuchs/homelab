@@ -56,6 +56,8 @@ spec:
           $CONFIG = array (
             'check_data_directory_permissions' => false,
           );
+      defaultConfigs:
+        imaginary.config.php: true
       extraVolumes:
         - name: confd
           emptyDir: {}
@@ -89,8 +91,20 @@ spec:
         runAsNonRoot: true
         runAsUser: 33
         fsGroup: 33
-    redis:
-      enabled: false
+    imaginary:
+      enabled: true
+      podSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 999
+        fsGroup: 999
+      securityContext:
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
     externalRedis:
       enabled: true
       host: nextcloud-redis
