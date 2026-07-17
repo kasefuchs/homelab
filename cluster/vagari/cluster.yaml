@@ -4,45 +4,25 @@ vm:
 provisioners:
   - type: hostmanager
   - type: shell
-    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi
+    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base
   - type: shell
     inline: sudo rsync -avK /opt/homelab/rootfs/ /
   - type: shell
-    inline: echo "nameserver $(getent hosts docker | awk '{print $1}' | head -n1)" | sudo tee /etc/rancher/k3s/resolv.conf
+    inline: |
+      HOST_IP=$(ip route show default | awk '/default/ {print $3}')
+
+      echo "$HOST_IP docker" | sudo tee -a /etc/hosts
+      echo "nameserver $HOST_IP" | sudo tee /etc/resolv.conf
+
+      sudo iptables -t nat -A OUTPUT -d $HOST_IP -p udp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+      sudo iptables -t nat -A OUTPUT -d $HOST_IP -p tcp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+      sudo iptables -t nat -A PREROUTING -d $HOST_IP -p udp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+      sudo iptables -t nat -A PREROUTING -d $HOST_IP -p tcp --dport 53 -j DNAT --to-destination $HOST_IP:8053
 synced_folders:
   - type: rsync
     host: rootfs
     guest: /opt/homelab/rootfs
 nodes:
-  docker:
-    providers:
-      - type: libvirt
-        cpus: 1
-        memory: 1024
-    networks:
-      - type: forwarded_port
-        host: 8053
-        guest: 53
-      - type: forwarded_port
-        host: 5001
-        guest: 5000
-      - type: forwarded_port
-        host: 3128
-        guest: 3128
-      - type: forwarded_port
-        host: 9090
-        guest: 9090
-    synced_folders:
-      - type: rsync
-        host: ../../docker
-        guest: /opt/homelab/docker
-    provisioners:
-      - type: docker
-        post_install_provision:
-          - type: shell
-            inline: |-
-              cd /opt/homelab/docker
-              sudo docker compose -f compose.yaml -f compose.vagari.yaml up -d
   master:
     vm:
       hostname: master
@@ -55,6 +35,11 @@ nodes:
         host: 6443
         guest: 6443
     provisioners:
+      - type: shell
+        inline: |
+          export HOST_IP=$(getent hosts docker | awk '{print $1}' | head -n1)
+          sudo mkdir -p /var/lib/rancher/k3s/server/manifests
+          envsubst < /templates/coredns-custom.yaml.tpl | sudo tee /var/lib/rancher/k3s/server/manifests/coredns-custom.yaml
       - type: k3s
         args: server
         skip_start: true
@@ -67,8 +52,6 @@ nodes:
           disable-kube-proxy: true
           disable-network-policy: true
           flannel-backend: none
-          cluster-init: true
-          resolv-conf: /etc/rancher/k3s/resolv.conf
       - type: shell
         inline: |-
           retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \
@@ -91,7 +74,6 @@ nodes:
         config:
           server: https://master:6443
           token: baguette
-          resolv-conf: /etc/rancher/k3s/resolv.conf
       - type: shell
         inline: |-
           retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \

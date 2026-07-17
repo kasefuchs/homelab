@@ -8,7 +8,7 @@ spec:
       name: rfc2136
     extraArgs:
       - --rfc2136-host=docker
-      - --rfc2136-port=8053
+      - --rfc2136-port=10053
       - --rfc2136-zone=vagari.homelab.test
       - --rfc2136-insecure
       - --rfc2136-tsig-axfr

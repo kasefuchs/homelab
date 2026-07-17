@@ -7,5 +7,5 @@ vars:
   REVISION:
     sh: git rev-parse HEAD
 tasks:
-  push: flux push artifact oci://localhost:5001/homelab/flux --path=. --source="{{.SOURCE}}" --revision="{{.BRANCH}}@sha1:{{.REVISION}}"
+  push: flux push artifact oci://localhost:5000/homelab/flux --path=. --source="{{.SOURCE}}" --revision="{{.BRANCH}}@sha1:{{.REVISION}}"
   reconcile: flux reconcile source oci flux-system

@@ -6,7 +6,9 @@ metadata:
 spec:
   interval: 10m
   path: infrastructure/vagari
+  wait: true
   prune: true
+  timeout: 20m
   sourceRef:
     kind: OCIRepository
     name: flux-system
