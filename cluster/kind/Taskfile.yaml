@@ -1,8 +1,8 @@
 version: 3
 includes:
   docker:
-    dir: ../docker
-    taskfile: ../docker/Taskfile.yaml
+    dir: ../../docker
+    taskfile: ../../docker/Taskfile.yaml
     vars:
       ENVIRONMENT: kind
 vars:

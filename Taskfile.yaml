@@ -3,9 +3,6 @@ includes:
   flux:
     dir: flux
     taskfile: flux/Taskfile.yaml
-  kind:
-    dir: kind
-    taskfile: kind/Taskfile.yaml
-  vagari:
-    dir: vagari
-    taskfile: vagari/Taskfile.yaml
+  cluster:
+    dir: cluster
+    taskfile: cluster/Taskfile.yaml

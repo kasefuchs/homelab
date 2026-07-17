@@ -34,7 +34,7 @@ nodes:
         guest: 9090
     synced_folders:
       - type: rsync
-        host: ../docker
+        host: ../../docker
         guest: /opt/homelab/docker
     provisioners:
       - type: docker
