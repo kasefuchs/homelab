@@ -6,3 +6,6 @@ includes:
   vagari:
     dir: vagari
     taskfile: vagari/Taskfile.yaml
+  staging:
+    dir: staging
+    taskfile: staging/Taskfile.yaml

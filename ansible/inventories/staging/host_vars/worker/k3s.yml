@@ -1,0 +1,4 @@
+k3s_agent_config:
+  token: "{{ k3s_agent_config_token }}"
+  server: https://10.45.10.1:6443
+  node-ip: 10.45.10.2

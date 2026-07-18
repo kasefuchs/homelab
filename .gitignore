@@ -1,15 +1,25 @@
-# --- IDE / Editor ---
-# JetBrains
+# Editors
 .idea/
+.vscode/
+.zed/
+.gram/
 *.iml
 
-# VSCode
-.vscode/
-
-# --- Tools ---
 # Vagrant
 .vagrant/
 
 # K8s
 kubeconfig
 *.kubeconfig
+
+# Python
+__pycache__/
+.venv/
+*.pyc
+uv.lock
+
+# Ansible
+.ansible/
+
+# Cache
+cache/

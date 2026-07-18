@@ -1,0 +1,11 @@
+k3s_server_config:
+  token: "{{ k3s_agent_config_token }}"
+  disable:
+    - traefik
+    - servicelb
+    - local-storage
+  disable-kube-proxy: true
+  disable-network-policy: true
+  flannel-backend: none
+  node-ip: 10.45.10.1
+  advertise-address: 10.45.10.1

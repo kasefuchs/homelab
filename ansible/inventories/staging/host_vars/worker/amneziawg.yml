@@ -1,0 +1,10 @@
+amneziawg_config_interface:
+  Address: 10.45.10.2/24
+  ListenPort: 48092
+  PrivateKey: 4GbKGwyeEV4BonYKfljPrttkK1BpfMVJzJ1MkaLFIGI=
+amneziawg_config_peers:
+  - PublicKey: "{{ amneziawg_config_public_keys.master }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.worker }}"
+    AllowedIPs: 10.45.10.1/32
+    Endpoint: master:48092
+    PersistentKeepalive: 25

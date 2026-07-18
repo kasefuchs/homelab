@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=none
+vm:
+  box: debian/trixie64
+provisioners:
+  - type: hostmanager
+  - type: shell
+    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base
+  - type: shell
+    inline: |
+      HOST_IP=$(ip route show default | awk '/default/ {print $3}')
+
+      echo "$HOST_IP docker" | sudo tee -a /etc/hosts
+      echo "nameserver $HOST_IP" | sudo tee /etc/resolv.conf
+
+      sudo iptables -t nat -A OUTPUT -d $HOST_IP -p udp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+      sudo iptables -t nat -A OUTPUT -d $HOST_IP -p tcp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+      sudo iptables -t nat -A PREROUTING -d $HOST_IP -p udp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+      sudo iptables -t nat -A PREROUTING -d $HOST_IP -p tcp --dport 53 -j DNAT --to-destination $HOST_IP:8053
+synced_folders:
+  - host: .
+    guest: /vagrant
+    disabled: true
+nodes:
+  master:
+    vm:
+      hostname: master
+    providers:
+      - type: libvirt
+        cpus: 2
+        memory: 3072
+    networks:
+      - type: forwarded_port
+        host: 6443
+        guest: 6443
+  worker:
+    vm:
+      hostname: worker
+    providers:
+      - type: libvirt
+        cpus: 4
+        memory: 6144
+    provisioners:
+      - type: ansible
+        limit: all
+        playbook: ../../ansible/inventories/staging/site.yml
+        groups:
+          amneziawg:
+            - master
+            - worker
+          k3s:
+            - master
+            - worker
+          k3s_server:
+            - master
+          k3s_agent:
+            - worker

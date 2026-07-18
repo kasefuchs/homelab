@@ -1,0 +1,6 @@
+amneziawg_install_kmod: false
+amneziawg_config_public_keys:
+  master: uOcXAFHNV8LICT/6c3SVxKnbEZFBWxXV6QqczE0vSAw=
+  worker: 1WRomCzaFfBEw09Rgaln12atc0DhTsZf5VTc+Da0Wlw=
+amneziawg_config_preshared_keys:
+  worker: bdzjE6R4G1Cy0xxRvE5TfM/Awwwdd7D9ZyuQ+p4xUak=

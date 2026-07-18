@@ -1,0 +1,9 @@
+[project]
+name = "homleab"
+version = "0.0.0"
+requires-python = ">=3.12"
+dependencies = [
+  "ansible>=14.2.0",
+  "github3-py>=4.0.1",
+  "pexpect>=4.9.0",
+]
