@@ -4,7 +4,7 @@ vm:
 provisioners:
   - type: hostmanager
   - type: shell
-    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base
+    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base curl
   - type: shell
     inline: sudo rsync -avK /opt/homelab/rootfs/ /
   - type: shell

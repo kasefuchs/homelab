@@ -8,4 +8,22 @@ k3s_server_config:
   disable-network-policy: true
   flannel-backend: none
   node-ip: 10.45.10.1
+  node-external-ip: "{{ ansible_facts.default_ipv4.address }}"
   advertise-address: 10.45.10.1
+k3s_server_config_manifests:
+  coredns-custom:
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: coredns-custom
+      namespace: kube-system
+    data:
+      docker.server: |
+        docker:53 {
+          errors
+          cache 30
+          hosts {
+            {{ ansible_facts.default_ipv4.gateway }} docker
+            fallthrough
+          }
+        }

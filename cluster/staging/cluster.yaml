@@ -4,7 +4,7 @@ vm:
 provisioners:
   - type: hostmanager
   - type: shell
-    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base
+    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base curl
   - type: shell
     inline: |
       HOST_IP=$(ip route show default | awk '/default/ {print $3}')
