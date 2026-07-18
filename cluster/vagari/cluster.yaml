@@ -6,8 +6,6 @@ provisioners:
   - type: shell
     inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base curl
   - type: shell
-    inline: sudo rsync -avK /opt/homelab/rootfs/ /
-  - type: shell
     inline: |
       HOST_IP=$(ip route show default | awk '/default/ {print $3}')
 
@@ -19,9 +17,9 @@ provisioners:
       sudo iptables -t nat -A PREROUTING -d $HOST_IP -p udp --dport 53 -j DNAT --to-destination $HOST_IP:8053
       sudo iptables -t nat -A PREROUTING -d $HOST_IP -p tcp --dport 53 -j DNAT --to-destination $HOST_IP:8053
 synced_folders:
-  - type: rsync
-    host: rootfs
-    guest: /opt/homelab/rootfs
+  - host: .
+    guest: /vagrant
+    disabled: true
 nodes:
   master:
     vm:
@@ -34,32 +32,6 @@ nodes:
       - type: forwarded_port
         host: 6443
         guest: 6443
-    provisioners:
-      - type: shell
-        inline: |
-          export HOST_IP=$(getent hosts docker | awk '{print $1}' | head -n1)
-          sudo mkdir -p /var/lib/rancher/k3s/server/manifests
-          envsubst < /templates/coredns-custom.yaml.tpl | sudo tee /var/lib/rancher/k3s/server/manifests/coredns-custom.yaml
-      - type: k3s
-        args: server
-        skip_start: true
-        config:
-          token: baguette
-          disable:
-            - traefik
-            - servicelb
-            - local-storage
-          disable-kube-proxy: true
-          disable-network-policy: true
-          flannel-backend: none
-      - type: shell
-        inline: |-
-          retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \
-            | sed 's/docker\.service/k3s\.service/g' \
-            | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
-            | sed 's/restart/restart --no-block/' \
-            | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \
-            | bash
   worker:
     vm:
       hostname: worker
@@ -68,17 +40,17 @@ nodes:
         cpus: 4
         memory: 6144
     provisioners:
-      - type: k3s
-        args: agent
-        skip_start: true
-        config:
-          server: https://master:6443
-          token: baguette
-      - type: shell
-        inline: |-
-          retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \
-            | sed 's/docker\.service/k3s-agent\.service/g' \
-            | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
-            | sed 's/restart/restart --no-block/' \
-            | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \
-            | bash
+      - type: ansible
+        limit: all
+        playbook: ../../ansible/inventories/vagari/site.yml
+        groups:
+          amneziawg:
+            - master
+            - worker
+          k3s:
+            - master
+            - worker
+          k3s_server:
+            - master
+          k3s_agent:
+            - worker

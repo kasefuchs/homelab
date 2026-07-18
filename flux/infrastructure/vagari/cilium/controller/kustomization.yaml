@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - ../../../base/cilium/controller
 patches:
+  - path: patches/device.yaml
   - path: patches/hubble.yaml
   - path: patches/kube-proxy.yaml
