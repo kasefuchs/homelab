@@ -14,7 +14,7 @@ services:
       context: recursor
     restart: unless-stopped
   registry:
-    image: registry:2
+    image: registry:3
     restart: unless-stopped
     tmpfs:
       - /var/lib/registry:mode=777

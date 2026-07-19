@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://ghcr.io/home-operations/charts-mirror/external-dns
   ref:
-    semver: "1.20.*"
+    tag: "1.21.1"
   verify:
     provider: cosign
     matchOIDCIdentity:

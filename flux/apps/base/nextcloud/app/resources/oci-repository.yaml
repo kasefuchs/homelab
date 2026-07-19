@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://ghcr.io/nextcloud/helm/nextcloud
   ref:
-    semver: "9.2.*"
+    tag: "9.2.2"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy

@@ -76,7 +76,7 @@ spec:
           mountPath: /var/run/apache2
       extraInitContainers:
         - name: init-confd
-          image: busybox:1.37.0
+          image: busybox:1.38.0
           command:
             - touch
             - /usr/local/etc/php/conf.d/redis-session.ini

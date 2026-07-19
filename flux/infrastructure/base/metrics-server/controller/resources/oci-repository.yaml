@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://ghcr.io/home-operations/charts-mirror/metrics-server
   ref:
-    semver: "3.13.*"
+    tag: "3.13.1"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
