@@ -17,6 +17,7 @@ spec:
   dependsOn:
     - name: cilium-controller
     - name: gateway-api-crd
+    - name: cert-manager-controller
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
