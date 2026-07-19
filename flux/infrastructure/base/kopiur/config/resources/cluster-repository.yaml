@@ -12,6 +12,8 @@ spec:
     selector:
       matchLabels:
         # needs a better name
-        kopiur.home-operations.com/repository: enabled
+        kopiur.home-operations.com/repository: shared
+  credentialProjection:
+    allowed: true
   server:
     namespace: kopiur-system
