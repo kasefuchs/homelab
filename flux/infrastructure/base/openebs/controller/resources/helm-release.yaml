@@ -1,0 +1,47 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openebs
+spec:
+  interval: 1h
+  releaseName: openebs
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: openebs
+  values:
+    loki:
+      enabled: false
+    alloy:
+      enabled: false
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+        rawfile:
+          enabled: false
+        hostpath:
+          enabled: true
+      replicated:
+        mayastor:
+          enabled: false
+    localpv-provisioner:
+      enabled: true
+      hostpathClass:
+        enabled: true
+        isDefaultClass: true
+    lvm-localpv:
+      enabled: false
+    zfs-localpv:
+      enabled: false
+    rawfile-localpv:
+      enabled: false

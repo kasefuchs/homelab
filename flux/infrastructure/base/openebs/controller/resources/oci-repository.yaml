@@ -1,12 +1,12 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: longhorn
+  name: openebs
 spec:
   interval: 1h
-  url: oci://ghcr.io/home-operations/charts-mirror/longhorn
+  url: oci://ghcr.io/openebs/charts/openebs
   ref:
-    semver: "1.12.*"
+    semver: "4.5.*"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy

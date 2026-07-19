@@ -4,6 +4,7 @@ k3s_server_config:
     - traefik
     - servicelb
     - local-storage
+    - metrics-server
   disable-kube-proxy: true
   disable-network-policy: true
   flannel-backend: none

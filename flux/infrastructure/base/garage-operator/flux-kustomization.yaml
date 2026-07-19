@@ -36,3 +36,4 @@ spec:
     name: flux-system
   dependsOn:
     - name: garage-operator-controller
+    - name: openebs
