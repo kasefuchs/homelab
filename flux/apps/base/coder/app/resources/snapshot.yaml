@@ -64,3 +64,4 @@ spec:
   schedule:
     cron: "H 2 * * *"
     jitter: 30m
+    runOnCreate: false

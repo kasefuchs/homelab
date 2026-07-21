@@ -7,3 +7,7 @@ spec:
     config:
       global:
         new_user_displayname_suffix: "🦊✨"
+        server_name: uwuity.kind.homelab.test
+        well_known:
+          client: https://uwuity.kind.homelab.test
+          server: uwuity.kind.homelab.test:443

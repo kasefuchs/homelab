@@ -5,3 +5,4 @@ resources:
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml
+  - path: patches/media.yaml

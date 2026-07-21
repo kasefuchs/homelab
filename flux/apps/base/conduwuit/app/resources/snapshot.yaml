@@ -1,0 +1,75 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: conduwuit-db
+spec:
+  repository:
+    kind: ClusterRepository
+    name: shared
+  credentialProjection:
+    enabled: true
+  copyMethod: Direct
+  sources:
+    # pvcSelector is not fully wired in kopiur yet
+    # falling back to explicit pvc name
+    - pvc:
+        name: conduwuit-data
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 2
+  mover:
+    inheritSecurityContextFrom:
+      pvcConsumer: {}
+  compression:
+    compressor: zstd
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: conduwuit-db-nightly
+spec:
+  policyRef:
+    name: conduwuit-db
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: conduwuit-media
+spec:
+  repository:
+    kind: ClusterRepository
+    name: shared
+  credentialProjection:
+    enabled: true
+  copyMethod: Direct
+  sources:
+    # pvcSelector is not fully wired in kopiur yet
+    # falling back to explicit pvc name
+    - pvc:
+        name: conduwuit-media
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 2
+  mover:
+    inheritSecurityContextFrom:
+      pvcConsumer: {}
+  compression:
+    compressor: zstd
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: conduwuit-media-nightly
+spec:
+  policyRef:
+    name: conduwuit-media
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false

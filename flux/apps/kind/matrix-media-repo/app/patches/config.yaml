@@ -5,7 +5,7 @@ metadata:
 spec:
   values:
     homeservers:
-      mtarix.kind.homelab.test:
+      uwuity.kind.homelab.test:
         csApi: http://conduwuit.conduwuit:6167/
         backoffAt: 10
         adminApiKind: matrix

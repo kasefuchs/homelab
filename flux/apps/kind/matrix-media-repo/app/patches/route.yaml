@@ -11,7 +11,7 @@ spec:
       main:
         enabled: true
         hostnames:
-          - mtarix.kind.homelab.test
+          - uwuity.kind.homelab.test
         parentRefs:
           - name: external
             namespace: gateway-system

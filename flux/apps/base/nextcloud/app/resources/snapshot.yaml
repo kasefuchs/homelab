@@ -1,7 +1,7 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
 metadata:
-  name: nextcloud
+  name: nextcloud-data
 spec:
   repository:
     kind: ClusterRepository
@@ -56,13 +56,14 @@ spec:
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotSchedule
 metadata:
-  name: nextcloud-nightly
+  name: nextcloud-data-nightly
 spec:
   policyRef:
-    name: nextcloud
+    name: nextcloud-data
   schedule:
     cron: "H 2 * * *"
     jitter: 30m
+    runOnCreate: false
 ---
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
@@ -130,3 +131,4 @@ spec:
   schedule:
     cron: "H 2 * * *"
     jitter: 30m
+    runOnCreate: false
