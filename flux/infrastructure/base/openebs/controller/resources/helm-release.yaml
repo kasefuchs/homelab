@@ -38,6 +38,7 @@ spec:
       enabled: true
       hostpathClass:
         enabled: true
+        nodeDeployment: true
         isDefaultClass: true
     lvm-localpv:
       enabled: false

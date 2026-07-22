@@ -5,6 +5,11 @@ includes:
     taskfile: ../../docker/Taskfile.yaml
     vars:
       ENVIRONMENT: vagari
+  flux:
+    dir: ../../flux
+    taskfile: ../../flux/Taskfile.yaml
+    vars:
+      ENVIRONMENT: vagari
 tasks:
   create:
     deps:

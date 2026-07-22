@@ -5,10 +5,18 @@ includes:
     taskfile: ../../docker/Taskfile.yaml
     vars:
       ENVIRONMENT: kind
-vars:
-  NODES:
-    sh: kind get nodes --name homelab
+  flux:
+    dir: ../../flux
+    taskfile: ../../flux/Taskfile.yaml
+    vars:
+      ENVIRONMENT: kind
 tasks:
+  up:
+    cmds:
+      - task: create
+      - task: setup-registry-proxy
+      - task: flux:push
+      - task: flux:bootstrap
   create:
     deps:
       - docker:up
@@ -22,17 +30,26 @@ tasks:
     ignore_error: true
     deps:
       - docker:pause
-    cmd:
-      for: {var: NODES}
-      cmd: docker pause {{.ITEM}}
+    vars:
+      NODES:
+        sh: kind get nodes --name homelab
+    cmds:
+      - for: {var: NODES}
+        cmd: docker pause "{{.ITEM}}"
   resume:
     ignore_error: true
     deps:
       - docker:unpause
-    cmd:
-      for: {var: NODES}
-      cmd: docker unpause {{.ITEM}}
+    vars:
+      NODES:
+        sh: kind get nodes --name homelab
+    cmds:
+      - for: {var: NODES}
+        cmd: docker unpause "{{.ITEM}}"
   setup-registry-proxy:
-    cmd:
-      for: {var: NODES}
-      cmd: docker exec "{{.ITEM}}" sh -c "curl http://registry-proxy:3128/setup/systemd | sed s/docker\.service/containerd\.service/g | sed '/Environment/ s/$/ \"NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16\"/' | bash"
+    vars:
+      NODES:
+        sh: kind get nodes --name homelab
+    cmds:
+      - for: {var: NODES}
+        cmd: docker exec "{{.ITEM}}" sh -c "curl http://registry-proxy:3128/setup/systemd | sed s/docker\.service/containerd\.service/g | sed '/Environment/ s/$/ \"NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16\"/' | bash"

@@ -11,10 +11,4 @@
       vars:
         k3s_service_name: "{{ 'k3s.service' if inventory_hostname in groups['k3s_server'] else 'k3s-agent.service' }}"
       changed_when: false
-      ansible.builtin.shell: |
-        retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd \
-          | sed "s/docker\.service/{{ k3s_service_name }}/g" \
-          | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \
-          | sed 's/restart/restart --no-block/' \
-          | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \
-          | bash
+      ansible.builtin.shell: retry -d 15 -- curl -fsSL http://docker:3128/setup/systemd | sed "s/docker\.service/{{ k3s_service_name }}/g" \ | sed 's/HTTPS_PROXY/CONTAINERD_HTTPS_PROXY/g' \ | sed 's/restart/restart --no-block/' \ | sed '/Environment/ s/$/ "CONTAINERD_NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16"/' \ | bash
