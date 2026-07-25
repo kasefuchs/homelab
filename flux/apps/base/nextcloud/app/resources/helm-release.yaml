@@ -48,8 +48,8 @@ spec:
           existingSecret: nextcloud-garage-key
           secretKeys:
             bucket: bucket
-            accessKey: access-key-id
-            secretKey: secret-access-key
+            accessKey: accessKeyID
+            secretKey: secretAccessKey
       configs:
         dataperms.config.php: |-
           <?php
