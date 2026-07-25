@@ -22,3 +22,10 @@ spec:
     web:
       networkPolicy:
         create: false
+      config:
+        authentication:
+          type: Anonymous
+          anonymous:
+            username: flux
+            groups:
+              - flux-admin
