@@ -4,9 +4,6 @@ metadata:
   name: s-ui
 spec:
   values:
-    ingress:
-      main:
-        enabled: false
     route:
       main:
         enabled: true

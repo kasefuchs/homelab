@@ -5,6 +5,7 @@ k3s_server_config:
     - servicelb
     - local-storage
     - metrics-server
+  cluster-init: true
   disable-kube-proxy: true
   disable-network-policy: true
   flannel-backend: none

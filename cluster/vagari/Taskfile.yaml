@@ -27,4 +27,4 @@ tasks:
     deps:
       - docker:unpause
     cmd: vagari resume
-  kubeconfig: vagari ssh master -c "sudo cat /etc/rancher/k3s/k3s.yaml"
+  kubeconfig: vagari ssh master -c "sudo cat /etc/rancher/k3s/k3s.yaml" | sed "s/default/vagari-homelab/"

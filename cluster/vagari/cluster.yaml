@@ -4,7 +4,7 @@ vm:
 provisioners:
   - type: hostmanager
   - type: shell
-    inline: apt-get update -y && apt-get install -y git rsync retry open-iscsi iptables gettext-base curl
+    inline: apt-get update -y && apt-get install -y git rsync retry iptables gettext-base curl
   - type: shell
     inline: |
       HOST_IP=$(ip route show default | awk '/default/ {print $3}')
@@ -26,7 +26,7 @@ nodes:
       hostname: master
     providers:
       - type: libvirt
-        cpus: 2
+        cpus: 4
         memory: 3072
     networks:
       - type: forwarded_port
@@ -37,12 +37,12 @@ nodes:
       hostname: worker
     providers:
       - type: libvirt
-        cpus: 4
+        cpus: 6
         memory: 6144
     provisioners:
       - type: ansible
         limit: all
-        playbook: ../../ansible/inventories/vagari/site.yml
+        playbook: ../../ansible/vagari/site.yml
         groups:
           amneziawg:
             - master

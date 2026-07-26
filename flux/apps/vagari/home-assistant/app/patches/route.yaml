@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+spec:
+  values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - home.vagari.homelab.test
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https

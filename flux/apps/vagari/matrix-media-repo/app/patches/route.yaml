@@ -8,7 +8,7 @@ spec:
       main:
         enabled: true
         hostnames:
-          - uwuity.kind.homelab.test
+          - uwuity.vagari.homelab.test
         parentRefs:
           - name: external
             namespace: gateway-system
