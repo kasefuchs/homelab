@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: tekton-operator
+spec:
+  interval: 1h
+  url: oci://ghcr.io/tektoncd/operator/charts/tekton-operator
+  ref:
+    tag: "0.80.0"
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
