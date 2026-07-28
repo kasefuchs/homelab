@@ -16,3 +16,7 @@ spec:
     name: flux-system
   dependsOn:
     - name: gateway-api-crd
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

@@ -2,7 +2,6 @@ apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
 metadata:
   name: flux
-  namespace: flux-system
 spec:
   distribution:
     version: 2.7.x

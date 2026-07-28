@@ -17,3 +17,7 @@ spec:
   dependsOn:
     - name: cilium-controller
     - name: gateway-api-config
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

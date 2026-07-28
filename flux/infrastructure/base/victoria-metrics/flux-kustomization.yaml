@@ -18,3 +18,7 @@ spec:
     - name: cilium-controller
     - name: prometheus-operator-crd
     - name: openebs-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

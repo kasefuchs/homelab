@@ -17,6 +17,10 @@ spec:
   dependsOn:
     - name: cilium-controller
     - name: cert-manager-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -37,3 +41,7 @@ spec:
   dependsOn:
     - name: gateway-api-config
     - name: kopiur-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

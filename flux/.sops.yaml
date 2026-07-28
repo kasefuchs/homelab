@@ -1,0 +1,10 @@
+stores:
+  yaml:
+    indent: 2
+creation_rules:
+  - path_regex: .*/kind/.*\.ya?ml$
+    encrypted_regex: ^(data|stringData)$
+    age: age194uq3r4zu3kjllp8x947yjk0h0hj33v82qwyged2hczzywrc0spsw9vxer
+  - path_regex: .*/vagari/.*\.ya?ml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1tfa0m86eq3r4putn2dn8ddswexj6k6mawjwxcqtauqr5792jtujqxtpwn9

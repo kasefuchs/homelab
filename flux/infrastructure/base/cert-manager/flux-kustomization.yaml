@@ -16,6 +16,10 @@ spec:
     name: flux-system
   dependsOn:
     - name: cilium-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -35,3 +39,7 @@ spec:
     name: flux-system
   dependsOn:
     - name: cert-manager-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

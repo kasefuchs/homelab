@@ -16,3 +16,7 @@ spec:
     name: flux-system
   dependsOn:
     - name: cilium-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
