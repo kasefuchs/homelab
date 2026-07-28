@@ -4,18 +4,11 @@ metadata:
   name: flux
 spec:
   distribution:
-    version: 2.7.x
+    # renovate: datasource=github-releases depName=fluxcd/flux2
+    version: 2.9.3
     registry: ghcr.io/fluxcd
-    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests
-  components:
-    - source-controller
-    - kustomize-controller
-    - helm-controller
   cluster:
-    type: kubernetes
     size: small
-    domain: cluster.local
-    multitenant: false
     networkPolicy: false
   sync:
     kind: OCIRepository

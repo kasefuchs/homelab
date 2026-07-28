@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://codeberg.org/kasefuchs/helm-charts/home-assistant
   ref:
-    tag: "0.2.2"
+    tag: "0.2.3"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
