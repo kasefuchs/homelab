@@ -17,6 +17,8 @@ spec:
     kind: OCIRepository
     name: flux-operator
   values:
+    serviceMonitor:
+      create: true
     reporting:
       interval: 1m
     web:

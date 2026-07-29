@@ -16,3 +16,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: garage-operator
+  values:
+    serviceMonitor:
+      enabled: true

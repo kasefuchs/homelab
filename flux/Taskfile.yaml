@@ -12,6 +12,8 @@ vars:
     sh: yq -r '.spec.ref.tag' infrastructure/base/gateway-api/crd/resources/git-repository.yaml
   FLUX_OPERATOR_VERSION:
     sh: yq -r '.spec.ref.tag' infrastructure/base/flux-operator/controller/resources/oci-repository.yaml
+  PROMETHEUS_OPERATOR_CRD_VERSION:
+    sh: yq -r '.spec.ref.tag' infrastructure/base/prometheus-operator/crd/resources/oci-repository.yaml
 tasks:
   push:
     cmd: flux push artifact oci://localhost:5000/homelab/flux --path=. --source="{{.GIT_SOURCE}}" --revision="{{.GIT_BRANCH}}@sha1:{{.GIT_REVISION}}"
@@ -20,6 +22,7 @@ tasks:
   bootstrap:
     cmds:
       - kubectl apply --server-side=true -f https://github.com/kubernetes-sigs/gateway-api/releases/download/{{.GATEWAY_API_VERSION}}/experimental-install.yaml
+      - kustomize build infrastructure/{{.ENVIRONMENT}}/prometheus-operator/crd/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install prometheus-operator-crds oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds --version {{.PROMETHEUS_OPERATOR_CRD_VERSION}} --namespace kube-system --create-namespace -f -
       - kustomize build infrastructure/{{.ENVIRONMENT}}/cilium/controller/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install cilium oci://quay.io/cilium/charts/cilium --version {{.CILIUM_VERSION}} --namespace kube-system -f -
       - kustomize build infrastructure/{{.ENVIRONMENT}}/flux-operator/controller/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version {{.FLUX_OPERATOR_VERSION}} --namespace flux-system --create-namespace -f -
       - kustomize build clusters/{{.ENVIRONMENT}} | yq -y 'select(.kind != "Kustomization")' | kubectl apply -f -

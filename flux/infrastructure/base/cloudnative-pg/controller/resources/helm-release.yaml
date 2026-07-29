@@ -16,3 +16,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cloudnative-pg
+  values:
+    monitoring:
+      podMonitorEnabled: true
+      grafanaDashboard:
+        create: true

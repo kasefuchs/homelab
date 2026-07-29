@@ -22,3 +22,8 @@ spec:
         enabled: true
       credentialProjection:
         enabled: true
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      dashboards:
+        enabled: true

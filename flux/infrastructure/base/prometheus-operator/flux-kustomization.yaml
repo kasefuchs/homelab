@@ -10,11 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: flux-system
+  targetNamespace: kube-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age

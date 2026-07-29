@@ -15,8 +15,8 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: cilium-controller
     - name: cert-manager-controller
+    - name: prometheus-operator-crd
   decryption:
     provider: sops
     secretRef:

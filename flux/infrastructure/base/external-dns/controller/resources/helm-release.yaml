@@ -25,3 +25,5 @@ spec:
       - gateway-tcproute
       - gateway-udproute
       - gateway-tlsroute
+    serviceMonitor:
+      enabled: true

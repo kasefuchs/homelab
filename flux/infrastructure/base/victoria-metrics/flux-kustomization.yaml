@@ -15,7 +15,6 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: cilium-controller
     - name: prometheus-operator-crd
     - name: openebs-controller
   decryption:

@@ -9,5 +9,7 @@ spec:
           requestRedirect:
             scheme: https
   parentRefs:
+    - name: internal
+      sectionName: http
     - name: external
       sectionName: http

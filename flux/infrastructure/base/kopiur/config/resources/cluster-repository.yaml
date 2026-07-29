@@ -17,3 +17,5 @@ spec:
     allowed: true
   server:
     namespace: kopiur-system
+  maintenance:
+    namespace: kopiur-system

@@ -22,9 +22,34 @@ spec:
         enabled: true
       relay:
         enabled: true
+      metrics:
+        enabled:
+          - dns
+          - drop
+          - tcp
+          - flow
+          - icmp
+          - http
+        serviceMonitor:
+          enabled: true
+        dashboards:
+          enabled: true
     nodeIPAM:
       enabled: true
     gatewayAPI:
       enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    dashboards:
+      enabled: true
+    operator:
+      prometheus:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+      dashboards:
+        enabled: true
     defaultLBServiceIPAM: nodeipam
     kubeProxyReplacement: true

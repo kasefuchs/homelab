@@ -15,7 +15,6 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: cilium-controller
     - name: gateway-api-crd
     - name: cert-manager-controller
   decryption:
