@@ -6,7 +6,16 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
+      name: cilium-controller
     patch: |-
       - op: replace
         path: /spec/path
         value: infrastructure/kind/cilium/controller
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: cilium-config
+    patch: |-
+      - op: replace
+        path: /spec/path
+        value: infrastructure/kind/cilium/config

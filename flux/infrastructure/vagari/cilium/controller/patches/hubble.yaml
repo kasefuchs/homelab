@@ -13,6 +13,6 @@ spec:
           hostnames:
             - hubble.vagari.homelab.test
           parentRefs:
-            - name: external
+            - name: internal
               namespace: gateway-system
               sectionName: https

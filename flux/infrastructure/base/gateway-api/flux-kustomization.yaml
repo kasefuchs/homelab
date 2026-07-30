@@ -33,6 +33,7 @@ spec:
     name: flux-system
   dependsOn:
     - name: gateway-api-crd
+    - name: cilium-config
     - name: cert-manager-config
   decryption:
     provider: sops

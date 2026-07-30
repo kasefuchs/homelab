@@ -3,7 +3,10 @@ kind: Gateway
 metadata:
   name: internal
 spec:
-  gatewayClassName: cilium
+  gatewayClassName: cilium-internal
+  infrastructure:
+    labels:
+      io.cilium/lb-ipam-pool: internal
   listeners:
     - name: http
       port: 80
@@ -26,7 +29,7 @@ kind: Gateway
 metadata:
   name: external
 spec:
-  gatewayClassName: cilium
+  gatewayClassName: cilium-external
   listeners:
     - name: http
       port: 80

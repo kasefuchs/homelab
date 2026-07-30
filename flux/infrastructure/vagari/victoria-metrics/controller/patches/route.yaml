@@ -20,7 +20,7 @@ spec:
         hostnames:
           - vmsingle.vagari.homelab.test
         parentRefs:
-          - name: external
+          - name: internal
             namespace: gateway-system
             sectionName: https
     vmalert:
@@ -29,7 +29,7 @@ spec:
         hostnames:
           - vmalert.vagari.homelab.test
         parentRefs:
-          - name: external
+          - name: internal
             namespace: gateway-system
             sectionName: https
     vmagent:
@@ -38,6 +38,6 @@ spec:
         hostnames:
           - vmagent.vagari.homelab.test
         parentRefs:
-          - name: external
+          - name: internal
             namespace: gateway-system
             sectionName: https

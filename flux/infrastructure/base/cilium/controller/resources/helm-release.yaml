@@ -38,6 +38,12 @@ spec:
       enabled: true
     gatewayAPI:
       enabled: true
+      gatewayClass:
+        # it's a string for some reason
+        # https://github.com/cilium/cilium/blob/9a8982433e18019e290b8199c0c4ad24f66befe8/install/kubernetes/cilium/values.schema.json#L2925
+        create: "false"
+    l2announcements:
+      enabled: true
     prometheus:
       enabled: true
       serviceMonitor:
@@ -51,5 +57,5 @@ spec:
           enabled: true
       dashboards:
         enabled: true
-    defaultLBServiceIPAM: nodeipam
+    defaultLBServiceIPAM: none
     kubeProxyReplacement: true
