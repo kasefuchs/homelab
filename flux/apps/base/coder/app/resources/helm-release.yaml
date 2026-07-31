@@ -22,6 +22,8 @@ spec:
         capabilities:
           drop:
             - ALL
+      service:
+        type: ClusterIP
       env:
         - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
           value: "false"

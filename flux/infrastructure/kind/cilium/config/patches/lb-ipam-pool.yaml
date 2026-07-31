@@ -6,3 +6,5 @@ spec:
   blocks:
     - start: 172.18.250.100
       stop: 172.18.250.250
+    - start: fc00:f853:ccd:e793::100
+      stop: fc00:f853:ccd:e793::250
