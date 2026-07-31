@@ -1,0 +1,8 @@
+k3s_agent_config:
+  token: "{{ k3s_agent_config_token }}"
+  server: https://10.45.16.16:6443
+  node-ip: 10.45.16.20,fd45:45:45:10::20
+  node-external-ip: 85.208.85.159
+  node-label:
+    - net.kasefuchs.homelab/region=cis
+    - net.kasefuchs.homelab/placement=cloud

@@ -8,3 +8,6 @@ creation_rules:
   - path_regex: .*/vagari/.*\.ya?ml$
     encrypted_regex: ^(data|stringData)$
     age: age1tfa0m86eq3r4putn2dn8ddswexj6k6mawjwxcqtauqr5792jtujqxtpwn9
+  - path_regex: .*/production/.*\.ya?ml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1qgv4cfh20qcmhts880afhzvljxp6mv5qlcrxc6weuudew7kelsgqc0v77v

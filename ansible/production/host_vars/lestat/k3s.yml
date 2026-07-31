@@ -1,0 +1,18 @@
+k3s_server_config:
+  token: "{{ k3s_agent_config_token }}"
+  disable:
+    - traefik
+    - servicelb
+    - local-storage
+    - metrics-server
+  cluster-init: true
+  disable-kube-proxy: true
+  disable-network-policy: true
+  flannel-backend: none
+  node-ip: 10.45.16.16,fd45:45:45:10::16
+  node-external-ip: 192.168.1.10
+  advertise-address: 10.45.16.16
+  node-label:
+    - net.kasefuchs.homelab/region=cis
+    - net.kasefuchs.homelab/placement=home
+    - node.kubernetes.io/exclude-from-external-load-balancers
