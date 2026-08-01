@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: s-ui
+spec:
+  values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - sui.kasefuchs.net
+          - xui.kasefuchs.net
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /sub/
+            backendRefs:
+              - identifier: main
+                port: sub
+      admin:
+        enabled: true
+        hostnames:
+          - sui.kasefuchs.net
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: web
