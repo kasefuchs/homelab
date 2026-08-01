@@ -1,0 +1,43 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+spec:
+  values:
+    grafana:
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - grafana.kasefuchs.net
+          parentRefs:
+            - name: external
+              namespace: gateway-system
+              sectionName: https
+    vmsingle:
+      route:
+        enabled: true
+        hostnames:
+          - vmsingle.kasefuchs.net
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+    vmalert:
+      route:
+        enabled: true
+        hostnames:
+          - vmalert.kasefuchs.net
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+    vmagent:
+      route:
+        enabled: true
+        hostnames:
+          - vmagent.kasefuchs.net
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https

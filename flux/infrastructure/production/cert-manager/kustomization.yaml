@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/cert-manager
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: cert-manager-config
+    patch: |-
+      - op: replace
+        path: /spec/path
+        value: infrastructure/production/cert-manager/config

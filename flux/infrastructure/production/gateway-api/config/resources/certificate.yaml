@@ -1,0 +1,26 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kasefuchs-net-tls
+spec:
+  secretName: kasefuchs-net-tls-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-cloudflare
+  dnsNames:
+    - kasefuchs.net
+    - "*.kasefuchs.net"
+    - "*.web.garage.kasefuchs.net"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: floof-fans-tls
+spec:
+  secretName: floof-fans-tls-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-cloudflare
+  dnsNames:
+    - floof.fans
+    - "*.floof.fans"

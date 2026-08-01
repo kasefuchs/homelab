@@ -1,0 +1,18 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+spec:
+  distribution:
+    # renovate: datasource=github-releases depName=fluxcd/flux2
+    version: 2.9.3
+    registry: ghcr.io/fluxcd
+  cluster:
+    size: small
+    networkPolicy: false
+  sync:
+    kind: OCIRepository
+    url: oci://codeberg.org/kasefuchs/homelab/flux
+    ref: latest
+    path: clusters/production
+    interval: 1h

@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-dns
+spec:
+  values:
+    domainFilters:
+      - kasefuchs.net
+      - floof.fans
