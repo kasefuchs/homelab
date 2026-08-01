@@ -4,3 +4,4 @@ resources:
   - resources/gateway.yaml
   - resources/gateway-class.yaml
   - resources/http-route.yaml
+  - resources/namespace.yaml

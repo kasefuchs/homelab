@@ -11,8 +11,7 @@ spec:
   allowedNamespaces:
     selector:
       matchLabels:
-        # needs a better name
-        kopiur.home-operations.com/repository: shared
+        kopiur.home-operations.com/repository-access-shared: "true"
   credentialProjection:
     allowed: true
   server:

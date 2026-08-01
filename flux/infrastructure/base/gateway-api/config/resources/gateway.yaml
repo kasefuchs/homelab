@@ -7,6 +7,12 @@ spec:
   infrastructure:
     labels:
       io.cilium/lb-ipam-pool: internal
+  allowedListeners:
+    namespaces:
+      from: Selector
+      selector:
+        matchLabels:
+          gateway.networking.k8s.io/listener-access-internal: "true"
   listeners:
     - name: http
       port: 80
@@ -19,7 +25,10 @@ spec:
       protocol: HTTPS
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway.networking.k8s.io/route-access-internal: "true"
       tls:
         mode: Terminate
         certificateRefs: []
@@ -30,6 +39,12 @@ metadata:
   name: external
 spec:
   gatewayClassName: cilium-external
+  allowedListeners:
+    namespaces:
+      from: Selector
+      selector:
+        matchLabels:
+          gateway.networking.k8s.io/listener-access-external: "true"
   listeners:
     - name: http
       port: 80
@@ -42,7 +57,10 @@ spec:
       protocol: HTTPS
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway.networking.k8s.io/route-access-external: "true"
       tls:
         mode: Terminate
         certificateRefs: []
