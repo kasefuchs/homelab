@@ -29,6 +29,13 @@ spec:
     config:
       Storage:
         Provider: ObjectStorage
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
   valuesFrom:
     - kind: Secret
       name: iceshrimp-db-app

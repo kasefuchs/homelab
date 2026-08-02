@@ -35,6 +35,17 @@ spec:
         databaseKey: dbname
         usernameKey: user
         passwordKey: password
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: external
+          namespace: gateway-system
+          sectionName: https
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
     nextcloud:
       host: nextcloud.example.com
       objectStore:

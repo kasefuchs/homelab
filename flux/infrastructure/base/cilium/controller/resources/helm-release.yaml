@@ -20,6 +20,14 @@ spec:
     hubble:
       ui:
         enabled: true
+        # not merged yet, but why not?
+        # https://github.com/cilium/cilium/pull/46792
+        httpRoute:
+          enabled: true
+          parentRefs:
+            - name: internal
+              namespace: gateway-system
+              sectionName: https
       relay:
         enabled: true
       metrics:

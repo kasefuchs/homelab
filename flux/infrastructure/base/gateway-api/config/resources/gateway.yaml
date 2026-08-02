@@ -25,10 +25,7 @@ spec:
       protocol: HTTPS
       allowedRoutes:
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              gateway.networking.k8s.io/route-access-internal: "true"
+          from: All
       tls:
         mode: Terminate
         certificateRefs: []

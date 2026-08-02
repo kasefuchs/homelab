@@ -17,6 +17,17 @@ spec:
     kind: OCIRepository
     name: podinfo
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: external
+          namespace: gateway-system
+          sectionName: https
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
     podSecurityContext:
       seccompProfile:
         type: RuntimeDefault

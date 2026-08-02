@@ -16,3 +16,33 @@ spec:
   chartRef:
     kind: OCIRepository
     name: victoria-metrics
+  values:
+    grafana:
+      route:
+        main:
+          enabled: true
+          parentRefs:
+            - name: internal
+              namespace: gateway-system
+              sectionName: https
+    vmsingle:
+      route:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+    vmalert:
+      route:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+    vmagent:
+      route:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https

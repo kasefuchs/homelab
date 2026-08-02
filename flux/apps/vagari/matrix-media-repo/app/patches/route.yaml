@@ -6,23 +6,5 @@ spec:
   values:
     route:
       main:
-        enabled: true
         hostnames:
           - uwuity.vagari.homelab.test
-        parentRefs:
-          - name: external
-            namespace: gateway-system
-            sectionName: https
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /_matrix/media/
-              - path:
-                  type: PathPrefix
-                  value: /_matrix/client/v1/media/
-              - path:
-                  type: PathPrefix
-                  value: /_matrix/federation/v1/media/
-            backendRefs:
-              - identifier: main

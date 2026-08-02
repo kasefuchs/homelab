@@ -6,18 +6,8 @@ spec:
   values:
     route:
       main:
-        enabled: true
         hostnames:
           - social.floof.fans
-        parentRefs:
-          - name: external
-            namespace: gateway-system
-            sectionName: https
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
       apex:
         enabled: true
         hostnames:

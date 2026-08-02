@@ -32,3 +32,9 @@ spec:
             secretKeyRef:
               name: coder-db-app
               key: uri
+      httproute:
+        enable: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https

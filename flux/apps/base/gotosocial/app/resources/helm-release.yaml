@@ -58,3 +58,15 @@ spec:
       storage-s3-bucket: gotosocial
       storage-s3-proxy: true
       storage-s3-use-ssl: false
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /

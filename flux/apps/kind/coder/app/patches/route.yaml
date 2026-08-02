@@ -6,10 +6,5 @@ spec:
   values:
     coder:
       httproute:
-        enable: true
         host: coder.kind.homelab.test
         wildcardHost: "*.coder.kind.homelab.test"
-        parentRefs:
-          - name: external
-            namespace: gateway-system
-            sectionName: https

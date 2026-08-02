@@ -5,15 +5,5 @@ metadata:
 spec:
   values:
     httpRoute:
-      enabled: true
       hostnames:
         - nextcloud.vagari.homelab.test
-      parentRefs:
-        - name: external
-          namespace: gateway-system
-          sectionName: https
-      rules:
-        - matches:
-            - path:
-                type: PathPrefix
-                value: /

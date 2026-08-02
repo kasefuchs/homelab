@@ -24,6 +24,17 @@ spec:
     web:
       networkPolicy:
         create: false
+      httpRoute:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
       config:
         authentication:
           type: Anonymous

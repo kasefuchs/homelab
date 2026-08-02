@@ -16,3 +16,11 @@ spec:
   chartRef:
     kind: OCIRepository
     name: home-assistant
+  values:
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https

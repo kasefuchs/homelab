@@ -7,37 +7,17 @@ spec:
     grafana:
       route:
         main:
-          enabled: true
           hostnames:
             - grafana.kind.homelab.test
-          parentRefs:
-            - name: external
-              namespace: gateway-system
-              sectionName: https
     vmsingle:
       route:
-        enabled: true
         hostnames:
           - vmsingle.kind.homelab.test
-        parentRefs:
-          - name: internal
-            namespace: gateway-system
-            sectionName: https
     vmalert:
       route:
-        enabled: true
         hostnames:
           - vmalert.kind.homelab.test
-        parentRefs:
-          - name: internal
-            namespace: gateway-system
-            sectionName: https
     vmagent:
       route:
-        enabled: true
         hostnames:
           - vmagent.kind.homelab.test
-        parentRefs:
-          - name: internal
-            namespace: gateway-system
-            sectionName: https

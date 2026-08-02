@@ -4,5 +4,5 @@ resources:
   - ../../../base/cilium/controller
 patches:
   - path: patches/kube-proxy.yaml
-  - path: patches/hubble.yaml
+  - path: patches/route.yaml
   - path: patches/routing.yaml

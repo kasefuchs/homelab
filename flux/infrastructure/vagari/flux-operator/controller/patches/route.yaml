@@ -6,15 +6,5 @@ spec:
   values:
     web:
       httpRoute:
-        enabled: true
         hostnames:
           - flux.vagari.homelab.test
-        parentRefs:
-          - name: internal
-            namespace: gateway-system
-            sectionName: https
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /

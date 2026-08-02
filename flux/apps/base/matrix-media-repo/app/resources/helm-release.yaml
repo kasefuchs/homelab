@@ -40,6 +40,26 @@ spec:
         opts:
           tempPath: /tmp/
           ssl: false
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /_matrix/media/
+              - path:
+                  type: PathPrefix
+                  value: /_matrix/client/v1/media/
+              - path:
+                  type: PathPrefix
+                  value: /_matrix/federation/v1/media/
+            backendRefs:
+              - identifier: main
   valuesFrom:
     - kind: Secret
       name: matrix-media-repo-db-app

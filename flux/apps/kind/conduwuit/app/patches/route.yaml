@@ -6,10 +6,5 @@ spec:
   values:
     route:
       main:
-        enabled: true
         hostnames:
           - uwuity.kind.homelab.test
-        parentRefs:
-          - name: external
-            namespace: gateway-system
-            sectionName: https

@@ -16,3 +16,26 @@ spec:
   chartRef:
     kind: OCIRepository
     name: s-ui
+  values:
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: web
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /sub/
+            backendRefs:
+              - identifier: main
+                port: sub

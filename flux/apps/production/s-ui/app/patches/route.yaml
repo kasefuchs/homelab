@@ -6,14 +6,9 @@ spec:
   values:
     route:
       main:
-        enabled: true
         hostnames:
           - sui.kasefuchs.net
           - xui.kasefuchs.net
-        parentRefs:
-          - name: external
-            namespace: gateway-system
-            sectionName: https
         rules:
           - matches:
               - path:
