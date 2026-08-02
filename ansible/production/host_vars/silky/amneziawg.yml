@@ -1,0 +1,23 @@
+amneziawg_config_interface:
+  Address: 10.45.16.20/24, fd45:45:45:10::20/64
+  ListenPort: 48092
+  PrivateKey: "{{ amneziawg_config_private_key }}"
+  PostUp: sysctl -w net.ipv4.ip_forward=1; sysctl -w net.ipv6.conf.all.forwarding=1
+amneziawg_config_peers:
+  # mala
+  - PublicKey: "{{ amneziawg_config_public_keys.mala }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.mala }}"
+    AllowedIPs: 10.45.32.16/32, fd45:45:45:20::16/128
+    Endpoint: mala.kasefuchs.net:48526
+  # lestat
+  - PublicKey: "{{ amneziawg_config_public_keys.lestat }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.lestat }}"
+    AllowedIPs: 10.45.16.16/32, fd45:45:45:10::16/128
+  # apex
+  - PublicKey: "{{ amneziawg_config_public_keys.apex }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.apex }}"
+    AllowedIPs: 10.45.224.16/32, fd45:45:45:e0::16/128
+  # pixel
+  - PublicKey: "{{ amneziawg_config_public_keys.pixel }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.pixel }}"
+    AllowedIPs: 10.45.224.20/32, fd45:45:45:e0::20/128

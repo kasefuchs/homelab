@@ -1,0 +1,11 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gotosocial
+spec:
+  values:
+    config:
+      host: social.floof.fans
+      account-domain: floof.fans
+      storage-s3-redirect-url: https://gotosocial.web.garage.kasefuchs.net
+      storage-s3-proxy: false

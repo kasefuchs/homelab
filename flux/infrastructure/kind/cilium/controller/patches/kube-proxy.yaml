@@ -1,0 +1,8 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  values:
+    k8sServiceHost: homelab-control-plane
+    k8sServicePort: 6443

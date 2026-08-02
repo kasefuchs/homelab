@@ -1,0 +1,14 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: ClusterRepository
+metadata:
+  name: external
+spec:
+  backend:
+    s3:
+      bucket: kopiur
+      endpoint: s3.cloud.ru
+      region: ru-central-1
+      auth:
+        secretRef:
+          name: kopiur-secret
+          namespace: kopiur-system

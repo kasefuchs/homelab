@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gotosocial
+spec:
+  values:
+    route:
+      main:
+        hostnames:
+          - social.kind.homelab.test

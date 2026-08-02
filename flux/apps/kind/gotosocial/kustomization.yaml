@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/gotosocial
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: gotosocial-app
+    patch: |-
+      - op: replace
+        path: /spec/path
+        value: apps/kind/gotosocial/app

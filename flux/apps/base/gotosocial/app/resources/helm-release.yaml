@@ -1,0 +1,72 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gotosocial
+spec:
+  interval: 1h
+  releaseName: gotosocial
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: gotosocial
+  values:
+    persistence:
+      storage:
+        enabled: false
+      database:
+        enabled: false
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              GTS_DB_POSTGRES_CONNECTION_STRING:
+                valueFrom:
+                  secretKeyRef:
+                    name: gotosocial-db-app
+                    key: uri
+              GTS_STORAGE_S3_BUCKET:
+                valueFrom:
+                  secretKeyRef:
+                    name: gotosocial-garage-key
+                    key: bucket
+              GTS_STORAGE_S3_ENDPOINT:
+                valueFrom:
+                  secretKeyRef:
+                    name: gotosocial-garage-key
+                    key: host
+              GTS_STORAGE_S3_ACCESS_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: gotosocial-garage-key
+                    key: accessKeyID
+              GTS_STORAGE_S3_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: gotosocial-garage-key
+                    key: secretAccessKey
+    config:
+      db-type: postgres
+      storage-backend: s3
+      storage-s3-bucket: gotosocial
+      storage-s3-proxy: true
+      storage-s3-use-ssl: false
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /

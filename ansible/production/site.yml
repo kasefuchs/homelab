@@ -1,0 +1,8 @@
+- hosts: amneziawg
+  become: true
+  roles:
+    - kasefuchs.general.amneziawg
+- hosts: k3s
+  become: true
+  roles:
+    - kasefuchs.general.k3s

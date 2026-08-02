@@ -1,0 +1,14 @@
+version: 3
+vars:
+  COMPOSE_CMD: docker compose -f compose.yaml -f compose.{{.ENVIRONMENT}}.yaml
+tasks:
+  up: "{{.COMPOSE_CMD}} up -d"
+  down: "{{.COMPOSE_CMD}} down"
+  build: "{{.COMPOSE_CMD}} build"
+  restart: "{{.COMPOSE_CMD}} restart"
+  pause:
+    ignore_error: true
+    cmd: "{{.COMPOSE_CMD}} pause"
+  unpause:
+    ignore_error: true
+    cmd: "{{.COMPOSE_CMD}} unpause"

@@ -1,0 +1,79 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iceshrimp
+spec:
+  interval: 1h
+  releaseName: iceshrimp
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: iceshrimp
+  values:
+    persistence:
+      media:
+        enabled: false
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/kasefuchs/containers/iceshrimp.net
+    config:
+      Storage:
+        Provider: ObjectStorage
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: external
+            namespace: gateway-system
+            sectionName: https
+  valuesFrom:
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: host
+      targetPath: config.Database.Host
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: port
+      targetPath: config.Database.Port
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: dbname
+      targetPath: config.Database.Database
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: user
+      targetPath: config.Database.Username
+    - kind: Secret
+      name: iceshrimp-db-app
+      valuesKey: password
+      targetPath: config.Database.Password
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: host
+      targetPath: config.Storage.ObjectStorage.Endpoint
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: bucket
+      targetPath: config.Storage.ObjectStorage.Bucket
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: region
+      targetPath: config.Storage.ObjectStorage.Region
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: accessKeyID
+      targetPath: config.Storage.ObjectStorage.KeyId
+    - kind: Secret
+      name: iceshrimp-garage-key
+      valuesKey: secretAccessKey
+      targetPath: config.Storage.ObjectStorage.SecretKey

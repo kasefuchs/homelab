@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/listeners/1/tls/certificateRefs/-
+  value:
+    name: kasefuchs-net-tls-secret
+    kind: Secret
+- op: add
+  path: /spec/listeners/1/tls/certificateRefs/-
+  value:
+    name: floof-fans-tls-secret
+    kind: Secret

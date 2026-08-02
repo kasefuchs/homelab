@@ -1,0 +1,67 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: coder-db
+spec:
+  repository:
+    kind: ClusterRepository
+    name: external
+  credentialProjection:
+    enabled: true
+  copyMethod: Direct
+  sources:
+    # pvcSelector is not fully wired in kopiur yet
+    # falling back to explicit pvc name
+    - pvc:
+        name: coder-db-1
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 2
+  mover:
+    inheritSecurityContextFrom:
+      pvcConsumer: {}
+  compression:
+    compressor: zstd
+  hooks:
+    beforeSnapshot:
+      - workloadExec:
+          podSelector:
+            matchLabels:
+              cnpg.io/cluster: coder-db
+              cnpg.io/instanceRole: primary
+          container: postgres
+          command:
+            - "psql"
+            - "-U"
+            - "postgres"
+            - "-c"
+            - "SELECT pg_backup_start('kopiur');"
+          timeout: 2m
+    afterSnapshot:
+      - workloadExec:
+          podSelector:
+            matchLabels:
+              cnpg.io/cluster: coder-db
+              cnpg.io/instanceRole: primary
+          container: postgres
+          command:
+            - "psql"
+            - "-U"
+            - "postgres"
+            - "-c"
+            - "SELECT pg_backup_stop();"
+          timeout: 2m
+          continueOnFailure: true
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: coder-db-nightly
+spec:
+  policyRef:
+    name: coder-db
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false

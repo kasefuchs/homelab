@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: iceshrimp-db
+spec:
+  instances: 1
+  storage:
+    size: 10Gi
+  bootstrap:
+    initdb:
+      owner: iceshrimp
+      database: iceshrimp

@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+spec:
+  values:
+    grafana:
+      route:
+        main:
+          hostnames:
+            - grafana.vagari.homelab.test
+    vmsingle:
+      route:
+        hostnames:
+          - vmsingle.vagari.homelab.test
+    vmalert:
+      route:
+        hostnames:
+          - vmalert.vagari.homelab.test
+    vmagent:
+      route:
+        hostnames:
+          - vmagent.vagari.homelab.test

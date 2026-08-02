@@ -1,0 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: prometheus-operator-crd
+  namespace: flux-system
+spec:
+  path: infrastructure/base/prometheus-operator/crd
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: kube-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system

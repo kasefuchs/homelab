@@ -1,0 +1,27 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+spec:
+  distribution:
+    # renovate: datasource=github-releases depName=fluxcd/flux2
+    version: 2.9.3
+    registry: ghcr.io/fluxcd
+  cluster:
+    size: small
+    networkPolicy: false
+  sync:
+    kind: OCIRepository
+    url: oci://docker:5000/homelab/flux
+    ref: latest
+    path: clusters/vagari
+    interval: 1m
+  kustomize:
+    patches:
+      - # language="yaml"
+        patch: |-
+          - op: add
+            path: /spec/insecure
+            value: true
+        target:
+          kind: OCIRepository

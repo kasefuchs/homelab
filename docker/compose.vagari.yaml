@@ -1,0 +1,24 @@
+services:
+  dns:
+    ports:
+      - "10053:53/udp"
+      - "10053:53/tcp"
+    environment:
+      ZONE_NAME: vagari.homelab.test
+  recursor:
+    ports:
+      - "8053:53/udp"
+      - "8053:53/tcp"
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+    environment:
+      ZONE_NAME: vagari.homelab.test
+  registry:
+    ports:
+      - "5000:5000"
+  registry-proxy:
+    ports:
+      - "3128:3128"
+  s3mock:
+    ports:
+      - "9090:9090"

@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+spec:
+  values:
+    grafana:
+      route:
+        main:
+          hostnames:
+            - grafana.kasefuchs.net
+    vmsingle:
+      route:
+        hostnames:
+          - vmsingle.kasefuchs.net
+    vmalert:
+      route:
+        hostnames:
+          - vmalert.kasefuchs.net
+    vmagent:
+      route:
+        hostnames:
+          - vmagent.kasefuchs.net

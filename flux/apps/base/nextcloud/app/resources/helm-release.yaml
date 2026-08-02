@@ -1,0 +1,133 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+spec:
+  interval: 1h
+  releaseName: nextcloud
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: nextcloud
+  values:
+    x-container-security-context: &container-security-context
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+    internalDatabase:
+      enabled: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-db-app
+        hostKey: host
+        databaseKey: dbname
+        usernameKey: user
+        passwordKey: password
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: external
+          namespace: gateway-system
+          sectionName: https
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+    nextcloud:
+      host: nextcloud.example.com
+      objectStore:
+        s3:
+          enabled: true
+          ssl: false
+          host: garage.garage-operator-system.svc.cluster.local
+          port: 3900
+          region: garage
+          usePathStyle: true
+          existingSecret: nextcloud-garage-key
+          secretKeys:
+            bucket: bucket
+            accessKey: accessKeyID
+            secretKey: secretAccessKey
+      configs:
+        dataperms.config.php: |-
+          <?php
+          $CONFIG = array (
+            'check_data_directory_permissions' => false,
+          );
+      defaultConfigs:
+        imaginary.config.php: true
+      extraVolumes:
+        - name: confd
+          emptyDir: {}
+        - name: tmpfs
+          emptyDir: {}
+        - name: apache
+          emptyDir: {}
+      extraVolumeMounts:
+        # https://github.com/nextcloud/helm/pull/752
+        - name: confd
+          mountPath: /usr/local/etc/php/conf.d/redis-session.ini
+          subPath: redis-session.ini
+        - name: tmpfs
+          mountPath: /tmp
+        - name: apache
+          mountPath: /var/run/apache2
+      extraInitContainers:
+        - name: init-confd
+          image: busybox:1.38.0
+          command:
+            - touch
+            - /usr/local/etc/php/conf.d/redis-session.ini
+          volumeMounts:
+            - name: confd
+              mountPath: /usr/local/etc/php/conf.d
+          securityContext: *container-security-context
+      securityContext: *container-security-context
+      podSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 33
+        fsGroup: 33
+    imaginary:
+      enabled: true
+      podSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 999
+        fsGroup: 999
+      securityContext:
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+    externalRedis:
+      enabled: true
+      host: nextcloud-redis
+      port: 6379
+    persistence:
+      enabled: true
+      size: 10Gi
+    cronjob:
+      enabled: true
+      sidecar:
+        securityContext: *container-security-context
+    livenessProbe:
+      initialDelaySeconds: 60
+    readinessProbe:
+      initialDelaySeconds: 30

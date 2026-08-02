@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-dns
+spec:
+  interval: 1h
+  releaseName: external-dns
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: external-dns
+  values:
+    sources:
+      - service
+      - ingress
+      - gateway-httproute
+      - gateway-grpcroute
+      - gateway-tcproute
+      - gateway-udproute
+      - gateway-tlsroute
+    serviceMonitor:
+      enabled: true

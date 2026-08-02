@@ -1,0 +1,41 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-crd
+  namespace: flux-system
+spec:
+  path: infrastructure/base/gateway-api/crd
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: kube-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-config
+  namespace: flux-system
+spec:
+  path: infrastructure/base/gateway-api/config
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: gateway-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: gateway-api-crd
+    - name: cilium-config
+    - name: cert-manager-config
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

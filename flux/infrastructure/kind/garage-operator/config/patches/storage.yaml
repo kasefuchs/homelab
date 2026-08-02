@@ -1,0 +1,10 @@
+apiVersion: garage.rajsingh.info/v1beta2
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  storage:
+    data:
+      size: 10Gi
+    metadata:
+      size: 1Gi

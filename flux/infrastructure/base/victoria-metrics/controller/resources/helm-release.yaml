@@ -1,0 +1,48 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+spec:
+  interval: 1h
+  releaseName: victoria-metrics-k8s-stack
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: victoria-metrics
+  values:
+    grafana:
+      route:
+        main:
+          enabled: true
+          parentRefs:
+            - name: internal
+              namespace: gateway-system
+              sectionName: https
+    vmsingle:
+      route:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+    vmalert:
+      route:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https
+    vmagent:
+      route:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: gateway-system
+            sectionName: https

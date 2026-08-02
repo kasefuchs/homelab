@@ -1,0 +1,39 @@
+apiVersion: garage.rajsingh.info/v1beta2
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  replication:
+    factor: 3
+  storage:
+    replicas: 3
+    data:
+      size: 100Gi
+    metadata:
+      size: 10Gi
+    env:
+      # i guess there should be a better way
+      - name: GARAGE_ALLOW_WORLD_READABLE_SECRETS
+        value: "true"
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+      runAsUser: 999
+      fsGroup: 999
+    containerSecurityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+  webApi:
+    rootDomain: .web.garage.example.com
+  admin:
+    adminTokenSecretRef:
+      name: garage-secret
+      key: admin-token
+  network:
+    rpcSecretRef:
+      name: garage-secret
+      key: rpc-secret

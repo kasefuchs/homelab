@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/values/coder/env/-
+  value:
+    name: CODER_ACCESS_URL
+    value: https://coder.kind.homelab.test
+- op: add
+  path: /spec/values/coder/env/-
+  value:
+    name: CODER_WILDCARD_ACCESS_URL
+    value: "*.coder.kind.homelab.test"

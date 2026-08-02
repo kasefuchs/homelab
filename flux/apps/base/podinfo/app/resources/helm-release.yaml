@@ -1,0 +1,42 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: podinfo
+spec:
+  interval: 1h
+  releaseName: podinfo
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: podinfo
+  values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: external
+          namespace: gateway-system
+          sectionName: https
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 1000
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL

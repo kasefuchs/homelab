@@ -1,0 +1,30 @@
+version: 3
+includes:
+  docker:
+    dir: ../../docker
+    taskfile: ../../docker/Taskfile.yaml
+    vars:
+      ENVIRONMENT: vagari
+  flux:
+    dir: ../../flux
+    taskfile: ../../flux/Taskfile.yaml
+    vars:
+      ENVIRONMENT: vagari
+tasks:
+  create:
+    deps:
+      - docker:up
+    cmd: vagari up
+  delete:
+    deps:
+      - docker:down
+    cmd: vagari destroy -f
+  pause:
+    deps:
+      - docker:pause
+    cmd: vagari suspend
+  resume:
+    deps:
+      - docker:unpause
+    cmd: vagari resume
+  kubeconfig: vagari ssh master -c "sudo cat /etc/rancher/k3s/k3s.yaml" | sed "s/default/vagari-homelab/"

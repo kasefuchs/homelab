@@ -1,0 +1,38 @@
+name: homelab
+services:
+  dns:
+    build:
+      context: dns
+    restart: unless-stopped
+    tmpfs:
+      - /var/log:mode=777
+      - /etc/bind:mode=777
+      - /var/lib/bind:mode=777
+      - /var/cache/bind:mode=777
+  recursor:
+    build:
+      context: recursor
+    restart: unless-stopped
+  registry:
+    image: registry:3
+    restart: unless-stopped
+    tmpfs:
+      - /var/lib/registry:mode=777
+  registry-proxy:
+    build:
+      context: https://github.com/rpardini/docker-registry-proxy.git
+    restart: unless-stopped
+    volumes:
+      - registry-proxy-certs:/ca
+      - registry-proxy-cache:/docker_mirror_cache
+    environment:
+      ENABLE_MANIFEST_CACHE: true
+  s3mock:
+    image: adobe/s3mock:5.1.0
+    restart: unless-stopped
+    environment:
+      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: kopiur
+volumes:
+  dns-data: {}
+  registry-proxy-certs: {}
+  registry-proxy-cache: {}

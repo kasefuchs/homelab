@@ -1,0 +1,8 @@
+$TTL 86400
+@   IN  SOA dns. admin.{{ env.Getenv "ZONE_NAME" }}. (
+            2026010101 ; serial
+            3600       ; refresh
+            1800       ; retry
+            604800     ; expire
+            86400 )    ; minimum
+    IN  NS dns.

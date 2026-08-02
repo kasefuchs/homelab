@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/nextcloud
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: nextcloud-app
+    patch: |-
+      - op: replace
+        path: /spec/path
+        value: apps/kind/nextcloud/app

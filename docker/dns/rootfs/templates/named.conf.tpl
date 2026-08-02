@@ -1,0 +1,15 @@
+options {
+  directory "/var/cache/bind";
+  listen-on port 53 { any; };
+  listen-on-v6 port 53 { any; };
+  allow-query { any; };
+  allow-update { any; };
+  allow-transfer { any; };
+  recursion no;
+  dnssec-validation no;
+};
+
+zone "{{ env.Getenv "ZONE_NAME" }}." {
+  type primary;
+  file "/var/lib/bind/db.{{ env.Getenv "ZONE_NAME" }}";
+};

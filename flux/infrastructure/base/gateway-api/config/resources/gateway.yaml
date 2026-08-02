@@ -1,0 +1,63 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal
+spec:
+  gatewayClassName: cilium-internal
+  infrastructure:
+    labels:
+      io.cilium/lb-ipam-pool: internal
+  allowedListeners:
+    namespaces:
+      from: Selector
+      selector:
+        matchLabels:
+          gateway.networking.k8s.io/listener-access-internal: "true"
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs: []
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+spec:
+  gatewayClassName: cilium-external
+  allowedListeners:
+    namespaces:
+      from: Selector
+      selector:
+        matchLabels:
+          gateway.networking.k8s.io/listener-access-external: "true"
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway.networking.k8s.io/route-access-external: "true"
+      tls:
+        mode: Terminate
+        certificateRefs: []

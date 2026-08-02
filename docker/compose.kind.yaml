@@ -1,0 +1,33 @@
+services:
+  dns:
+    networks:
+      - kind
+    ports:
+      - "10053:53/udp"
+      - "10053:53/tcp"
+    environment:
+      ZONE_NAME: kind.homelab.test
+  recursor:
+    networks:
+      - kind
+    ports:
+      - "8053:53/udp"
+      - "8053:53/tcp"
+    environment:
+      ZONE_NAME: kind.homelab.test
+  registry:
+    networks:
+      - kind
+    ports:
+      - "5000:5000"
+  registry-proxy:
+    networks:
+      - kind
+  s3mock:
+    networks:
+      - kind
+    ports:
+      - "9090:9090"
+networks:
+  kind:
+    external: true

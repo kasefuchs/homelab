@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: matrix-media-repo-garage
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: matrix-media-repo-garage
+    namespace: matrix-media-repo
+  csi:
+    driver: ru.yandex.s3.csi
+    volumeHandle: matrix-media-repo
+    volumeAttributes:
+      mounter: geesefs
+      options: "--no-systemd --memory-limit 500 --dir-mode 0777 --file-mode 0666"
+    nodeStageSecretRef:
+      name: matrix-media-repo-garage-key
+      namespace: matrix-media-repo
+    nodePublishSecretRef:
+      name: matrix-media-repo-garage-key
+      namespace: matrix-media-repo
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: matrix-media-repo-garage
+spec:
+  volumeName: matrix-media-repo-garage
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi

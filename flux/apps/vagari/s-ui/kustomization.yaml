@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/s-ui
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: s-ui-app
+    patch: |-
+      - op: replace
+        path: /spec/path
+        value: apps/vagari/s-ui/app
