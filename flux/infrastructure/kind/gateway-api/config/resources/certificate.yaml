@@ -8,5 +8,9 @@ spec:
     kind: ClusterIssuer
     name: selfsigned
   dnsNames:
+    - kind.homelab.test
     - "*.kind.homelab.test"
+    - "*.kopiur.kind.homelab.test"
+    - s3.garage.kind.homelab.test
+    - "*.s3.garage.kind.homelab.test"
     - "*.web.garage.kind.homelab.test"

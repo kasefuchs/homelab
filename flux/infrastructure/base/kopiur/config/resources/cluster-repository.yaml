@@ -15,6 +15,7 @@ spec:
   credentialProjection:
     allowed: true
   server:
+    readOnly: true
     namespace: kopiur-system
   maintenance:
     namespace: kopiur-system

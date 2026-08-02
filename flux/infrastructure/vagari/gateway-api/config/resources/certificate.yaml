@@ -8,5 +8,9 @@ spec:
     kind: ClusterIssuer
     name: selfsigned
   dnsNames:
+    - vagari.homelab.test
     - "*.vagari.homelab.test"
+    - "*.kopiur.vagari.homelab.test"
+    - s3.garage.vagari.homelab.test
+    - "*.s3.garage.vagari.homelab.test"
     - "*.web.garage.vagari.homelab.test"
