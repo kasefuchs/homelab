@@ -13,3 +13,7 @@ amneziawg_config_peers:
   - PublicKey: "{{ amneziawg_config_public_keys.apex }}"
     PresharedKey: "{{ amneziawg_config_preshared_keys.apex }}"
     AllowedIPs: 10.45.224.16/32, fd45:45:45:e0::16/128
+  # pixel
+  - PublicKey: "{{ amneziawg_config_public_keys.pixel }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.pixel }}"
+    AllowedIPs: 10.45.224.20/32, fd45:45:45:e0::20/128

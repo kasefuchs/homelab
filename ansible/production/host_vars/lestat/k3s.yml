@@ -15,4 +15,4 @@ k3s_server_config:
   node-label:
     - net.kasefuchs.homelab/region=cis
     - net.kasefuchs.homelab/placement=home
-    - node.kubernetes.io/exclude-from-external-load-balancers
+    - node.kubernetes.io/exclude-from-external-load-balancers=
