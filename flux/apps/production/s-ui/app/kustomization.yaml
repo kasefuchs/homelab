@@ -5,3 +5,4 @@ resources:
 patches:
   - path: patches/route.yaml
   - path: patches/placement.yaml
+  - path: patches/service.yaml

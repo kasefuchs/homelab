@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: s-ui
+spec:
+  values:
+    service:
+      direct:
+        type: NodePort
+        ports:
+          hysteria:
+            port: 3000
+            protocol: UDP
+      gateway:
+        type: ClusterIP
+        ports:
+          reality:
+            port: 4000
