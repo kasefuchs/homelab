@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iceshrimp
+spec:
+  values:
+    config:
+      Instance:
+        WebDomain: shrimp.floof.fans
+        AccountDomain: shrimp.floof.fans
+      Storage:
+        ObjectStorage:
+          AccessUrl: https://iceshrimp.web.garage.kasefuchs.net/
+          DisableValidation: true

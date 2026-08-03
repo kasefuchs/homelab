@@ -29,6 +29,8 @@ spec:
     config:
       Storage:
         Provider: ObjectStorage
+      Security:
+        Registrations: Invite
     route:
       main:
         enabled: true
