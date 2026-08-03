@@ -38,13 +38,12 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: external
+        - group: gateway.networking.k8s.io
+          kind: ListenerSet
+          name: external
           namespace: gateway-system
-      rules:
-        - matches:
-            - path:
-                type: PathPrefix
-                value: /
+    phpClientHttpsFix:
+      enabled: true
     nextcloud:
       host: nextcloud.example.com
       objectStore:
@@ -60,6 +59,9 @@ spec:
             bucket: bucket
             accessKey: accessKeyID
             secretKey: secretAccessKey
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secret
       configs:
         dataperms.config.php: |-
           <?php
