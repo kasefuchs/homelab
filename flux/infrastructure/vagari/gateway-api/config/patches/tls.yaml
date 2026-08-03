@@ -1,5 +1,0 @@
-- op: add
-  path: /spec/listeners/1/tls/certificateRefs/-
-  value:
-    name: vagari-tls-secret
-    kind: Secret

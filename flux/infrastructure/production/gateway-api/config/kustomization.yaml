@@ -4,7 +4,4 @@ resources:
   - ../../../base/gateway-api/config
   - resources/certificate.yaml
 patches:
-  - path: patches/tls.yaml
-    target:
-      group: gateway.networking.k8s.io
-      kind: Gateway
+  - path: patches/listener-set.yaml

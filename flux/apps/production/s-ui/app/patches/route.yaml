@@ -8,28 +8,3 @@ spec:
       main:
         hostnames:
           - sui.kasefuchs.net
-          - xui.kasefuchs.net
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /sub/
-            backendRefs:
-              - identifier: main
-                port: sub
-      admin:
-        enabled: true
-        hostnames:
-          - sui.kasefuchs.net
-        parentRefs:
-          - name: internal
-            namespace: gateway-system
-            sectionName: https
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - identifier: main
-                port: web

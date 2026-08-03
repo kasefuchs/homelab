@@ -13,9 +13,10 @@ spec:
         hostnames:
           - floof.fans
         parentRefs:
-          - name: external
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
             namespace: gateway-system
-            sectionName: https
         rules:
           - matches:
               - path:
@@ -27,3 +28,5 @@ spec:
               - path:
                   type: Exact
                   value: /.well-known/nodeinfo
+            backendRefs:
+              - identifier: main

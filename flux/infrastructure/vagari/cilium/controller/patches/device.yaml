@@ -4,4 +4,8 @@ metadata:
   name: cilium
 spec:
   values:
-    devices: awg0,eth0
+    devices:
+      - awg+
+      - eth+
+      - enp+
+      - ens+

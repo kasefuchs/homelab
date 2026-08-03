@@ -1,0 +1,62 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: external
+spec:
+  listeners:
+    - name: https-kasefuchs-net-apex
+      hostname: kasefuchs.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: &allowed-external-routes
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway.networking.k8s.io/route-access-external: "true"
+      tls: &kasefuchs-net-tls
+        mode: Terminate
+        certificateRefs:
+          - name: kasefuchs-net-tls-secret
+            kind: Secret
+    - name: https-kasefuchs-net-wildcard
+      hostname: "*.kasefuchs.net"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: *allowed-external-routes
+      tls: *kasefuchs-net-tls
+    - name: https-floof-fans-apex
+      hostname: floof.fans
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: *allowed-external-routes
+      tls: &floof-fans-tls
+        mode: Terminate
+        certificateRefs:
+          - name: floof-fans-tls-secret
+            kind: Secret
+    - name: https-floof-fans-wildcard
+      hostname: "*.floof.fans"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: *allowed-external-routes
+      tls: *floof-fans-tls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: internal
+spec:
+  listeners:
+    - name: https-kasefuchs-net-wildcard
+      hostname: "*.kasefuchs.net"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kasefuchs-net-tls-secret
+            kind: Secret

@@ -4,9 +4,10 @@ metadata:
   name: garage-s3
 spec:
   parentRefs:
-    - name: external
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: external
       namespace: gateway-system
-      sectionName: https
   rules:
     - matches:
         - path:
@@ -22,9 +23,10 @@ metadata:
   name: garage-web
 spec:
   parentRefs:
-    - name: external
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: external
       namespace: gateway-system
-      sectionName: https
   rules:
     - matches:
         - path:

@@ -1,0 +1,46 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: external
+spec:
+  listeners:
+    - name: https-kind-apex
+      hostname: kind.homelab.test
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: &allowed-external-routes
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway.networking.k8s.io/route-access-external: "true"
+      tls: &kind-tls
+        mode: Terminate
+        certificateRefs:
+          - name: kind-tls-secret
+            kind: Secret
+    - name: https-kind-wildcard
+      hostname: "*.kind.homelab.test"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: *allowed-external-routes
+      tls: *kind-tls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: internal
+spec:
+  listeners:
+    - name: https-kind-wildcard
+      hostname: "*.kind.homelab.test"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kind-tls-secret
+            kind: Secret

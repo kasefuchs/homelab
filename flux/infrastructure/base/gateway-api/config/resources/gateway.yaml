@@ -20,15 +20,6 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
-    - name: https
-      port: 443
-      protocol: HTTPS
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Terminate
-        certificateRefs: []
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
@@ -49,15 +40,3 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
-    - name: https
-      port: 443
-      protocol: HTTPS
-      allowedRoutes:
-        namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              gateway.networking.k8s.io/route-access-external: "true"
-      tls:
-        mode: Terminate
-        certificateRefs: []

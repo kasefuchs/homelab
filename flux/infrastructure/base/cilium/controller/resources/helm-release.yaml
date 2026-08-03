@@ -17,6 +17,10 @@ spec:
     kind: OCIRepository
     name: cilium
   values:
+    devices:
+      - eth+
+      - enp+
+      - ens+
     hubble:
       ui:
         enabled: true
@@ -25,9 +29,10 @@ spec:
         httpRoute:
           enabled: true
           parentRefs:
-            - name: internal
+            - group: gateway.networking.k8s.io
+              kind: ListenerSet
+              name: internal
               namespace: gateway-system
-              sectionName: https
       relay:
         enabled: true
       metrics:
@@ -47,9 +52,7 @@ spec:
     gatewayAPI:
       enabled: true
       gatewayClass:
-        # it's a string for some reason
-        # https://github.com/cilium/cilium/blob/9a8982433e18019e290b8199c0c4ad24f66befe8/install/kubernetes/cilium/values.schema.json#L2925
-        create: "false"
+        create: false
     ipv6:
       enabled: true
     l2announcements:

@@ -4,9 +4,10 @@ metadata:
   name: kopiur-ui-external
 spec:
   parentRefs:
-    - name: internal
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: internal
       namespace: gateway-system
-      sectionName: https
   rules:
     - matches:
         - path:

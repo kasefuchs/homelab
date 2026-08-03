@@ -5,3 +5,4 @@ resources:
   - resources/gateway-class.yaml
   - resources/http-route.yaml
   - resources/namespace.yaml
+  - resources/listener-set.yaml

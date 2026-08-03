@@ -21,6 +21,7 @@ spec:
       main:
         enabled: true
         parentRefs:
-          - name: external
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
             namespace: gateway-system
-            sectionName: https

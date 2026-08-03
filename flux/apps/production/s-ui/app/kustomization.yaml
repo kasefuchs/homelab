@@ -4,3 +4,4 @@ resources:
   - ../../../base/s-ui/app
 patches:
   - path: patches/route.yaml
+  - path: patches/placement.yaml
