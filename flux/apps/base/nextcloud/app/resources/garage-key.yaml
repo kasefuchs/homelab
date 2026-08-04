@@ -8,8 +8,6 @@ spec:
     namespace: garage-operator-system
   secretTemplate:
     includeBucketName: true
-    accessKeyIdKey: accessKeyID
-    secretAccessKeyKey: secretAccessKey
   bucketPermissions:
     - bucketRef:
         name: nextcloud-garage-bucket

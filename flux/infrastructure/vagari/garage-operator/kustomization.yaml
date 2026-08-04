@@ -11,3 +11,11 @@ patches:
       - op: replace
         path: /spec/path
         value: infrastructure/vagari/garage-operator/config
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: garage-operator-backup
+    patch: |-
+      - op: replace
+        path: /spec/path
+        value: infrastructure/vagari/garage-operator/backup

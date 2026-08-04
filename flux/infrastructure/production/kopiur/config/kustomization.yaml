@@ -6,3 +6,7 @@ resources:
 patches:
   - path: patches/backend.yaml
   - path: patches/route.yaml
+  - path: patches/schedule.yaml
+    target:
+      group: kopiur.home-operations.com
+      kind: ClusterRepository

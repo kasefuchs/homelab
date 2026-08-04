@@ -1,0 +1,13 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage-backup
+spec:
+  values:
+    config:
+      target:
+        region: us-east-1
+        provider: Other
+        endpoint: http://s3mock:9090
+      alias:
+        remote: target:garage

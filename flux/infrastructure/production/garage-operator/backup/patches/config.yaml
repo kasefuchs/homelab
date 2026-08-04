@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage-backup
+spec:
+  values:
+    config:
+      target:
+        region: ru-central-1
+        provider: Other
+        endpoint: https://s3.cloud.ru
+        storage_class: ICE
+      alias:
+        remote: target:garage

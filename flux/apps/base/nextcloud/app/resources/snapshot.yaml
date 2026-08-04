@@ -132,36 +132,3 @@ spec:
     cron: "H 2 * * *"
     jitter: 30m
     runOnCreate: false
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotPolicy
-metadata:
-  name: nextcloud-garage
-spec:
-  repository:
-    kind: ClusterRepository
-    name: external
-  credentialProjection:
-    enabled: true
-  copyMethod: Direct
-  sources:
-    - pvc:
-        name: nextcloud-garage
-  retention:
-    keepLatest: 3
-    keepDaily: 7
-    keepWeekly: 2
-  compression:
-    compressor: zstd
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: nextcloud-garage-nightly
-spec:
-  policyRef:
-    name: nextcloud-garage
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false

@@ -74,9 +74,9 @@ spec:
       targetPath: config.Storage.ObjectStorage.Region
     - kind: Secret
       name: iceshrimp-garage-key
-      valuesKey: accessKeyID
+      valuesKey: access-key-id
       targetPath: config.Storage.ObjectStorage.KeyId
     - kind: Secret
       name: iceshrimp-garage-key
-      valuesKey: secretAccessKey
+      valuesKey: secret-access-key
       targetPath: config.Storage.ObjectStorage.SecretKey
