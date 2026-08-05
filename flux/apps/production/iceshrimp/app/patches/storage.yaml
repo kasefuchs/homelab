@@ -12,4 +12,4 @@ metadata:
   name: iceshrimp-garage-bucket
 spec:
   quotas:
-    maxSize: 50Gi
+    maxSize: 30Gi

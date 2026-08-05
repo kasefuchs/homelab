@@ -4,7 +4,7 @@ metadata:
   name: gotosocial-db
 spec:
   storage:
-    size: 5Gi
+    size: 15Gi
 ---
 apiVersion: garage.rajsingh.info/v1beta1
 kind: GarageBucket
@@ -12,4 +12,4 @@ metadata:
   name: gotosocial-garage-bucket
 spec:
   quotas:
-    maxSize: 10Gi
+    maxSize: 30Gi

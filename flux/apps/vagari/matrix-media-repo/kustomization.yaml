@@ -10,4 +10,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: apps/kind/matrix-media-repo/app
+        value: apps/vagari/matrix-media-repo/app
