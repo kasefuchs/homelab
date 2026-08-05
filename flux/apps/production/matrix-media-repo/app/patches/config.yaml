@@ -4,8 +4,19 @@ metadata:
   name: matrix-media-repo
 spec:
   values:
+    config:
+      rateLimit:
+        enabled: false
+    persistence:
+      secrets:
+        type: secret
+        name: matrix-media-repo-secret
+        globalMounts:
+          - path: /app/secrets
+            readOnly: true
     homeservers:
-      uwuity.kind.homelab.test:
+      uwuity.floof.fans:
         csApi: http://conduwuit-main.conduwuit:6167/
         backoffAt: 10
         adminApiKind: matrix
+        signingKeyPath: /app/secrets/uwuity.floof.fans.key

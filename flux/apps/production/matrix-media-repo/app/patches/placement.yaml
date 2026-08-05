@@ -1,0 +1,12 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: matrix-media-repo
+spec:
+  values:
+    controllers:
+      main:
+        pod:
+          nodeSelector:
+            net.kasefuchs.homelab/region: eu
+            net.kasefuchs.homelab/placement: cloud
