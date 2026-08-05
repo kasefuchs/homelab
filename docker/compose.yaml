@@ -31,7 +31,7 @@ services:
     image: adobe/s3mock:5.1.0
     restart: unless-stopped
     environment:
-      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: kopiur,garage
+      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: kopiur
 volumes:
   dns-data: {}
   registry-proxy-certs: {}

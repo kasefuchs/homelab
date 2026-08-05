@@ -5,6 +5,7 @@ resources:
   - resources/redis-cluster.yaml
   - resources/garage-bucket.yaml
   - resources/garage-key.yaml
+  - resources/garage-csi.yaml
   - resources/helm-release.yaml
   - resources/namespace.yaml
   - resources/oci-repository.yaml

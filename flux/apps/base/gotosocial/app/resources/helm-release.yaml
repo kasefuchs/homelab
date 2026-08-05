@@ -46,12 +46,12 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: gotosocial-garage-key
-                    key: access-key-id
+                    key: accessKeyID
               GTS_STORAGE_S3_SECRET_KEY:
                 valueFrom:
                   secretKeyRef:
                     name: gotosocial-garage-key
-                    key: secret-access-key
+                    key: secretAccessKey
     config:
       db-type: postgres
       storage-backend: s3

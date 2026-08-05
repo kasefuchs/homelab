@@ -65,3 +65,36 @@ spec:
     cron: "H 2 * * *"
     jitter: 30m
     runOnCreate: false
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: matrix-media-repo-garage
+spec:
+  repository:
+    kind: ClusterRepository
+    name: external
+  credentialProjection:
+    enabled: true
+  copyMethod: Direct
+  sources:
+    - pvc:
+        name: matrix-media-repo-garage
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 2
+  compression:
+    compressor: zstd
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: matrix-media-repo-garage-nightly
+spec:
+  policyRef:
+    name: matrix-media-repo-garage
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false
