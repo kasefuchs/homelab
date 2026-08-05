@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: matrix-media-repo-db
+spec:
+  storage:
+    size: 15Gi
+---
+apiVersion: garage.rajsingh.info/v1beta1
+kind: GarageBucket
+metadata:
+  name: matrix-media-repo-garage-bucket
+spec:
+  quotas:
+    maxSize: 50Gi

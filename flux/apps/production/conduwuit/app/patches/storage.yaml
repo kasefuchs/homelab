@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: conduwuit
+spec:
+  values:
+    persistence:
+      data:
+        enabled: true
+        size: 20Gi
