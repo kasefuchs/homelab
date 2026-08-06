@@ -26,6 +26,9 @@ spec:
               kind: ListenerSet
               name: internal
               namespace: gateway-system
+      sidecar:
+        dashboards:
+          searchNamespace: ALL
     vmsingle:
       route:
         enabled: true
