@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kusai-mastodon
+spec:
+  values:
+    config:
+      users:
+        houl:
+          train:
+            source: "@Houl@wetdry.world"
+            chain:
+              max_context_size: 1
+          instance:
+            api_url: https://shrimp.floof.fans
+    controllers:
+      post: &common-controller
+        containers:
+          main:
+            envFrom:
+              - secretRef:
+                  name: kusai-mastodon-secret
+      reply: *common-controller
+      train: *common-controller
