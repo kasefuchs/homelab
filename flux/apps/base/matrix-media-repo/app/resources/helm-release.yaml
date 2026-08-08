@@ -20,13 +20,6 @@ spec:
     persistence:
       media:
         enabled: false
-    config:
-      redis:
-        enabled: true
-        databaseNumber: 0
-        shards:
-          - name: main
-            addr: matrix-media-repo-redis:6379
     datastores:
       file:
         forKinds: []
@@ -40,6 +33,35 @@ spec:
         opts:
           tempPath: /tmp/
           ssl: false
+    config:
+      accessTokens:
+        maxCacheTimeSeconds: 43200
+      redis:
+        enabled: true
+        databaseNumber: 0
+        shards:
+          - name: main
+            addr: matrix-media-repo-redis:6379
+      rateLimit:
+        enabled: false
+      urlPreviews:
+        oEmbed: true
+      thumbnails:
+        types:
+          - image/jpeg
+          - image/jpg
+          - image/png
+          - image/apng
+          - image/gif
+          - image/heif
+          - image/heic
+          - image/webp
+          - image/bmp
+          - image/tiff
+          - audio/mpeg
+          - audio/ogg
+          - audio/wav
+          - audio/flac
     route:
       main:
         enabled: true
@@ -59,6 +81,14 @@ spec:
               - path:
                   type: PathPrefix
                   value: /_matrix/federation/v1/media/
+              # gently stolen from
+              # https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/roles/custom/matrix-media-repo/defaults/main.yml
+              - path:
+                  type: RegularExpression
+                  value: ^/_matrix/client/(r0|v1|v3|unstable)/logout(/all)?$
+              - path:
+                  type: RegularExpression
+                  value: ^/_matrix/client/(r0|v1|v3|unstable)/admin/(purge_media_cache|quarantine_media/.*)$
             backendRefs:
               - identifier: main
   valuesFrom:

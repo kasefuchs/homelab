@@ -5,8 +5,8 @@ metadata:
 spec:
   values:
     config:
-      rateLimit:
-        enabled: false
+      admins:
+        - "@kasefuchs:uwuity.floof.fans"
     persistence:
       secrets:
         type: secret

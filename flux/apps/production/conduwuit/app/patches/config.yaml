@@ -13,3 +13,7 @@ spec:
         well_known:
           client: https://uwuity.floof.fans
           server: uwuity.floof.fans:443
+        auto_join_rooms:
+          - "#space:uwuity.floof.fans"
+          - "#general:uwuity.floof.fans"
+          - "#announcements:uwuity.floof.fans"
