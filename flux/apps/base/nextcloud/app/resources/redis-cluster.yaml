@@ -19,10 +19,10 @@ spec:
       drop:
         - ALL
   storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
+    volumeMount:
+      volume:
+        - name: data
+          emptyDir: {}
+      mountPath:
+        - name: data
+          mountPath: /data
