@@ -4,7 +4,8 @@ metadata:
   name: s-ui
 spec:
   values:
-    pod:
-      nodeSelector:
-        net.kasefuchs.homelab/region: eu
-        net.kasefuchs.homelab/placement: cloud
+    controllers:
+      main:
+        pod:
+          nodeSelector:
+            topology.kubernetes.io/region: eu-central

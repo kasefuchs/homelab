@@ -13,6 +13,5 @@ k3s_server_config:
   node-external-ip: 192.168.1.10
   advertise-address: 10.45.16.16
   node-label:
-    - net.kasefuchs.homelab/region=cis
-    - net.kasefuchs.homelab/placement=home
-    - node.kubernetes.io/exclude-from-external-load-balancers=
+    - topology.kubernetes.io/region=cis-west
+    - node.kubernetes.io/exclude-from-external-load-balancers=true

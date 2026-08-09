@@ -8,5 +8,4 @@ spec:
       main:
         pod:
           nodeSelector:
-            net.kasefuchs.homelab/region: eu
-            net.kasefuchs.homelab/placement: cloud
+            topology.kubernetes.io/region: eu-central
