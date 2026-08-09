@@ -9,6 +9,8 @@ nodes:
         containerPath: /etc/containerd/certs.d
         readOnly: true
   - role: worker
+    labels:
+      garage.rajsingh.info/node-local-pool: tmp-10gi
     extraMounts:
       - *containerd-certs-mount
 networking:

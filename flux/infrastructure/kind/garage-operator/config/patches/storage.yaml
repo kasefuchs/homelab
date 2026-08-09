@@ -1,0 +1,21 @@
+apiVersion: garage.rajsingh.info/v1beta2
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  replication:
+    factor: 1
+  storage:
+    replicas: 0
+    nodeLocalPools:
+      - name: tmp-10gi
+        capacity: 10Gi
+        data:
+          hostPath: /tmp/garage/data
+          hostPathType: DirectoryOrCreate
+        metadata:
+          hostPath: /tmp/garage/meta
+          hostPathType: DirectoryOrCreate
+        selector:
+          matchLabels:
+            garage.rajsingh.info/node-local-pool: tmp-10gi

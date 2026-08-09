@@ -8,8 +8,8 @@ spec:
   storage:
     replicas: 0
     nodeLocalPools:
-      - name: ssd-250gi
-        capacity: 250Gi
+      - name: ssd-50gi
+        capacity: 50Gi
         data:
           hostPath: /var/lib/garage/data
           hostPathType: Directory
@@ -18,4 +18,4 @@ spec:
           hostPathType: Directory
         selector:
           matchLabels:
-            garage.rajsingh.info/node-local-pool: ssd-250gi
+            garage.rajsingh.info/node-local-pool: ssd-50gi
