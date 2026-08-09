@@ -1,8 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "github>home-operations/renovate-presets//config/managerFilePatterns.json5",
-    "github>home-operations/renovate-presets//managers/annotated.json5"
-  ]
+  "extends": ["github>home-operations/renovate-presets#7.0.0"]
 }

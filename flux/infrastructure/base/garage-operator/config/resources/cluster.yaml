@@ -3,14 +3,7 @@ kind: GarageCluster
 metadata:
   name: garage
 spec:
-  replication:
-    factor: 3
   storage:
-    replicas: 3
-    data:
-      size: 100Gi
-    metadata:
-      size: 10Gi
     env:
       # i guess there should be a better way
       - name: GARAGE_ALLOW_WORLD_READABLE_SECRETS
@@ -27,8 +20,6 @@ spec:
       capabilities:
         drop:
           - ALL
-  webApi:
-    rootDomain: .web.garage.example.com
   admin:
     adminTokenSecretRef:
       name: garage-secret

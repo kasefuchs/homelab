@@ -3,9 +3,6 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: internal
 spec:
-  blocks:
-    - start: 172.18.250.10
-      stop: 172.18.250.200
   serviceSelector:
     matchLabels:
       io.cilium/lb-ipam-pool: internal
