@@ -17,6 +17,8 @@ spec:
     kind: OCIRepository
     name: kopiur
   values:
+    logging:
+      format: json
     features:
       kopiaUi:
         enabled: true

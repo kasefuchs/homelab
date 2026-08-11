@@ -17,6 +17,7 @@ spec:
     kind: OCIRepository
     name: external-dns
   values:
+    logFormat: json
     sources:
       - service
       - ingress

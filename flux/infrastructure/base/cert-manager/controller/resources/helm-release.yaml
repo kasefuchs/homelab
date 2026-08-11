@@ -19,6 +19,9 @@ spec:
   values:
     crds:
       enabled: true
+    config:
+      logging:
+        format: json
     prometheus:
       servicemonitor:
         enabled: true

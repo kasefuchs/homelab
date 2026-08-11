@@ -18,6 +18,7 @@ spec:
     name: metrics-server
   values:
     args:
+      - --logging-format=json
       - --kubelet-insecure-tls
     apiService:
       insecureSkipTLSVerify: false

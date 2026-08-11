@@ -63,6 +63,8 @@ spec:
         enabled: true
     dashboards:
       enabled: true
+    logOptions:
+      format: json
     operator:
       prometheus:
         enabled: true

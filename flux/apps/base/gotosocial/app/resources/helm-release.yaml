@@ -54,6 +54,7 @@ spec:
                     key: secretAccessKey
     config:
       db-type: postgres
+      log-format: json
       storage-backend: s3
       storage-s3-bucket: gotosocial
       storage-s3-proxy: true

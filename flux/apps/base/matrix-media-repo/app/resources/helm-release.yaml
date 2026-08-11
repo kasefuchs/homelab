@@ -34,6 +34,8 @@ spec:
           tempPath: /tmp/
           ssl: false
     config:
+      repo:
+        jsonLogs: true
       accessTokens:
         maxCacheTimeSeconds: 43200
       redis:
