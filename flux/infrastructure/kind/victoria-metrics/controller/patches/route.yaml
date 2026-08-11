@@ -21,3 +21,11 @@ spec:
       route:
         hostnames:
           - vmagent.kind.homelab.test
+    vlsingle:
+      route:
+        hostnames:
+          - vlsingle.kind.homelab.test
+    vlagent:
+      route:
+        hostnames:
+          - vlagent.kind.homelab.test

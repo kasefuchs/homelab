@@ -21,3 +21,11 @@ spec:
       route:
         hostnames:
           - vmagent.kasefuchs.net
+    vlsingle:
+      route:
+        hostnames:
+          - vlsingle.kasefuchs.net
+    vlagent:
+      route:
+        hostnames:
+          - vlagent.kasefuchs.net

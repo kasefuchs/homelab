@@ -21,35 +21,36 @@ spec:
       route:
         main:
           enabled: true
-          parentRefs:
+          parentRefs: &internal-parent-refs
             - group: gateway.networking.k8s.io
               kind: ListenerSet
               name: internal
               namespace: gateway-system
+      plugins:
+        - victoriametrics-metrics-datasource
+        - victoriametrics-logs-datasource
       sidecar:
         dashboards:
           searchNamespace: ALL
     vmsingle:
       route:
         enabled: true
-        parentRefs:
-          - group: gateway.networking.k8s.io
-            kind: ListenerSet
-            name: internal
-            namespace: gateway-system
+        parentRefs: *internal-parent-refs
     vmalert:
       route:
         enabled: true
-        parentRefs:
-          - group: gateway.networking.k8s.io
-            kind: ListenerSet
-            name: internal
-            namespace: gateway-system
+        parentRefs: *internal-parent-refs
     vmagent:
       route:
         enabled: true
-        parentRefs:
-          - group: gateway.networking.k8s.io
-            kind: ListenerSet
-            name: internal
-            namespace: gateway-system
+        parentRefs: *internal-parent-refs
+    vlsingle:
+      enabled: true
+      route:
+        enabled: true
+        parentRefs: *internal-parent-refs
+    vlagent:
+      enabled: true
+      route:
+        enabled: true
+        parentRefs: *internal-parent-refs
