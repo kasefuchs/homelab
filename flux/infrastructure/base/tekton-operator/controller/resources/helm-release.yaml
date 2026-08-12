@@ -21,6 +21,9 @@ spec:
     operator:
       autoInstallComponents: false
       defaultTargetNamespace: tekton-system
+      additionalEnvs:
+        - name: IMAGE_PIPELINES_ARG__SHELL_IMAGE
+          value: gcr.io/distroless/base:debug-nonroot@sha256:73532e54641a478ac4a0f8ebbe31e525f2c36af57a2fe10a0a3df69c40c824a6
     podSecurityContext:
       seccompProfile:
         type: RuntimeDefault
