@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://codeberg.org/kasefuchs/helm-charts/matrix-media-repo
   ref:
-    tag: "0.3.1"
+    tag: "0.4.1"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy

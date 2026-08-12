@@ -22,6 +22,12 @@ spec:
         enabled: false
       database:
         enabled: false
+    serviceMonitor:
+      main:
+        enabled: true
+    configMaps:
+      dashboard:
+        enabled: true
     controllers:
       main:
         containers:
@@ -67,3 +73,6 @@ spec:
             kind: ListenerSet
             name: external
             namespace: gateway-system
+        rules:
+          - backendRefs:
+              - identifier: main

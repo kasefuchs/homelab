@@ -20,6 +20,12 @@ spec:
     persistence:
       media:
         enabled: false
+    serviceMonitor:
+      main:
+        enabled: true
+    configMaps:
+      dashboard:
+        enabled: true
     datastores:
       file:
         forKinds: []
