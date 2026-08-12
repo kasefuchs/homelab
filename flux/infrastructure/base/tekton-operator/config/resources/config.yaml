@@ -9,6 +9,12 @@ spec:
     disabled: true
   result:
     disabled: true
+  dashboard:
+    readonly: false
+  platforms:
+    kubernetes:
+      pipelinesAsCode:
+        enable: true
   pipeline:
     disable-creds-init: true
     set-security-context: true
@@ -22,8 +28,5 @@ spec:
             default-pod-template: |
               securityContext:
                 runAsNonRoot: true
-                runAsUser: 1000
-                runAsGroup: 1000
-                fsGroup: 1000
                 seccompProfile:
                   type: RuntimeDefault

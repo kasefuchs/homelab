@@ -10,4 +10,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/path
-        value: infrastructure/kind/tekton-operator/config
+        value: infrastructure/production/tekton-operator/config
