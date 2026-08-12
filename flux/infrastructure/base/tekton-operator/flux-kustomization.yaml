@@ -1,0 +1,37 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tekton-operator-controller
+  namespace: flux-system
+spec:
+  path: infrastructure/base/tekton-operator/controller
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: tekton-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: cilium-controller
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tekton-operator-config
+  namespace: flux-system
+spec:
+  path: infrastructure/base/tekton-operator/config
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: tekton-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: tekton-operator-controller

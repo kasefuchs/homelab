@@ -1,0 +1,32 @@
+apiVersion: operator.tekton.dev/v1alpha1
+kind: TektonConfig
+metadata:
+  name: config
+spec:
+  profile: all
+  targetNamespace: tekton-system
+  chain:
+    disabled: true
+  result:
+    disabled: true
+  dashboard:
+    readonly: false
+  platforms:
+    kubernetes:
+      pipelinesAsCode:
+        enable: true
+  pipeline:
+    disable-creds-init: true
+    set-security-context: true
+    options:
+      configMaps:
+        feature-flags:
+          data:
+            set-security-context-read-only-root-filesystem: "true"
+        config-defaults:
+          data:
+            default-pod-template: |
+              securityContext:
+                runAsNonRoot: true
+                seccompProfile:
+                  type: RuntimeDefault
