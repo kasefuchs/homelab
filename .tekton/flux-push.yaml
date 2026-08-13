@@ -51,7 +51,12 @@ spec:
             - name: flux-push
               image: ghcr.io/fluxcd/flux-cli:v2.9.4
               env:
-                - name: CODEBERG_API_TOKEN
+                - name: CODEBERG_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: codeberg-package-credentials
+                      key: user
+                - name: CODEBERG_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: codeberg-package-credentials
@@ -63,6 +68,6 @@ spec:
 
                 flux push artifact "oci://codeberg.org/{{ repo_owner }}/{{ repo_name }}/flux" \
                   --path="flux/" \
-                  --creds="{{ repo_owner }}:${CODEBERG_API_TOKEN}" \
+                  --creds="${CODEBERG_USER}:${CODEBERG_TOKEN}" \
                   --source="{{ repo_url }}" \
                   --revision="{{ target_branch }}@sha1:{{ revision }}"
