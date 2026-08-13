@@ -1,0 +1,76 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: flux-push-artifact
+  annotations:
+    pipelinesascode.tekton.dev/on-event: "[push]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-path-change: "[.tekton/flux-push.yaml, flux/***]"
+    pipelinesascode.tekton.dev/task: "[git-clone]"
+spec:
+  workspaces:
+    - name: source
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: basic-auth
+      secret:
+        secretName: "{{ git_auth_secret }}"
+  pipelineSpec:
+    workspaces:
+      - name: source
+      - name: basic-auth
+    tasks:
+      - name: fetch-repository
+        taskRef:
+          name: git-clone
+        workspaces:
+          - name: output
+            workspace: source
+          - name: basic-auth
+            workspace: basic-auth
+        params:
+          - name: url
+            value: "{{ repo_url }}"
+          - name: revision
+            value: "{{ revision }}"
+      - name: push-flux-artifact
+        runAfter:
+          - fetch-repository
+        workspaces:
+          - name: source
+            workspace: source
+        taskSpec:
+          workspaces:
+            - name: source
+          volumes:
+            - name: tmp
+              emptyDir: {}
+          steps:
+            - name: flux-push
+              image: ghcr.io/fluxcd/flux-cli:v2.9.4
+              env:
+                - name: HOME
+                  value: /tmp
+                - name: CODEBERG_API_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: codeberg-package-token
+                      key: token
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+              workingDir: $(workspaces.source.path)
+              script: |-
+                #!/usr/bin/env sh
+                set -eu
+
+                flux push artifact "oci://codeberg.org/{{ repo_owner }}/{{ repo_name }}/flux" \
+                  --path="flux/" \
+                  --creds="{{ repo_owner }}:${CODEBERG_API_TOKEN}" \
+                  --source="{{ repo_url }}" \
+                  --revision="{{ target_branch }}@sha1:{{ revision }}"

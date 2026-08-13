@@ -1,0 +1,15 @@
+apiVersion: pipelinesascode.tekton.dev/v1alpha1
+kind: Repository
+metadata:
+  name: homelab
+spec:
+  url: https://codeberg.org/kasefuchs/homelab
+  git_provider:
+    url: https://codeberg.org
+    type: forgejo
+    secret:
+      name: codeberg-credentials
+      key: token
+    webhook_secret:
+      name: codeberg-credentials
+      key: secret

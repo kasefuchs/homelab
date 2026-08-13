@@ -5,3 +5,4 @@ resources:
   - resources/apps.yaml
   - resources/flux-instance.yaml
   - resources/infrastructure.yaml
+  - resources/pipelines.yaml
