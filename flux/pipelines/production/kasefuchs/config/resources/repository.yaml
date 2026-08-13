@@ -8,8 +8,8 @@ spec:
     url: https://codeberg.org
     type: forgejo
     secret:
-      name: codeberg-credentials
+      name: codeberg-pac-credentials
       key: token
     webhook_secret:
-      name: codeberg-credentials
+      name: codeberg-pac-credentials
       key: secret

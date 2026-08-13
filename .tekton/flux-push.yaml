@@ -47,23 +47,15 @@ spec:
         taskSpec:
           workspaces:
             - name: source
-          volumes:
-            - name: tmp
-              emptyDir: {}
           steps:
             - name: flux-push
               image: ghcr.io/fluxcd/flux-cli:v2.9.4
               env:
-                - name: HOME
-                  value: /tmp
                 - name: CODEBERG_API_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      name: codeberg-package-token
+                      name: codeberg-package-credentials
                       key: token
-              volumeMounts:
-                - name: tmp
-                  mountPath: /tmp
               workingDir: $(workspaces.source.path)
               script: |-
                 #!/usr/bin/env sh
