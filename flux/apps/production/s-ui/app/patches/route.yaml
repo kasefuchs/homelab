@@ -8,3 +8,21 @@ spec:
       main:
         hostnames:
           - sui.kasefuchs.net
+      grpc:
+        enabled: true
+        kind: GRPCRoute
+        hostnames:
+          - grpc.kasefuchs.net
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+        rules:
+          - matches:
+              - method:
+                  type: Exact
+                  service: com.github.alireza0.s_ui.Tunnel
+            backendRefs:
+              - identifier: gateway
+                port: grpc
