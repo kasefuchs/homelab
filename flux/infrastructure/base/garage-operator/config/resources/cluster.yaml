@@ -28,3 +28,5 @@ spec:
     rpcSecretRef:
       name: garage-secret
       key: rpc-secret
+  logging:
+    level: warn

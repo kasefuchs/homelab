@@ -32,25 +32,40 @@ spec:
       sidecar:
         dashboards:
           searchNamespace: ALL
+      grafana.ini:
+        log:
+          mode: console
+          format: json
     vmsingle:
       route:
         enabled: true
         parentRefs: *internal-parent-refs
+      spec:
+        extraArgs: &json-logs
+          loggerFormat: json
     vmalert:
       route:
         enabled: true
         parentRefs: *internal-parent-refs
+      spec:
+        extraArgs: *json-logs
     vmagent:
       route:
         enabled: true
         parentRefs: *internal-parent-refs
+      spec:
+        extraArgs: *json-logs
     vlsingle:
       enabled: true
       route:
         enabled: true
         parentRefs: *internal-parent-refs
+      spec:
+        extraArgs: *json-logs
     vlagent:
       enabled: true
       route:
         enabled: true
         parentRefs: *internal-parent-refs
+      spec:
+        extraArgs: *json-logs
