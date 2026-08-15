@@ -16,3 +16,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kusai-mastodon
+  values:
+    config:
+      log:
+        as_json: true

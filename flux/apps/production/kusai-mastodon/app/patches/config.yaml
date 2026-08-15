@@ -10,7 +10,12 @@ spec:
           train:
             source: "@Houl@wetdry.world"
             chain:
+              # lobotomize slopmachine
               max_context_size: 1
+            adblock:
+              filters:
+                # prevent friendly fire
+                - "##a"
           instance:
             api_url: https://shrimp.floof.fans
     controllers:
