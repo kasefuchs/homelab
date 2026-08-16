@@ -45,3 +45,19 @@ spec:
     webhook_secret:
       name: codeberg-pac-credentials
       key: secret
+---
+apiVersion: pipelinesascode.tekton.dev/v1alpha1
+kind: Repository
+metadata:
+  name: domains
+spec:
+  url: https://codeberg.org/kasefuchs/domains
+  git_provider:
+    url: https://codeberg.org
+    type: forgejo
+    secret:
+      name: codeberg-pac-credentials
+      key: token
+    webhook_secret:
+      name: codeberg-pac-credentials
+      key: secret
