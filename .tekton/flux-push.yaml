@@ -8,6 +8,9 @@ metadata:
     pipelinesascode.tekton.dev/on-path-change: "[.tekton/flux-push.yaml, flux/***]"
     pipelinesascode.tekton.dev/task: "[git-clone]"
 spec:
+  params:
+    - name: image_name
+      value: codeberg.org/kasefuchs/homelab/flux
   workspaces:
     - name: source
       volumeClaimTemplate:
@@ -20,10 +23,17 @@ spec:
     - name: basic-auth
       secret:
         secretName: "{{ git_auth_secret }}"
+    - name: dockerconfig
+      secret:
+        secretName: container-registry-credentials
   pipelineSpec:
+    params:
+      - name: image_name
+        type: string
     workspaces:
       - name: source
       - name: basic-auth
+      - name: dockerconfig
     tasks:
       - name: fetch-repository
         taskRef:
@@ -44,30 +54,24 @@ spec:
         workspaces:
           - name: source
             workspace: source
+          - name: dockerconfig
+            workspace: dockerconfig
         taskSpec:
           workspaces:
             - name: source
+            - name: dockerconfig
           steps:
             - name: flux-push
               image: ghcr.io/fluxcd/flux-cli:v2.9.4
               env:
-                - name: CODEBERG_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: codeberg-package-credentials
-                      key: user
-                - name: CODEBERG_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: codeberg-package-credentials
-                      key: token
+                - name: DOCKER_CONFIG
+                  value: $(workspaces.dockerconfig.path)
               workingDir: $(workspaces.source.path)
               script: |-
                 #!/usr/bin/env sh
                 set -eu
 
-                flux push artifact "oci://codeberg.org/{{ repo_owner }}/{{ repo_name }}/flux" \
+                flux push artifact "oci://$(params.image_name)" \
                   --path="flux/" \
-                  --creds="${CODEBERG_USER}:${CODEBERG_TOKEN}" \
                   --source="{{ repo_url }}" \
                   --revision="{{ target_branch }}@sha1:{{ revision }}"
