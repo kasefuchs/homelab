@@ -61,3 +61,19 @@ spec:
     webhook_secret:
       name: codeberg-pac-credentials
       key: secret
+---
+apiVersion: pipelinesascode.tekton.dev/v1alpha1
+kind: Repository
+metadata:
+  name: kusai
+spec:
+  url: https://codeberg.org/kasefuchs/kusai
+  git_provider:
+    url: https://codeberg.org
+    type: forgejo
+    secret:
+      name: codeberg-pac-credentials
+      key: token
+    webhook_secret:
+      name: codeberg-pac-credentials
+      key: secret
