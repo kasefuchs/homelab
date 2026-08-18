@@ -14,9 +14,6 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: flux-system
-  dependsOn:
-    - name: gateway-api-crd
-    - name: prometheus-operator-crd
   decryption:
     provider: sops
     secretRef:

@@ -37,10 +37,6 @@ spec:
     name: flux-system
   dependsOn:
     - name: pocket-id-operator-controller
-    - name: cloudnative-pg-controller
-    - name: garage-operator-config
-    - name: gateway-api-config
-    - name: kopiur-config
   decryption:
     provider: sops
     secretRef:

@@ -14,8 +14,6 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: flux-system
-  dependsOn:
-    - name: cert-manager-controller
   decryption:
     provider: sops
     secretRef:
