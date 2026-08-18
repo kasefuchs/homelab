@@ -4,5 +4,5 @@ metadata:
   name: cilium
 spec:
   values:
-    k8sServiceHost: 10.45.16.16
+    k8sServiceHost: 10.45.16.20
     k8sServicePort: 6443

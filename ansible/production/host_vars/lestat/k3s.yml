@@ -1,17 +1,8 @@
-k3s_server_config:
+k3s_agent_config:
   token: "{{ k3s_agent_config_token }}"
-  disable:
-    - traefik
-    - servicelb
-    - local-storage
-    - metrics-server
-  cluster-init: true
-  disable-kube-proxy: true
-  disable-network-policy: true
-  flannel-backend: none
+  server: https://10.45.16.20:6443
   node-ip: 10.45.16.16,fd45:45:45:10::16
   node-external-ip: 192.168.1.10
-  advertise-address: 10.45.16.16
   node-label:
     - topology.kubernetes.io/region=cis-west
     - garage.rajsingh.info/node-local-pool=ssd-250gi
