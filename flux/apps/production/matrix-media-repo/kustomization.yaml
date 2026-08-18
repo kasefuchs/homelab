@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/matrix-media-repo
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: matrix-media-repo-app
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: apps/production/matrix-media-repo/app
+      metadata:
+        name: matrix-media-repo-app
+        namespace: flux-system
+      spec:
+        path: apps/production/matrix-media-repo/app

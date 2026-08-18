@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/victoria-metrics
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: victoria-metrics-controller
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: infrastructure/production/victoria-metrics/controller
+      metadata:
+        name: victoria-metrics-controller
+        namespace: flux-system
+      spec:
+        path: infrastructure/production/victoria-metrics/controller

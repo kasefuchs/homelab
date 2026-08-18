@@ -3,19 +3,19 @@ kind: Kustomization
 resources:
   - ../../base/cilium
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: cilium-controller
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: infrastructure/production/cilium/controller
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+      metadata:
+        name: cilium-controller
+        namespace: flux-system
+      spec:
+        path: infrastructure/production/cilium/controller
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: cilium-config
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: infrastructure/production/cilium/config
+      metadata:
+        name: cilium-config
+        namespace: flux-system
+      spec:
+        path: infrastructure/production/cilium/config

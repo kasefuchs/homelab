@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/kusai-mastodon
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: kusai-mastodon-app
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: apps/production/kusai-mastodon/app
+      metadata:
+        name: kusai-mastodon-app
+        namespace: flux-system
+      spec:
+        path: apps/production/kusai-mastodon/app

@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/conduwuit
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: conduwuit-app
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: apps/vagari/conduwuit/app
+      metadata:
+        name: conduwuit-app
+        namespace: flux-system
+      spec:
+        path: apps/vagari/conduwuit/app

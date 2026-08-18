@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/kopiur
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: kopiur-config
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: infrastructure/kind/kopiur/config
+      metadata:
+        name: kopiur-config
+        namespace: flux-system
+      spec:
+        path: infrastructure/kind/kopiur/config

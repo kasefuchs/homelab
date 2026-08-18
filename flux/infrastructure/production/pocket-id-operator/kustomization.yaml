@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/pocket-id-operator
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: pocket-id-operator-config
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: infrastructure/production/pocket-id-operator/config
+      metadata:
+        name: pocket-id-operator-config
+        namespace: flux-system
+      spec:
+        path: infrastructure/production/pocket-id-operator/config

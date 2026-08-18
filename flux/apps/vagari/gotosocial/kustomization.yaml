@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/gotosocial
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: gotosocial-app
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: apps/vagari/gotosocial/app
+      metadata:
+        name: gotosocial-app
+        namespace: flux-system
+      spec:
+        path: apps/vagari/gotosocial/app

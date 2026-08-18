@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/gateway-api
 patches:
-  - target:
-      group: kustomize.toolkit.fluxcd.io
+  - patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
-      name: gateway-api-config
-    patch: |-
-      - op: replace
-        path: /spec/path
-        value: infrastructure/vagari/gateway-api/config
+      metadata:
+        name: gateway-api-config
+        namespace: flux-system
+      spec:
+        path: infrastructure/vagari/gateway-api/config
