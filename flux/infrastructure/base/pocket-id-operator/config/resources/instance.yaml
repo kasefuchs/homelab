@@ -1,0 +1,28 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDInstance
+metadata:
+  name: pocket-id
+spec:
+  persistence:
+    enabled: false
+  logging:
+    json: true
+  metrics:
+    enabled: true
+  databaseUrl:
+    valueFrom:
+      secretKeyRef:
+        name: pocket-id-db-app
+        key: uri
+  encryptionKey:
+    valueFrom:
+      secretKeyRef:
+        name: pocket-id-secret
+        key: encryption-key
+  route:
+    enabled: true
+    parentRefs:
+      - group: gateway.networking.k8s.io
+        kind: ListenerSet
+        name: external
+        namespace: gateway-system

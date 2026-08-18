@@ -1,0 +1,8 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUser
+metadata:
+  name: kasefuchs
+spec:
+  admin: true
+  email:
+    value: admin@kind.homelab.test
