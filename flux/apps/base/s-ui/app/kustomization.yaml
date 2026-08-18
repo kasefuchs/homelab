@@ -4,4 +4,3 @@ resources:
   - resources/helm-release.yaml
   - resources/namespace.yaml
   - resources/oci-repository.yaml
-  - resources/snapshot.yaml

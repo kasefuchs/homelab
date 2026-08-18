@@ -5,4 +5,4 @@ metadata:
 spec:
   admin: true
   email:
-    value: "admin@kind.homelab.test"
+    value: "admin@vagari.homelab.test"

@@ -4,6 +4,8 @@ resources:
   - ../../../base/pocket-id-operator/config
   - resources/secret.yaml
   - resources/user.yaml
+components:
+  - ../../../base/pocket-id-operator/config/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml

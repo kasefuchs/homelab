@@ -3,7 +3,5 @@ kind: Kustomization
 resources:
   - resources/cnpg-cluster.yaml
   - resources/garage-bucket.yaml
-  - resources/garage-csi.yaml
   - resources/garage-key.yaml
-  - resources/snapshot.yaml
   - resources/instance.yaml

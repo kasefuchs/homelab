@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - ../../../base/matrix-media-repo/app
   - resources/secret.yaml
+components:
+  - ../../../base/matrix-media-repo/app/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml

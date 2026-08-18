@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - ../../../base/nextcloud/app
   - resources/secret.yaml
+components:
+  - ../../../base/nextcloud/app/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/storage.yaml

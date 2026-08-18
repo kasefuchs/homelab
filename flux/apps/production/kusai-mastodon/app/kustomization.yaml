@@ -3,5 +3,7 @@ kind: Kustomization
 resources:
   - ../../../base/kusai-mastodon/app
   - resources/secret.yaml
+components:
+  - ../../../base/kusai-mastodon/app/components/backup
 patches:
   - path: patches/config.yaml
