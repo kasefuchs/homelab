@@ -6,7 +6,7 @@ spec:
   secretName: vagari-tls-secret
   issuerRef:
     kind: ClusterIssuer
-    name: selfsigned
+    name: internal
   dnsNames:
     - vagari.homelab.test
     - "*.vagari.homelab.test"

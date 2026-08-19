@@ -1,0 +1,13 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: cluster-ca-bundle
+spec:
+  sources:
+    - useDefaultCAs: true
+    - secret:
+        name: internal-root-ca-secret
+        key: tls.crt
+  target:
+    configMap:
+      key: ca-certificates.crt

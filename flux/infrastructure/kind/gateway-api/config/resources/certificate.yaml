@@ -6,7 +6,7 @@ spec:
   secretName: kind-tls-secret
   issuerRef:
     kind: ClusterIssuer
-    name: selfsigned
+    name: internal
   dnsNames:
     - kind.homelab.test
     - "*.kind.homelab.test"
