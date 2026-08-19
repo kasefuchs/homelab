@@ -4,9 +4,11 @@ resources:
   - ../../../base/conduwuit/app
 components:
   - ../../../base/conduwuit/app/components/backup
+  - ../../../base/conduwuit/app/components/oidc
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml
   - path: patches/media.yaml
+  - path: patches/oidc.yaml
   - path: patches/storage.yaml
   - path: patches/placement.yaml

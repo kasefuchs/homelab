@@ -19,6 +19,21 @@ spec:
       secretKeyRef:
         name: pocket-id-secret
         key: encryption-key
+  s3:
+    bucket: pocket-id
+    region: garage
+    endpoint: http://garage.garage-operator-system:3900
+    forcePathStyle: true
+    accessKeyId:
+      valueFrom:
+        secretKeyRef:
+          name: pocket-id-garage-key
+          key: accessKeyID
+    secretAccessKey:
+      valueFrom:
+        secretKeyRef:
+          name: pocket-id-garage-key
+          key: secretAccessKey
   route:
     enabled: true
     parentRefs:
@@ -26,3 +41,9 @@ spec:
         kind: ListenerSet
         name: external
         namespace: gateway-system
+  ui:
+    sessionDuration: 1440
+  userManagement:
+    allowOwnAccountEdit: false
+    allowUserSignups: withToken
+    emailsVerified: true

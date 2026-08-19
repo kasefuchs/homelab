@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: conduwuit
+spec:
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              CONTINUWUITY_OAUTH__OIDC__DISCOVERY_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: conduwuit-oidc-credentials
+                    key: issuer_url
+              CONTINUWUITY_OAUTH__OIDC__CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: conduwuit-oidc-credentials
+                    key: client_id
+              CONTINUWUITY_OAUTH__OIDC__CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: conduwuit-oidc-credentials
+                    key: client_secret
+    config:
+      global:
+        oauth:
+          oidc:
+            additional_scopes:
+              - profile
+              - email
+              - groups
+            prompt_for_localpart: false
+            profile_key_import_mode: on_registration
+            profile_key_map:
+              displayname: name
+              avatar_url: picture

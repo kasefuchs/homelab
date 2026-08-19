@@ -19,10 +19,10 @@ spec:
       options: "--no-systemd --memory-limit 500 --dir-mode 0777 --file-mode 0666"
     nodeStageSecretRef:
       name: pocket-id-garage-key
-      namespace: pocket-id
+      namespace: pocket-id-operator-system
     nodePublishSecretRef:
       name: pocket-id-garage-key
-      namespace: pocket-id
+      namespace: pocket-id-operator-system
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

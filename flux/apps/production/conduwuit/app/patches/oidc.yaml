@@ -1,0 +1,8 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: conduwuit
+spec:
+  launchUrl: https://uwuity.floof.fans
+  callbackUrls:
+    - https://uwuity.floof.fans/_continuwuity/oidc/complete

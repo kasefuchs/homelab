@@ -3,4 +3,4 @@ kind: PocketIDInstance
 metadata:
   name: pocket-id
 spec:
-  appUrl: https://id.kasefuchs.net
+  appUrl: https://id.floof.fans

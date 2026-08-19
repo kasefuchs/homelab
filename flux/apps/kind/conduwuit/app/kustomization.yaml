@@ -2,7 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../base/conduwuit/app
+components:
+  - ../../../base/conduwuit/app/components/oidc
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml
   - path: patches/media.yaml
+  - path: patches/trust.yaml
+  - path: patches/oidc.yaml
