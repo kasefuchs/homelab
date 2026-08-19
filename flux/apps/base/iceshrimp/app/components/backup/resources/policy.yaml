@@ -55,18 +55,6 @@ spec:
           continueOnFailure: true
 ---
 apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: iceshrimp-db-nightly
-spec:
-  policyRef:
-    name: iceshrimp-db
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false
----
-apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
 metadata:
   name: iceshrimp-garage
@@ -115,15 +103,3 @@ spec:
       - "*.7z"
       - "*.gz"
       - "*.tgz"
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: iceshrimp-garage-nightly
-spec:
-  policyRef:
-    name: iceshrimp-garage
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false

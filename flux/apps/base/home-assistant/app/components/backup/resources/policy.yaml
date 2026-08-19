@@ -1,7 +1,7 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
 metadata:
-  name: kusai-mastodon-data
+  name: home-assistant-data
 spec:
   repository:
     kind: ClusterRepository
@@ -13,7 +13,7 @@ spec:
     # pvcSelector is not fully wired in kopiur yet
     # falling back to explicit pvc name
     - pvc:
-        name: kusai-mastodon-data
+        name: home-assistant-config
   retention:
     keepLatest: 3
     keepDaily: 7
@@ -23,15 +23,3 @@ spec:
       pvcConsumer: {}
   compression:
     compressor: zstd
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: kusai-mastodon-data-nightly
-spec:
-  policyRef:
-    name: kusai-mastodon-data
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false

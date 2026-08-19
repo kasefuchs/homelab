@@ -1,7 +1,7 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
 metadata:
-  name: matrix-media-repo-db
+  name: coder-db
 spec:
   repository:
     kind: ClusterRepository
@@ -13,7 +13,7 @@ spec:
     # pvcSelector is not fully wired in kopiur yet
     # falling back to explicit pvc name
     - pvc:
-        name: matrix-media-repo-db-1
+        name: coder-db-1
   retention:
     keepLatest: 3
     keepDaily: 7
@@ -28,7 +28,7 @@ spec:
       - workloadExec:
           podSelector:
             matchLabels:
-              cnpg.io/cluster: matrix-media-repo-db
+              cnpg.io/cluster: coder-db
               cnpg.io/instanceRole: primary
           container: postgres
           command:
@@ -42,7 +42,7 @@ spec:
       - workloadExec:
           podSelector:
             matchLabels:
-              cnpg.io/cluster: matrix-media-repo-db
+              cnpg.io/cluster: coder-db
               cnpg.io/instanceRole: primary
           container: postgres
           command:
@@ -53,48 +53,3 @@ spec:
             - "SELECT pg_backup_stop();"
           timeout: 2m
           continueOnFailure: true
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: matrix-media-repo-db-nightly
-spec:
-  policyRef:
-    name: matrix-media-repo-db
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotPolicy
-metadata:
-  name: matrix-media-repo-garage
-spec:
-  repository:
-    kind: ClusterRepository
-    name: external
-  credentialProjection:
-    enabled: true
-  copyMethod: Direct
-  sources:
-    - pvc:
-        name: matrix-media-repo-garage
-  retention:
-    keepLatest: 3
-    keepDaily: 7
-    keepWeekly: 2
-  compression:
-    compressor: zstd
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: matrix-media-repo-garage-nightly
-spec:
-  policyRef:
-    name: matrix-media-repo-garage
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false

@@ -1,0 +1,23 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: pocket-id-db-nightly
+spec:
+  policyRef:
+    name: pocket-id-db
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: pocket-id-garage-nightly
+spec:
+  policyRef:
+    name: pocket-id-garage
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false
