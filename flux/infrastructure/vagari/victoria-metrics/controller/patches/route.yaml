@@ -9,15 +9,3 @@ spec:
         main:
           hostnames:
             - grafana.vagari.homelab.test
-    vmsingle:
-      route:
-        hostnames:
-          - vmsingle.vagari.homelab.test
-    vmalert:
-      route:
-        hostnames:
-          - vmalert.vagari.homelab.test
-    vmagent:
-      route:
-        hostnames:
-          - vmagent.vagari.homelab.test

@@ -21,7 +21,7 @@ spec:
       route:
         main:
           enabled: true
-          parentRefs: &internal-parent-refs
+          parentRefs:
             - group: gateway.networking.k8s.io
               kind: ListenerSet
               name: internal
@@ -37,35 +37,16 @@ spec:
           mode: console
           format: json
     vmsingle:
-      route:
-        enabled: true
-        parentRefs: *internal-parent-refs
-      spec:
-        extraArgs: &json-logs
+      spec: &json-logs
+        extraArgs:
           loggerFormat: json
     vmalert:
-      route:
-        enabled: true
-        parentRefs: *internal-parent-refs
-      spec:
-        extraArgs: *json-logs
+      spec: *json-logs
     vmagent:
-      route:
-        enabled: true
-        parentRefs: *internal-parent-refs
-      spec:
-        extraArgs: *json-logs
+      spec: *json-logs
     vlsingle:
       enabled: true
-      route:
-        enabled: true
-        parentRefs: *internal-parent-refs
-      spec:
-        extraArgs: *json-logs
+      spec: *json-logs
     vlagent:
       enabled: true
-      route:
-        enabled: true
-        parentRefs: *internal-parent-refs
-      spec:
-        extraArgs: *json-logs
+      spec: *json-logs

@@ -9,23 +9,3 @@ spec:
         main:
           hostnames:
             - grafana.kind.homelab.test
-    vmsingle:
-      route:
-        hostnames:
-          - vmsingle.kind.homelab.test
-    vmalert:
-      route:
-        hostnames:
-          - vmalert.kind.homelab.test
-    vmagent:
-      route:
-        hostnames:
-          - vmagent.kind.homelab.test
-    vlsingle:
-      route:
-        hostnames:
-          - vlsingle.kind.homelab.test
-    vlagent:
-      route:
-        hostnames:
-          - vlagent.kind.homelab.test

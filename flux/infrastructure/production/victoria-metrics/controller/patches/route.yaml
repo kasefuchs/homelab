@@ -9,23 +9,3 @@ spec:
         main:
           hostnames:
             - grafana.kasefuchs.net
-    vmsingle:
-      route:
-        hostnames:
-          - vmsingle.kasefuchs.net
-    vmalert:
-      route:
-        hostnames:
-          - vmalert.kasefuchs.net
-    vmagent:
-      route:
-        hostnames:
-          - vmagent.kasefuchs.net
-    vlsingle:
-      route:
-        hostnames:
-          - vlsingle.kasefuchs.net
-    vlagent:
-      route:
-        hostnames:
-          - vlagent.kasefuchs.net
