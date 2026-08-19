@@ -45,12 +45,11 @@ spec:
     phpClientHttpsFix:
       enabled: true
     nextcloud:
-      host: nextcloud.example.com
       objectStore:
         s3:
           enabled: true
           ssl: false
-          host: garage.garage-operator-system.svc.cluster.local
+          host: garage.garage-operator-system
           port: 3900
           region: garage
           usePathStyle: true
@@ -119,7 +118,7 @@ spec:
             - ALL
     externalRedis:
       enabled: true
-      host: nextcloud-redis
+      host: nextcloud-dragonfly
       port: 6379
     persistence:
       enabled: true

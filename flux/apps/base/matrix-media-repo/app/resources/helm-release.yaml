@@ -49,7 +49,7 @@ spec:
         databaseNumber: 0
         shards:
           - name: main
-            addr: matrix-media-repo-redis:6379
+            addr: matrix-media-repo-dragonfly:6379
       rateLimit:
         enabled: false
       urlPreviews:

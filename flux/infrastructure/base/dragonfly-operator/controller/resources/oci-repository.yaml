@@ -1,12 +1,12 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: redis-operator
+  name: dragonfly-operator
 spec:
   interval: 1h
-  url: oci://ghcr.io/ot-container-kit/charts/redis-operator
+  url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
   ref:
-    tag: "0.26.0"
+    tag: "v1.6.1"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy

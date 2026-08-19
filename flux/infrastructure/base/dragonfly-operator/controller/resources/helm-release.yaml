@@ -1,10 +1,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: redis-operator
+  name: dragonfly-operator
 spec:
   interval: 1h
-  releaseName: redis-operator
+  releaseName: dragonfly-operator
   install:
     strategy:
       name: RetryOnFailure
@@ -15,15 +15,12 @@ spec:
       retryInterval: 2m
   chartRef:
     kind: OCIRepository
-    name: redis-operator
+    name: dragonfly-operator
   values:
+    serviceMonitor:
+      enabled: true
+    grafanaDashboard:
+      enabled: true
     podSecurityContext:
-      runAsNonRoot: true
       seccompProfile:
         type: RuntimeDefault
-    securityContext:
-      readOnlyRootFilesystem: true
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop:
-          - ALL
