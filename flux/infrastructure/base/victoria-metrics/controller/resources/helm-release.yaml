@@ -24,7 +24,7 @@ spec:
           parentRefs:
             - group: gateway.networking.k8s.io
               kind: ListenerSet
-              name: internal
+              name: external
               namespace: gateway-system
       plugins:
         - victoriametrics-metrics-datasource
@@ -35,6 +35,7 @@ spec:
       grafana.ini:
         log:
           mode: console
+        log.console:
           format: json
     vmsingle:
       spec: &json-logs

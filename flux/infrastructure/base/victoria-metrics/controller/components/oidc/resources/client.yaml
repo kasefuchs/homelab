@@ -1,0 +1,14 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: grafana
+spec:
+  name: Grafana
+  pkceEnabled: true
+  allowedUserGroups:
+    - name: grafana
+    - name: grafana-admin
+  secret:
+    name: grafana-oidc-credentials
+  logo:
+    logoUrl: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/grafana.svg
