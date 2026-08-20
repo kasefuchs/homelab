@@ -1,7 +1,0 @@
-k3s_agent_config:
-  token: "{{ k3s_agent_config_token }}"
-  server: https://10.45.240.16:6443
-  node-ip: 10.45.240.17,fd45:45:45:f0::17
-  node-external-ip: "{{ ansible_facts.default_ipv4.address }}"
-  node-label:
-    - garage.rajsingh.info/node-local-pool=ssd-50gi

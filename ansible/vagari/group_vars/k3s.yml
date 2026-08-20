@@ -1,6 +1,0 @@
-k3s_agent_config_token: baguette
-k3s_config_registries:
-  mirrors:
-    "docker:5000":
-      endpoint:
-        - http://docker:5000
