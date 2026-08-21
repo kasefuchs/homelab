@@ -17,9 +17,9 @@ spec:
     - kind: GarageBucket
       namespace: matrix-media-repo
     - kind: GarageKey
-      namespace: gotosocial
+      namespace: vikunja
     - kind: GarageBucket
-      namespace: gotosocial
+      namespace: vikunja
     - kind: GarageKey
       namespace: nextcloud
     - kind: GarageBucket

@@ -1,0 +1,12 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: vikunja
+spec:
+  name: Vikunja
+  allowedUserGroups:
+    - name: vikunja
+  secret:
+    name: vikunja-oidc-credentials
+  logo:
+    logoUrl: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/vikunja.svg

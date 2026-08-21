@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vikunja
+spec:
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              SSL_CERT_FILE: /etc/pki/cluster/ca-certificates.crt
+    persistence:
+      cluster-ca-bundle:
+        type: configMap
+        name: cluster-ca-bundle
+        globalMounts:
+          - path: /etc/pki/cluster
+            readOnly: true

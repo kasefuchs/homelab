@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vikunja
+spec:
+  values:
+    config:
+      service:
+        publicurl: https://vikunja.kind.homelab.test

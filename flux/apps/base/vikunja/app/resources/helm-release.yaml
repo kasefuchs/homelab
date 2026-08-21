@@ -1,0 +1,91 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vikunja
+spec:
+  interval: 1h
+  releaseName: vikunja
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: vikunja
+  values:
+    persistence:
+      db:
+        enabled: false
+      files:
+        enabled: false
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+    config:
+      log:
+        format: structured
+      database:
+        type: postgres
+      files:
+        type: s3
+        s3:
+          usepathstyle: true
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              VIKUNJA_DATABASE_HOST:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-db-app
+                    key: host
+              VIKUNJA_DATABASE_DATABASE:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-db-app
+                    key: dbname
+              VIKUNJA_DATABASE_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-db-app
+                    key: user
+              VIKUNJA_DATABASE_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-db-app
+                    key: password
+              VIKUNJA_FILES_S3_ENDPOINT:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-garage-key
+                    key: endpoint
+              VIKUNJA_FILES_S3_BUCKET:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-garage-key
+                    key: bucket
+              VIKUNJA_FILES_S3_REGION:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-garage-key
+                    key: region
+              VIKUNJA_FILES_S3_ACCESSKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-garage-key
+                    key: accessKeyID
+              VIKUNJA_FILES_S3_SECRETKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-garage-key
+                    key: secretAccessKey

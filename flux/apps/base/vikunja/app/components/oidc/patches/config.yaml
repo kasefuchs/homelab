@@ -1,0 +1,36 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vikunja
+spec:
+  values:
+    config:
+      auth:
+        local:
+          enabled: false
+        openid:
+          enabled: true
+          providers:
+            pocketid:
+              name: Pocket ID
+              requireavailability: true
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              VIKUNJA_AUTH_OPENID_PROVIDERS_POCKETID_AUTHURL:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-oidc-credentials
+                    key: issuer_url
+              VIKUNJA_AUTH_OPENID_PROVIDERS_POCKETID_CLIENTID:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-oidc-credentials
+                    key: client_id
+              VIKUNJA_AUTH_OPENID_PROVIDERS_POCKETID_CLIENTSECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: vikunja-oidc-credentials
+                    key: client_secret

@@ -1,0 +1,23 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: vikunja-db-nightly
+spec:
+  policyRef:
+    name: vikunja-db
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: vikunja-garage-nightly
+spec:
+  policyRef:
+    name: vikunja-garage
+  schedule:
+    cron: "H 2 * * *"
+    jitter: 30m
+    runOnCreate: false

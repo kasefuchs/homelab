@@ -1,0 +1,105 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: vikunja-db
+spec:
+  repository:
+    kind: ClusterRepository
+    name: external
+  credentialProjection:
+    enabled: true
+  copyMethod: Direct
+  sources:
+    # pvcSelector is not fully wired in kopiur yet
+    # falling back to explicit pvc name
+    - pvc:
+        name: vikunja-db-1
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 2
+  mover:
+    inheritSecurityContextFrom:
+      pvcConsumer: {}
+  compression:
+    compressor: zstd
+  hooks:
+    beforeSnapshot:
+      - workloadExec:
+          podSelector:
+            matchLabels:
+              cnpg.io/cluster: vikunja-db
+              cnpg.io/instanceRole: primary
+          container: postgres
+          command:
+            - "psql"
+            - "-U"
+            - "postgres"
+            - "-c"
+            - "SELECT pg_backup_start('kopiur');"
+          timeout: 2m
+    afterSnapshot:
+      - workloadExec:
+          podSelector:
+            matchLabels:
+              cnpg.io/cluster: vikunja-db
+              cnpg.io/instanceRole: primary
+          container: postgres
+          command:
+            - "psql"
+            - "-U"
+            - "postgres"
+            - "-c"
+            - "SELECT pg_backup_stop();"
+          timeout: 2m
+          continueOnFailure: true
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: vikunja-garage
+spec:
+  repository:
+    kind: ClusterRepository
+    name: external
+  credentialProjection:
+    enabled: true
+  copyMethod: Direct
+  sources:
+    - pvc:
+        name: vikunja-garage
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 2
+  compression:
+    compressor: zstd
+    neverCompress:
+      - "*.jpg"
+      - "*.jpeg"
+      - "*.png"
+      - "*.gif"
+      - "*.webp"
+      - "*.ico"
+      - "*.mp4"
+      - "*.webm"
+      - "*.ogg"
+      - "*.mkv"
+      - "*.avi"
+      - "*.mov"
+      - "*.mp3"
+      - "*.flac"
+      - "*.xlsx"
+      - "*.pptx"
+      - "*.odt"
+      - "*.ods"
+      - "*.odp"
+      - "*.odg"
+      - "*.pdf"
+      - "*.woff2"
+      - "*.ttf"
+      - "*.otf"
+      - "*.rar"
+      - "*.7z"
+      - "*.gz"
+      - "*.tgz"
