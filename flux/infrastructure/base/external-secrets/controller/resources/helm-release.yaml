@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-secrets
+spec:
+  interval: 1h
+  releaseName: external-secrets
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: external-secrets
+  values:
+    webhook:
+      certManager:
+        enabled: true
+    serviceMonitor:
+      enabled: true
+    grafanaDashboard:
+      enabled: true
