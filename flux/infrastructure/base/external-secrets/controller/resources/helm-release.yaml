@@ -20,6 +20,11 @@ spec:
     webhook:
       certManager:
         enabled: true
+        cert:
+          issuerRef:
+            name: internal
+            kind: ClusterIssuer
+            group: cert-manager.io
     serviceMonitor:
       enabled: true
     grafanaDashboard:
