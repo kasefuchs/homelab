@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: iceshrimp-db
+  name: ${NAME}-db
 spec:
   storage:
     size: 15Gi
