@@ -1,10 +1,10 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotSchedule
 metadata:
-  name: coder-db-nightly
+  name: ${NAME}-db
 spec:
   policyRef:
-    name: coder-db
+    name: ${NAME}-db
   schedule:
     cron: "H 2 * * *"
     jitter: 30m

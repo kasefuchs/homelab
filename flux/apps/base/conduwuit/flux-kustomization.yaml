@@ -18,3 +18,6 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      NAME: conduwuit

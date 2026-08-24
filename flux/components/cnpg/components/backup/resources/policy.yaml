@@ -1,7 +1,7 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
 metadata:
-  name: coder-db
+  name: ${NAME}-db
 spec:
   repository:
     kind: ClusterRepository
@@ -13,7 +13,7 @@ spec:
     # pvcSelector is not fully wired in kopiur yet
     # falling back to explicit pvc name
     - pvc:
-        name: coder-db-1
+        name: ${NAME}-db-1
   retention:
     keepLatest: 3
     keepDaily: 7
@@ -28,7 +28,7 @@ spec:
       - workloadExec:
           podSelector:
             matchLabels:
-              cnpg.io/cluster: coder-db
+              cnpg.io/cluster: ${NAME}-db
               cnpg.io/instanceRole: primary
           container: postgres
           command:
@@ -42,7 +42,7 @@ spec:
       - workloadExec:
           podSelector:
             matchLabels:
-              cnpg.io/cluster: coder-db
+              cnpg.io/cluster: ${NAME}-db
               cnpg.io/instanceRole: primary
           container: postgres
           command:

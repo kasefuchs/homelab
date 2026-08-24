@@ -1,0 +1,16 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ${NAME}-db
+spec:
+  storage:
+    size: 10Gi
+  managed:
+    services:
+      disabledDefaultServices:
+        - ro
+        - r
+  bootstrap:
+    initdb:
+      owner: ${NAME}
+      database: ${NAME}

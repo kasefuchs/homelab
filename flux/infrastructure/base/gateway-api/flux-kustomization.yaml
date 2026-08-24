@@ -35,3 +35,6 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substitute:
+      NAME: gateway-api

@@ -4,3 +4,5 @@ resources:
   - resources/pvc.yaml
   - resources/policy.yaml
   - resources/schedule.yaml
+components:
+  - ../../../../../../components/cnpg/components/backup
