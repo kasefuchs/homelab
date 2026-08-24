@@ -10,7 +10,7 @@ spec:
   timeout: 5m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: kasefuchs-ci
+  targetNamespace: &namespace kasefuchs-ci
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -21,3 +21,4 @@ spec:
   postBuild:
     substitute:
       NAME: kasefuchs-ci
+      NAMESPACE: *namespace

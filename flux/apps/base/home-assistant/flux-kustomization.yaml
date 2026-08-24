@@ -10,7 +10,7 @@ spec:
   timeout: 5m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: home-assistant
+  targetNamespace: &namespace home-assistant
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -21,3 +21,4 @@ spec:
   postBuild:
     substitute:
       NAME: home-assistant
+      NAMESPACE: *namespace

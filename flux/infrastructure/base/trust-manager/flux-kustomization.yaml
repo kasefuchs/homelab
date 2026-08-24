@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: cert-manager
+  targetNamespace: &namespace cert-manager
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -23,6 +23,7 @@ spec:
   postBuild:
     substitute:
       NAME: trust-manager
+      NAMESPACE: *namespace
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -36,7 +37,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: cert-manager
+  targetNamespace: &namespace cert-manager
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -50,3 +51,4 @@ spec:
   postBuild:
     substitute:
       NAME: trust-manager
+      NAMESPACE: *namespace

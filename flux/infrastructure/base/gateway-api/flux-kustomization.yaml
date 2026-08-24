@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: kube-system
+  targetNamespace: &namespace kube-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -27,7 +27,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: gateway-system
+  targetNamespace: &namespace gateway-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -38,3 +38,4 @@ spec:
   postBuild:
     substitute:
       NAME: gateway-api
+      NAMESPACE: *namespace

@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: flux-system
+  targetNamespace: &namespace flux-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -21,3 +21,4 @@ spec:
   postBuild:
     substitute:
       NAME: flux-operator
+      NAMESPACE: *namespace

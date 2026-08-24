@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     name: ${NAME}-garage
-    namespace: ${NAME}
+    namespace: ${NAMESPACE}
   csi:
     driver: ru.yandex.s3.csi
     volumeHandle: ${NAME}
@@ -19,10 +19,10 @@ spec:
       options: "--no-systemd --memory-limit 500 --dir-mode 0777 --file-mode 0666"
     nodeStageSecretRef:
       name: ${NAME}-garage-key
-      namespace: ${NAME}
+      namespace: ${NAMESPACE}
     nodePublishSecretRef:
       name: ${NAME}-garage-key
-      namespace: ${NAME}
+      namespace: ${NAMESPACE}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

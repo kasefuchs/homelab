@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: dragonfly-operator-system
+  targetNamespace: &namespace dragonfly-operator-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -21,3 +21,4 @@ spec:
   postBuild:
     substitute:
       NAME: dragonfly-operator
+      NAMESPACE: *namespace

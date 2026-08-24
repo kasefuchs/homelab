@@ -10,7 +10,7 @@ spec:
   timeout: 5m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: kusai-mastodon
+  targetNamespace: &namespace kusai-mastodon
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -21,3 +21,4 @@ spec:
   postBuild:
     substitute:
       NAME: kusai-mastodon
+      NAMESPACE: *namespace

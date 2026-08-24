@@ -10,7 +10,7 @@ spec:
   timeout: 5m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: podinfo
+  targetNamespace: &namespace podinfo
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -21,3 +21,4 @@ spec:
   postBuild:
     substitute:
       NAME: podinfo
+      NAMESPACE: *namespace
