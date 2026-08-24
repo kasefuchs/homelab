@@ -8,7 +8,6 @@ patches:
       kind: Kustomization
       metadata:
         name: cilium-controller
-        namespace: flux-system
       spec:
         path: infrastructure/kind/cilium/controller
   - patch: |-
@@ -16,6 +15,5 @@ patches:
       kind: Kustomization
       metadata:
         name: cilium-config
-        namespace: flux-system
       spec:
         path: infrastructure/kind/cilium/config

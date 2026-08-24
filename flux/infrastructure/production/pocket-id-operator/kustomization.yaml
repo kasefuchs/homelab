@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: pocket-id-operator-config
-        namespace: flux-system
       spec:
         path: infrastructure/production/pocket-id-operator/config

@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: coder-app
-        namespace: flux-system
       spec:
         path: apps/kind/coder/app

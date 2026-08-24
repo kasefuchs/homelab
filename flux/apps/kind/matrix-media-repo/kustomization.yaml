@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: matrix-media-repo-app
-        namespace: flux-system
       spec:
         path: apps/kind/matrix-media-repo/app

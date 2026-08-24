@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: tekton-operator-config
-        namespace: flux-system
       spec:
         path: infrastructure/kind/tekton-operator/config

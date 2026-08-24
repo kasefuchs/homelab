@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: kusai-mastodon-app
-        namespace: flux-system
       spec:
         path: apps/production/kusai-mastodon/app

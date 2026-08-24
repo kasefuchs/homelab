@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: garage-operator-config
-        namespace: flux-system
       spec:
         path: infrastructure/kind/garage-operator/config

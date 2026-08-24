@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: gateway-api-config
-        namespace: flux-system
       spec:
         path: infrastructure/kind/gateway-api/config

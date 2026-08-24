@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: nextcloud-app
-        namespace: flux-system
       spec:
         path: apps/production/nextcloud/app

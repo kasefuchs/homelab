@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: victoria-metrics-controller
-        namespace: flux-system
       spec:
         path: infrastructure/production/victoria-metrics/controller

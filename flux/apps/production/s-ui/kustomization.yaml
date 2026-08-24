@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: s-ui-app
-        namespace: flux-system
       spec:
         path: apps/production/s-ui/app

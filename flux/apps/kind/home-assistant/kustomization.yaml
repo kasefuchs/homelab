@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: home-assistant-app
-        namespace: flux-system
       spec:
         path: apps/kind/home-assistant/app

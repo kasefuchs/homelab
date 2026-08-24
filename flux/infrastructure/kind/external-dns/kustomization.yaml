@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: external-dns-controller
-        namespace: flux-system
       spec:
         path: infrastructure/kind/external-dns/controller

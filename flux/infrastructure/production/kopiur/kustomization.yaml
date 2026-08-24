@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: kopiur-config
-        namespace: flux-system
       spec:
         path: infrastructure/production/kopiur/config

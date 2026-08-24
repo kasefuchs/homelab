@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: cert-manager-config
-        namespace: flux-system
       spec:
         path: infrastructure/production/cert-manager/config

@@ -8,6 +8,5 @@ patches:
       kind: Kustomization
       metadata:
         name: podinfo-app
-        namespace: flux-system
       spec:
         path: apps/kind/podinfo/app
