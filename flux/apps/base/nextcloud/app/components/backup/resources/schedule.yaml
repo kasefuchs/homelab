@@ -1,22 +1,10 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotSchedule
 metadata:
-  name: nextcloud-data-nightly
+  name: nextcloud-data
 spec:
   policyRef:
     name: nextcloud-data
-  schedule:
-    cron: "H 2 * * *"
-    jitter: 30m
-    runOnCreate: false
----
-apiVersion: kopiur.home-operations.com/v1alpha1
-kind: SnapshotSchedule
-metadata:
-  name: nextcloud-garage-nightly
-spec:
-  policyRef:
-    name: nextcloud-garage
   schedule:
     cron: "H 2 * * *"
     jitter: 30m

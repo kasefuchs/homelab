@@ -1,10 +1,10 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotSchedule
 metadata:
-  name: matrix-media-repo-garage-nightly
+  name: ${NAME}-garage
 spec:
   policyRef:
-    name: matrix-media-repo-garage
+    name: ${NAME}-garage
   schedule:
     cron: "H 2 * * *"
     jitter: 30m

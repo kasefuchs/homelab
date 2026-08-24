@@ -1,13 +1,9 @@
 apiVersion: garage.rajsingh.info/v1beta1
 kind: GarageBucket
 metadata:
-  name: nextcloud-garage-bucket
+  name: ${NAME}-garage-bucket
 spec:
-  globalAlias: nextcloud
+  globalAlias: ${NAME}
   clusterRef:
     name: garage
     namespace: garage-operator-system
-  quotas:
-    maxSize: 20Gi
-  website:
-    enabled: true

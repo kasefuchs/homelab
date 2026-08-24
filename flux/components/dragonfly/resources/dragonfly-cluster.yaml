@@ -1,7 +1,7 @@
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
-  name: nextcloud-dragonfly
+  name: ${NAME}-dragonfly
 spec:
   replicas: 1
   podSecurityContext:

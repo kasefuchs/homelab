@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nextcloud-garage
+  name: ${NAME}-garage
 spec:
   capacity:
     storage: 100Gi
@@ -9,27 +9,27 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   claimRef:
-    name: nextcloud-garage
-    namespace: nextcloud
+    name: ${NAME}-garage
+    namespace: ${NAME}
   csi:
     driver: ru.yandex.s3.csi
-    volumeHandle: nextcloud
+    volumeHandle: ${NAME}
     volumeAttributes:
       mounter: geesefs
       options: "--no-systemd --memory-limit 500 --dir-mode 0777 --file-mode 0666"
     nodeStageSecretRef:
-      name: nextcloud-garage-key
-      namespace: nextcloud
+      name: ${NAME}-garage-key
+      namespace: ${NAME}
     nodePublishSecretRef:
-      name: nextcloud-garage-key
-      namespace: nextcloud
+      name: ${NAME}-garage-key
+      namespace: ${NAME}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nextcloud-garage
+  name: ${NAME}-garage
 spec:
-  volumeName: nextcloud-garage
+  volumeName: ${NAME}-garage
   storageClassName: ""
   accessModes:
     - ReadWriteMany

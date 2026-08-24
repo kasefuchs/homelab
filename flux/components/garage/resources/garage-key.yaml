@@ -1,7 +1,7 @@
 apiVersion: garage.rajsingh.info/v1beta1
 kind: GarageKey
 metadata:
-  name: nextcloud-garage-key
+  name: ${NAME}-garage-key
 spec:
   clusterRef:
     name: garage
@@ -11,7 +11,7 @@ spec:
     accessKeyIdKey: accessKeyID
     secretAccessKeyKey: secretAccessKey
   bucketPermissions:
-    - bucketRef:
-        name: nextcloud-garage-bucket
-      read: true
+    - read: true
       write: true
+      bucketRef:
+        name: ${NAME}-garage-bucket
