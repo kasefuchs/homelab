@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: renovate-operator
+spec:
+  interval: 1h
+  releaseName: renovate-operator
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: renovate-operator
+  values:
+    config:
+      forwardCacheToJobs: true
+      logStorage:
+        mode: valkey
+    policy:
+      enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+      dashboard:
+        enabled: true
+    externalKeyValueStore:
+      host: renovate-operator-dragonfly
+    route:
+      enabled: true
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: ListenerSet
+          name: internal
+          namespace: gateway-system
+    webhook:
+      enabled: true
+      route:
+        enabled: true
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
