@@ -4,6 +4,7 @@ metadata:
   name: ${NAME}-dragonfly
 spec:
   replicas: 1
+  networkPolicyEnabled: false
   podSecurityContext:
     runAsNonRoot: true
     runAsUser: 999

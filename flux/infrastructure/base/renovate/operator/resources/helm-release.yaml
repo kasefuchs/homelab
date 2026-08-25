@@ -30,7 +30,7 @@ spec:
       dashboard:
         enabled: true
     externalKeyValueStore:
-      host: renovate-operator-dragonfly
+      host: renovate-operator-dragonfly.renovate-system
     route:
       enabled: true
       parentRefs:
