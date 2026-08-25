@@ -1,0 +1,25 @@
+apiVersion: renovate-operator.mogenius.com/v1alpha1
+kind: RenovateJob
+metadata:
+  name: codeberg
+spec:
+  # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
+  image: ghcr.io/renovatebot/renovate:44.45.0
+  schedule: "0 3 * * *"
+  parallelism: 3
+  provider:
+    name: forgejo
+    endpoint: https://codeberg.org/api/v1
+  secretRef: codeberg-renovate-credentials
+  skipForks: true
+  discoveryFilters:
+    - kasefuchs/*
+  webhook:
+    enabled: true
+    sync:
+      enabled: true
+    authentication:
+      enabled: true
+      secretRef:
+        name: codeberg-renovate-credentials
+        key: RENOVATE_WEBHOOK_TOKEN
