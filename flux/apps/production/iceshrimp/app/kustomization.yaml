@@ -3,7 +3,8 @@ kind: Kustomization
 resources:
   - ../../../base/iceshrimp/app
 components:
-  - ../../../base/iceshrimp/app/components/backup
+  - ../../../../components/cnpg/components/backup
+  - ../../../../components/garage/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml
