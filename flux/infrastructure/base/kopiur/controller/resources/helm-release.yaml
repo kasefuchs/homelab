@@ -20,8 +20,6 @@ spec:
     logging:
       format: json
     features:
-      kopiaUi:
-        enabled: true
       credentialProjection:
         enabled: true
     monitoring:

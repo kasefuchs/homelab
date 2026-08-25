@@ -5,4 +5,3 @@ resources:
   - resources/secret.yaml
 patches:
   - path: patches/backend.yaml
-  - path: patches/route.yaml

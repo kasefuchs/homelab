@@ -10,7 +10,7 @@ spec:
   dnsNames:
     - kasefuchs.net
     - "*.kasefuchs.net"
-    - "*.kopiur.kasefuchs.net"
+    - "*.hook.kasefuchs.net"
     - s3.garage.kasefuchs.net
     - "*.s3.garage.kasefuchs.net"
     - "*.web.garage.kasefuchs.net"

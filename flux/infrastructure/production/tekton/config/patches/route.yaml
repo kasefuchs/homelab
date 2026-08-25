@@ -12,4 +12,4 @@ metadata:
   name: pipelines-as-code-controller
 spec:
   hostnames:
-    - pac.kasefuchs.net
+    - pac.hook.kasefuchs.net
