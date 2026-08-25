@@ -9,8 +9,6 @@ spec:
     disabled: true
   result:
     disabled: true
-  pruner:
-    prune-per-resource: true
   trigger:
     disabled: true
   dashboard:
