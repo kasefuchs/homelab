@@ -7,8 +7,9 @@ spec:
     config:
       homeserver:
         domain: uwuity.floof.fans
-        address: http://conduwuit-main.conduwuit:6167
+        address: https://uwuity.floof.fans
       bridge:
+        public_address: https://discord.mautrix.floof.fans
         permissions:
           uwuity.floof.fans: user
           "@kasefuchs:uwuity.floof.fans": admin

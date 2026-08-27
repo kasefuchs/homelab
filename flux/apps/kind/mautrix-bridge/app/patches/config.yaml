@@ -7,8 +7,9 @@ spec:
     config:
       homeserver:
         domain: uwuity.kind.homelab.test
-        address: http://conduwuit-main.conduwuit:6167
+        address: https://uwuity.kind.homelab.test
       bridge:
+        public_address: https://discord.mautrix.kind.homelab.test
         permissions:
           uwuity.kind.homelab.test: user
           "@kasefuchs:uwuity.kind.homelab.test": admin
