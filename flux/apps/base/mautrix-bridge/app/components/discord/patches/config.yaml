@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mautrix-bridge
+spec:
+  values:
+    type: discord
+    config:
+      appservice:
+        id: discord
+      bridge:
+        avatar_proxy_key: "$BRIDGE_AVATAR_PROXY_KEY"
+        direct_media:
+          enabled: true
+          server_key: "$BRIDGE_DIRECT_MEDIA_SERVER_KEY"

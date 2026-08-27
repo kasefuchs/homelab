@@ -11,6 +11,7 @@ spec:
     - kind.homelab.test
     - "*.kind.homelab.test"
     - "*.hook.kind.homelab.test"
+    - "*.mautrix.kind.homelab.test"
     - s3.garage.kind.homelab.test
     - "*.s3.garage.kind.homelab.test"
     - "*.web.garage.kind.homelab.test"

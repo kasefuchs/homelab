@@ -27,3 +27,4 @@ spec:
   dnsNames:
     - floof.fans
     - "*.floof.fans"
+    - "*.mautrix.floof.fans"

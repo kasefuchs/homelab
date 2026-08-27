@@ -1,0 +1,58 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mautrix-bridge
+spec:
+  interval: 1h
+  releaseName: mautrix-bridge
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: mautrix-bridge
+  values:
+    config:
+      logging:
+        writers:
+          - type: stdout
+            format: json
+      bridge:
+        permissions:
+          "*": relay
+      appservice:
+        address: http://mautrix-bridge-main.mautrix-bridge:29318
+        database:
+          type: postgres
+          uri: "$APPSERVICE_DATABASE_URI"
+        as_token: "$APPSERVICE_AS_TOKEN"
+        hs_token: "$APPSERVICE_HS_TOKEN"
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+    persistence:
+      data:
+        enabled: false
+    controllers:
+      main:
+        initContainers:
+          render-config:
+            envFrom:
+              - secretRef:
+                  name: mautrix-bridge-secret
+            env:
+              - name: APPSERVICE_DATABASE_URI
+                valueFrom:
+                  secretKeyRef:
+                    name: mautrix-bridge-db-app
+                    key: uri

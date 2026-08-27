@@ -1,0 +1,11 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mautrix-bridge
+spec:
+  values:
+    controllers:
+      main:
+        pod:
+          nodeSelector:
+            topology.kubernetes.io/region: eu-central

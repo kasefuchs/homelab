@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mautrix-bridge
+spec:
+  values:
+    config:
+      homeserver:
+        domain: uwuity.floof.fans
+        address: http://conduwuit-main.conduwuit:6167
+      bridge:
+        permissions:
+          uwuity.floof.fans: user
+          "@kasefuchs:uwuity.floof.fans": admin
+        direct_media:
+          server_name: discord.mautrix.floof.fans
+        login_shared_secret_map:
+          uwuity.floof.fans: "as_token:$BRIDGE_DOUBLE_PUPPET_AS_TOKEN"

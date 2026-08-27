@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../base/mautrix-bridge/app
+  - resources/secret.yaml
+components:
+  - ../../../base/mautrix-bridge/app/components/discord
+  - ../../../../components/cnpg/components/backup
+patches:
+  - path: patches/route.yaml
+  - path: patches/config.yaml
+  - path: patches/placement.yaml

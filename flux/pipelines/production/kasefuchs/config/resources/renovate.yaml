@@ -3,7 +3,6 @@ kind: RenovateJob
 metadata:
   name: codeberg
 spec:
-  # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
   image: ghcr.io/renovatebot/renovate:44.45.4
   schedule: "0 3 * * *"
   parallelism: 3
