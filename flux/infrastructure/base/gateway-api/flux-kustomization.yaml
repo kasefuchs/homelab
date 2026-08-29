@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: &namespace kube-system
+  targetNamespace: kube-system
   sourceRef:
     kind: OCIRepository
     name: flux-system

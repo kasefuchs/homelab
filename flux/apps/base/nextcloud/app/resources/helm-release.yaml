@@ -49,7 +49,7 @@ spec:
         s3:
           enabled: true
           ssl: false
-          host: garage.garage-operator-system
+          host: garage.garage-system
           port: 3900
           region: garage
           usePathStyle: true

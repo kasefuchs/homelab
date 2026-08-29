@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: dragonfly-operator-system
+  name: dragonfly-system
   labels:
     kustomize.toolkit.fluxcd.io/prune: disabled
     pod-security.kubernetes.io/warn: restricted

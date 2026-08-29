@@ -20,5 +20,5 @@ spec:
       name: sops-age
   postBuild:
     substitute:
-      NAME: renovate-operator
+      NAME: renovate
       NAMESPACE: *namespace

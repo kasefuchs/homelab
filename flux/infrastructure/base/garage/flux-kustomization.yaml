@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: garage-operator-controller
+  name: garage-operator
 spec:
   path: infrastructure/base/garage/operator
   wait: true
@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: &namespace garage-operator-system
+  targetNamespace: &namespace garage-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -27,7 +27,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: garage-operator-config
+  name: garage-config
 spec:
   path: infrastructure/base/garage/config
   wait: true
@@ -35,12 +35,12 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: &namespace garage-operator-system
+  targetNamespace: &namespace garage-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: garage-operator-controller
+    - name: garage-operator
   decryption:
     provider: sops
     secretRef:

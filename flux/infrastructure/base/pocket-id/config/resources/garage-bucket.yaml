@@ -6,6 +6,6 @@ spec:
   globalAlias: pocket-id
   clusterRef:
     name: garage
-    namespace: garage-operator-system
+    namespace: garage-system
   quotas:
     maxSize: 5Gi

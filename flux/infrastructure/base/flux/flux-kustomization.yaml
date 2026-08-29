@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: flux-operator-controller
+  name: flux-operator
 spec:
   path: infrastructure/base/flux/operator
   wait: true
@@ -20,5 +20,5 @@ spec:
       name: sops-age
   postBuild:
     substitute:
-      NAME: flux-operator
+      NAME: flux
       NAMESPACE: *namespace

@@ -6,4 +6,4 @@ spec:
   globalAlias: ${NAME}
   clusterRef:
     name: garage
-    namespace: garage-operator-system
+    namespace: garage-system

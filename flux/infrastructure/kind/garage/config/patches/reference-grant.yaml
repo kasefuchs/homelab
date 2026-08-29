@@ -5,9 +5,9 @@ metadata:
 spec:
   from:
     - kind: GarageKey
-      namespace: pocket-id-operator-system
+      namespace: pocket-id-system
     - kind: GarageBucket
-      namespace: pocket-id-operator-system
+      namespace: pocket-id-system
     - kind: GarageKey
       namespace: iceshrimp
     - kind: GarageBucket

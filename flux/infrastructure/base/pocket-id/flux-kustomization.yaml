@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: pocket-id-operator-controller
+  name: pocket-id-operator
 spec:
   path: infrastructure/base/pocket-id/operator
   wait: true
@@ -10,7 +10,7 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: &namespace pocket-id-operator-system
+  targetNamespace: &namespace pocket-id-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
@@ -27,7 +27,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: pocket-id-operator-config
+  name: pocket-id-config
 spec:
   path: infrastructure/base/pocket-id/config
   wait: true
@@ -35,12 +35,12 @@ spec:
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: &namespace pocket-id-operator-system
+  targetNamespace: &namespace pocket-id-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: pocket-id-operator-controller
+    - name: pocket-id-operator
   decryption:
     provider: sops
     secretRef:
