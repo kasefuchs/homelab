@@ -1,7 +1,7 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: ClusterRepository
 metadata:
-  name: external
+  name: kopiur
 spec:
   encryption:
     passwordSecretRef:
@@ -11,7 +11,7 @@ spec:
   allowedNamespaces:
     selector:
       matchLabels:
-        kopiur.home-operations.com/repository-access-external: "true"
+        kopiur.home-operations.com/repository-access: "true"
   credentialProjection:
     allowed: true
   maintenance:
