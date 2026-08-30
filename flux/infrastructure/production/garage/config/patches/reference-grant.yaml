@@ -5,6 +5,10 @@ metadata:
 spec:
   from:
     - kind: GarageKey
+      namespace: cnpg-system
+    - kind: GarageBucket
+      namespace: cnpg-system
+    - kind: GarageKey
       namespace: pocket-id-system
     - kind: GarageBucket
       namespace: pocket-id-system

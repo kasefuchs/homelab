@@ -25,3 +25,33 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-vars
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-secrets-config
+spec:
+  path: infrastructure/base/external-secrets/config
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: &namespace external-secrets
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  dependsOn:
+    - name: external-secrets-controller
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute:
+      NAME: external-secrets
+      NAMESPACE: *namespace
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars
