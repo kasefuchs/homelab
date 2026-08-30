@@ -1,0 +1,17 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+spec:
+  sync:
+    url: oci://registry:5000/homelab/flux
+    path: clusters/kind
+    interval: 1m
+  kustomize:
+    patches:
+      - patch: |-
+          - op: add
+            path: /spec/insecure
+            value: true
+        target:
+          kind: OCIRepository

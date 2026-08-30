@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/fluxcd.controlplane.io/fluxinstance_v1.json
 apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
 metadata:
@@ -13,7 +12,5 @@ spec:
     networkPolicy: false
   sync:
     kind: OCIRepository
-    url: oci://codeberg.org/kasefuchs/homelab/flux
     ref: latest
-    path: clusters/production
     interval: 1h
