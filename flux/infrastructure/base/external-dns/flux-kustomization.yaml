@@ -22,3 +22,6 @@ spec:
     substitute:
       NAME: external-dns
       NAMESPACE: *namespace
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars

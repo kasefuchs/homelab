@@ -22,3 +22,6 @@ spec:
     substitute:
       NAME: conduwuit
       NAMESPACE: *namespace
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars

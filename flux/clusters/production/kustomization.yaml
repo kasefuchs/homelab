@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ../base
+  - resources/config-map.yaml
 patches:
   - path: patches/flux-instance.yaml
   - path: patches/flux-kustomization.yaml

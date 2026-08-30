@@ -4,6 +4,7 @@ namespace: flux-system
 resources:
   - ../base
   - resources/secret.yaml
+  - resources/config-map.yaml
 patches:
   - path: patches/flux-instance.yaml
   - path: patches/flux-kustomization.yaml

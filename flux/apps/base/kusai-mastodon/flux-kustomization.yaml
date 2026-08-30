@@ -22,3 +22,6 @@ spec:
     substitute:
       NAME: kusai-mastodon
       NAMESPACE: *namespace
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars
