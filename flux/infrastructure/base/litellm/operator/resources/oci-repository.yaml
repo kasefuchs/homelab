@@ -4,9 +4,10 @@ metadata:
   name: litellm-operator
 spec:
   interval: 1h
-  url: oci://ghcr.io/home-operations/charts/litellm-operator
+  # temporary use my own fork
+  url: oci://ghcr.io/kasefuchs/charts/litellm-operator
   ref:
-    tag: "0.0.17"
+    tag: "0.0.18"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
