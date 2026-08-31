@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - resources/gateway.yaml
   - resources/gateway-class.yaml
-  - resources/http-route.yaml
+  - resources/route.yaml
   - resources/namespace.yaml
   - resources/listener-set.yaml

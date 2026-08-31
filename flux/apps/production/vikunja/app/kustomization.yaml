@@ -4,6 +4,8 @@ resources:
   - ../../../base/vikunja/app
 components:
   - ../../../base/vikunja/app/components/oidc
+  - ../../../../components/cnpg/components/backup
+  - ../../../../components/garage/components/backup
 patches:
   - path: patches/oidc.yaml
   - path: patches/route.yaml

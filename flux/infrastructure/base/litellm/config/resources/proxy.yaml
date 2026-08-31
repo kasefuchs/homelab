@@ -1,0 +1,15 @@
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMProxy
+metadata:
+  name: litellm
+spec:
+  generalSettings:
+    json_logs: true
+  routerSettings:
+    redis_host: litellm-dragonfly
+  route:
+    parentRefs:
+      - group: gateway.networking.k8s.io
+        kind: ListenerSet
+        name: internal
+        namespace: gateway-system
