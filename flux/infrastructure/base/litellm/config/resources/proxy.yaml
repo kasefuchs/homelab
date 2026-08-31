@@ -5,6 +5,8 @@ metadata:
 spec:
   generalSettings:
     json_logs: true
+  litellmSettings:
+    drop_params: true
   routerSettings:
     redis_host: litellm-dragonfly
   route:

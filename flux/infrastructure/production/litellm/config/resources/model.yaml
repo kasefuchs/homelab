@@ -1,0 +1,83 @@
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemini-3-7-flash
+spec:
+  modelName: gemini-3.7-flash
+  params:
+    model: gemini/gemini-3.7-flash
+    apiKeyRef:
+      name: litellm-secret
+      key: GEMINI_API_KEY
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemini-3-6-flash
+spec:
+  modelName: gemini-3.6-flash
+  params:
+    model: gemini/gemini-3.6-flash
+    apiKeyRef:
+      name: litellm-secret
+      key: GEMINI_API_KEY
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemini-3-5-flash
+spec:
+  modelName: gemini-3.5-flash
+  params:
+    model: gemini/gemini-3.5-flash
+    apiKeyRef:
+      name: litellm-secret
+      key: GEMINI_API_KEY
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemini-3-5-flash-lite
+spec:
+  modelName: gemini-3.5-flash-lite
+  params:
+    model: gemini/gemini-3.5-flash-lite
+    apiKeyRef:
+      name: litellm-secret
+      key: GEMINI_API_KEY
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemini-3-1-flash-lite
+spec:
+  modelName: gemini-3.1-flash-lite
+  params:
+    model: gemini/gemini-3.1-flash-lite
+    apiKeyRef:
+      name: litellm-secret
+      key: GEMINI_API_KEY
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemini-3-1-pro
+spec:
+  modelName: gemini-3.1-pro
+  params:
+    model: gemini/gemini-3.1-pro
+    apiKeyRef:
+      name: litellm-secret
+      key: GEMINI_API_KEY
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: openrouter-free
+spec:
+  modelName: openrouter-free
+  params:
+    model: openrouter/openrouter/free
+    apiKeyRef:
+      name: litellm-secret
+      key: OPENROUTER_API_KEY
