@@ -16,7 +16,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: litellm-operator
-  values:
-    # temporary use my own fork
-    image:
-      repository: ghcr.io/kasefuchs/litellm-operator

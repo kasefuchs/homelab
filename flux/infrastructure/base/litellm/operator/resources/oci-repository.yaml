@@ -4,8 +4,7 @@ metadata:
   name: litellm-operator
 spec:
   interval: 1h
-  # temporary use my own fork
-  url: oci://ghcr.io/kasefuchs/charts/litellm-operator
+  url: oci://ghcr.io/home-operations/charts/litellm-operator
   ref:
     tag: "0.0.18"
   layerSelector:

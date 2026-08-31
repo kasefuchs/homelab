@@ -4,6 +4,8 @@ resources:
   - ../../../base/litellm/config
   - resources/secret.yaml
   - resources/model.yaml
+components:
+  - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/route.yaml
   - path: patches/placement.yaml
