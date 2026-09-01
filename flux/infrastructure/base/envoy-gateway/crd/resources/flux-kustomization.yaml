@@ -2,15 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: prometheus-operator-crd
+  name: envoy-gateway-crd
 spec:
-  path: infrastructure/base/prometheus/crd
+  path: charts/gateway-helm/charts/crds/crds/generated
   wait: true
   prune: true
   timeout: 10m
   interval: 1h
   retryInterval: 2m
-  targetNamespace: kube-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: GitRepository
+    name: envoy-gateway

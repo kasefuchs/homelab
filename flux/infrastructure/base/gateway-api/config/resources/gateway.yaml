@@ -3,10 +3,7 @@ kind: Gateway
 metadata:
   name: internal
 spec:
-  gatewayClassName: cilium-internal
-  infrastructure:
-    labels:
-      io.cilium/lb-ipam-pool: internal
+  gatewayClassName: envoy-internal
   allowedListeners:
     namespaces:
       from: Selector
@@ -26,7 +23,7 @@ kind: Gateway
 metadata:
   name: external
 spec:
-  gatewayClassName: cilium-external
+  gatewayClassName: envoy-external
   allowedListeners:
     namespaces:
       from: Selector

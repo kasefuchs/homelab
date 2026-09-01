@@ -26,6 +26,7 @@ spec:
         name: internal
         namespace: gateway-system
   env:
+    - name:
     - name: DATABASE_URL
       valueFrom:
         secretKeyRef:

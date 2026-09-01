@@ -1,0 +1,23 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: internal
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        loadBalancerClass: io.cilium/l2-announcer
+        labels:
+          io.cilium/lb-ipam-pool: internal
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: external
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        loadBalancerClass: io.cilium/node

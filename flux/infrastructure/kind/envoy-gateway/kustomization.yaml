@@ -1,5 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - resources/git-repository.yaml
-  - resources/flux-kustomization.yaml
+  - ../../base/envoy-gateway
