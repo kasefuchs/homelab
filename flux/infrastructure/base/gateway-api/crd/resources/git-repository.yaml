@@ -7,3 +7,6 @@ spec:
   url: https://github.com/kubernetes-sigs/gateway-api.git
   ref:
     tag: v1.6.1
+  ignore: |-
+    /*
+    !config/crd/experimental

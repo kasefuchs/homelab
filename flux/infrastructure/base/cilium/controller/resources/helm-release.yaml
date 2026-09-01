@@ -50,10 +50,6 @@ spec:
           enabled: true
     nodeIPAM:
       enabled: true
-    gatewayAPI:
-      enabled: true
-      gatewayClass:
-        create: false
     ipv6:
       enabled: true
     l2announcements:
