@@ -25,3 +25,13 @@ spec:
             kind: ListenerSet
             name: external
             namespace: gateway-system
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            timeouts:
+              # mitigate gateway timeouts when using sliding sync
+              request: 60s
+            backendRefs:
+              - identifier: main
