@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: node-feature-discovery-controller
+spec:
+  path: infrastructure/base/node-feature-discovery/controller
+  wait: true
+  prune: true
+  timeout: 10m
+  interval: 1h
+  retryInterval: 2m
+  targetNamespace: &namespace kube-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute:
+      NAME: node-feature-discovery
+      NAMESPACE: *namespace
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars
