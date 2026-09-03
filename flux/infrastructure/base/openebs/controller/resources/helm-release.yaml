@@ -41,9 +41,7 @@ spec:
     localpv-provisioner:
       enabled: true
       hostpathClass:
-        enabled: true
-        nodeDeployment: true
-        isDefaultClass: false
+        enabled: false
     rawfile-localpv:
       enabled: true
       controller:
@@ -53,14 +51,5 @@ spec:
           enabled: true
         snapshots:
           enabled: true
-      storageClasses:
-        - name: rawfile-localpv
-          enabled: true
-          isDefault: true
-          allowVolumeExpansion: true
-          reclaimPolicy: Delete
-          thinProvision: "true"
-          fsType: ext4
-          formatOptions:
-            - "-m"
-            - "0"
+      storageClasses: []
+      snapshotClasses: []
