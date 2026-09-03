@@ -11,6 +11,10 @@ spec:
   params:
     - name: image_name
       value: codeberg.org/kasefuchs/homelab/flux
+  taskRunTemplate:
+    podTemplate:
+      securityContext:
+        fsGroup: 65532
   workspaces:
     - name: source
       volumeClaimTemplate:
