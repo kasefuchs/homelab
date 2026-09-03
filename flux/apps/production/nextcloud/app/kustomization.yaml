@@ -6,7 +6,6 @@ resources:
 components:
   - ../../../base/nextcloud/app/components/backup
   - ../../../../components/cnpg/components/backup
-  - ../../../../components/garage/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/storage.yaml

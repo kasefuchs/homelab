@@ -5,7 +5,6 @@ resources:
   - resources/secret.yaml
 components:
   - ../../../../components/cnpg/components/backup
-  - ../../../../components/garage/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml
