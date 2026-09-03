@@ -45,7 +45,7 @@ spec:
     kind: OCIRepository
     name: flux-system
   dependsOn:
-    - name: openebs-operator
+    - name: openebs-controller
   decryption:
     provider: sops
     secretRef:

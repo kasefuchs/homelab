@@ -7,16 +7,26 @@ spec:
   targetNamespace: tekton-system
   chain:
     disabled: true
+  pruner:
+    disabled: true
   result:
     disabled: true
   trigger:
     disabled: true
+  pipeline:
+    disable-creds-init: true
+    set-security-context: true
   dashboard:
     readonly: false
   platforms:
     kubernetes:
       pipelinesAsCode:
         enable: true
-  pipeline:
-    disable-creds-init: true
-    set-security-context: true
+  tektonpruner:
+    disabled: false
+    global-config:
+      enforcedConfigLevel: global
+      ttlSecondsAfterFinished: 3600
+      historyLimit: 10
+      successfulHistoryLimit: 5
+      failedHistoryLimit: 2
