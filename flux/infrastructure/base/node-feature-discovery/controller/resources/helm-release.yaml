@@ -16,9 +16,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: node-feature-discovery
-  values:
-    master:
-      tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule

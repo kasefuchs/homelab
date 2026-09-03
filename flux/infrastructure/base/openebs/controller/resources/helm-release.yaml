@@ -28,21 +28,39 @@ spec:
         zfs:
           enabled: false
         rawfile:
-          enabled: false
+          enabled: true
         hostpath:
           enabled: true
       replicated:
         mayastor:
           enabled: false
+    lvm-localpv:
+      enabled: false
+    zfs-localpv:
+      enabled: false
     localpv-provisioner:
       enabled: true
       hostpathClass:
         enabled: true
         nodeDeployment: true
-        isDefaultClass: true
-    lvm-localpv:
-      enabled: false
-    zfs-localpv:
-      enabled: false
+        isDefaultClass: false
     rawfile-localpv:
-      enabled: false
+      enabled: true
+      controller:
+        tolerations: []
+      capabilities:
+        resize:
+          enabled: true
+        snapshots:
+          enabled: true
+      storageClasses:
+        - name: rawfile-localpv
+          enabled: true
+          isDefault: true
+          allowVolumeExpansion: true
+          reclaimPolicy: Delete
+          thinProvision: "true"
+          fsType: ext4
+          formatOptions:
+            - "-m"
+            - "0"
