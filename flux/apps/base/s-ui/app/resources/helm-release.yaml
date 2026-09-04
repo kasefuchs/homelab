@@ -40,3 +40,6 @@ spec:
             backendRefs:
               - identifier: main
                 port: sub
+    persistence:
+      database:
+        existingClaim: ${NAME}

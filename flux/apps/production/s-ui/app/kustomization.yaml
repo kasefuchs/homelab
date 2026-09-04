@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../../../base/s-ui/app
 components:
-  - ../../../base/s-ui/app/components/backup
+  - ../../../../components/pvc/components/backup
 patches:
   - path: patches/route.yaml
   - path: patches/placement.yaml

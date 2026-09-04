@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - resources/restore.yaml
+  - resources/snapshot-policy.yaml
+  - resources/snapshot-schedule.yaml
+patches:
+  - path: patches/datasource.yaml
