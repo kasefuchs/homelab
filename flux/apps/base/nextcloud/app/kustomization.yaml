@@ -5,6 +5,7 @@ resources:
   - resources/namespace.yaml
   - resources/oci-repository.yaml
 components:
+  - ../../../../components/pvc
   - ../../../../components/cnpg
   - ../../../../components/garage
   - ../../../../components/dragonfly

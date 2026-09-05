@@ -35,3 +35,9 @@ spec:
               request: 60s
             backendRefs:
               - identifier: main
+    persistence:
+      data:
+        existingClaim: ${NAME}
+      # store media in the same pvc as data
+      media:
+        enabled: false

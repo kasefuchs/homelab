@@ -4,7 +4,7 @@ resources:
   - ../../../base/nextcloud/app
   - resources/secret.yaml
 components:
-  - ../../../base/nextcloud/app/components/backup
+  - ../../../../components/pvc/components/backup
   - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/config.yaml

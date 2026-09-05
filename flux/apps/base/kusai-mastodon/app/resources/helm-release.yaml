@@ -20,3 +20,6 @@ spec:
     config:
       log:
         as_json: true
+    persistence:
+      data:
+        existingClaim: ${NAME}

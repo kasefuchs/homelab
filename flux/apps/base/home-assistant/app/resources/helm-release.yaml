@@ -25,3 +25,6 @@ spec:
             kind: ListenerSet
             name: external
             namespace: gateway-system
+    persistence:
+      config:
+        existingClaim: ${NAME}
