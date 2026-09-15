@@ -18,7 +18,7 @@ spec:
     name: matrix-media-repo
   values:
     persistence:
-      media:
+      data:
         enabled: false
     controllers:
       main:

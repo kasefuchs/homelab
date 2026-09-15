@@ -17,9 +17,6 @@ spec:
     kind: OCIRepository
     name: iceshrimp
   values:
-    persistence:
-      media:
-        enabled: false
     config:
       Instance:
         WebDomain: shrimp.${CLUSTER_DOMAIN}
@@ -55,6 +52,9 @@ spec:
             kind: ListenerSet
             name: external
             namespace: gateway-system
+    persistence:
+      data:
+        enabled: false
     controllers:
       main:
         initContainers:

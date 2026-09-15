@@ -43,5 +43,5 @@ spec:
               - identifier: main
                 port: sub
     persistence:
-      database:
+      data:
         existingClaim: ${NAME}

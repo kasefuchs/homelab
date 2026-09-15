@@ -18,9 +18,7 @@ spec:
     name: vikunja
   values:
     persistence:
-      db:
-        enabled: false
-      files:
+      data:
         enabled: false
     route:
       main:
