@@ -3,15 +3,9 @@ amneziawg_config_interface_host:
   ListenPort: 48111
   PrivateKey: "{{ amneziawg_config_private_key }}"
 amneziawg_config_peers:
-  # emmie
-  - PublicKey: "{{ amneziawg_config_public_keys.emmie }}"
-    PresharedKey: "{{ amneziawg_config_preshared_keys.emmie }}"
+  # esmae
+  - PublicKey: "{{ amneziawg_config_public_keys.esmae }}"
+    PresharedKey: "{{ amneziawg_config_preshared_keys.esmae }}"
     AllowedIPs: 10.45.0.0/16, fd45:45:45::/48
-    Endpoint: emmie.kasefuchs.net:48761
-    PersistentKeepalive: 25
-  # silky
-  - PublicKey: "{{ amneziawg_config_public_keys.silky }}"
-    PresharedKey: "{{ amneziawg_config_preshared_keys.silky }}"
-    AllowedIPs: 10.45.16.20/32, fd45:45:45:10::20/128
-    Endpoint: silky.kasefuchs.net:48764
+    Endpoint: 192.168.1.1:48769
     PersistentKeepalive: 25

@@ -3,8 +3,6 @@ kind: PocketIDOIDCClient
 metadata:
   name: ${NAME}
 spec:
-  logo:
-    logoUrl: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/vikunja.svg
   launchUrl: https://vikunja.${CLUSTER_DOMAIN}
   callbackUrls:
     - https://vikunja.${CLUSTER_DOMAIN}/auth/openid/pocketid
