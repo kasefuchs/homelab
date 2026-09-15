@@ -28,5 +28,5 @@ spec:
             name: external
             namespace: gateway-system
     persistence:
-      config:
+      data:
         existingClaim: ${NAME}
