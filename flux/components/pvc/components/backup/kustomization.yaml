@@ -6,3 +6,4 @@ resources:
   - resources/snapshot-schedule.yaml
 patches:
   - path: patches/datasource.yaml
+  - path: patches/namespace.yaml

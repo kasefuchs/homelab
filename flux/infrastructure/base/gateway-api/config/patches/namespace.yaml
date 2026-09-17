@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+  labels:
+    gateway.networking.k8s.io/listener-access-internal: "true"
+    gateway.networking.k8s.io/listener-access-external: "true"

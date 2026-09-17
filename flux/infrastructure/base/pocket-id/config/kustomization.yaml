@@ -3,5 +3,8 @@ kind: Kustomization
 resources:
   - resources/instance.yaml
 components:
+  - ../../../../components/namespace
   - ../../../../components/cnpg
   - ../../../../components/garage
+patches:
+  - path: patches/namespace.yaml

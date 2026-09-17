@@ -3,5 +3,8 @@ kind: Kustomization
 resources:
   - resources/proxy.yaml
 components:
+  - ../../../../components/namespace
   - ../../../../components/cnpg
   - ../../../../components/dragonfly
+patches:
+  - path: patches/namespace.yaml

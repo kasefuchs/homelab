@@ -6,3 +6,4 @@ resources:
   - resources/scheduled-backup.yaml
 patches:
   - path: patches/plugin.yaml
+  - path: patches/namespace.yaml

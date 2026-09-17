@@ -2,11 +2,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - resources/helm-release.yaml
-  - resources/namespace.yaml
   - resources/oci-repository.yaml
 patches:
+  - path: patches/namespace.yaml
   - path: patches/garage-bucket.yaml
   - path: patches/garage-key.yaml
 components:
+  - ../../../../components/namespace
   - ../../../../components/cnpg
   - ../../../../components/garage
