@@ -22,6 +22,8 @@ spec:
       enabled: true
     serviceMonitor:
       enabled: true
+    cmdOptions:
+      logging-format: json
     leaderElection:
       enabled: true
     deschedulerPolicy:

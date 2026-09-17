@@ -1,0 +1,11 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless
+spec:
+  values:
+    controllers:
+      main:
+        pod:
+          nodeSelector:
+            kubernetes.io/hostname: lestat

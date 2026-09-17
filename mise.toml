@@ -1,2 +1,2 @@
 [tools]
-ansible = { version = "14.4.0", pipx_args = "--include-deps", uvx = false }
+ansible = "14.4.0"

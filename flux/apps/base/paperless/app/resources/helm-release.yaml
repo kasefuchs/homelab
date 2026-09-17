@@ -1,0 +1,66 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless
+spec:
+  interval: 1h
+  releaseName: paperless
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: paperless
+  values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - paper.${CLUSTER_DOMAIN}
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/kasefuchs/containers/paperless-ngx
+            env:
+              PAPERLESS_URL: https://paper.${CLUSTER_DOMAIN}
+              PAPERLESS_REDIS: redis://paperless-dragonfly:6379
+              PAPERLESS_DBENGINE: postgresql
+              PAPERLESS_OCR_LANGUAGE: rus+eng
+              PAPERLESS_DBHOST:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-db-app
+                    key: host
+              PAPERLESS_DBNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-db-app
+                    key: dbname
+              PAPERLESS_DBUSER:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-db-app
+                    key: user
+              PAPERLESS_DBPASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-db-app
+                    key: password
+            envFrom:
+              - secretRef:
+                  name: paperless-secret
+    persistence:
+      data:
+        existingClaim: ${NAME}
