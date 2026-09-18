@@ -1,0 +1,8 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: s-ui
+spec:
+  valuesFrom:
+    - kind: Secret
+      name: s-ui-secret

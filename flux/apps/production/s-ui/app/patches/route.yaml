@@ -8,18 +8,17 @@ spec:
       grpc:
         enabled: true
         kind: GRPCRoute
-        hostnames:
-          - grpc.kasefuchs.net
         parentRefs:
           - group: gateway.networking.k8s.io
             kind: ListenerSet
             name: external
             namespace: gateway-system
+      reality:
+        enabled: true
+        kind: TLSRoute
+        parentRefs:
+          - identifier: main
         rules:
-          - matches:
-              - method:
-                  type: Exact
-                  service: com.github.alireza0.s_ui.Tunnel
-            backendRefs:
+          - backendRefs:
               - identifier: gateway
-                port: grpc
+                port: reality

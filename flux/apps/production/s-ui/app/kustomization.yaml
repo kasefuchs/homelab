@@ -2,9 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../base/s-ui/app
+  - resources/secret.yaml
 components:
   - ../../../../components/pvc/components/backup
 patches:
+  - path: patches/namespace.yaml
+  - path: patches/listener.yaml
+  - path: patches/values.yaml
   - path: patches/route.yaml
   - path: patches/placement.yaml
   - path: patches/service.yaml
