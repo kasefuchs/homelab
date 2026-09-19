@@ -16,5 +16,3 @@ spec:
         ports:
           grpc:
             port: 3004
-          reality:
-            port: 4000

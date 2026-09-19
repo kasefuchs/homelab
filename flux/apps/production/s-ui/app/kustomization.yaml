@@ -7,7 +7,6 @@ components:
   - ../../../../components/pvc/components/backup
 patches:
   - path: patches/namespace.yaml
-  - path: patches/listener.yaml
   - path: patches/values.yaml
   - path: patches/route.yaml
   - path: patches/placement.yaml

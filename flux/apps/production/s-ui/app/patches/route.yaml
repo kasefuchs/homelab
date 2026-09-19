@@ -13,12 +13,3 @@ spec:
             kind: ListenerSet
             name: external
             namespace: gateway-system
-      reality:
-        enabled: true
-        kind: TLSRoute
-        parentRefs:
-          - identifier: main
-        rules:
-          - backendRefs:
-              - identifier: gateway
-                port: reality
