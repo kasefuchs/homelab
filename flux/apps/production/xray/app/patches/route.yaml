@@ -14,15 +14,3 @@ spec:
           - backendRefs:
               - identifier: vless
                 port: xhttp-reality
-      vless-grpc:
-        enabled: true
-        kind: GRPCRoute
-        parentRefs:
-          - group: gateway.networking.k8s.io
-            kind: ListenerSet
-            name: external
-            namespace: gateway-system
-        rules:
-          - backendRefs:
-              - identifier: vless
-                port: grpc

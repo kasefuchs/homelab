@@ -10,5 +10,3 @@ spec:
         ports:
           xhttp-reality:
             port: 3000
-          grpc:
-            port: 3004

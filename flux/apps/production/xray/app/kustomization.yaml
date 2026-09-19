@@ -5,7 +5,6 @@ resources:
   - resources/secret.yaml
 patches:
   - path: patches/namespace.yaml
-  - path: patches/config.yaml
   - path: patches/values.yaml
   - path: patches/listener.yaml
   - path: patches/route.yaml
