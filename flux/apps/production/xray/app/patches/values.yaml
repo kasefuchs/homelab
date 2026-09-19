@@ -1,0 +1,8 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: xray
+spec:
+  valuesFrom:
+    - kind: Secret
+      name: xray-secret

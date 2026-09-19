@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: xray
+spec:
+  values:
+    inbounds:
+      vless-xhttp-reality:
+        listen: 0.0.0.0
+        port: 3000
+        protocol: vless
+        settings:
+          decryption: none
+        streamSettings:
+          network: xhttp
+          security: reality
+      vless-grpc:
+        listen: 0.0.0.0
+        port: 3004
+        protocol: vless
+        settings:
+          decryption: none
+        streamSettings:
+          network: grpc
+          security: none

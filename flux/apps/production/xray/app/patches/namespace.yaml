@@ -4,3 +4,4 @@ metadata:
   name: ${NAMESPACE}
   labels:
     gateway.networking.k8s.io/route-access-external: "true"
+    gateway.networking.k8s.io/listener-access-external: "true"

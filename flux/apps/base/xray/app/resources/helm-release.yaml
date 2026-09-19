@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: xray
+spec:
+  interval: 1h
+  releaseName: xray
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: xray
+  values:
+    metrics:
+      enabled: true
+    configMaps:
+      dashboard:
+        enabled: true

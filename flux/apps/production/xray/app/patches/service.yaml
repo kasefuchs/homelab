@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: xray
+spec:
+  values:
+    service:
+      vless:
+        type: ClusterIP
+        ports:
+          xhttp-reality:
+            port: 3000
+          grpc:
+            port: 3004
