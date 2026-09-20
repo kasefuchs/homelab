@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: oci://ghcr.io/aclerici38/charts/pocket-id-operator
   ref:
-    tag: "0.14.2"
+    tag: "0.14.3"
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
