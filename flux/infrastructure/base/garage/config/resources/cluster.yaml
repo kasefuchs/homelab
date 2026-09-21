@@ -28,6 +28,9 @@ spec:
     rpcSecretRef:
       name: garage-secret
       key: rpc-secret
+  monitoring:
+    enabled: true
+    interval: 30s
   webApi:
     rootDomain: .web.garage.${CLUSTER_DOMAIN}
     scheme: https
