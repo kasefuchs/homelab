@@ -20,6 +20,7 @@ spec:
     domainFilters:
       - ${CLUSTER_DOMAIN}
     logFormat: json
+    policy: upsert-only
     sources:
       - service
       - ingress
