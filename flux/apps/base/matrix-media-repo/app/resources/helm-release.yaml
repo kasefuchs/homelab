@@ -57,7 +57,7 @@ spec:
           bucketName: "$S3_BUCKET"
           accessKeyId: "$S3_ACCESS_KEY_ID"
           accessSecret: "$S3_SECRET_ACCESS_KEY"
-          publicBaseUrl: https://matrix-media-repo.web.garage.${CLUSTER_DOMAIN}/
+          publicBaseUrl: "$S3_WEBSITE_URL/"
     config:
       database:
         postgres: "$DB_URI"

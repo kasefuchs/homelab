@@ -8,6 +8,7 @@ spec:
     namespace: garage-system
   secretTemplate:
     includeBucketName: true
+    includeWebsiteUrl: true
   bucketPermissions:
     - read: true
       write: true

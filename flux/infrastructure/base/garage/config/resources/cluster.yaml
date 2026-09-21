@@ -30,5 +30,6 @@ spec:
       key: rpc-secret
   webApi:
     rootDomain: .web.garage.${CLUSTER_DOMAIN}
+    scheme: https
   logging:
     level: warn
