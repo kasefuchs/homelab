@@ -4,7 +4,7 @@ metadata:
   name: ${NAME}-db
 spec:
   storage:
-    size: 10Gi
+    size: 15Gi
   managed:
     services:
       disabledDefaultServices:
@@ -14,3 +14,6 @@ spec:
     initdb:
       owner: ${NAME}
       database: ${NAME}
+  postgresql:
+    parameters:
+      max_slot_wal_keep_size: 3GB

@@ -8,5 +8,4 @@ components:
   - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/config.yaml
-  - path: patches/storage.yaml
   - path: patches/route.yaml

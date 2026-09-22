@@ -8,5 +8,4 @@ components:
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml
-  - path: patches/storage.yaml
   - path: patches/placement.yaml
