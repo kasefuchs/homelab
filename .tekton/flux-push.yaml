@@ -6,7 +6,6 @@ metadata:
     pipelinesascode.tekton.dev/on-event: "[push]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
     pipelinesascode.tekton.dev/on-path-change: "[.tekton/flux-push.yaml, flux/***]"
-    pipelinesascode.tekton.dev/task: "[git-clone]"
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
 spec:
   params:
@@ -42,7 +41,14 @@ spec:
     tasks:
       - name: fetch-repository
         taskRef:
-          name: git-clone
+          resolver: hub
+          params:
+            - name: catalog
+              value: git-clone
+            - name: name
+              value: git-clone
+            - name: version
+              value: "1.7.1"
         workspaces:
           - name: output
             workspace: source
