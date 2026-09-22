@@ -77,3 +77,19 @@ spec:
     webhook_secret:
       name: codeberg-pac-credentials
       key: secret
+---
+apiVersion: pipelinesascode.tekton.dev/v1alpha1
+kind: Repository
+metadata:
+  name: xray-subscription-server
+spec:
+  url: https://codeberg.org/kasefuchs/xray-subscription-server
+  git_provider:
+    url: https://codeberg.org
+    type: forgejo
+    secret:
+      name: codeberg-pac-credentials
+      key: token
+    webhook_secret:
+      name: codeberg-pac-credentials
+      key: secret
