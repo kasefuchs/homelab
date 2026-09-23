@@ -17,7 +17,27 @@ spec:
     kind: OCIRepository
     name: xray
   values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - xrss.${CLUSTER_DOMAIN}
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: subscription
+                port: http
     metrics:
+      enabled: true
+    subscription:
       enabled: true
     configMaps:
       dashboard:

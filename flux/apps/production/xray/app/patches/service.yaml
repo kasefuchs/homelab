@@ -10,3 +10,5 @@ spec:
         ports:
           xhttp-reality:
             port: 3000
+          reality:
+            port: 3004

@@ -9,8 +9,17 @@ spec:
         enabled: true
         kind: TLSRoute
         parentRefs:
-          - identifier: main
+          - identifier: reality
         rules:
           - backendRefs:
               - identifier: vless
                 port: xhttp-reality
+      vless-reality:
+        enabled: true
+        kind: TLSRoute
+        parentRefs:
+          - identifier: reality
+        rules:
+          - backendRefs:
+              - identifier: vless
+                port: reality
