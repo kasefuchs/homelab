@@ -3,6 +3,7 @@ k3s_server_config:
   cluster-init: true
   disable:
     - traefik
+    - coredns
     - servicelb
     - local-storage
     - metrics-server

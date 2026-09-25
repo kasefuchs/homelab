@@ -12,6 +12,8 @@ services:
   recursor:
     build:
       context: recursor
+    depends_on:
+      - dns
     restart: unless-stopped
   registry:
     image: registry:3

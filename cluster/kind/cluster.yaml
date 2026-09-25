@@ -8,6 +8,14 @@ nodes:
         hostPath: rootfs/etc/containerd/certs.d
         containerPath: /etc/containerd/certs.d
         readOnly: true
+    kubeadmConfigPatchesJSON6902:
+      - group: kubeadm.k8s.io
+        version: v1beta4
+        kind: InitConfiguration
+        patch: |-
+          - op: add
+            path: /skipPhases/-
+            value: addon/coredns
   - role: worker
     labels:
       garage.rajsingh.info/node-local-pool: tmp-10gi
