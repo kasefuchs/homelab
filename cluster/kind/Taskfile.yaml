@@ -14,12 +14,11 @@ tasks:
   up:
     cmds:
       - task: create
+      - task: docker:up
       - task: setup-registry-proxy
       - task: flux:push
       - task: flux:bootstrap
   create:
-    deps:
-      - docker:up
     cmd: kind create cluster --config cluster.yaml
   delete:
     deps:
@@ -52,4 +51,4 @@ tasks:
         sh: kind get nodes --name homelab
     cmds:
       - for: {var: NODES}
-        cmd: docker exec "{{.ITEM}}" sh -c "curl http://registry-proxy:3128/setup/systemd | sed s/docker\.service/containerd\.service/g | sed '/Environment/ s/$/ \"NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16\"/' | bash"
+        cmd: docker exec "{{.ITEM}}" sh -c "curl --retry 80085 --retry-connrefused http://registry-proxy:3128/setup/systemd | sed s/docker\.service/containerd\.service/g | sed '/Environment/ s/$/ \"NO_PROXY=127.0.0.0\/8,10.0.0.0\/8,172.16.0.0\/12,192.168.0.0\/16\"/' | bash"

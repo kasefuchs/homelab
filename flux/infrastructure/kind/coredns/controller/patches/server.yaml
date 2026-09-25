@@ -1,0 +1,16 @@
+- op: replace
+  path: /spec/values/servers/0/plugins/5/parameters
+  value: . recursor:53
+- op: add
+  path: /spec/values/servers/-
+  value:
+    port: 53
+    zones:
+      - zone: kind.homelab.test
+        scheme: dns://
+        use_tcp: true
+    plugins:
+      - name: log
+      - name: errors
+      - name: forward
+        parameters: . dns:53
