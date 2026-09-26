@@ -5,6 +5,6 @@ k3s_agent_config:
   node-external-ip: 138.124.255.126,2a12:bec4:1280:45::2
   node-label:
     - topology.kubernetes.io/region=cis-west
-    - node-role.kubernetes.io/gateway=true
+    - node-role.kasefuchs.net/gateway=true
   node-taint:
-    - node-role.kubernetes.io/gateway:NoSchedule
+    - node-role.kasefuchs.net/gateway:NoSchedule

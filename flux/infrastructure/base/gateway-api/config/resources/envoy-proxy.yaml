@@ -13,7 +13,7 @@ spec:
       envoyDaemonSet:
         pod:
           tolerations:
-            - key: node-role.kubernetes.io/control-plane
+            - key: node-role.kasefuchs.net/gateway
               operator: Exists
               effect: NoSchedule
 ---
@@ -30,10 +30,7 @@ spec:
       envoyDaemonSet:
         pod:
           tolerations:
-            - key: node-role.kubernetes.io/control-plane
-              operator: Exists
-              effect: NoSchedule
-            - key: node-role.kubernetes.io/gateway
+            - key: node-role.kasefuchs.net/gateway
               operator: Exists
               effect: NoSchedule
           affinity:
