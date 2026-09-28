@@ -1,0 +1,41 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: opencloud
+spec:
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              OC_EXCLUDE_RUN_SERVICES: idp
+              PROXY_ENABLE_BASIC_AUTH: "false"
+              PROXY_OIDC_REWRITE_WELLKNOWN: "true"
+              PROXY_AUTOPROVISION_ACCOUNTS: "true"
+              WEB_OIDC_SCOPE: "openid profile email groups"
+            envFrom:
+              # TODO: json patch
+              - secretRef:
+                  name: opencloud-garage-key
+              - secretRef:
+                  name: opencloud-oidc-credentials
+    config:
+      csp:
+        directives:
+          connect-src:
+            - "'self'"
+            - "blob:"
+            - "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
+            - "https://update.opencloud.eu/"
+            - "https://id.${CLUSTER_DOMAIN}"
+      proxy:
+        role_assignment:
+          driver: oidc
+          oidc_role_mapper:
+            role_claim: groups
+            role_mapping:
+              - claim_value: opencloud-admin
+                role_name: admin
+              - claim_value: opencloud
+                role_name: user

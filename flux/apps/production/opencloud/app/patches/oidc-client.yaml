@@ -1,0 +1,10 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: ${NAME}
+spec:
+  launchUrl: https://cloud.floof.fans
+  callbackUrls:
+    - https://cloud.floof.fans/
+    - https://cloud.floof.fans/oidc-callback.html
+    - https://cloud.floof.fans/oidc-silent-redirect.html

@@ -1,12 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/nextcloud
+  - ../../base/opencloud
 patches:
   - patch: |-
       apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
-        name: nextcloud-app
+        name: opencloud-app
       spec:
-        path: apps/production/nextcloud/app
+        path: apps/production/opencloud/app

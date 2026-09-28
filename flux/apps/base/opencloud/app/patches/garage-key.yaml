@@ -1,0 +1,11 @@
+apiVersion: garage.rajsingh.info/v1beta1
+kind: GarageKey
+metadata:
+  name: ${NAME}-garage-key
+spec:
+  secretTemplate:
+    regionKey: STORAGE_USERS_DECOMPOSEDS3_REGION
+    endpointKey: STORAGE_USERS_DECOMPOSEDS3_ENDPOINT
+    bucketNameKey: STORAGE_USERS_DECOMPOSEDS3_BUCKET
+    accessKeyIdKey: STORAGE_USERS_DECOMPOSEDS3_ACCESS_KEY
+    secretAccessKeyKey: STORAGE_USERS_DECOMPOSEDS3_SECRET_KEY

@@ -1,0 +1,22 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: ${NAME}
+spec:
+  name: OpenCloud
+  logo:
+    logoUrl: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/opencloud.svg
+  launchUrl: https://opencloud.${CLUSTER_DOMAIN}
+  callbackUrls:
+    - https://opencloud.${CLUSTER_DOMAIN}/
+    - https://opencloud.${CLUSTER_DOMAIN}/oidc-callback.html
+    - https://opencloud.${CLUSTER_DOMAIN}/oidc-silent-redirect.html
+  isPublic: true
+  pkceEnabled: true
+  allowedUserGroups:
+    - name: ${NAME}
+    - name: opencloud-admin
+  secret:
+    keys:
+      issuerUrl: OC_OIDC_ISSUER
+      clientID: OC_OIDC_CLIENT_ID

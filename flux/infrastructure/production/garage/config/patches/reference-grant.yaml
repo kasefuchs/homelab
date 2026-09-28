@@ -25,6 +25,6 @@ spec:
     - kind: GarageBucket
       namespace: vikunja
     - kind: GarageKey
-      namespace: nextcloud
+      namespace: opencloud
     - kind: GarageBucket
-      namespace: nextcloud
+      namespace: opencloud

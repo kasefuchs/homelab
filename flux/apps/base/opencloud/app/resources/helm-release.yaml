@@ -1,0 +1,43 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: opencloud
+spec:
+  interval: 1h
+  releaseName: opencloud
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: opencloud
+  values:
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - opencloud.${CLUSTER_DOMAIN}
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              OC_URL: https://opencloud.${CLUSTER_DOMAIN}
+              STORAGE_USERS_DRIVER: decomposeds3
+              STORAGE_USERS_DECOMPOSEDS3_ROOT: /var/lib/opencloud/storage/users
+            envFrom:
+              - secretRef:
+                  name: opencloud-garage-key
+    persistence:
+      data:
+        existingClaim: ${NAME}

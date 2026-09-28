@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: opencloud
+spec:
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              OC_URL: https://cloud.floof.fans
+    config:
+      csp:
+        directives:
+          connect-src:
+            - "'self'"
+            - "blob:"
+            - "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
+            - "https://update.opencloud.eu/"
+            - "https://id.floof.fans"
