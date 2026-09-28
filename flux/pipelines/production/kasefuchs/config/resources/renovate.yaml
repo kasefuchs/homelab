@@ -4,8 +4,8 @@ metadata:
   name: codeberg
 spec:
   image: ghcr.io/renovatebot/renovate:44.45.4
-  schedule: "0 3 * * *"
-  parallelism: 3
+  schedule: "0 */6 * * *"
+  parallelism: 2
   provider:
     name: forgejo
     endpoint: https://codeberg.org/api/v1
