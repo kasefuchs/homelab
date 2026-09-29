@@ -6,7 +6,7 @@ spec:
   interval: 1h
   url: https://github.com/envoyproxy/gateway.git
   ref:
-    tag: v1.9.1
+    tag: v1.9.2
   ignore: |-
     /*
     !charts/gateway-helm/charts/crds/crds/generated
