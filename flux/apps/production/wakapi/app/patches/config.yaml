@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: wakapi
+spec:
+  values:
+    config:
+      server:
+        public_url: https://waka.floof.fans

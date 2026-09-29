@@ -1,0 +1,13 @@
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: ${NAME}
+spec:
+  launchUrl: https://waka.${CLUSTER_DOMAIN}
+  callbackUrls:
+    - https://waka.${CLUSTER_DOMAIN}/oidc/pocket-id/callback
+  secret:
+    keys:
+      issuerUrl: WAKAPI_OIDC_PROVIDERS_0_ENDPOINT
+      clientID: WAKAPI_OIDC_PROVIDERS_0_CLIENT_ID
+      clientSecret: WAKAPI_OIDC_PROVIDERS_0_CLIENT_SECRET
