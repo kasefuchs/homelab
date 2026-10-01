@@ -73,7 +73,7 @@ spec:
             - name: dockerconfig
           steps:
             - name: flux-push
-              image: ghcr.io/fluxcd/flux-cli:v2.9.5
+              image: ghcr.io/fluxcd/flux-cli:v2.9.6
               env:
                 - name: DOCKER_CONFIG
                   value: $(workspaces.dockerconfig.path)
