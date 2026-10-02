@@ -5,5 +5,3 @@ resources:
   - resources/oci-repository.yaml
 components:
   - ../../../../components/namespace
-patches:
-  - path: patches/namespace.yaml

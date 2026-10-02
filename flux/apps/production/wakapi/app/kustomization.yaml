@@ -4,7 +4,6 @@ resources:
   - ../../../base/wakapi/app
 components:
   - ../../../base/wakapi/app/components/oidc
-  - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/oidc.yaml
   - path: patches/route.yaml

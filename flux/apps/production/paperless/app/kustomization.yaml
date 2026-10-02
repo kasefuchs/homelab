@@ -3,7 +3,5 @@ kind: Kustomization
 resources:
   - ../../../base/paperless/app
   - resources/secret.yaml
-components:
-  - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/placement.yaml

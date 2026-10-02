@@ -4,8 +4,6 @@ resources:
   - ../../../base/pocket-id/config
   - resources/secret.yaml
   - resources/user.yaml
-components:
-  - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/config.yaml
   - path: patches/route.yaml

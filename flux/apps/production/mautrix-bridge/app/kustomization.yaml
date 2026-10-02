@@ -5,7 +5,6 @@ resources:
   - resources/secret.yaml
 components:
   - ../../../base/mautrix-bridge/app/components/discord
-  - ../../../../components/cnpg/components/backup
 patches:
   - path: patches/route.yaml
   - path: patches/config.yaml
