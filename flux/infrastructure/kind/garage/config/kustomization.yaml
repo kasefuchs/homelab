@@ -4,5 +4,4 @@ resources:
   - ../../../base/garage/config
   - resources/secret.yaml
 patches:
-  - path: patches/reference-grant.yaml
   - path: patches/storage.yaml

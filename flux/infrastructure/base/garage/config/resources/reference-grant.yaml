@@ -6,4 +6,12 @@ spec:
   to:
     - kind: GarageCluster
       name: garage
-  from: []
+  from:
+    - kind: GarageKey
+      namespaceSelector:
+        matchLabels:
+          garage.rajsingh.info/cluster-access: "true"
+    - kind: GarageBucket
+      namespaceSelector:
+        matchLabels:
+          garage.rajsingh.info/cluster-access: "true"
