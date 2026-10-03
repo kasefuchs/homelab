@@ -9,4 +9,4 @@ patches:
       metadata:
         name: opencloud-app
       spec:
-        path: apps/production/opencloud/app
+        path: flux/apps/production/opencloud/app

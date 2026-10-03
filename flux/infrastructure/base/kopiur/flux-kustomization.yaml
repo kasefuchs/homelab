@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: kopiur-controller
 spec:
-  path: infrastructure/base/kopiur/controller
+  path: flux/infrastructure/base/kopiur/controller
   wait: true
   prune: true
   timeout: 10m
@@ -32,7 +32,7 @@ kind: Kustomization
 metadata:
   name: kopiur-config
 spec:
-  path: infrastructure/base/kopiur/config
+  path: flux/infrastructure/base/kopiur/config
   wait: true
   prune: true
   timeout: 10m

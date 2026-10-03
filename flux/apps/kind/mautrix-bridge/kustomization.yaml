@@ -9,4 +9,4 @@ patches:
       metadata:
         name: mautrix-bridge-app
       spec:
-        path: apps/kind/mautrix-bridge/app
+        path: flux/apps/kind/mautrix-bridge/app

@@ -9,4 +9,4 @@ patches:
       metadata:
         name: grafana-controller
       spec:
-        path: infrastructure/production/grafana/controller
+        path: flux/infrastructure/production/grafana/controller

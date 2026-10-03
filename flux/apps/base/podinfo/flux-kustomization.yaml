@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: podinfo-app
 spec:
-  path: apps/base/podinfo/app
+  path: flux/apps/base/podinfo/app
   wait: false
   prune: true
   timeout: 5m

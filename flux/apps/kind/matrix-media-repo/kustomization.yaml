@@ -9,4 +9,4 @@ patches:
       metadata:
         name: matrix-media-repo-app
       spec:
-        path: apps/kind/matrix-media-repo/app
+        path: flux/apps/kind/matrix-media-repo/app

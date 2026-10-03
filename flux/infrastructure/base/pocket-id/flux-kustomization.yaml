@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: pocket-id-operator
 spec:
-  path: infrastructure/base/pocket-id/operator
+  path: flux/infrastructure/base/pocket-id/operator
   wait: true
   prune: true
   timeout: 10m
@@ -32,7 +32,7 @@ kind: Kustomization
 metadata:
   name: pocket-id-config
 spec:
-  path: infrastructure/base/pocket-id/config
+  path: flux/infrastructure/base/pocket-id/config
   wait: true
   prune: true
   timeout: 10m

@@ -9,4 +9,4 @@ patches:
       metadata:
         name: victoria-metrics-controller
       spec:
-        path: infrastructure/production/victoria-metrics/controller
+        path: flux/infrastructure/production/victoria-metrics/controller

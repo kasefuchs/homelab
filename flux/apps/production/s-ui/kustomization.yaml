@@ -9,4 +9,4 @@ patches:
       metadata:
         name: s-ui-app
       spec:
-        path: apps/production/s-ui/app
+        path: flux/apps/production/s-ui/app

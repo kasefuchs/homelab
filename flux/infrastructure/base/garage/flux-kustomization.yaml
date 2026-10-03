@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: garage-operator
 spec:
-  path: infrastructure/base/garage/operator
+  path: flux/infrastructure/base/garage/operator
   wait: true
   prune: true
   timeout: 10m
@@ -32,7 +32,7 @@ kind: Kustomization
 metadata:
   name: garage-config
 spec:
-  path: infrastructure/base/garage/config
+  path: flux/infrastructure/base/garage/config
   wait: true
   prune: true
   timeout: 10m

@@ -9,4 +9,4 @@ patches:
       metadata:
         name: iceshrimp-app
       spec:
-        path: apps/production/iceshrimp/app
+        path: flux/apps/production/iceshrimp/app

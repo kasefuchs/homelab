@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: gateway-api-crd
 spec:
-  path: infrastructure/base/gateway-api/crd
+  path: flux/infrastructure/base/gateway-api/crd
   wait: true
   prune: true
   timeout: 10m
@@ -21,7 +21,7 @@ kind: Kustomization
 metadata:
   name: gateway-api-config
 spec:
-  path: infrastructure/base/gateway-api/config
+  path: flux/infrastructure/base/gateway-api/config
   wait: true
   prune: true
   timeout: 10m

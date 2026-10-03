@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: conduwuit-app
 spec:
-  path: apps/base/conduwuit/app
+  path: flux/apps/base/conduwuit/app
   wait: false
   prune: true
   timeout: 5m

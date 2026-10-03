@@ -18,7 +18,7 @@ vars:
     sh: yq -r '.spec.ref.tag' infrastructure/base/prometheus/crd/resources/oci-repository.yaml
 tasks:
   push:
-    cmd: flux push artifact oci://localhost:5000/homelab/flux --path=. --source="{{.GIT_SOURCE}}" --revision="{{.GIT_BRANCH}}@sha1:{{.GIT_REVISION}}"
+    cmd: flux push artifact oci://localhost:5000/homelab/flux --path=.. '--ignore-paths=/*' '--ignore-paths=!/flux/**' --source="{{.GIT_SOURCE}}" --revision="{{.GIT_BRANCH}}@sha1:{{.GIT_REVISION}}"
   reconcile:
     cmd: flux reconcile source oci flux-system
   bootstrap:

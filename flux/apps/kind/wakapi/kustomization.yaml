@@ -9,4 +9,4 @@ patches:
       metadata:
         name: wakapi-app
       spec:
-        path: apps/kind/wakapi/app
+        path: flux/apps/kind/wakapi/app

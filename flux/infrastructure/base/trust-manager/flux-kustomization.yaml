@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: trust-manager-controller
 spec:
-  path: infrastructure/base/trust-manager/controller
+  path: flux/infrastructure/base/trust-manager/controller
   wait: true
   prune: true
   timeout: 10m
@@ -34,7 +34,7 @@ kind: Kustomization
 metadata:
   name: trust-manager-config
 spec:
-  path: infrastructure/base/trust-manager/config
+  path: flux/infrastructure/base/trust-manager/config
   wait: true
   prune: true
   timeout: 10m

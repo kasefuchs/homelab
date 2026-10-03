@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: metrics-server-controller
 spec:
-  path: infrastructure/base/metrics-server/controller
+  path: flux/infrastructure/base/metrics-server/controller
   wait: true
   prune: true
   timeout: 10m

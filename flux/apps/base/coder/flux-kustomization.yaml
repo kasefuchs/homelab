@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: coder-app
 spec:
-  path: apps/base/coder/app
+  path: flux/apps/base/coder/app
   wait: false
   prune: true
   timeout: 5m

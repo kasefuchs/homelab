@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: openebs-controller
 spec:
-  path: infrastructure/base/openebs/controller
+  path: flux/infrastructure/base/openebs/controller
   wait: true
   prune: true
   timeout: 10m
@@ -34,7 +34,7 @@ kind: Kustomization
 metadata:
   name: openebs-config
 spec:
-  path: infrastructure/base/openebs/config
+  path: flux/infrastructure/base/openebs/config
   wait: true
   prune: true
   timeout: 10m

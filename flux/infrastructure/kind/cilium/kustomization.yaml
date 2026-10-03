@@ -9,11 +9,11 @@ patches:
       metadata:
         name: cilium-controller
       spec:
-        path: infrastructure/kind/cilium/controller
+        path: flux/infrastructure/kind/cilium/controller
   - patch: |-
       apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
         name: cilium-config
       spec:
-        path: infrastructure/kind/cilium/config
+        path: flux/infrastructure/kind/cilium/config

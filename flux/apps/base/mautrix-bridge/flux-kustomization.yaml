@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: mautrix-bridge-app
 spec:
-  path: apps/base/mautrix-bridge/app
+  path: flux/apps/base/mautrix-bridge/app
   wait: false
   prune: true
   timeout: 5m

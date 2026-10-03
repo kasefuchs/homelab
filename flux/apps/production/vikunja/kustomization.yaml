@@ -9,4 +9,4 @@ patches:
       metadata:
         name: vikunja-app
       spec:
-        path: apps/production/vikunja/app
+        path: flux/apps/production/vikunja/app

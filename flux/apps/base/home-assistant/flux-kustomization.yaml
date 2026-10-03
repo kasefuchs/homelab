@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: home-assistant-app
 spec:
-  path: apps/base/home-assistant/app
+  path: flux/apps/base/home-assistant/app
   wait: false
   prune: true
   timeout: 5m

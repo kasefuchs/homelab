@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: tekton-operator
 spec:
-  path: infrastructure/base/tekton/operator
+  path: flux/infrastructure/base/tekton/operator
   wait: true
   prune: true
   timeout: 10m
@@ -28,7 +28,7 @@ kind: Kustomization
 metadata:
   name: tekton-config
 spec:
-  path: infrastructure/base/tekton/config
+  path: flux/infrastructure/base/tekton/config
   wait: true
   prune: true
   timeout: 10m

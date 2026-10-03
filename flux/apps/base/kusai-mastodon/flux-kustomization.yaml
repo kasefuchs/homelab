@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: kusai-mastodon-app
 spec:
-  path: apps/base/kusai-mastodon/app
+  path: flux/apps/base/kusai-mastodon/app
   wait: false
   prune: true
   timeout: 5m

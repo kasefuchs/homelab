@@ -10,6 +10,11 @@ includes:
     taskfile: ../../flux/Taskfile.yaml
     vars:
       ENVIRONMENT: kind
+  flate:
+    dir: ../../flate
+    taskfile: ../../flate/Taskfile.yaml
+    vars:
+      ENVIRONMENT: kind
 tasks:
   up:
     cmds:

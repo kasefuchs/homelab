@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: flux-operator
 spec:
-  path: infrastructure/base/flux/operator
+  path: flux/infrastructure/base/flux/operator
   wait: true
   prune: true
   timeout: 10m

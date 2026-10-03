@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: xray-app
 spec:
-  path: apps/base/xray/app
+  path: flux/apps/base/xray/app
   wait: false
   prune: true
   timeout: 5m

@@ -9,4 +9,4 @@ patches:
       metadata:
         name: pocket-id-config
       spec:
-        path: infrastructure/production/pocket-id/config
+        path: flux/infrastructure/production/pocket-id/config

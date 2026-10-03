@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: cilium-controller
 spec:
-  path: infrastructure/base/cilium/controller
+  path: flux/infrastructure/base/cilium/controller
   wait: true
   prune: true
   timeout: 10m
@@ -32,7 +32,7 @@ kind: Kustomization
 metadata:
   name: cilium-config
 spec:
-  path: infrastructure/base/cilium/config
+  path: flux/infrastructure/base/cilium/config
   wait: true
   prune: true
   timeout: 10m

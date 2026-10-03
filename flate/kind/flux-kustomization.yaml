@@ -1,0 +1,13 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kind
+  namespace: flux-system
+spec:
+  interval: 10m
+  prune: true
+  timeout: 20m
+  path: flux/clusters/kind
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system

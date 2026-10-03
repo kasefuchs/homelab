@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: coredns-controller
 spec:
-  path: infrastructure/base/coredns/controller
+  path: flux/infrastructure/base/coredns/controller
   wait: true
   prune: true
   timeout: 10m
