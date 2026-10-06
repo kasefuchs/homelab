@@ -4,7 +4,6 @@ metadata:
   name: ${NAME}-dragonfly
 spec:
   replicas: 1
-  networkPolicyEnabled: false
   nodeSelector:
     feature.node.kubernetes.io/cpu-cpuid.X86_64_V3: "true"
   podSecurityContext:
