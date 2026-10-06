@@ -9,4 +9,4 @@ patches:
       metadata:
         name: coredns-controller
       spec:
-        path: infrastructure/production/coredns/controller
+        path: flux/infrastructure/production/coredns/controller

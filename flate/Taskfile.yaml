@@ -1,0 +1,7 @@
+version: 3
+vars:
+  FLATE_CMD: flate --path={{.ENVIRONMENT}} --api-versions monitoring.coreos.com/v1
+tasks:
+  get: "{{.FLATE_CMD}} get all"
+  test: "{{.FLATE_CMD}} test all"
+  build: "{{.FLATE_CMD}} build all"

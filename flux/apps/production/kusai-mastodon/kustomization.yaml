@@ -9,4 +9,4 @@ patches:
       metadata:
         name: kusai-mastodon-app
       spec:
-        path: apps/production/kusai-mastodon/app
+        path: flux/apps/production/kusai-mastodon/app

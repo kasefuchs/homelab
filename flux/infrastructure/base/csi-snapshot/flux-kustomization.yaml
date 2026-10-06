@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: csi-snapshot-crd
 spec:
-  path: infrastructure/base/csi-snapshot/crd
+  path: flux/infrastructure/base/csi-snapshot/crd
   wait: true
   prune: true
   timeout: 10m

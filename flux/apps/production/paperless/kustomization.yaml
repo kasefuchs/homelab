@@ -9,4 +9,4 @@ patches:
       metadata:
         name: paperless-app
       spec:
-        path: apps/production/paperless/app
+        path: flux/apps/production/paperless/app

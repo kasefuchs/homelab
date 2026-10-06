@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: opencloud-app
 spec:
-  path: apps/base/opencloud/app
+  path: flux/apps/base/opencloud/app
   wait: false
   prune: true
   timeout: 5m

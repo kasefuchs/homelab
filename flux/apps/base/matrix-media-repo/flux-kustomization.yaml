@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: matrix-media-repo-app
 spec:
-  path: apps/base/matrix-media-repo/app
+  path: flux/apps/base/matrix-media-repo/app
   wait: false
   prune: true
   timeout: 5m

@@ -5,7 +5,7 @@ metadata:
 spec:
   sync:
     url: oci://registry:5000/homelab/flux
-    path: clusters/kind
+    path: flux/clusters/kind
     interval: 1m
   kustomize:
     patches:

@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: cert-manager-controller
 spec:
-  path: infrastructure/base/cert-manager/controller
+  path: flux/infrastructure/base/cert-manager/controller
   wait: true
   prune: true
   timeout: 10m
@@ -32,7 +32,7 @@ kind: Kustomization
 metadata:
   name: cert-manager-config
 spec:
-  path: infrastructure/base/cert-manager/config
+  path: flux/infrastructure/base/cert-manager/config
   wait: true
   prune: true
   timeout: 10m

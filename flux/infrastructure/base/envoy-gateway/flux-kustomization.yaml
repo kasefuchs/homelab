@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: envoy-gateway-crd
 spec:
-  path: infrastructure/base/envoy-gateway/crd
+  path: flux/infrastructure/base/envoy-gateway/crd
   wait: true
   prune: true
   timeout: 10m
@@ -21,7 +21,7 @@ kind: Kustomization
 metadata:
   name: envoy-gateway-controller
 spec:
-  path: infrastructure/base/envoy-gateway/controller
+  path: flux/infrastructure/base/envoy-gateway/controller
   wait: true
   prune: true
   timeout: 10m

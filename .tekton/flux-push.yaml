@@ -83,6 +83,8 @@ spec:
                 set -eu
 
                 flux push artifact "oci://$(params.image_name)" \
-                  --path="flux/" \
+                  --path="." \
+                  --ignore-paths=/* \
+                  --ignore-paths=!/flux/** \
                   --source="{{ repo_url }}" \
                   --revision="{{ target_branch }}@sha1:{{ revision }}"

@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: node-feature-discovery-controller
 spec:
-  path: infrastructure/base/node-feature-discovery/controller
+  path: flux/infrastructure/base/node-feature-discovery/controller
   wait: true
   prune: true
   timeout: 10m

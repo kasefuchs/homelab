@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: external-secrets-controller
 spec:
-  path: infrastructure/base/external-secrets/controller
+  path: flux/infrastructure/base/external-secrets/controller
   wait: true
   prune: true
   timeout: 10m
@@ -32,7 +32,7 @@ kind: Kustomization
 metadata:
   name: external-secrets-config
 spec:
-  path: infrastructure/base/external-secrets/config
+  path: flux/infrastructure/base/external-secrets/config
   wait: true
   prune: true
   timeout: 10m

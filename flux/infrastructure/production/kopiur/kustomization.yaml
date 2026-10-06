@@ -9,4 +9,4 @@ patches:
       metadata:
         name: kopiur-config
       spec:
-        path: infrastructure/production/kopiur/config
+        path: flux/infrastructure/production/kopiur/config

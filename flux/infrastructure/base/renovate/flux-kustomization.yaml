@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: renovate-operator
 spec:
-  path: infrastructure/base/renovate/operator
+  path: flux/infrastructure/base/renovate/operator
   wait: true
   prune: true
   timeout: 10m

@@ -9,4 +9,4 @@ patches:
       metadata:
         name: conduwuit-app
       spec:
-        path: apps/production/conduwuit/app
+        path: flux/apps/production/conduwuit/app

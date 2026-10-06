@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: kasefuchs-ci
 spec:
-  path: pipelines/production/kasefuchs/config
+  path: flux/pipelines/production/kasefuchs/config
   wait: true
   prune: true
   timeout: 5m

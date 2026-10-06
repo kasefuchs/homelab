@@ -9,4 +9,4 @@ patches:
       metadata:
         name: paperless-app
       spec:
-        path: apps/kind/paperless/app
+        path: flux/apps/kind/paperless/app

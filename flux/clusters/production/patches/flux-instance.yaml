@@ -5,4 +5,4 @@ metadata:
 spec:
   sync:
     url: oci://codeberg.org/kasefuchs/homelab/flux
-    path: clusters/production
+    path: flux/clusters/production

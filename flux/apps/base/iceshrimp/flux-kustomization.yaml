@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: iceshrimp-app
 spec:
-  path: apps/base/iceshrimp/app
+  path: flux/apps/base/iceshrimp/app
   wait: false
   prune: true
   timeout: 5m

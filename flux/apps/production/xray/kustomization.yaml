@@ -9,4 +9,4 @@ patches:
       metadata:
         name: xray-app
       spec:
-        path: apps/production/xray/app
+        path: flux/apps/production/xray/app

@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: prometheus-operator-crd
 spec:
-  path: infrastructure/base/prometheus/crd
+  path: flux/infrastructure/base/prometheus/crd
   wait: true
   prune: true
   timeout: 10m

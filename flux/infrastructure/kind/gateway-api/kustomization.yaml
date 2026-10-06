@@ -9,4 +9,4 @@ patches:
       metadata:
         name: gateway-api-config
       spec:
-        path: infrastructure/kind/gateway-api/config
+        path: flux/infrastructure/kind/gateway-api/config

@@ -9,4 +9,4 @@ patches:
       metadata:
         name: cert-manager-config
       spec:
-        path: infrastructure/production/cert-manager/config
+        path: flux/infrastructure/production/cert-manager/config

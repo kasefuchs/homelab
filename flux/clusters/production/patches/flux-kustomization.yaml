@@ -3,18 +3,21 @@ kind: Kustomization
 metadata:
   name: infrastructure
 spec:
-  path: infrastructure/production
+  path: flux/infrastructure/production
+  suspend: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: apps
 spec:
-  path: apps/production
+  path: flux/apps/production
+  suspend: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: pipelines
 spec:
-  path: pipelines/production
+  path: flux/pipelines/production
+  suspend: false

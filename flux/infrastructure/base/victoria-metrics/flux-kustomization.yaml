@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: victoria-metrics-controller
 spec:
-  path: infrastructure/base/victoria-metrics/controller
+  path: flux/infrastructure/base/victoria-metrics/controller
   wait: true
   prune: true
   timeout: 10m

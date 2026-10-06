@@ -9,4 +9,4 @@ patches:
       metadata:
         name: opencloud-app
       spec:
-        path: apps/kind/opencloud/app
+        path: flux/apps/kind/opencloud/app

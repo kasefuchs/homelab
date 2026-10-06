@@ -9,4 +9,4 @@ patches:
       metadata:
         name: gateway-api-config
       spec:
-        path: infrastructure/production/gateway-api/config
+        path: flux/infrastructure/production/gateway-api/config

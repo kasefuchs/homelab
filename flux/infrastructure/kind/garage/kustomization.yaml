@@ -9,4 +9,4 @@ patches:
       metadata:
         name: garage-config
       spec:
-        path: infrastructure/kind/garage/config
+        path: flux/infrastructure/kind/garage/config

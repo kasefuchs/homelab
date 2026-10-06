@@ -9,4 +9,4 @@ patches:
       metadata:
         name: external-dns-controller
       spec:
-        path: infrastructure/production/external-dns/controller
+        path: flux/infrastructure/production/external-dns/controller
