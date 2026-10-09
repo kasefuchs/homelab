@@ -7,3 +7,5 @@ spec:
     config:
       server:
         public_url: https://waka.floof.fans
+      app:
+        avatar_url_template: https://gravatar.com/avatar/{email_hash}.jpg
