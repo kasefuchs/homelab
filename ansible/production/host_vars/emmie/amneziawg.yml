@@ -2,6 +2,14 @@ amneziawg_config_interface_host:
   Address: 10.45.16.24/24, fd45:45:45:10::24/64
   ListenPort: 48761
   PrivateKey: "{{ amneziawg_config_private_key }}"
+amneziawg_config_hook_post_up_forward:
+  - iptables -I FORWARD 1 -i awg0 -o ens3 -s 10.45.0.0/16 -j ACCEPT
+  - iptables -I FORWARD 1 -i ens3 -o awg0 -d 10.45.0.0/16 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+  - iptables -t nat -I POSTROUTING 1 -s 10.45.0.0/16 -o ens3 -j MASQUERADE
+amneziawg_config_hook_pre_down_forward:
+  - iptables -D FORWARD -i awg0 -o ens3 -s 10.45.0.0/16 -j ACCEPT
+  - iptables -D FORWARD -i ens3 -o awg0 -d 10.45.0.0/16 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+  - iptables -t nat -D POSTROUTING -s 10.45.0.0/16 -o ens3 -j MASQUERADE
 amneziawg_config_peers:
   # silky
   - PublicKey: "{{ amneziawg_config_public_keys.silky }}"

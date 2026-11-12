@@ -9,12 +9,6 @@ amneziawg_config_peers:
     AllowedIPs: 10.45.0.0/16, fd45:45:45::/48
     Endpoint: emmie.kasefuchs.net:48761
     PersistentKeepalive: 25
-  # mala
-  - PublicKey: "{{ amneziawg_config_public_keys.mala }}"
-    PresharedKey: "{{ amneziawg_config_preshared_keys.mala }}"
-    AllowedIPs: 10.45.32.16/32, fd45:45:45:20::16/128
-    Endpoint: mala.kasefuchs.net:48248
-    PersistentKeepalive: 25
   # esmae + lestat
   - PublicKey: "{{ amneziawg_config_public_keys.esmae }}"
     PresharedKey: "{{ amneziawg_config_preshared_keys.esmae }}"
