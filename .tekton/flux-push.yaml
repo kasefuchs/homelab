@@ -4,7 +4,7 @@ metadata:
   name: flux-push-artifact
   annotations:
     pipelinesascode.tekton.dev/on-event: "[push]"
-    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-target-branch: "[*]"
     pipelinesascode.tekton.dev/on-path-change: "[.tekton/flux-push.yaml, flux/***]"
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
 spec:
@@ -82,9 +82,16 @@ spec:
                 #!/usr/bin/env sh
                 set -eu
 
-                flux push artifact "oci://$(params.image_name)" \
+                branch="{{ target_branch }}"
+                tag=$(printf '%s' "$branch" | sed 's#[^a-zA-Z0-9._-]#-#g')
+
+                flux push artifact "oci://$(params.image_name):${tag}" \
                   --path="." \
                   --ignore-paths=/* \
                   --ignore-paths=!/flux/** \
                   --source="{{ repo_url }}" \
-                  --revision="{{ target_branch }}@sha1:{{ revision }}"
+                  --revision="${branch}@sha1:{{ revision }}"
+
+                if [ "$branch" = "main" ]; then
+                  flux tag artifact "oci://$(params.image_name):${tag}" --tag latest
+                fi
