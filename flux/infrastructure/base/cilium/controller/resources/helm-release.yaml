@@ -52,8 +52,6 @@ spec:
           enabled: true
     nodeIPAM:
       enabled: true
-    ipv6:
-      enabled: true
     l2announcements:
       enabled: true
     prometheus:
