@@ -5,6 +5,8 @@ creation_rules:
   - path_regex: .*/kind/.*\.ya?ml$
     encrypted_regex: ^(data|stringData)$
     age: age194uq3r4zu3kjllp8x947yjk0h0hj33v82qwyged2hczzywrc0spsw9vxer
+  - path_regex: ^cluster/production/secrets\.ya?ml$
+    age: &production age1qgv4cfh20qcmhts880afhzvljxp6mv5qlcrxc6weuudew7kelsgqc0v77v
   - path_regex: .*/production/.*\.ya?ml$
     encrypted_regex: ^(data|stringData)$
-    age: age1qgv4cfh20qcmhts880afhzvljxp6mv5qlcrxc6weuudew7kelsgqc0v77v
+    age: *production

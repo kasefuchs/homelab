@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  values:
+    cgroup:
+      hostRoot: /sys/fs/cgroup
+      autoMount:
+        enabled: false

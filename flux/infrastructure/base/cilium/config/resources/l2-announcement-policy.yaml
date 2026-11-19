@@ -5,7 +5,10 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
-    - ^eth[0-9]+
+    - ^eth.*
+    - ^enp.*
+    - ^ens.*
+    - ^bond.*
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane

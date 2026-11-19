@@ -3,5 +3,8 @@ kind: Kustomization
 resources:
   - ../../../base/cilium/controller
 patches:
-  - path: patches/device.yaml
+  - path: patches/cgroup.yaml
+  - path: patches/ipam.yaml
   - path: patches/kube-proxy.yaml
+  - path: patches/security.yaml
+  - path: patches/replicas.yaml

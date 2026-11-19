@@ -8,6 +8,13 @@
 # Vagrant
 .vagrant/
 
+# Topf
+output/
+
+# Talos
+talosconfig
+*.talosconfig
+
 # K8s
 kubeconfig
 *.kubeconfig

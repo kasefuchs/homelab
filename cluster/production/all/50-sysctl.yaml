@@ -1,0 +1,6 @@
+apiVersion: v1alpha1
+kind: SysctlConfig
+params:
+  user.max_user_namespaces: "11255"
+  fs.inotify.max_user_watches: "1048576"
+  fs.inotify.max_user_instances: "8192"

@@ -1,0 +1,28 @@
+clusterName: production
+clusterEndpoint: https://192.168.20.10:6443
+# renovate: datasource=github-releases depName=siderolabs/talos
+talosVersion: v1.14.5
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.37.2
+data:
+  nodeCidr: 192.168.20.0/24
+  routes:
+    - gateway: &gateway 192.168.20.1
+  ntpServers:
+    - *gateway
+  dnsServers:
+    - address: *gateway
+  podCidr: 10.244.0.0/16
+  serviceCidr: 10.96.0.0/12
+nodes:
+  - host: rubicon
+    ip: 192.168.20.16
+    role: control-plane
+    secureboot: true
+    schematicId: "@schematic/thinkcentre-m715q.yaml"
+    data:
+      installDisk: /dev/nvme0n1
+      encryptDisk: true
+      kernelModules:
+        - amdgpu
+        - kvm_amd

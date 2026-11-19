@@ -24,8 +24,8 @@ tasks:
   bootstrap:
     cmds:
       - kubectl apply --server-side=true -f https://github.com/kubernetes-sigs/gateway-api/releases/download/{{.GATEWAY_API_VERSION}}/experimental-install.yaml
-      - kustomize build infrastructure/{{.ENVIRONMENT}}/prometheus/crd/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install prometheus-operator-crds oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds --version {{.PROMETHEUS_OPERATOR_CRD_VERSION}} --namespace kube-system --create-namespace -f -
-      - kustomize build infrastructure/{{.ENVIRONMENT}}/coredns/controller/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install coredns oci://ghcr.io/coredns/charts/coredns --version {{.COREDNS_VERSION}} --namespace kube-system -f -
-      - kustomize build infrastructure/{{.ENVIRONMENT}}/cilium/controller/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install cilium oci://quay.io/cilium/charts/cilium --version {{.CILIUM_VERSION}} --namespace kube-system -f -
-      - kustomize build infrastructure/{{.ENVIRONMENT}}/flux/operator/ | yq -y 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version {{.FLUX_OPERATOR_VERSION}} --namespace flux-system --create-namespace -f -
-      - kustomize build clusters/{{.ENVIRONMENT}} | yq -y 'select(.kind != "Kustomization")' | kubectl apply -f -
+      - kustomize build infrastructure/{{.ENVIRONMENT}}/prometheus/crd/ | yq 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install prometheus-operator-crds oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds --version {{.PROMETHEUS_OPERATOR_CRD_VERSION}} --namespace kube-system --create-namespace -f -
+      - kustomize build infrastructure/{{.ENVIRONMENT}}/coredns/controller/ | yq 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install coredns oci://ghcr.io/coredns/charts/coredns --version {{.COREDNS_VERSION}} --namespace kube-system -f -
+      - kustomize build infrastructure/{{.ENVIRONMENT}}/cilium/controller/ | yq 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install cilium oci://quay.io/cilium/charts/cilium --version {{.CILIUM_VERSION}} --namespace kube-system -f -
+      - kustomize build infrastructure/{{.ENVIRONMENT}}/flux/operator/ | yq 'select(.kind == "HelmRelease") | .spec.values' | helm upgrade --install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --version {{.FLUX_OPERATOR_VERSION}} --namespace flux-system --create-namespace -f -
+      - kustomize build clusters/{{.ENVIRONMENT}} | yq 'select(.kind != "Kustomization")' | kubectl apply -f -

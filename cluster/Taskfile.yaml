@@ -3,3 +3,6 @@ includes:
   kind:
     dir: kind
     taskfile: kind/Taskfile.yaml
+  production:
+    dir: production
+    taskfile: production/Taskfile.yaml

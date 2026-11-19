@@ -5,4 +5,4 @@ metadata:
 spec:
   values:
     service:
-      clusterIP: 10.43.0.10
+      clusterIP: 10.96.0.10
