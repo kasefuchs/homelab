@@ -5,3 +5,4 @@ resources:
 patches:
   - path: patches/kube-proxy.yaml
   - path: patches/routing.yaml
+  - path: patches/lb.yaml

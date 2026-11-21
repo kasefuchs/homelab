@@ -4,5 +4,6 @@ metadata:
   name: cilium
 spec:
   values:
+    # TODO: remove after adding some capacity
     operator:
       replicas: 1

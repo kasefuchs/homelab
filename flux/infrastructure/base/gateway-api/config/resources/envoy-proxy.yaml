@@ -5,17 +5,6 @@ metadata:
 spec:
   provider:
     type: Kubernetes
-    kubernetes:
-      envoyService:
-        loadBalancerClass: io.cilium/l2-announcer
-        labels:
-          io.cilium/lb-ipam-pool: internal
-      envoyDaemonSet:
-        pod:
-          tolerations:
-            - key: node-role.kasefuchs.net/gateway
-              operator: Exists
-              effect: NoSchedule
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
@@ -24,19 +13,3 @@ metadata:
 spec:
   provider:
     type: Kubernetes
-    kubernetes:
-      envoyService:
-        loadBalancerClass: io.cilium/node
-      envoyDaemonSet:
-        pod:
-          tolerations:
-            - key: node-role.kasefuchs.net/gateway
-              operator: Exists
-              effect: NoSchedule
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: node.kubernetes.io/exclude-from-external-load-balancers
-                        operator: DoesNotExist

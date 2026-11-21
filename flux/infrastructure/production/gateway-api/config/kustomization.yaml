@@ -4,4 +4,5 @@ resources:
   - ../../../base/gateway-api/config
   - resources/certificate.yaml
 patches:
+  - path: patches/envoy-proxy.yaml
   - path: patches/listener-set.yaml

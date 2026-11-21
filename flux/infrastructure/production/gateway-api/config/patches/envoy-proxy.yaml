@@ -1,0 +1,23 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: internal
+spec:
+  provider:
+    kubernetes:
+      envoyService:
+        loadBalancerClass: io.cilium/bgp-control-plane
+        labels:
+          io.cilium/lb-ip-pool: internal
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: external
+spec:
+  provider:
+    kubernetes:
+      envoyService:
+        loadBalancerClass: io.cilium/bgp-control-plane
+        labels:
+          io.cilium/lb-ip-pool: internal

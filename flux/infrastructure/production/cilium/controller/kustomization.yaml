@@ -6,5 +6,6 @@ patches:
   - path: patches/cgroup.yaml
   - path: patches/ipam.yaml
   - path: patches/kube-proxy.yaml
-  - path: patches/security.yaml
   - path: patches/replicas.yaml
+  - path: patches/security.yaml
+  - path: patches/lb.yaml

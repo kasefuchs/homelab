@@ -1,5 +1,0 @@
-$patch: delete
-apiVersion: cilium.io/v2alpha1
-kind: CiliumL2AnnouncementPolicy
-metadata:
-  name: internal
