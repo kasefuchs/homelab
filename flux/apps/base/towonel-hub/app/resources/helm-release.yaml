@@ -1,0 +1,46 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: towonel-hub
+spec:
+  interval: 1h
+  releaseName: towonel-hub
+  install:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: towonel-node
+  values:
+    edge:
+      enabled: false
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - hub.${CLUSTER_DOMAIN}
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: ListenerSet
+            name: external
+            namespace: gateway-system
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              TOWONEL_HUB_PUBLIC_URL: https://hub.${CLUSTER_DOMAIN}
+              TOWONEL_HUB_DB_DRIVER: postgres
+              TOWONEL_HUB_DB_DSN:
+                valueFrom:
+                  secretKeyRef:
+                    name: towonel-hub-db-app
+                    key: uri
+            envFrom:
+              - secretRef:
+                  name: towonel-hub-secret
