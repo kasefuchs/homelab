@@ -44,6 +44,8 @@ spec:
         enabled: false
     rawfile-localpv:
       enabled: true
+      node:
+        dataDirPath: /var/mnt/openebs/rawfile-localpv
       controller:
         tolerations: []
       capabilities:

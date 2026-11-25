@@ -1,0 +1,39 @@
+clusterName: edge
+# Single public IP, so the endpoint points directly at the node.
+clusterEndpoint: https://95.85.240.73:6443
+# renovate: datasource=github-releases depName=siderolabs/talos
+talosVersion: v1.14.5
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.37.2
+data:
+  routes:
+    - destination: 10.0.0.1/32
+    - gateway: 10.0.0.1
+    - gateway: 2a12:bec4:1280:341::1
+  ntpServers:
+    - 0.ru.pool.ntp.org
+    - 1.ru.pool.ntp.org
+  dnsServers:
+    - address: 77.88.8.8
+    - address: 77.88.8.1
+  podCidrs:
+    - 10.244.0.0/16
+    - fd00:10:244::/56
+  serviceCidrs:
+    - 10.96.0.0/12
+    - fd00:10:96::/112
+nodes:
+  - host: epsilon
+    ip: 95.85.240.73
+    role: control-plane
+    secureboot: false
+    schematicId: "@schematic/qemu.yaml"
+    data:
+      addresses:
+        - 95.85.240.73/32
+        - 2a12:bec4:1280:341::2/64
+      installDisk: /dev/vda
+      encryptDisk: false
+      userVolumes:
+        - openebs
+      kernelModules: []

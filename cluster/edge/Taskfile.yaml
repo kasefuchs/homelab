@@ -1,0 +1,7 @@
+version: 3
+includes:
+  flux:
+    dir: ../../flux
+    taskfile: ../../flux/Taskfile.yaml
+    vars:
+      ENVIRONMENT: edge

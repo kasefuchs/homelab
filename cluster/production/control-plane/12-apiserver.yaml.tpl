@@ -4,5 +4,7 @@ extraArgs:
   enable-aggregator-routing: "true"
 certExtraSANs:
   - "127.0.0.1"
-  - "{{ .Node.IP }}"
+{{- range .Node.Data.addresses }}
+  - "{{ splitList "/" . | first }}"
+{{- end }}
   - "{{ (urlParse .ClusterEndpoint).hostname }}"

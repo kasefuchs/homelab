@@ -1,0 +1,46 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: external
+spec:
+  listeners:
+    - name: https-edge-kasefuchs-net-apex
+      hostname: edge.kasefuchs.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: &allowed-external-routes
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway.networking.k8s.io/route-access-external: "true"
+      tls: &edge-kasefuchs-net-tls
+        mode: Terminate
+        certificateRefs:
+          - name: edge-kasefuchs-net-tls-secret
+            kind: Secret
+    - name: https-edge-kasefuchs-net-wildcard
+      hostname: "*.edge.kasefuchs.net"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes: *allowed-external-routes
+      tls: *edge-kasefuchs-net-tls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: internal
+spec:
+  listeners:
+    - name: https-edge-kasefuchs-net-wildcard
+      hostname: "*.edge.kasefuchs.net"
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: edge-kasefuchs-net-tls-secret
+            kind: Secret

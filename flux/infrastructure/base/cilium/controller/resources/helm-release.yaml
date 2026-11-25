@@ -68,3 +68,5 @@ spec:
         enabled: true
     defaultLBServiceIPAM: none
     kubeProxyReplacement: true
+    ipv6:
+      enabled: true

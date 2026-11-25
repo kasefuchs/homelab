@@ -11,5 +11,7 @@ links:
   - net0
 bondMode: active-backup
 addresses:
-  - address: "{{ .Node.IP }}/{{ splitList "/" .Data.nodeCidr | last }}"
+{{- range .Node.Data.addresses }}
+  - address: "{{ . }}"
+{{- end }}
 routes: {{ .Data.routes | toRawJson }}

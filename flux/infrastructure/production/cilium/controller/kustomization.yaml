@@ -5,6 +5,7 @@ resources:
 patches:
   - path: patches/cgroup.yaml
   - path: patches/ipam.yaml
+  - path: patches/ipv6.yaml
   - path: patches/kube-proxy.yaml
   - path: patches/replicas.yaml
   - path: patches/security.yaml

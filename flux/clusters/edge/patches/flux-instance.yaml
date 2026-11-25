@@ -1,0 +1,9 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+spec:
+  sync:
+    url: oci://codeberg.org/kasefuchs/homelab/flux
+    ref: refactor-topf
+    path: flux/clusters/edge
